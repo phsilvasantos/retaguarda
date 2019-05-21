@@ -1,6 +1,6 @@
 object FormPrincipal: TFormPrincipal
-  Left = 526
-  Top = 265
+  Left = 419
+  Top = 164
   Width = 575
   Height = 235
   Caption = 'IntegradorPDVs'
@@ -2700,7 +2700,7 @@ object FormPrincipal: TFormPrincipal
     end
   end
   object Timer: TTimer
-    Interval = 60000
+    Interval = 10000
     OnTimer = TimerTimer
     Left = 57
     Top = 1
@@ -37439,25 +37439,25 @@ object FormPrincipal: TFormPrincipal
     User = 'sysdba'
     Password = 'masterkey'
     Protocol = 'firebird-1.5'
-    Left = 95
-    Top = 27
+    Left = 31
+    Top = 35
   end
   object ZconsultaServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 447
+    Left = 431
     Top = 131
   end
   object ZinsereServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 421
+    Left = 405
     Top = 80
   end
   object ZapagaServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 422
+    Left = 406
     Top = 107
   end
   object ZdbPDV: TZConnection
@@ -37486,13 +37486,13 @@ object FormPrincipal: TFormPrincipal
   object ZInsereEstoqueServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 447
+    Left = 431
     Top = 81
   end
   object ZConsultaTabelaServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 447
+    Left = 431
     Top = 107
   end
   object ZapagaPDV: TZQuery
@@ -37510,7 +37510,25 @@ object FormPrincipal: TFormPrincipal
   object ZupdateServidor: TZQuery
     Connection = ZdbServidor
     Params = <>
-    Left = 421
+    Left = 405
     Top = 132
+  end
+  object zAtualizaContaCorrente: TZQuery
+    Connection = ZdbServidor
+    Params = <>
+    Left = 483
+    Top = 2
+  end
+  object zOperacaoBanco: TZQuery
+    Connection = ZdbServidor
+    Params = <>
+    Left = 483
+    Top = 34
+  end
+  object zConfigFinanceiro: TZQuery
+    Connection = ZdbServidor
+    Params = <>
+    Left = 483
+    Top = 66
   end
 end

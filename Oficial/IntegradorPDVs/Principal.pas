@@ -44,6 +44,9 @@ type
     ZapagaPDV: TZQuery;
     ZConsultaTabelaPDV: TZQuery;
     ZupdateServidor: TZQuery;
+    zAtualizaContaCorrente: TZQuery;
+    zOperacaoBanco: TZQuery;
+    zConfigFinanceiro: TZQuery;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -52,12 +55,14 @@ type
     procedure ImportarNCMs1Click(Sender: TObject);
   private
     { Private declarations }
+    procedure AtualizaSaldoContaCorrente(ContaCorrente : Integer; ValorDebito,ValorCredito : Double);
     function Conecta: boolean;
     function Disconecta: boolean;
     function ApagaRegistrosExcluidosNoServidor: boolean;
     function ImportaServidorTabelaProduto: boolean;
     function ExportaMovimentosPDV: boolean;
     function TrocaVirgulaPorPonto(Numero: string): string;
+    function  ConvFloatToStr(Numero : Double) : string ;
   public
     { Public declarations }
     TerminalCodigoSTR: string;
@@ -1039,9 +1044,12 @@ end;
 
 function TFormPrincipal.ExportaMovimentosPDV: boolean;
 var erro: boolean;
-var i: integer;
+var i, ContaCorrente: integer;
 var xEmpresa, xProduto, xProxCod, xData, xTotalDia, xCancelado: string;
+var ValorMov : Double;
 begin
+  ValorMov := 0;
+  ContaCorrente := 0;
   {Abre ClientePDVs no PDV para achar os registros que serao importados!}
   try
     Application.Title := 'Verificando Alterações em Clientes.';
@@ -1569,6 +1577,8 @@ begin
           ZinsereServidor.append
         else
           ZinsereServidor.edit;
+        ContaCorrente := ZConsultaPDV.fieldbyname('CTCRICOD').Value;
+        ValorMov := ZConsultaPDV.fieldbyname('MVBCN2VLRCRED').Value;
 
             {alimenta os campos no servidor}
         for i := 0 to ZConsultaPDV.FieldCount - 1 do
@@ -1594,8 +1604,34 @@ begin
           ZupdatePDV.sql.add('Where EMPRICOD=' + ZConsultaPDV.fieldbyname('EMPRICOD').AsString +
             ' AND MVBCA13ID = ''' + ZConsultaPDV.fieldbyname('MVBCA13ID').AsString + '''');
           ZupdatePDV.ExecSQL;
-        end;
 
+          {Busca a Operacao da sangria}
+          if ValorMov > 0 then
+          begin
+            zConfigFinanceiro.SQL.Clear;
+            zConfigFinanceiro.sql.add('Select OPE_BANCO_SANGRIA from CONFIGFINANCEIRO');
+            zConfigFinanceiro.open;
+            if not zConfigFinanceiro.IsEmpty then
+            begin
+            {Busca a Operacao do movimentobanco}
+              zOperacaoBanco.SQL.Clear;
+              zOperacaoBanco.sql.add('Select OPBCCTIPO from OPERACAOBANCO where OPBCICOD = ' + zConfigFinanceiro.fieldbyname('OPE_BANCO_SANGRIA').AsString) ;
+              zOperacaoBanco.open;
+              {atualiza saldo na conta corrente}
+              if not (zOperacaoBanco.IsEmpty) then
+              begin
+                Case zOperacaoBanco.fieldbyname('OPBCCTIPO').AsString[1] of
+                  'D' : begin
+                         AtualizaSaldoContaCorrente(ContaCorrente,ValorMov,0);
+                        end;
+                  'C' : begin
+                          AtualizaSaldoContaCorrente(ContaCorrente,0,ValorMov);
+                        end;
+                end;
+              end;
+            end;
+          end;
+        end;
         ZConsultaPDV.next;
       end;
     end;
@@ -3395,6 +3431,55 @@ begin
   end;
   {Fim NCMs}
 
+end;
+
+procedure TFormPrincipal.AtualizaSaldoContaCorrente(ContaCorrente: Integer;
+  ValorDebito, ValorCredito: Double);
+var
+  SaldoAtual, NovoSaldo : Double;
+begin
+  SaldoAtual := 0;
+  NovoSaldo  := 0;
+  zAtualizaContaCorrente.SQL.Clear;
+  zAtualizaContaCorrente.SQL.Add('SELECT CTCRN2SALDOATUAL FROM CONTACORRENTE where CTCRICOD = '+ IntToStr(ContaCorrente));
+  zAtualizaContaCorrente.Open;
+  if not zAtualizaContaCorrente.IsEmpty then
+    begin
+      SaldoAtual := zAtualizaContaCorrente.fieldbyname('CTCRN2SALDOATUAL').AsFloat;
+      if ValorDebito > 0 then
+        begin
+          NovoSaldo := SaldoAtual - ValorDebito;
+          zAtualizaContaCorrente.Close;
+          zAtualizaContaCorrente.SQL.Clear;
+          zAtualizaContaCorrente.SQL.Add('UPDATE CONTACORRENTE SET CTCRN2SALDOATUAL = ' + ConvFloatToStr(NovoSaldo) + ' , CTCRDULTALTSALDO = ''' + FormatDateTime('mm/dd/yyyy',Now) + ''' , Pendente=''S''');
+          zAtualizaContaCorrente.SQL.Add('WHERE CTCRICOD = ' + IntToStr(ContaCorrente));
+          zAtualizaContaCorrente.ExecSQL;
+        end
+      else
+        begin
+          NovoSaldo := SaldoAtual + ValorCredito;
+          zAtualizaContaCorrente.Close;
+          zAtualizaContaCorrente.SQL.Clear;
+          zAtualizaContaCorrente.SQL.Add('UPDATE CONTACORRENTE SET CTCRN2SALDOATUAL = ' + ConvFloatToStr(NovoSaldo) + ' , CTCRDULTALTSALDO = ''' + FormatDateTime('mm/dd/yyyy',Now) + ''', Pendente=''S''');
+          zAtualizaContaCorrente.SQL.Add('WHERE CTCRICOD = ' + IntToStr(ContaCorrente));
+          zAtualizaContaCorrente.ExecSQL;
+        end;
+    end;
+end;
+
+function TFormPrincipal.ConvFloatToStr(Numero: Double): string;
+var
+  Wstr : String;
+begin
+  ConvFloatToStr := '0.00' ;
+  if Numero <> null then
+  begin
+    Wstr := FloatToStr(Numero) ;
+    ConvFloatToStr := Wstr ;
+    if Pos(',', Wstr) > 0 then
+      ConvFloatToStr := Copy(Wstr, 1, Pos(',', Wstr)-1) + '.' + Copy(Wstr, Pos(',', Wstr)+1, 3)
+  end
+  else ConvFloatToStr := '0.00' ;
 end;
 
 end.
