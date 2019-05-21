@@ -478,7 +478,7 @@ inherited FormTelaTransferencia: TFormTelaTransferencia
               Width = 110
               Height = 25
               Cursor = crHandPoint
-              Caption = '&Gerar C'#243'd.Barras'
+              Caption = 'produto'
               Enabled = False
               Flat = True
               Font.Charset = ANSI_CHARSET

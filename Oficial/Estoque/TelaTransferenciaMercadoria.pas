@@ -1813,12 +1813,12 @@ begin
       if tblTempTranferencia.Locate('ProdutoCod', SQLProdutoPRODICOD.AsString, [loCaseInsensitive]) then
       begin
         tblTempTranferencia.Edit;
-        tblTempTranferenciaProdutoQtde.AsFloat := tblTempTranferenciaProdutoQtde.AsFloat + 1;
+        tblTempTranferenciaProdutoQtde.AsFloat := tblTempTranferenciaProdutoQtde.AsFloat + mProdutoQuantidade.AsFloat;
       end
       else
       begin
         tblTempTranferencia.Append;
-        tblTempTranferenciaProdutoQtde.AsFloat := 1;
+        tblTempTranferenciaProdutoQtde.AsFloat := mProdutoQuantidade.AsFloat;
       end;
       tblTempTranferenciaProdutoCod.AsInteger := mProdutoCodigoProduto.AsInteger;
       tblTempTranferenciaProdutoBarras.AsString := mProdutoCodigo_Barra.AsString;
