@@ -11568,6 +11568,10 @@ inherited FormPrincipal: TFormPrincipal
           OnClick = MnFormCadastroReciboClick
         end
       end
+      object ConciliaoBancria1: TMenuItem
+        Caption = 'Concilia'#231#227'o Banc'#225'ria'
+        OnClick = ConciliaoBancria1Click
+      end
     end
     object Faturamento1: TMenuItem [5]
       Caption = 'Faturamento'

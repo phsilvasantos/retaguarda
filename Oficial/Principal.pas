@@ -262,6 +262,7 @@ type
     MnFormRelatorioComissaoDetalhadoRepresentante: TMenuItem;
     MnFormTelaConsultaMovNumeroSerie: TMenuItem;
     MnFormCadastroTipoFornecedor: TMenuItem;
+    ConciliaoBancria1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -519,6 +520,7 @@ type
     procedure MnFormCadastroTipoFornecedorClick(Sender: TObject);
     procedure ResumoFinanceiro1Click(Sender: TObject);
     procedure AdvGlowButton7Click(Sender: TObject);
+    procedure ConciliaoBancria1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -3200,6 +3202,13 @@ procedure TFormPrincipal.AdvGlowButton7Click(Sender: TObject);
 begin
   inherited;
   MnFormTelaExportacaoSped.Click;
+end;
+
+procedure TFormPrincipal.ConciliaoBancria1Click(Sender: TObject);
+begin
+  inherited;
+  if FileExists(DM.PathAplicacao + 'Conciliacao.exe') then
+    WinExec(PChar(DM.PathAplicacao + 'Conciliacao.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual)), SW_SHOW)
 end;
 
 end.
