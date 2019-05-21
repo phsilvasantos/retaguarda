@@ -370,7 +370,6 @@ type
     procedure edQtdeProdutoChange(Sender: TObject);
     procedure DBGridTranferenciasDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-    procedure leng(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure DBGridTranferenciasDblClick(Sender: TObject);
     procedure btReceberTransferenciaClick(Sender: TObject);
     procedure chkRecebidasClick(Sender: TObject);
@@ -402,6 +401,8 @@ type
     procedure ImportardoPalmOne1Click(Sender: TObject);
     procedure chkUsaCodBarraExit(Sender: TObject);
     procedure btnGerarClick(Sender: TObject);
+    procedure edCodigoProdutoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     EditQtdeIsNum, EditDescrIsNum, vOcupado: Boolean;
@@ -1066,108 +1067,6 @@ begin
   TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
-procedure TFormTelaTransferencia.leng(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  inherited;
-
-  if (Key = VK_RETURN) then
-  begin
-    if chkUsaCodBarra.Checked then
-    begin
-      if ((edCodigoProduto.Text <> '') and (Length(edCodigoProduto.Text) > 12)   and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
-      begin
-        mProduto.Insert;
-        mProdutoCodigoProduto.AsInteger := SQLProdutoPRODICOD.AsInteger;
-        mProdutoNomeProduto.AsString := SQLProdutoPRODA60DESCR.AsString;
-        mProdutoCodigo_Barra.AsString := SQLProdutoPRODA60CODBAR.AsString;
-        mProdutoReferencia.AsString := SQLProdutoPRODA60REFER.AsString;
-        lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
-        edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
-        lblDescrProduto.Update;
-        edQtdeProduto.SetFocus;
-      end
-      else
-      begin
-        edCodigoProduto.Clear;
-        edCodigoProduto.SetFocus;
-      end;
-    end
-    else
-    begin
-      if ((edCodigoProduto.Text <> '') and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
-      begin
-        if (ckGrade.Checked) and (SQLProdutoGRTMICOD.AsString <> '') then
-        begin
-          DSMasterSys := DStblTempTranferencia;
-          edCodigoProduto.Clear;
-          edCodigoProduto.SetFocus;
-          Application.CreateForm(TFormTelaTransferenciaGrade, FormTelaTransferenciaGrade);
-          FormTelaTransferenciaGrade.ShowModal;
-          EdtCustoTotal.Value := 0;
-          EdtQtdeTotalItens.Value := 0;
-          if not tblTempTranferencia.Active then
-            tblTempTranferencia.open;
-          tblTempTranferencia.First;
-          while not tblTempTranferencia.eof do
-          begin
-            EdtCustoTotal.Value := EdtCustoTotal.Value + tblTempTranferenciaProdutoValorCusto.Value;
-            EdtQtdeTotalItens.Value := EdtQtdeTotalItens.Value + tblTempTranferenciaProdutoQtde.Value;
-            tblTempTranferencia.Next;
-          end;
-        end
-        else
-        begin
-          lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
-          edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
-          lblDescrProduto.Update;
-          edQtdeProduto.SetFocus;
-        end;
-      end
-      else
-      begin
-        ProdutoDescricao := '';
-        ProdutoReferencia := '';
-        Application.CreateForm(TFormTelaConsultaProdutoGeral, FormTelaConsultaProdutoGeral);
-        FormTelaConsultaProdutoGeral.ShowModal;
-        if ProdutoReferencia = '' then
-          exit;
-        edCodigoProduto.Text := ProdutoReferencia;
-        if ((edCodigoProduto.Text <> '') and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
-        begin
-          if (ckGrade.Checked) and (SQLProdutoGRTMICOD.AsString <> '') then
-          begin
-            DSMasterSys := DStblTempTranferencia;
-            edCodigoProduto.Clear;
-            edCodigoProduto.SetFocus;
-            Application.CreateForm(TFormTelaTransferenciaGrade, FormTelaTransferenciaGrade);
-            FormTelaTransferenciaGrade.ShowModal;
-            EdtCustoTotal.Value := 0;
-            EdtQtdeTotalItens.Value := 0;
-            if not tblTempTranferencia.Active then
-              tblTempTranferencia.open;
-            tblTempTranferencia.First;
-            while not tblTempTranferencia.eof do
-            begin
-              EdtCustoTotal.Value := EdtCustoTotal.Value + tblTempTranferenciaProdutoValorCusto.Value;
-              EdtQtdeTotalItens.Value := EdtQtdeTotalItens.Value + tblTempTranferenciaProdutoQtde.Value;
-              tblTempTranferencia.Next;
-            end;
-          end
-          else
-          begin
-            lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
-            edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
-            lblDescrProduto.Update;
-            edQtdeProduto.SetFocus;
-          end;
-        end;
-      end;
-
-    end;
-
-  end;
-end;
-
 procedure TFormTelaTransferencia.DBGridTranferenciasDblClick(Sender: TObject);
 begin
   inherited;
@@ -1220,7 +1119,7 @@ end;
 
 procedure TFormTelaTransferencia.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-  Application.ProcessMessages;
+//  Application.ProcessMessages;
 //  if (Key = #13) and (Length(trim(edCodigoProduto.Text)) = 13) then
 //  begin
 //    if ActiveControl = edCodigoProduto then
@@ -1931,6 +1830,107 @@ begin
       mProduto.Next;
     end;
     mProduto.EmptyDataSet;
+  end;
+end;
+
+procedure TFormTelaTransferencia.edCodigoProdutoKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+  if (Key = VK_RETURN) then
+  begin
+    if chkUsaCodBarra.Checked then
+    begin
+      if ((edCodigoProduto.Text <> '') and (Length(edCodigoProduto.Text) > 12)   and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
+      begin
+        mProduto.Insert;
+        mProdutoCodigoProduto.AsInteger := SQLProdutoPRODICOD.AsInteger;
+        mProdutoNomeProduto.AsString := SQLProdutoPRODA60DESCR.AsString;
+        mProdutoCodigo_Barra.AsString := SQLProdutoPRODA60CODBAR.AsString;
+        mProdutoReferencia.AsString := SQLProdutoPRODA60REFER.AsString;
+        lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
+        edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
+        lblDescrProduto.Update;
+        edQtdeProduto.SetFocus;
+      end
+      else
+      begin
+        edCodigoProduto.Clear;
+        edCodigoProduto.SetFocus;
+      end;
+    end
+    else
+    begin
+      if ((edCodigoProduto.Text <> '') and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
+      begin
+        if (ckGrade.Checked) and (SQLProdutoGRTMICOD.AsString <> '') then
+        begin
+          DSMasterSys := DStblTempTranferencia;
+          edCodigoProduto.Clear;
+          edCodigoProduto.SetFocus;
+          Application.CreateForm(TFormTelaTransferenciaGrade, FormTelaTransferenciaGrade);
+          FormTelaTransferenciaGrade.ShowModal;
+          EdtCustoTotal.Value := 0;
+          EdtQtdeTotalItens.Value := 0;
+          if not tblTempTranferencia.Active then
+            tblTempTranferencia.open;
+          tblTempTranferencia.First;
+          while not tblTempTranferencia.eof do
+          begin
+            EdtCustoTotal.Value := EdtCustoTotal.Value + tblTempTranferenciaProdutoValorCusto.Value;
+            EdtQtdeTotalItens.Value := EdtQtdeTotalItens.Value + tblTempTranferenciaProdutoQtde.Value;
+            tblTempTranferencia.Next;
+          end;
+        end
+        else
+        begin
+          lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
+          edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
+          lblDescrProduto.Update;
+          edQtdeProduto.SetFocus;
+        end;
+      end
+      else
+      begin
+        ProdutoDescricao := '';
+        ProdutoReferencia := '';
+        Application.CreateForm(TFormTelaConsultaProdutoGeral, FormTelaConsultaProdutoGeral);
+        FormTelaConsultaProdutoGeral.ShowModal;
+        if ProdutoReferencia = '' then
+          exit;
+        edCodigoProduto.Text := ProdutoReferencia;
+        if ((edCodigoProduto.Text <> '') and (EncontrouProduto(edCodigoProduto.Text, SQLProduto))) then
+        begin
+          if (ckGrade.Checked) and (SQLProdutoGRTMICOD.AsString <> '') then
+          begin
+            DSMasterSys := DStblTempTranferencia;
+            edCodigoProduto.Clear;
+            edCodigoProduto.SetFocus;
+            Application.CreateForm(TFormTelaTransferenciaGrade, FormTelaTransferenciaGrade);
+            FormTelaTransferenciaGrade.ShowModal;
+            EdtCustoTotal.Value := 0;
+            EdtQtdeTotalItens.Value := 0;
+            if not tblTempTranferencia.Active then
+              tblTempTranferencia.open;
+            tblTempTranferencia.First;
+            while not tblTempTranferencia.eof do
+            begin
+              EdtCustoTotal.Value := EdtCustoTotal.Value + tblTempTranferenciaProdutoValorCusto.Value;
+              EdtQtdeTotalItens.Value := EdtQtdeTotalItens.Value + tblTempTranferenciaProdutoQtde.Value;
+              tblTempTranferencia.Next;
+            end;
+          end
+          else
+          begin
+            lblDescrProduto.Caption := SQLProdutoPRODA60DESCR.Value;
+            edtCusto.Value := SQLProdutoPRODN3VLRCUSTO.Value;
+            lblDescrProduto.Update;
+            edQtdeProduto.SetFocus;
+          end;
+        end;
+      end;
+
+    end;
   end;
 end;
 

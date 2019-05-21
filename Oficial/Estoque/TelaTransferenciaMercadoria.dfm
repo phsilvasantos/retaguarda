@@ -1,6 +1,6 @@
 inherited FormTelaTransferencia: TFormTelaTransferencia
-  Left = 302
-  Top = 30
+  Left = 280
+  Top = 68
   Width = 1064
   Height = 587
   Caption = 'Transfer'#234'ncia Produtos'
@@ -539,7 +539,7 @@ inherited FormTelaTransferencia: TFormTelaTransferencia
               BevelOuter = bvNone
               CharCase = ecUpperCase
               TabOrder = 0
-              OnKeyDown = leng
+              OnKeyDown = edCodigoProdutoKeyDown
             end
             object edQtdeProduto: TEdit
               Left = 518
