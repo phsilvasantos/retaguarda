@@ -50,7 +50,6 @@ type
     CkTopN25: TCheckBox;
     TblTemporariaAgrupGrade: TIntegerField;
     SQLTemp: TRxQuery;
-    SQLTempTOTALITEM: TFloatField;
     SQLTempAcumulado: TFloatField;
     SQLTempPRODICOD: TIntegerField;
     SQLTempAgrupGrade: TIntegerField;
@@ -62,6 +61,7 @@ type
     SQLSubgrupoSUBGA60DESCR: TStringField;
     SQLSubgrupoSUBGICOD: TIntegerField;
     TblTemporariaTOTALITEM: TBCDField;
+    SQLTempTOTALITEM: TBCDField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
