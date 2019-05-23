@@ -995,10 +995,11 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
               ParentFont = False
+              Visible = False
               OnClick = BTListaAClick
             end
             object BTListaE: TSpeedButton
-              Left = 89
+              Left = 91
               Top = 3
               Width = 81
               Height = 22
@@ -1037,10 +1038,11 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
               ParentFont = False
+              Visible = False
               OnClick = BTListaEClick
             end
             object BtnReajuste: TSpeedButton
-              Left = 344
+              Left = 349
               Top = 3
               Width = 106
               Height = 22
@@ -1096,7 +1098,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               OnClick = BtnReajusteClick
             end
             object btnRemove: TSpeedButton
-              Left = 453
+              Left = 460
               Top = 3
               Width = 105
               Height = 22
@@ -1146,7 +1148,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               OnClick = btnRemoveClick
             end
             object btnRemoveAll: TSpeedButton
-              Left = 562
+              Left = 570
               Top = 3
               Width = 110
               Height = 22
@@ -1196,7 +1198,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               OnClick = btnRemoveAllClick
             end
             object SpeedButton1: TSpeedButton
-              Left = 174
+              Left = 177
               Top = 3
               Width = 81
               Height = 22
@@ -1246,7 +1248,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               OnClick = SpeedButton1Click
             end
             object ImpEtiquetas: TRxSpeedButton
-              Left = 259
+              Left = 263
               Top = 3
               Width = 81
               Height = 22
@@ -1322,7 +1324,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object Label25: TLabel
               Left = 5
-              Top = 31
+              Top = 33
               Width = 44
               Height = 11
               Caption = 'Nro Nota'
@@ -1336,7 +1338,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object Label30: TLabel
               Left = 193
-              Top = 30
+              Top = 32
               Width = 81
               Height = 13
               Caption = 'Data Recto &De'
@@ -1351,7 +1353,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object Label31: TLabel
               Left = 370
-              Top = 30
+              Top = 32
               Width = 19
               Height = 13
               Caption = 'a&t'#233
@@ -1366,7 +1368,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object EDTNF: TEdit
               Left = 50
-              Top = 26
+              Top = 28
               Width = 90
               Height = 21
               Font.Charset = ANSI_CHARSET
@@ -1379,7 +1381,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object De: TDateEdit
               Left = 278
-              Top = 26
+              Top = 28
               Width = 90
               Height = 21
               Font.Charset = ANSI_CHARSET
@@ -1394,7 +1396,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             end
             object Ate: TDateEdit
               Left = 391
-              Top = 26
+              Top = 28
               Width = 90
               Height = 21
               Font.Charset = ANSI_CHARSET
