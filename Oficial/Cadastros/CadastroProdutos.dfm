@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 206
-  Top = 11
+  Left = 98
+  Top = 22
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -2262,9 +2262,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   'N')
               end
               object PageControl1: TPageControl
-                Left = 3
+                Left = 27
                 Top = 296
-                Width = 688
+                Width = 754
                 Height = 168
                 ActivePage = TabSheet1
                 TabOrder = 15
@@ -5896,7 +5896,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
               object PageControlValores: TPageControl
                 Left = 344
                 Top = 6
-                Width = 367
+                Width = 457
                 Height = 285
                 ActivePage = TabReais
                 MultiLine = True
@@ -5962,7 +5962,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     OnClick = BtnCalculaClick
                   end
                   object Label72: TLabel
-                    Left = 113
+                    Left = 126
                     Top = 61
                     Width = 9
                     Height = 13
@@ -5975,7 +5975,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object Label108: TLabel
-                    Left = 170
+                    Left = 189
                     Top = 61
                     Width = 9
                     Height = 13
@@ -6014,7 +6014,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object Label39: TLabel
-                    Left = 226
+                    Left = 250
                     Top = 61
                     Width = 9
                     Height = 13
@@ -6027,7 +6027,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object LbValorVenda: TLabel
-                    Left = 267
+                    Left = 259
                     Top = 143
                     Width = 24
                     Height = 13
@@ -6041,7 +6041,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object LbValorVenda2: TLabel
-                    Left = 267
+                    Left = 259
                     Top = 165
                     Width = 24
                     Height = 13
@@ -6055,7 +6055,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object Label139: TLabel
-                    Left = 56
+                    Left = 63
                     Top = 61
                     Width = 9
                     Height = 13
@@ -6094,7 +6094,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object lbValorVenda2835: TLabel
-                    Left = 267
+                    Left = 259
                     Top = 190
                     Width = 24
                     Height = 13
@@ -6108,7 +6108,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object lbValorVenda283542: TLabel
-                    Left = 267
+                    Left = 259
                     Top = 212
                     Width = 24
                     Height = 13
@@ -6122,13 +6122,73 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentFont = False
                   end
                   object Label29: TLabel
-                    Left = 288
+                    Left = 320
                     Top = 61
                     Width = 5
                     Height = 13
                     Caption = '-'
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = 8404992
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object dbtValorImposto: TDBText
+                    Left = 289
+                    Top = 143
+                    Width = 48
+                    Height = 15
+                    Alignment = taRightJustify
+                    DataField = 'ValorImposto'
+                    DataSource = DSTemplate
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clHotLight
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object dbtValorVendaSemImposto: TDBText
+                    Left = 375
+                    Top = 143
+                    Width = 48
+                    Height = 15
+                    Alignment = taRightJustify
+                    DataField = 'ValorVendaSemImposto'
+                    DataSource = DSTemplate
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clHotLight
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object dbtdbtValorImpostoAtacado: TDBText
+                    Left = 289
+                    Top = 163
+                    Width = 48
+                    Height = 15
+                    Alignment = taRightJustify
+                    DataField = 'ValorImpostoAtacado'
+                    DataSource = DSTemplate
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clHotLight
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
+                  object dbtdbtValorVendaSemImpostoAtacado: TDBText
+                    Left = 375
+                    Top = 163
+                    Width = 48
+                    Height = 15
+                    Alignment = taRightJustify
+                    DataField = 'ValorVendaSemImpostoAtacado'
+                    DataSource = DSTemplate
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clHotLight
                     Font.Height = -11
                     Font.Name = 'Tahoma'
                     Font.Style = [fsBold]
@@ -6215,7 +6275,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object Panel6: TPanel
                     Left = 7
                     Top = 0
-                    Width = 333
+                    Width = 421
                     Height = 17
                     Alignment = taLeftJustify
                     Caption = 
@@ -6275,7 +6335,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 10
                   end
                   object DBEditVlrPromocao: TEvDBNumEdit
-                    Left = 194
+                    Left = 266
                     Top = 252
                     Width = 97
                     Height = 21
@@ -6316,9 +6376,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 21
                   end
                   object DBSubsttrib: TEvDBNumEdit
-                    Left = 180
+                    Left = 200
                     Top = 58
-                    Width = 44
+                    Width = 49
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'VALOR_ICMSST'
@@ -6357,9 +6417,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 5
                   end
                   object DBFreteProduto: TEvDBNumEdit
-                    Left = 236
+                    Left = 260
                     Top = 58
-                    Width = 49
+                    Width = 54
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'VALOR_FRETE'
@@ -6398,9 +6458,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 6
                   end
                   object DBDespDiv: TEvDBNumEdit
-                    Left = 67
+                    Left = 74
                     Top = 58
-                    Width = 44
+                    Width = 49
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'PRODN2PERCDESP'
@@ -6439,14 +6499,14 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 3
                   end
                   object Panel13: TPanel
-                    Left = 11
+                    Left = 7
                     Top = 40
-                    Width = 330
+                    Width = 421
                     Height = 17
                     Alignment = taLeftJustify
                     Caption = 
-                      '  IPI%       Desp%    Dif.Icm%  Vlr.ST       Vlr.Frete   Vlr Des' +
-                      'c   '
+                      '   IPI%          Desp%       Dif.Icm%    Vlr.ST         Vlr.Fret' +
+                      'e    Vlr Desc   '
                     Color = clGray
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlack
@@ -6459,7 +6519,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object Panel14: TPanel
                     Left = 7
                     Top = 81
-                    Width = 334
+                    Width = 421
                     Height = 17
                     Alignment = taLeftJustify
                     Caption = '  Valor Custo                         Valor Custo M'#233'dio'
@@ -6572,7 +6632,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 19
                   end
                   object DBDataPromoFim: TDBDateEdit
-                    Left = 99
+                    Left = 139
                     Top = 252
                     Width = 89
                     Height = 21
@@ -6675,10 +6735,10 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object Panel15: TPanel
                     Left = 7
                     Top = 120
-                    Width = 333
+                    Width = 421
                     Height = 17
                     Alignment = taLeftJustify
-                    Caption = '                  Fixa %   Real %  | Pre'#231'o Venda'
+                    Caption = '                   Fixa %   Real %  | Pre'#231'o Venda '
                     Color = clGray
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clBlack
@@ -6771,9 +6831,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 12
                   end
                   object DBDIFICM: TEvDBNumEdit
-                    Left = 123
+                    Left = 138
                     Top = 58
-                    Width = 44
+                    Width = 49
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'PRODN2PERCDIFICM'
@@ -6814,7 +6874,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object DBIPICompra: TEvDBNumEdit
                     Left = 11
                     Top = 58
-                    Width = 44
+                    Width = 49
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'PRODN2PERCIPIENTRADA'
@@ -6978,7 +7038,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object Panel12: TPanel
                     Left = 7
                     Top = 230
-                    Width = 333
+                    Width = 421
                     Height = 17
                     Caption = '*** Promo'#231#227'o Vlr.Venda Varejo ***'
                     Color = clGray
@@ -7073,9 +7133,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     TabOrder = 17
                   end
                   object EvDBNumEdit4: TEvDBNumEdit
-                    Left = 295
+                    Left = 327
                     Top = 58
-                    Width = 41
+                    Width = 46
                     Height = 21
                     AutoHideCalculator = False
                     DataField = 'VALOR_DESC_ENTRADA'
@@ -11055,6 +11115,34 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object SQLTemplateBASE_ICM_ST_RET: TFloatField
       FieldName = 'BASE_ICM_ST_RET'
       Origin = 'DB.PRODUTO.BASE_ICM_ST_RET'
+    end
+    object SQLTemplateValorImposto: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'ValorImposto'
+      DisplayFormat = '##0,000.00'
+      EditFormat = '##0,000.00'
+      Calculated = True
+    end
+    object SQLTemplateValorVendaSemImposto: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'ValorVendaSemImposto'
+      DisplayFormat = '##0,000.00'
+      EditFormat = '##0,000.00'
+      Calculated = True
+    end
+    object SQLTemplateValorImpostoAtacado: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'ValorImpostoAtacado'
+      DisplayFormat = '##0,000.00'
+      EditFormat = '##0,000.00'
+      Calculated = True
+    end
+    object SQLTemplateValorVendaSemImpostoAtacado: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'ValorVendaSemImpostoAtacado'
+      DisplayFormat = '##0,000.00'
+      EditFormat = '##0,000.00'
+      Calculated = True
     end
   end
   inherited UpdateSQLTemplate: TUpdateSQL

@@ -1015,6 +1015,14 @@ type
     EvDBNumEdit5: TEvDBNumEdit;
     EvDBNumEdit12: TEvDBNumEdit;
     Label49: TLabel;
+    dbtValorImposto: TDBText;
+    SQLTemplateValorImposto: TFloatField;
+    dbtValorVendaSemImposto: TDBText;
+    SQLTemplateValorVendaSemImposto: TFloatField;
+    dbtdbtValorImpostoAtacado: TDBText;
+    dbtdbtValorVendaSemImpostoAtacado: TDBText;
+    SQLTemplateValorImpostoAtacado: TFloatField;
+    SQLTemplateValorVendaSemImpostoAtacado: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure RxComboComissaoChange(Sender: TObject);
     procedure AcessaMarcaClick(Sender: TObject);
@@ -1168,7 +1176,7 @@ type
     ProdutoCodigo: Integer;
     AlterandoValores, IncluindoProduto, AlterandoProduto: Boolean;
     ValorVenda, ValorVenda2, ValorCompra, MargemLucro, ICMS, Denominador, LucroBruto, ValorCusto,
-      ValorCustoMedio: Double;
+      ValorCustoMedio, Perc_FaixaSimples: Double;
     DoNumeroCasasDec, vProduto: Integer;
     Referencia, CodBarras, CodAntigo: string;
     function EnviaProdutoPDVs(Tipo: string): boolean;
@@ -1414,6 +1422,23 @@ begin
   if SQLTemplatePRODN3DOLARVENDA.AsFloat > 0 then
     SQLTemplateVlrVendaConvertido.AsFloat := SQLTemplatePRODN3DOLARVENDA.AsFloat * RetornaUltimaCotacaoMoeda(Date, 'U$$');
 
+  if (Perc_FaixaSimples > 0) then
+  begin
+    if SQLTemplatePRODN3VLRVENDA.AsFloat > 0 then
+    begin
+      SQLTemplateValorImposto.AsFloat := SQLTemplatePRODN3VLRVENDA.AsFloat * Perc_FaixaSimples / 100;
+      SQLTemplateValorVendaSemImposto.AsFloat := SQLTemplatePRODN3VLRVENDA.AsFloat - SQLTemplateValorImposto.AsFloat;
+      dbtValorImposto.Refresh;
+      dbtValorVendaSemImposto.Refresh;
+    end;
+    if SQLTemplatePRODN3VLRVENDA2.AsFloat > 0 then
+    begin
+      SQLTemplateValorImpostoAtacado.AsFloat := SQLTemplatePRODN3VLRVENDA2.AsFloat * Perc_FaixaSimples / 100;
+      SQLTemplateValorVendaSemImpostoAtacado.AsFloat := SQLTemplatePRODN3VLRVENDA2.AsFloat - SQLTemplateValorImpostoAtacado.AsFloat;
+      dbtdbtValorImpostoAtacado.Refresh;
+      dbtdbtValorVendaSemImpostoAtacado.Refresh;
+    end;
+  end;
 {  if FileExists('GoldBrasil.txt') Then
     begin
       if DBGridLista.Columns[4].Title.caption <> 'R$ 28/35D' then
@@ -1482,6 +1507,8 @@ begin
     Faltas := Faltas + 'Tipo de Produto Não Especificado' + #13#10;
   if SQLtemplatePRODA2TIPOITEM.IsNull then
     Faltas := Faltas + 'Identificação do Produto (SPED PIS/COFINS) Não Especificado' + #13#10;
+  if (SQLtemplatePRODISITTRIB.Value = 20) and (SQLTemplatePERC_REDUCAO_BASE_CALCULO.Value = 0)  then
+    Faltas := Faltas + 'Situação tributária 20 exige um valor na redução da base de cálculo' + #13#10;
 
 { if SQLtemplateNCMICOD.IsNull then
     Faltas := Faltas + 'Codigo NCM Não Especificado'+#13#10; }
@@ -5035,6 +5062,11 @@ begin
   inherited;
   PopupMenuDiversos.Items.Find('Entrada Rápida de Estoque e Ajuste de Preços').Enabled := SQLLocate('TERMINAL','TERMICOD','CONTROLA_ES_RAPIDA',IntToStr(TerminalAtual)) <> 'S';
   PopupMenuDiversos.Items.Find('Saida Rápida de Estoque').Enabled := SQLLocate('TERMINAL','TERMICOD','CONTROLA_ES_RAPIDA',IntToStr(TerminalAtual)) <> 'S';
+  if SQLLocate('EMPRESA','EMPRICOD','PERC_FAIXASIMPLES',EmpresaPadrao) <> '' then
+  begin
+    Perc_FaixaSimples := StrToFloat(SQLLocate('EMPRESA','EMPRICOD','PERC_FAIXASIMPLES',EmpresaPadrao));
+    Panel15.Caption := '                   Fixa %   Real %  | Preço Venda           |   Imposto      Venda s/imp';
+  end;
 end;
 
 end.
