@@ -1740,12 +1740,14 @@ var
     DataFim: TDateTime;
   PrecoOk: Boolean;
   SQLPreco: TQuery;
+  UtilizaPromo : Boolean;
 begin
   PrecoOk := False;
 
   //if trim(TabelaPrecoCliente) = '' then
   //  TabelaPrecoCliente := TabelaPrecoEmpresa;
 
+  UtilizaPromo := DM.SQLConfigVenda.FieldByName('UTILIZA_PROMOCAO_PRODUTO').AsString <> 'N';
   SQLPreco := TQuery.Create(nil);
   SQLPreco.DatabaseName := 'DB';
   SQLPreco.SQL.Text := ' select * from TABELAPRECOPRODUTO Where PRODICOD = :PRODICOD AND TPRCICOD = :TPRCICOD ';
@@ -1790,8 +1792,12 @@ begin
   end;
 
   if (not PrecoOk) then
-    if ((QueryProduto.FieldByName('PRODDINIPROMO').AsDateTime <= Now) and (QueryProduto.FieldByName('PRODDFIMPROMO').AsDateTime >= Now) and (QueryProduto.FieldByName('PRODN3VLRVENDAPROM').AsFloat > 0)) or
-      ((QueryProduto.FieldByName('PRODDINIPROMO').AsDateTime <= Now) and (QueryProduto.FieldByName('PRODDFIMPROMO').AsString = '') and (QueryProduto.FieldByName('PRODN3VLRVENDAPROM').AsFloat > 0)) then
+    if ((QueryProduto.FieldByName('PRODDINIPROMO').AsDateTime <= Now) and
+        (QueryProduto.FieldByName('PRODDFIMPROMO').AsDateTime >= Now) and
+        (QueryProduto.FieldByName('PRODN3VLRVENDAPROM').AsFloat > 0) and UtilizaPromo) or
+      ((QueryProduto.FieldByName('PRODDINIPROMO').AsDateTime <= Now) and
+       (QueryProduto.FieldByName('PRODDFIMPROMO').AsString = '') and
+       (QueryProduto.FieldByName('PRODN3VLRVENDAPROM').AsFloat > 0) and UtilizaPromo) then
       RetornaPreco := QueryProduto.FieldByName('PRODN3VLRVENDAPROM').Value
     else
     begin
