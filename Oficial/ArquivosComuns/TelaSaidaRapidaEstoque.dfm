@@ -1,6 +1,6 @@
 object FormTelaSaidaRapidaEstoque: TFormTelaSaidaRapidaEstoque
-  Left = 657
-  Top = 206
+  Left = 336
+  Top = 145
   Width = 633
   Height = 437
   Caption = 'Saida R'#225'pida no Estoque'
@@ -60,9 +60,9 @@ object FormTelaSaidaRapidaEstoque: TFormTelaSaidaRapidaEstoque
     object Label2: TLabel
       Left = 82
       Top = 62
-      Width = 46
+      Width = 48
       Height = 13
-      Caption = 'Frete %'
+      Caption = 'Vlr Frete'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = 8404992
       Font.Height = -11
