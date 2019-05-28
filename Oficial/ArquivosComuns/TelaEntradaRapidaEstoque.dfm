@@ -1,6 +1,6 @@
 object FormTelaEntradaRapidaEstoque: TFormTelaEntradaRapidaEstoque
-  Left = 384
-  Top = 154
+  Left = 545
+  Top = 171
   Width = 633
   Height = 437
   Caption = 'Entrada R'#225'pida no Estoque'
@@ -493,9 +493,9 @@ object FormTelaEntradaRapidaEstoque: TFormTelaEntradaRapidaEstoque
     object Label12: TLabel
       Left = 72
       Top = 64
-      Width = 46
+      Width = 48
       Height = 13
-      Caption = 'Frete %'
+      Caption = 'Vlr Frete'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11
@@ -597,9 +597,9 @@ object FormTelaEntradaRapidaEstoque: TFormTelaEntradaRapidaEstoque
     object Label23: TLabel
       Left = 184
       Top = 64
-      Width = 30
+      Width = 32
       Height = 13
-      Caption = 'ST %'
+      Caption = 'Vlr ST'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlack
       Font.Height = -11

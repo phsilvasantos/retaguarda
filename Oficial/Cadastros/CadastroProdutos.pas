@@ -3646,9 +3646,10 @@ begin
   FormTelaEntradaRapidaEstoque.EditMargemAtacado.Value := SQLTemplatePRODN3PERCMARGLUC2.Value;
   FormTelaEntradaRapidaEstoque.EditValorVendaAtacado.Value := SQLTemplatePRODN3VLRVENDA2.Value;
   FormTelaentradaRapidaEstoque.EditNovoIPI.value := SQLTemplatePRODN3PERCIPI.Value;
-  FormTelaentradaRapidaEstoque.EditNovoFrete.value := SQLTemplatePRODN2PERCFRETE.Value;
+//  FormTelaentradaRapidaEstoque.EditNovoFrete.value := SQLTemplatePRODN2PERCFRETE.Value;
+  FormTelaentradaRapidaEstoque.EditNovoFrete.value := SQLTemplateVALOR_FRETE.Value;
   FormTelaentradaRapidaEstoque.EditNovoDespesa.value := SQLTemplatePRODN2PERCDESP.Value;
-  FormTelaEntradaRapidaEstoque.editNovoCST.Value := SQLTemplatePRODN2PERCSUBST.Value;
+  FormTelaEntradaRapidaEstoque.editNovoCST.Value := SQLTemplateVALOR_ICMSST.Value;
   FormTelaEntradaRapidaEstoque.editNovoDifIcms.Value := SQLTemplatePRODN2PERCDIFICM.Value;
   FormTelaEntradaRapidaEstoque.EditCustoMedioCalculado.Value := SQLTemplatePRODN3VLRCUSTO.Value;
   FormTelaEntradaRapidaEstoque.EditNovoCustoMedio.Value := SQLTemplatePRODN3VLRCUSTOMED.Value;
@@ -3675,11 +3676,11 @@ begin
     if FormTelaEntradaRapidaEstoque.EditNovoIPI.Value > 0 then
       SQLTemplatePRODN3PERCIPI.Value := FormTelaEntradaRapidaEstoque.EditNovoIPI.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoFrete.Value > 0 then
-      SQLTemplatePRODN2PERCFRETE.Value := FormTelaEntradaRapidaEstoque.EditNovoFrete.Value;
+      SQLTemplateVALOR_FRETE.Value := FormTelaEntradaRapidaEstoque.EditNovoFrete.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoDespesa.Value > 0 then
       SQLTemplatePRODN2PERCDESP.Value := FormTelaEntradaRapidaEstoque.EditNovoDespesa.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoCST.Value > 0 then
-      SQLTemplatePRODN2PERCSUBST.Value := FormTelaEntradaRapidaEstoque.editNovoCST.Value;
+      SQLTemplateVALOR_ICMSST.Value := FormTelaEntradaRapidaEstoque.editNovoCST.Value;
     if FormTelaEntradaRapidaEstoque.editNovoDifIcms.Value > 0 then
       SQLTemplatePRODN2PERCDIFICM.Value := FormTelaEntradaRapidaEstoque.editNovoDifIcms.Value;
 
@@ -4184,7 +4185,7 @@ begin
   FormTelaSaidaRapidaEstoque.EditCusto.Value := SQLTemplatePRODN3VLRCUSTO.Value;
   FormTelaSaidaRapidaEstoque.EditCustoMedio.Value := SQLTemplatePRODN3VLRCUSTOMED.Value;
   FormTelaSaidaRapidaEstoque.EditIPI.Value := SQLTemplatePRODN3PERCIPI.Value;
-  FormTelaSaidaRapidaEstoque.EditFrete.Value := SQLTemplatePRODN2PERCFRETE.Value;
+  FormTelaSaidaRapidaEstoque.EditFrete.Value := SQLTemplateVALOR_FRETE.Value;
   FormTelaSaidaRapidaEstoque.EditDespesa.Value := SQLTemplatePRODN2PERCDESP.Value;
   FormTelaSaidaRapidaEstoque.EditMargemVarejo.Value := SQLTemplatePRODN3PERCMARGLUCR.Value;
   FormTelaSaidaRapidaEstoque.EditValorVendaVarejo.Value := SQLTemplatePRODN3VLRVENDA.Value;
