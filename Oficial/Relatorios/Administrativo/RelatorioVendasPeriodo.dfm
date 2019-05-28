@@ -617,7 +617,7 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
       '        group by CUPOMITEM.CUPOA13ID) +'
       '        CUPOM.CUPON2ACRESC'
       '        %MtaxaCred'
-      '        CUPOM.CUPON2DESCITENS-'
+      '        (CUPON2DESC+CUPOM.CUPON2DESCITENS)-'
       '        CUPOM.CUPON3BONUSTROCA-'
       '        CUPOM.CUPON2TOTITENSRET as TOTAL,'
       '  CUPOM.CUPON3BONUSTROCA,'

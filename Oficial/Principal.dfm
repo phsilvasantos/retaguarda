@@ -11371,6 +11371,10 @@ inherited FormPrincipal: TFormPrincipal
           Caption = 'Mesas'
           OnClick = MnCadastroMesasClick
         end
+        object ObservaoBordas1: TMenuItem
+          Caption = 'Observa'#231#227'o/Bordas'
+          OnClick = ObservaoBordas1Click
+        end
       end
     end
     object Compras1: TMenuItem [1]

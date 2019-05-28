@@ -263,6 +263,7 @@ type
     MnFormTelaConsultaMovNumeroSerie: TMenuItem;
     MnFormCadastroTipoFornecedor: TMenuItem;
     ConciliaoBancria1: TMenuItem;
+    ObservaoBordas1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -521,6 +522,7 @@ type
     procedure ResumoFinanceiro1Click(Sender: TObject);
     procedure AdvGlowButton7Click(Sender: TObject);
     procedure ConciliaoBancria1Click(Sender: TObject);
+    procedure ObservaoBordas1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -611,7 +613,7 @@ uses
   TelaGerarSaldoProduto, CadastroMesa, TelaConsultaSaldoPorEmpresa,
   CadastroSabores, CadastroTributacaoNFSE, CadastroNotaServico,
   CadastroServico, RelatorioComissaoRepresentanteDetalhado, TelaConsultaMovNumeroSerie, CadastroTipoFornecedor,
-  TelaResumoFinanceiro;
+  TelaResumoFinanceiro, CadastroObsProdutoRest;
 
 
 
@@ -3209,6 +3211,16 @@ begin
   inherited;
   if FileExists(DM.PathAplicacao + 'Conciliacao.exe') then
     WinExec(PChar(DM.PathAplicacao + 'Conciliacao.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual)), SW_SHOW)
+end;
+
+procedure TFormPrincipal.ObservaoBordas1Click(Sender: TObject);
+begin
+  inherited;
+  if DM.Acesso((Sender as TMenuItem).Name) > 0 then
+    CriaFormulario(TFormCadastroObsProdutoRest, 'FormCadastroObsProdutoRest', False, False, False, '')
+  else
+    SoundPlay('Acesso Negado.wav', Sender);
+
 end;
 
 end.

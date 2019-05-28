@@ -439,6 +439,69 @@ begin
   end;
   {Fim Vendedor}
 
+  {Abre UNIDADE no servidor para achar os registros que serao importados!}
+  try
+    ZconsultaServidor.Close;
+    ZconsultaServidor.sql.clear;
+    ZconsultaServidor.sql.Text := 'Select * from UNIDADE';
+    ZconsultaServidor.open;
+    if not ZconsultaServidor.IsEmpty then
+    begin
+      while not ZconsultaServidor.eof do
+      begin
+        ZConsultaPDV.close;
+        Application.Title := 'Importando Unidades...';
+        lbStatus.Caption := Application.Title;
+        lbStatus.Update;
+        ZConsultaPDV.SQL.clear;
+        ZConsultaPDV.SQL.Text := 'Select * from UNIDADE where UNIDICOD=' + ZconsultaServidor.fieldbyname('UNIDICOD').AsString;
+            //ZConsultaPDV.RequestLive := True;
+        ZConsultaPDV.Open;
+        SalvarRegistro := False;
+        if ZConsultaPDV.IsEmpty then
+        begin
+          SalvarRegistro := True;
+          ZConsultaPDV.append;
+        end
+        else
+        begin
+          if (ZconsultaServidor.findfield('REGISTRO').Value > ZconsultaPDV.findfield('REGISTRO').Value) then
+          begin
+            SalvarRegistro := True;
+            ZConsultaPDV.edit;
+          end
+          else
+            SalvarRegistro := False;
+        end;
+
+        if SalvarRegistro then
+        begin
+                {alimenta os campos no Pdv}
+          for i := 0 to ZconsultaServidor.FieldCount - 1 do
+            if ZconsultaServidor.Fields[i].AsString <> '' then
+            begin
+              try ZConsultaPDV.FindField(ZConsultaServidor.Fields[i].FieldName).AsVariant := ZconsultaServidor.Fields[i].AsVariant; except Application.ProcessMessages; end;
+            end;
+          try
+            ZConsultaPDV.post;
+          except
+            ZConsultaPDV.cancel;
+            Application.ProcessMessages;
+          end;
+        end;
+        ZconsultaServidor.Next;
+      end;
+    end;
+    Application.Title := '';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+  except
+    Application.Title := 'Falha ao Importar Unidades!';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+    Application.ProcessMessages;
+  end;
+  {Fim UNIDADE}
 
 
   {Abre NCM do servidor}

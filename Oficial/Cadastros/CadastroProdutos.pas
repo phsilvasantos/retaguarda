@@ -2356,7 +2356,7 @@ begin
     end
     else
     begin
-      Informa('Exclusï¿½o cancelada pelo usuï¿½rio!');
+      Informa('Exclusão cancelada pelo usuário!');
       DestroyWindow;
       Abort;
     end;
