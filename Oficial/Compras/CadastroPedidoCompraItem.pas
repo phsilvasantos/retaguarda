@@ -144,7 +144,7 @@ begin
   inherited;
   TABELA:='PedidoCompraItem';
 
-  if dm.SQLConfigCompra.Active then
+  if not dm.SQLConfigCompra.Active then
     dm.SQLConfigCompra.Open;
 end;
 
@@ -214,6 +214,7 @@ procedure TFormCadastroPedidoCompraItem.SQLTemplatePRODICODChange(
   Sender: TField);
 begin
   inherited;
+
   EditProduto.Text := (Sender as TField).AsString;
   If (SQLTemplate.FieldByName('PRODICOD').AsVariant <> null) and (SQLTemplate.State = dsInsert) and (DM.ProcuraRegistro('PRODUTO',['PRODICOD'],[SQLTemplate.FieldByName('PRODICOD').AsString],1)) Then
      Begin

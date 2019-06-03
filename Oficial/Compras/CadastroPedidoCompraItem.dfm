@@ -1,6 +1,6 @@
 inherited FormCadastroPedidoCompraItem: TFormCadastroPedidoCompraItem
-  Left = 451
-  Top = 119
+  Left = 280
+  Top = 83
   Caption = 'Itens'
   ClientHeight = 530
   ClientWidth = 790
