@@ -467,7 +467,9 @@ uses
   TelaConsultaMovRepresentante in 'TelaConsultaMovRepresentante.pas' {FormTelaConsultaMovRepresentante},
   TelaResumoFinanceiro in 'ArquivosComuns\TelaResumoFinanceiro.pas' {FormTelaResumoFinanceiro},
   RelatorioRetornoBanco in 'Relatorios\Administrativo\RelatorioRetornoBanco.pas' {FormRelatorioRetornoBanco},
-  CadastroObsProdutoRest in 'Cadastros\CadastroObsProdutoRest.pas' {FormCadastroObsProdutoRest};
+  CadastroObsProdutoRest in 'Cadastros\CadastroObsProdutoRest.pas' {FormCadastroObsProdutoRest},
+  CadastroMotoboy in 'Cadastros\CadastroMotoboy.pas' {FormCadastroMotoboy},
+  RelatorioMotoboy in 'Relatorios\Administrativo\RelatorioMotoboy.pas' {FormRelatorioMotoboy};
 
 {$R *.res}
 

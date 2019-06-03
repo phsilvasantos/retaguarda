@@ -264,6 +264,8 @@ type
     MnFormCadastroTipoFornecedor: TMenuItem;
     ConciliaoBancria1: TMenuItem;
     ObservaoBordas1: TMenuItem;
+    Motoboy1: TMenuItem;
+    EntregaporMotoboy1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -523,6 +525,8 @@ type
     procedure AdvGlowButton7Click(Sender: TObject);
     procedure ConciliaoBancria1Click(Sender: TObject);
     procedure ObservaoBordas1Click(Sender: TObject);
+    procedure Motoboy1Click(Sender: TObject);
+    procedure EntregaporMotoboy1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -613,7 +617,7 @@ uses
   TelaGerarSaldoProduto, CadastroMesa, TelaConsultaSaldoPorEmpresa,
   CadastroSabores, CadastroTributacaoNFSE, CadastroNotaServico,
   CadastroServico, RelatorioComissaoRepresentanteDetalhado, TelaConsultaMovNumeroSerie, CadastroTipoFornecedor,
-  TelaResumoFinanceiro, CadastroObsProdutoRest;
+  TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy;
 
 
 
@@ -3221,6 +3225,25 @@ begin
   else
     SoundPlay('Acesso Negado.wav', Sender);
 
+end;
+
+procedure TFormPrincipal.Motoboy1Click(Sender: TObject);
+begin
+  inherited;
+  if DM.Acesso((Sender as TMenuItem).Name) > 0 then
+    CriaFormulario(TFormCadastroMotoboy, 'FormCadastroMotoboy', False, False, False, '')
+  else
+    SoundPlay('Acesso Negado.wav', Sender);
+
+end;
+
+procedure TFormPrincipal.EntregaporMotoboy1Click(Sender: TObject);
+begin
+  inherited;
+  if DM.Acesso((Sender as TMenuItem).Name) > 0 then
+    CriaFormulario(TFormRelatorioMotoboy, 'FormRelatorioMotoboy', False, False, False, '')
+  else
+    SoundPlay('Acesso Negado.wav', Sender);
 end;
 
 end.

@@ -11375,6 +11375,10 @@ inherited FormPrincipal: TFormPrincipal
           Caption = 'Observa'#231#227'o/Bordas'
           OnClick = ObservaoBordas1Click
         end
+        object Motoboy1: TMenuItem
+          Caption = 'Motoboy'
+          OnClick = Motoboy1Click
+        end
       end
     end
     object Compras1: TMenuItem [1]
@@ -11574,7 +11578,7 @@ inherited FormPrincipal: TFormPrincipal
       end
       object ConciliaoBancria1: TMenuItem
         Caption = 'Concilia'#231#227'o Banc'#225'ria'
-        OnClick = ConciliaoBancria1Click
+        OnClick = abeladeConversodeCSTdeIPI1Click
       end
     end
     object Faturamento1: TMenuItem [5]
@@ -11689,6 +11693,10 @@ inherited FormPrincipal: TFormPrincipal
           object MnFormRelatorioComissaoDetalhadoRepresentante: TMenuItem
             Caption = 'Comiss'#227'o Representante'
             OnClick = MnFormRelatorioComissaoDetalhadoRepresentanteClick
+          end
+          object EntregaporMotoboy1: TMenuItem
+            Caption = 'Entrega por Motoboy'
+            OnClick = EntregaporMotoboy1Click
           end
         end
         object Compras2: TMenuItem

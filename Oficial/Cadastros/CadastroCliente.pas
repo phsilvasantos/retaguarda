@@ -1590,6 +1590,8 @@ begin
 end;
 
 procedure TFormCadastroCliente.Button1Click(Sender: TObject);
+var
+  vCaminhoAnimais : String;
 begin
   inherited;
   SQLParcelas.Close;
@@ -1716,11 +1718,16 @@ begin
 
   if TRxSpeedButton(Sender).Name = 'Button13' then
   begin
-      DSMasterSys := DSTemplate;     //#ver
-      CriaFormulario(TFormCadastroAnimais,
-                     'FormCadastroAnimais',
-                     True,
-                     False,True, 'Cliente ' + SQLTemplateCLIEA60RAZAOSOC.asString); 
+    if FileExists(DM.PathAplicacao + 'animais.exe') then
+      vCaminhoAnimais := DM.PathAplicacao + 'animais.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual) + ' CLIENTE=' + SQLTemplateCLIEA13ID.AsString;
+      WinExec(PChar(vCaminhoAnimais), SW_SHOW);
+  //  EMPRESA=2 TERMINAL=4 CLIENTE=q
+
+  //      DSMasterSys := DSTemplate;     //#ver
+//      CriaFormulario(TFormCadastroAnimais,
+//                     'FormCadastroAnimais',
+//                     True,
+//                     False,True, 'Cliente ' + SQLTemplateCLIEA60RAZAOSOC.asString);
   end;
 
   if TRxSpeedButton(Sender).Name = 'Button14' then
