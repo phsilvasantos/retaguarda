@@ -58,86 +58,100 @@ var
 
 implementation
 
-uses DataModulo;
+uses
+  DataModulo;
 
 
 {$R *.dfm}
 
-procedure TFormPrincipal.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TFormPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   ACBrPosPrinter.Device.Desativar;
-  Action := cafree ;
+  Action := cafree;
 end;
 
 procedure TFormPrincipal.FormShow(Sender: TObject);
-var Inifile: TInifile;
-var ImpMarca, ImpCaixaPorta, ImpCaixaVeloc, EmpresaNome, Saltar : String;
-var Total : Double;
+var
+  Inifile: TInifile;
+var
+  ImpMarca, ImpCaixaPorta, ImpCaixaVeloc, EmpresaNome, Saltar: string;
+var
+  Total: Double;
 begin
   try
-    memo.Lines.Clear;
+    try
+      memo.Lines.Clear;
+      TblPreVendaItem.Open;
+      Inifile := TIniFile.Create('C:\Easy2Solutions\Gestao\Parceiro.ini');
+      EmpresaNome := Inifile.ReadString('IB_Software', 'EmpresaNome', '');
+      ImpMarca := Inifile.ReadString('Restaurante', 'ImpMarca', '');
+      ImpCaixaPorta := Inifile.ReadString('Restaurante', 'ImpCaixaPorta', '');
+      ImpCaixaVeloc := Inifile.ReadString('Restaurante', 'ImpCaixaVeloc', '9600');
+      Saltar := Inifile.ReadString('IB_SOFTWARE', 'Saltar', '');
+      Inifile.Free;
 
-    TblPreVendaItem.Open;
+      if ImpMarca = 'EPSON' then
+        ACBrPosPrinter.Modelo := ppEscPosEpson;
+      if ImpMarca = 'BEMATECH' then
+        ACBrPosPrinter.Modelo := ppEscBematech;
+      if ImpMarca = 'ELGIN' then
+        ACBrPosPrinter.Modelo := ppEscVox;
+      if ImpMarca = 'DR700' then
+        ACBrPosPrinter.Modelo := ppEscDaruma;
+      if ImpMarca = 'DR800' then
+        ACBrPosPrinter.Modelo := ppEscDaruma;
 
-    IniFile             := TIniFile.Create('C:\Easy2Solutions\Gestao\Parceiro.ini');
-    EmpresaNome         := IniFile.ReadString('IB_Software','EmpresaNome','');
-    ImpMarca            := IniFile.ReadString('Restaurante','ImpMarca','');
-    ImpCaixaPorta       := IniFile.ReadString('Restaurante','ImpCaixaPorta','');
-    ImpCaixaVeloc       := IniFile.ReadString('Restaurante','ImpCaixaVeloc','9600');
-    Saltar              := Inifile.ReadString('IB_SOFTWARE','Saltar','');
-    IniFile.Free;
+      ACBrPosPrinter.Device.Porta := ImpCaixaPorta;
+      ACBrPosPrinter.Device.Baud := StrToint(ImpCaixaVeloc);
+      ACBrPosPrinter.Device.Desativar;
 
-    if ImpMarca = 'EPSON'    then ACBrPosPrinter.Modelo := ppEscPosEpson;
-    if ImpMarca = 'BEMATECH' then ACBrPosPrinter.Modelo := ppEscBematech;
-    if ImpMarca = 'ELGIN'    then ACBrPosPrinter.Modelo := ppEscVox;
-    if ImpMarca = 'DR700'    then ACBrPosPrinter.Modelo := ppEscDaruma;
-    if ImpMarca = 'DR800'    then ACBrPosPrinter.Modelo := ppEscDaruma;
-
-    ACBrPosPrinter.Device.Porta := ImpCaixaPorta;
-    ACBrPosPrinter.Device.Baud  := StrToint(ImpCaixaVeloc);
-    ACBrPosPrinter.Device.Desativar;
-
-    memo.Lines.Add(' ');
-    memo.Lines.Add(' ');
-    memo.Lines.Add('</ae><e>'+EmpresaNome+'</e>');
-    memo.Lines.Add('</fn></ce>');
-    memo.Lines.Add(' ');
-    memo.Lines.Add('</ae><e>EXTRATO</e>');
-    memo.Lines.Add(' ');
-    memo.Lines.Add('</ae><e>MESA/COMANDA => '+TblPreVendaItemMesaICod.AsString+'/'+TblPreVendaItemContaICod.AsString+'</e></fn>');
-    memo.Lines.Add('------------------------------------------------');
-    memo.Lines.Add(' Descricao                                      ');
-    memo.Lines.Add('       Quantidade     Valor Unit       Vlr.Total');
-    memo.Lines.Add('------------------------------------------------');
-    TblPreVendaItem.First;
-    While not TblPreVendaItem.eof Do
-      Begin
-        memo.Lines.Add('</ae>'+TblPreVendaItemDescricaoRed.AsString);
-        memo.Lines.Add('</ad>         '+FormatFloat('##00.00',TblPreVendaItemPVITN3QTD.Value)+'     '+FormatFloat('R$ ##0.00',TblPreVendaItemPVITN3VLRUNIT.Value)+'          '+ FormatFloat('R$ ##0.00',TblPreVendaItemTotalItem.Value)+'   </n>');
+      memo.Lines.Add(' ');
+      memo.Lines.Add(' ');
+      memo.Lines.Add('</ae><e>' + EmpresaNome + '</e>');
+      memo.Lines.Add('</fn></ce>');
+      memo.Lines.Add(' ');
+      memo.Lines.Add('</ae><e>EXTRATO</e>');
+      memo.Lines.Add(' ');
+      memo.Lines.Add('</ae><e>MESA/COMANDA => ' + TblPreVendaItemMesaICod.AsString + '/' + TblPreVendaItemContaICod.AsString + '</e></fn>');
+      memo.Lines.Add('------------------------------------------------');
+      memo.Lines.Add(' Descricao                                      ');
+      memo.Lines.Add('       Quantidade     Valor Unit       Vlr.Total');
+      memo.Lines.Add('------------------------------------------------');
+      TblPreVendaItem.First;
+      while not TblPreVendaItem.eof do
+      begin
+        memo.Lines.Add('</ae>' + TblPreVendaItemDescricaoRed.AsString);
+        memo.Lines.Add('</ad>         ' + FormatFloat('##00.00', TblPreVendaItemPVITN3QTD.Value) + '     ' + FormatFloat('R$ ##0.00', TblPreVendaItemPVITN3VLRUNIT.Value) + '          ' + FormatFloat('R$ ##0.00', TblPreVendaItemTotalItem.Value) + '   </n>');
         Total := Total + TblPreVendaItemTotalItem.Value;
         TblPreVendaItem.Next;
-      End;
+      end;
 
     // Final Venda
-    memo.Lines.Add('------------------------------------------------');
-    memo.Lines.Add('</ad><n>TOTAL   R$ ' + FormatFloat('##0.00',Total)+'   </n>');
-    memo.Lines.Add('</ae>------------------------------------------------');
-    memo.Lines.Add(' ');
-    memo.Lines.Add(' ');
-    memo.Lines.Add('</corte_parcial>');
+      memo.Lines.Add('------------------------------------------------');
+      memo.Lines.Add('</ad><n>TOTAL   R$ ' + FormatFloat('##0.00', Total) + '   </n>');
+      memo.Lines.Add('</ae>------------------------------------------------');
+      memo.Lines.Add(' ');
+      memo.Lines.Add(' ');
+      memo.Lines.Add('</corte_parcial>');
 
-    ACBrPosPrinter.Device.Ativar;
-    ACBrPosPrinter.LinhasEntreCupons := StrToInt(Saltar);
-    ACBrPosPrinter.Imprimir(Memo.Lines.Text);
+      ACBrPosPrinter.Device.Ativar;
+      ACBrPosPrinter.LinhasEntreCupons := StrToInt(Saltar);
+      ACBrPosPrinter.Imprimir(Memo.Lines.Text);
 
+    except
+      on e: exception do
+      begin
+        showmessage('Ocorreu o seguinte erro: ' + e.message);
+      end;
+    end;
+
+  finally
     TblPreVendaItem.Close;
     Application.Terminate;
-  except
-//  on e : exception do showmessage('Ocorreu o seguinte erro: '+ e.message);
-    TblPreVendaItem.Close;
-    Application.Terminate;
+
   end;
+
 end;
 
 end.
+
