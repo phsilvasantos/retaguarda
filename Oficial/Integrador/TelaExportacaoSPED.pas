@@ -3680,7 +3680,7 @@ Begin
     else
       Chave := '';
 
-//    if chave = '43190290262627000103550010000013231034086926' then
+//    if chave = '43190406937686000128550010000129381777781143' then
 //      showmessage('parou');
     { Para documentos fiscais cancelados (codigo 02 ou 03) Denegado (04), inutilizado (05) informar somente
       os campos Código da Situação, Indicador de Operacao, Codigo do Modelo e Chave do Documento para os que possuem.}
@@ -3911,12 +3911,12 @@ Begin
         if Not RegistroC160 Then Begin Result := False; Exit; End;
       end; }
 
-    // REGISTRO C170: ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55). tirei
-//    if StatusNF = 'E' then
-//      begin
-//        EditTabela.Text := 'Criando - BLOCO C170 - ITENS DO DOCUMENTO'; EditTabela.Update;
-//        if Not RegistroC170 Then Begin Result := False; Exit; End;
-//      end;
+    // REGISTRO C170: ITENS DO DOCUMENTO (CÓDIGO 01, 1B, 04 e 55). ver melhor, as vezes tem que tirar para fazer o teste
+    if StatusNF = 'E' then
+      begin
+        EditTabela.Text := 'Criando - BLOCO C170 - ITENS DO DOCUMENTO'; EditTabela.Update;
+        if Not RegistroC170 Then Begin Result := False; Exit; End;
+      end;
 
     // REGISTRO C172: OPERAÇÕES COM ISSQN (CÓDIGO 01)
     // Adilson Verificar com Judi se teremos que lancar as Notas de Servico na Entrada
