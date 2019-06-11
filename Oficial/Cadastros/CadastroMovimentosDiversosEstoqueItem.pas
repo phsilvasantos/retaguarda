@@ -278,7 +278,8 @@ begin
         CodigoProduto := SQLTemplatePRODICOD.AsString;
         Application.CreateForm(TFormTelaInformaNumeroSerieProduto, FormTelaInformaNumeroSerieProduto);
         FormTelaInformaNumeroSerieProduto.NumeroItens := SQLTemplateMVDIN3QTD.AsInteger;
-        FormTelaInformaNumeroSerieProduto.Valida_Qtde := True;
+        FormTelaInformaNumeroSerieProduto.Valida_Qtde := False;
+        FormTelaInformaNumeroSerieProduto.codGravaProduto := SQLTemplatePRODICOD.AsInteger;
         FormTelaInformaNumeroSerieProduto.ShowModal;
         for I := 1 to SQLTemplateMVDIN3QTD.AsInteger do
         begin
@@ -305,6 +306,26 @@ begin
             end;
           end;
         end;
+        FormTelaInformaNumeroSerieProduto.cdsProdutoNovo.First;
+        while not FormTelaInformaNumeroSerieProduto.cdsProdutoNovo.Eof do
+        begin
+          NumeroSerie := FormTelaInformaNumeroSerieProduto.cdsProdutoNovoPRSEA60NROSERIE.AsString;
+          if NumeroSerie <> '' then
+            InsereNovoNumeroSerie(EmpresaPadrao,
+              SQLTemplatePRODICOD.AsString,
+              NumeroSerie,
+              'D');
+          GravaMovimentoNumeroSerie(EmpresaPadrao,
+                                    NumeroSerie,
+                                    SQLLocate('OPERACAOESTOQUE','OPESICOD','OPESCENTRADASAIDA',SQLTemplate.DataSource.DataSet.FieldByName('OPESICOD').AsString),
+                                    SQLTemplate.DataSource.DataSet.FieldByName('MOVDICOD').AsString,
+                                    SQLlocate('CLIENTE', 'CLIEA13ID', 'CLIEA60RAZAOSOC',DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString),
+                                    'Mov Estoque Diversos',
+                                    SQLTemplatePRODICOD.AsInteger,
+                                    DSMasterTemplate.DataSet.FieldByName('MOVDDMOVIMENTO').AsDateTime);
+          FormTelaInformaNumeroSerieProduto.cdsProdutoNovo.Next;
+        end;
+
         FormTelaInformaNumeroSerieProduto.Destroy;
       end;
   inherited;
