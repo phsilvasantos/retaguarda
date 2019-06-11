@@ -11610,6 +11610,10 @@ inherited FormPrincipal: TFormPrincipal
         Caption = 'Nota Servi'#231'o'
         OnClick = MnFormCadastroNotaServicoClick
       end
+      object Atendimento1: TMenuItem
+        Caption = 'Atendimento'
+        OnClick = Atendimento1Click
+      end
     end
     object Integrador1: TMenuItem [7]
       Caption = 'Integrador'

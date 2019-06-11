@@ -266,6 +266,7 @@ type
     ObservaoBordas1: TMenuItem;
     Motoboy1: TMenuItem;
     EntregaporMotoboy1: TMenuItem;
+    Atendimento1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -527,6 +528,7 @@ type
     procedure ObservaoBordas1Click(Sender: TObject);
     procedure Motoboy1Click(Sender: TObject);
     procedure EntregaporMotoboy1Click(Sender: TObject);
+    procedure Atendimento1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -3244,6 +3246,13 @@ begin
     CriaFormulario(TFormRelatorioMotoboy, 'FormRelatorioMotoboy', False, False, False, '')
   else
     SoundPlay('Acesso Negado.wav', Sender);
+end;
+
+procedure TFormPrincipal.Atendimento1Click(Sender: TObject);
+begin
+  inherited;
+  if FileExists(DM.PathAplicacao + 'Atendimento.exe') then
+    WinExec(PChar(DM.PathAplicacao + 'Atendimento.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual)), SW_SHOW)
 end;
 
 end.
