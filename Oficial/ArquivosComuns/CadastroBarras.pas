@@ -64,7 +64,7 @@ begin
   DM.SQLTemplate.Open;
   if DM.SQLTemplate.RecordCount > 0 then
     begin
-      if not Pergunta('NAO','Atenï¿½ï¿½o! Este cï¿½digo de barras jï¿½ foi cadastrado para o produto '+DM.SQLTemplate.Fieldbyname('PRODICOD').AsString +chr(13)+
+      if not Pergunta('NAO','Atenção! Este código de barras já foi cadastrado para o produto '+DM.SQLTemplate.Fieldbyname('PRODICOD').AsString +chr(13)+
                       'Deseja Prosseguir?') then
         begin
           SQLTemplate.FieldByName('PRBAA15BARRAS').FocusControl;
@@ -79,7 +79,7 @@ begin
       DM.SQLTemplate.Open;
       if DM.SQLTemplate.RecordCount > 0 then
         begin
-          if not Pergunta('NAO','Atenï¿½ï¿½o! Este cï¿½digo de barras jï¿½ foi cadastrado para o produto '+DM.SQLTemplate.Fieldbyname('PRODICOD').AsString +chr(13)+
+          if not Pergunta('NAO','Atenção! Este código de barras já foi cadastrado para o produto '+DM.SQLTemplate.Fieldbyname('PRODICOD').AsString +chr(13)+
                           'Deseja Prosseguir?') then
             begin
               SQLTemplate.FieldByName('PRBAA15BARRAS').FocusControl;

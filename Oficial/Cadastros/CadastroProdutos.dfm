@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 98
-  Top = 22
+  Left = 104
+  Top = 11
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -2266,7 +2266,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                 Top = 296
                 Width = 754
                 Height = 168
-                ActivePage = TabSheet1
+                ActivePage = TabSheetDescontos
                 TabOrder = 15
                 object TabSheet1: TTabSheet
                   Caption = 'Tributa'#231#227'o ICMS'
@@ -5829,8 +5829,8 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object DBGrid5: TDBGrid
                     Left = 0
                     Top = 0
-                    Width = 680
-                    Height = 154
+                    Width = 746
+                    Height = 115
                     Align = alClient
                     BorderStyle = bsNone
                     Color = clWhite
@@ -5883,8 +5883,8 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   end
                   object DBNavigator1: TDBNavigator
                     Left = 0
-                    Top = 154
-                    Width = 680
+                    Top = 115
+                    Width = 746
                     Height = 25
                     DataSource = dsProduto_Descontos
                     VisibleButtons = [nbInsert, nbDelete, nbEdit, nbPost, nbCancel]
@@ -14284,6 +14284,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
     BeforeInsert = sqlProduto_DescontosBeforeInsert
     BeforeEdit = sqlProduto_DescontosBeforeEdit
     BeforePost = sqlProduto_DescontosBeforePost
+    AfterPost = sqlProduto_DescontosAfterPost
     BeforeDelete = sqlProduto_DescontosBeforeDelete
     OnNewRecord = sqlProduto_DescontosNewRecord
     DatabaseName = 'DB'
@@ -14294,8 +14295,8 @@ inherited FormCadastroProduto: TFormCadastroProduto
       'FROM PRODUTO_DESCONTOS'
       'WHERE PRODICOD = :PRODICOD')
     Macros = <>
-    Left = 1117
-    Top = 321
+    Left = 837
+    Top = 465
     ParamData = <
       item
         DataType = ftInteger
@@ -14331,8 +14332,8 @@ inherited FormCadastroProduto: TFormCadastroProduto
   object dsProduto_Descontos: TDataSource
     DataSet = sqlProduto_Descontos
     OnDataChange = DSSQLSubGrupoDataChange
-    Left = 1169
-    Top = 326
+    Left = 866
+    Top = 465
   end
   object ppGrid: TPopupMenu
     Left = 886
@@ -14340,6 +14341,60 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object AtualizaProdutoBRT1: TMenuItem
       Caption = 'Atualiza Produto BRT'
       OnClick = AtualizaProdutoBRT1Click
+    end
+  end
+  object dsProduto_DescontoPDV: TDataSource
+    DataSet = SQLProduto_DescontoPDV
+    OnDataChange = DSSQLSubGrupoDataChange
+    Left = 866
+    Top = 505
+  end
+  object SQLProduto_DescontoPDV: TRxQuery
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'SELECT *'
+      'FROM PRODUTO_DESCONTOSPDV'
+      'WHERE %MFILTRO')
+    UpdateMode = upWhereChanged
+    Macros = <
+      item
+        DataType = ftString
+        Name = 'MFILTRO'
+        ParamType = ptInput
+        Value = '0=0'
+      end>
+    Left = 837
+    Top = 505
+    object SQLProduto_DescontoPDVTERMICOD: TIntegerField
+      FieldName = 'TERMICOD'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.TERMICOD'
+    end
+    object SQLProduto_DescontoPDVCOD_PRODUTODESCONTOS: TIntegerField
+      FieldName = 'COD_PRODUTODESCONTOS'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.COD_PRODUTODESCONTOS'
+    end
+    object SQLProduto_DescontoPDVPRODICOD: TIntegerField
+      FieldName = 'PRODICOD'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.PRODICOD'
+    end
+    object SQLProduto_DescontoPDVQUANTIDADE: TFloatField
+      FieldName = 'QUANTIDADE'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.QUANTIDADE'
+    end
+    object SQLProduto_DescontoPDVPRECO: TFloatField
+      FieldName = 'PRECO'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.PRECO'
+    end
+    object SQLProduto_DescontoPDVDATA_VALIDADE: TDateTimeField
+      FieldName = 'DATA_VALIDADE'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.DATA_VALIDADE'
+    end
+    object SQLProduto_DescontoPDVEXCLUIR: TStringField
+      FieldName = 'EXCLUIR'
+      Origin = 'DB.PRODUTO_DESCONTOSPDV.EXCLUIR'
+      FixedChar = True
+      Size = 1
     end
   end
 end

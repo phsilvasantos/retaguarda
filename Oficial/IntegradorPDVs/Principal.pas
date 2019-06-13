@@ -570,7 +570,7 @@ begin
     lbStatus.Caption := Application.Title;
     lbStatus.Update;
   except
-    Application.Title := 'Falha ao Importar Produtos!';
+    Application.Title := 'Falha ao Importar NCM!';
     lbStatus.Caption := Application.Title;
     lbStatus.Update;
     Application.ProcessMessages;
@@ -703,6 +703,65 @@ begin
     Application.ProcessMessages;
   end;
   {Fim Barras}
+
+  {Inicio Produto Desconto}
+  {Abre Produto_DescontosPDV no servidor para achar os registros que serao importados!}
+  try
+    ZconsultaServidor.Close;
+    ZconsultaServidor.sql.clear;
+    ZconsultaServidor.sql.Text := 'Select * from PRODUTO_DESCONTOSPDV where TERMICOD=' + TerminalCodigoSTR + ' order by prodicod asc';
+    //ZconsultaServidor.RequestLive := false;
+    ZconsultaServidor.open;
+    while not ZconsultaServidor.eof do
+    begin
+      Application.Title := 'Recebendo Produto/Desconto => ' + ZconsultaServidor.fieldbyname('PRODICOD').AsString;
+      lbStatus.Caption := Application.Title;
+      lbStatus.Update;
+      ZConsultaPDV.close;
+      ZConsultaPDV.SQL.clear;
+      ZConsultaPDV.SQL.Text := 'Select * from PRODUTO_DESCONTOS where COD_PRODUTODESCONTOS=' + ZconsultaServidor.fieldbyname('COD_PRODUTODESCONTOS').AsString;
+        //ZConsultaPDV.RequestLive := True;
+      ZConsultaPDV.Open;
+      if ZConsultaPDV.IsEmpty then
+        ZConsultaPDV.append
+      else
+        ZConsultaPDV.edit;
+
+        {alimenta os campos no Pdv}
+      for i := 0 to ZconsultaServidor.FieldCount - 1 do
+      begin
+        try ZConsultaPDV.FindField(ZConsultaServidor.Fields[i].FieldName).AsVariant := ZconsultaServidor.Fields[i].AsVariant; except Application.ProcessMessages; end;
+      end;
+      try
+        ZConsultaPDV.post;
+        Erro := False;
+      except
+        ZConsultaPDV.cancel;
+        Erro := True;
+        Application.ProcessMessages;
+      end;
+
+      if not erro then
+      begin
+            {apaga no servidor se nao teve erro}
+        zapagaServidor.close;
+        zapagaServidor.sql.Clear;
+        zapagaServidor.sql.Text := 'delete from PRODUTO_DESCONTOSPDV where termicod=' + TerminalCodigoSTR +
+          ' and COD_PRODUTODESCONTOS=' + ZconsultaServidor.fieldbyname('COD_PRODUTODESCONTOS').AsString;
+        zapagaServidor.ExecSQL;
+      end;
+      ZconsultaServidor.Next;
+    end;
+    Application.Title := '';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+  except
+    Application.Title := 'Falha ao Importar Produto Desconto!';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+    Application.ProcessMessages;
+  end;
+  {Fim Produto_Desconto}
 
   {Inicio TabelaPrecos}
   {Abre TABELAPRECOPRODUTOPDVS no servidor para achar os registros que serao importados!}
