@@ -45,6 +45,7 @@ type
     TblPreVendaItemSABOR04: TStringField;
     TblPreVendaItemSABOR05: TStringField;
     TblPreVendaItemSABOR06: TStringField;
+    TblPreVendaItemValorDesconto: TFloatField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
   private
@@ -76,10 +77,11 @@ var
 var
   ImpMarca, ImpCaixaPorta, ImpCaixaVeloc, EmpresaNome, Saltar: string;
 var
-  Total: Double;
+  Total, TotalDesconto: Double;
 begin
   try
     try
+      TotalDesconto := 0;
       memo.Lines.Clear;
       TblPreVendaItem.Open;
       Inifile := TIniFile.Create('C:\Easy2Solutions\Gestao\Parceiro.ini');
@@ -123,13 +125,20 @@ begin
         memo.Lines.Add('</ae>' + TblPreVendaItemDescricaoRed.AsString);
         memo.Lines.Add('</ad>         ' + FormatFloat('##00.00', TblPreVendaItemPVITN3QTD.Value) + '     ' + FormatFloat('R$ ##0.00', TblPreVendaItemPVITN3VLRUNIT.Value) + '          ' + FormatFloat('R$ ##0.00', TblPreVendaItemTotalItem.Value) + '   </n>');
         Total := Total + TblPreVendaItemTotalItem.Value;
+        TotalDesconto := TotalDesconto + TblPreVendaItemValorDesconto.Value;
         TblPreVendaItem.Next;
       end;
 
     // Final Venda
-      memo.Lines.Add('------------------------------------------------');
-      memo.Lines.Add('</ad><n>TOTAL   R$ ' + FormatFloat('##0.00', Total) + '   </n>');
       memo.Lines.Add('</ae>------------------------------------------------');
+      memo.Lines.Add('</ad>ITENS R$ ' + FormatFloat('##0.00',Total)+'   ');
+//      memo.Lines.Add('Troco   R$ ' + FormatFloat('##0.00',TblPreVendaCabTroco.Value)+'   ');
+      memo.Lines.Add('Descto  R$ ' + FormatFloat('##0.00',TotalDesconto)+'   ');
+      memo.Lines.Add('TOTAL   R$ ' + FormatFloat('##0.00',Total - TotalDesconto)+'   ');
+
+//      memo.Lines.Add('------------------------------------------------');
+//      memo.Lines.Add('</ad><n>TOTAL   R$ ' + FormatFloat('##0.00', Total) + '   </n>');
+//      memo.Lines.Add('</ae>------------------------------------------------');
       memo.Lines.Add(' ');
       memo.Lines.Add(' ');
       memo.Lines.Add('</corte_parcial>');

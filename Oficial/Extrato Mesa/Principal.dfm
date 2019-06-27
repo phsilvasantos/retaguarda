@@ -1,8 +1,8 @@
 object FormPrincipal: TFormPrincipal
   Left = 462
   Top = 204
-  Width = 507
-  Height = 87
+  Width = 567
+  Height = 84
   Caption = 'Extrato Mesa'
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
@@ -49,8 +49,8 @@ object FormPrincipal: TFormPrincipal
   object TblPedidoFinanceiro: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'PedidoFinan.DB'
-    Left = 17
-    Top = 64
+    Left = 489
+    Top = 8
     object TblPedidoFinanceiroPedICod: TStringField
       FieldName = 'PedICod'
       Size = 13
@@ -73,7 +73,7 @@ object FormPrincipal: TFormPrincipal
   object TblPreVendaItem: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'TblMemPreVendaItem.DB'
-    Left = 11
+    Left = 35
     Top = 9
     object TblPreVendaItemTERMICOD: TIntegerField
       FieldName = 'TERMICOD'
@@ -178,6 +178,9 @@ object FormPrincipal: TFormPrincipal
       Origin = 'DB.PREVENDAITEM.SABOR06'
       Size = 60
     end
+    object TblPreVendaItemValorDesconto: TFloatField
+      FieldName = 'ValorDesconto'
+    end
   end
   object ACBrPosPrinter: TACBrPosPrinter
     ConfigBarras.MostrarCodigo = False
@@ -188,7 +191,7 @@ object FormPrincipal: TFormPrincipal
     ConfigQRCode.LarguraModulo = 4
     ConfigQRCode.ErrorLevel = 0
     LinhasEntreCupons = 0
-    Left = 71
+    Left = 79
     Top = 10
   end
 end

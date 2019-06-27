@@ -1167,6 +1167,7 @@ type
     ValorVenda, ValorVenda2, ValorCompra, MargemLucro, ICMS, Denominador, LucroBruto, ValorCusto, ValorCustoMedio, Perc_FaixaSimples: Double;
     DoNumeroCasasDec, vProduto: Integer;
     Referencia, CodBarras, CodAntigo: string;
+    AliquotaTotal : Double;
     function EnviaProdutoPDVs(Tipo: string): boolean;
     function EnviaProdutoDescontoPDVs(Tipo: string): boolean;
     procedure DesabilitarCampos;
@@ -1175,6 +1176,7 @@ type
     procedure MontaGradeCompras;
     procedure GeraHistoricoProduto;
     procedure PrincipalEmEdicao;
+    procedure BuscarPercentualImposto;
   public
     { Public declarations }
   end;
@@ -1414,6 +1416,7 @@ begin
 
   if SQLTemplatePRODN3DOLARVENDA.AsFloat > 0 then
     SQLTemplateVlrVendaConvertido.AsFloat := SQLTemplatePRODN3DOLARVENDA.AsFloat * RetornaUltimaCotacaoMoeda(Date, 'U$$');
+  BuscarPercentualImposto;
 
   if (Perc_FaixaSimples > 0) then
   begin
@@ -1431,7 +1434,27 @@ begin
       dbtdbtValorImpostoAtacado.Refresh;
       dbtdbtValorVendaSemImpostoAtacado.Refresh;
     end;
+  end
+  else
+  if (AliquotaTotal > 0) then
+  begin
+    if SQLTemplatePRODN3VLRVENDA.AsFloat > 0 then
+    begin
+      SQLTemplateValorImposto.AsFloat := SQLTemplatePRODN3VLRVENDA.AsFloat * AliquotaTotal / 100;
+      SQLTemplateValorVendaSemImposto.AsFloat := SQLTemplatePRODN3VLRVENDA.AsFloat - SQLTemplateValorImposto.AsFloat;
+      dbtValorImposto.Refresh;
+      dbtValorVendaSemImposto.Refresh;
+    end;
+    if SQLTemplatePRODN3VLRVENDA2.AsFloat > 0 then
+    begin
+      SQLTemplateValorImpostoAtacado.AsFloat := SQLTemplatePRODN3VLRVENDA2.AsFloat * AliquotaTotal / 100;
+      SQLTemplateValorVendaSemImpostoAtacado.AsFloat := SQLTemplatePRODN3VLRVENDA2.AsFloat - SQLTemplateValorImpostoAtacado.AsFloat;
+      dbtdbtValorImpostoAtacado.Refresh;
+      dbtdbtValorVendaSemImpostoAtacado.Refresh;
+    end;
+
   end;
+
 {  if FileExists('GoldBrasil.txt') Then
     begin
       if DBGridLista.Columns[4].Title.caption <> 'R$ 28/35D' then
@@ -1450,7 +1473,7 @@ begin
   begin
     if DBGridLista.Columns[4].Title.caption <> 'Posição' then
     begin
-      DBGridLista.Columns[4].Title.caption := 'Posiï¿½ï¿½o';
+      DBGridLista.Columns[4].Title.caption := 'Posição';
       DBGridLista.Columns[4].FieldName := 'PRODA15APAVIM';
       DBGridLista.Columns[5].FieldName := 'PRODA60REFER';
       DBGridLista.Columns[5].Title.caption := 'referência';
@@ -3622,21 +3645,26 @@ begin
 
   try
     SQLTemplate.FindField('PRODN3VLRVENDA').asFloat := SQLTemplate.FindField('PRODN3VLRCUSTO').asFloat * (1 + (SQLTemplate.FindField('PRODN3PERCMGLVFIXA').asFloat / 100));
-
   except
   end;
 
   if (DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value = 'M') and (SQLTemplate.FindField('PRODN3VLRCUSTOMEDIO').asFloat > 0) then
   begin
     try
-      SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplate.FindField('PRODN3VLRVENDA').asFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTOMEDIO').asFloat) - 1) * 100;
+      if (Perc_FaixaSimples > 0) or (AliquotaTotal > 0) then
+        SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplateValorVendaSemImposto.AsFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTOMEDIO').asFloat) - 1) * 100
+      else
+        SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplate.FindField('PRODN3VLRVENDA').asFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTOMEDIO').asFloat) - 1) * 100;
     except
     end;
   end;
   if (DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value = 'U') and (Sender.DataSet.FindField('PRODN3VLRCUSTO').asFloat > 0) then
   begin
     try
-      SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplate.FindField('PRODN3VLRVENDA').asFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTO').asFloat) - 1) * 100;
+      if (Perc_FaixaSimples > 0) or (AliquotaTotal > 0) then
+        SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplateValorVendaSemImposto.AsFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTO').asFloat) - 1) * 100
+      else
+        SQLTemplate.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLTemplate.FindField('PRODN3VLRVENDA').asFloat / SQLTemplate.FieldByName('PRODN3VLRCUSTO').asFloat) - 1) * 100;
     except
     end;
   end;
@@ -4904,10 +4932,10 @@ begin
   PopupMenuDiversos.Items.Find('Entrada Rápida de Estoque e Ajuste de Preços').Enabled := SQLLocate('TERMINAL', 'TERMICOD', 'CONTROLA_ES_RAPIDA', IntToStr(TerminalAtual)) <> 'S';
   PopupMenuDiversos.Items.Find('Saida Rápida de Estoque').Enabled := SQLLocate('TERMINAL', 'TERMICOD', 'CONTROLA_ES_RAPIDA', IntToStr(TerminalAtual)) <> 'S';
   if SQLLocate('EMPRESA', 'EMPRICOD', 'PERC_FAIXASIMPLES', EmpresaPadrao) <> '' then
-  begin
-    Perc_FaixaSimples := StrToFloat(SQLLocate('EMPRESA', 'EMPRICOD', 'PERC_FAIXASIMPLES', EmpresaPadrao));
-    Panel15.Caption := '                   Fixa %   Real %  | Preço Venda           |   Imposto      Venda s/imp';
-  end;
+    Perc_FaixaSimples := StrToFloat(SQLLocate('EMPRESA', 'EMPRICOD', 'PERC_FAIXASIMPLES', EmpresaPadrao))
+  else
+    BuscarPercentualImposto;
+  Panel15.Caption := '                   Fixa %   Real %  | Preço Venda           |   Imposto      Venda s/imp';
 end;
 
 function TFormCadastroProduto.EnviaProdutoDescontoPDVs(Tipo: string): boolean;
@@ -4954,6 +4982,26 @@ procedure TFormCadastroProduto.sqlProduto_DescontosAfterPost(
 begin
   inherited;
   EnviaProdutoDescontoPDVs('N');
+end;
+
+procedure TFormCadastroProduto.BuscarPercentualImposto;
+var
+  Aliquota_Pis, Aliquota_Cof, Aliquota_ICMS, Aliquota_IPI : Real;
+begin
+    Aliquota_Pis  := 0;
+    Aliquota_Cof  := 0;
+    Aliquota_ICMS := 0;
+    Aliquota_IPI := 0;
+    AliquotaTotal := 0;
+    if SQLLocate('ICMS','ICMSICOD','ICMSN2ALIQUOTA',SQLTemplateICMSICOD.AsString) <> '' then
+      Aliquota_ICMS := StrToFloat(SQLLocate('ICMS','ICMSICOD','ICMSN2ALIQUOTA',SQLTemplateICMSICOD.AsString));
+    if SQLTemplatePRODN2ALIQPIS.AsFloat > 0 then
+      Aliquota_Pis := SQLTemplatePRODN2ALIQPIS.AsFloat;
+    if SQLTemplatePRODN2ALIQCOFINS.AsFloat > 0 then
+      Aliquota_Cof := SQLTemplatePRODN2ALIQCOFINS.AsFloat;
+    if SQLTemplatePRODN3PERCIPI.AsFloat > 0 then
+      Aliquota_IPI := SQLTemplatePRODN3PERCIPI.AsFloat;
+    AliquotaTotal := Aliquota_Pis + Aliquota_Cof + Aliquota_ICMS + Aliquota_IPI;
 end;
 
 end.

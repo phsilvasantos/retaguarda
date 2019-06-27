@@ -214,6 +214,8 @@ procedure TFormCadastroPedidoCompraItem.SQLTemplatePRODICODChange(
   Sender: TField);
 begin
   inherited;
+  if dm.SQLConfigCompra.Active then
+    DM.SQLConfigCompra.Open;
 
   EditProduto.Text := (Sender as TField).AsString;
   If (SQLTemplate.FieldByName('PRODICOD').AsVariant <> null) and (SQLTemplate.State = dsInsert) and (DM.ProcuraRegistro('PRODUTO',['PRODICOD'],[SQLTemplate.FieldByName('PRODICOD').AsString],1)) Then

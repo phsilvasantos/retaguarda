@@ -2491,37 +2491,6 @@ begin
     end
   else
     Result := Valor;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 end;
 
 
