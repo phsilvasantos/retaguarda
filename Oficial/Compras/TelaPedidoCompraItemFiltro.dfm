@@ -1,6 +1,6 @@
 inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
-  Left = 340
-  Top = 11
+  Left = 2
+  Top = 9
   Caption = 'Assistente para Filtrar Produtos para Compra'
   ClientHeight = 690
   ClientWidth = 1350
@@ -3012,8 +3012,8 @@ inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
   end
   object zCompras: TQuery
     DatabaseName = 'DB'
-    Left = 784
-    Top = 418
+    Left = 840
+    Top = 517
     object zComprasNOCPDRECEBIMENTO: TDateTimeField
       DisplayLabel = 'D.Compra'
       FieldName = 'NOCPDRECEBIMENTO'

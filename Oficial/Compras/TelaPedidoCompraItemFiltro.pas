@@ -395,8 +395,8 @@ begin
         TblTemporariaPRODICOD.AsVariant           := zProdutos.fieldbyname('PRODICOD').AsVariant;
         TblTemporariaPRODA60DESCR.AsVariant       := zProdutos.fieldbyname('PRODA60DESCR').AsVariant;
         TblTemporariaPRODN3VLRVENDA.AsVariant     := zProdutos.fieldbyname('PRODN3VLRVENDA').AsVariant;
-        TblTemporariaPRODN3VLRCOMPRA.AsVariant    := zProdutos.fieldbyname('PRODN3VLRCOMPRA').AsVariant *
-                                                     zProdutos.fieldbyname('PRODN3CAPACEMBAL').AsVariant;
+        TblTemporariaPRODN3VLRCOMPRA.AsVariant    := zProdutos.fieldbyname('PRODN3VLRCOMPRA').AsVariant;// *
+//                                                     zProdutos.fieldbyname('PRODN3CAPACEMBAL').AsVariant;
         TblTemporariaQTDEMBAL.AsVariant           := zProdutos.fieldbyname('PRODN3CAPACEMBAL').AsVariant;
         TblTemporariaIPIPERC.AsVariant            := zProdutos.fieldbyname('PRODN3PERCIPI').AsVariant;
         TblTemporariaPRODDPREVCOMPRA.AsString     := zProdutos.fieldbyname('PRODDPREVCOMPRA').AsString;

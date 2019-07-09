@@ -199,6 +199,7 @@ type
     DBText6: TDBText;
     SQLListaVLR_DESCONTO: TFloatField;
     SQLListaVLR_FRETE: TFloatField;
+    SpeedButton2: TSpeedButton;
     procedure CalculaCusto;
     procedure BTListaAClick(Sender: TObject);
     procedure SQLListaVLRVENDA1Change(Sender: TField);

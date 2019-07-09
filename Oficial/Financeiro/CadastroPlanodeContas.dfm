@@ -1,6 +1,6 @@
 inherited FormCadastroPlanodeContas: TFormCadastroPlanodeContas
-  Left = 169
-  Top = 108
+  Left = 253
+  Top = 112
   Caption = 'Cadastro do Plano de Contas'
   OldCreateOrder = True
   PixelsPerInch = 96

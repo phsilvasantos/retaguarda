@@ -1,18 +1,18 @@
 inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
-  Left = 214
-  Top = 29
-  Width = 816
-  Height = 632
+  Left = -8
+  Top = -8
+  Width = 1382
+  Height = 744
   Caption = 'Gera'#231#227'o Arquivo SPED Fiscal'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
-    Width = 800
-    Height = 594
+    Width = 1366
+    Height = 706
     inherited PanelCentral: TPanel
-      Width = 796
-      Height = 510
+      Width = 1362
+      Height = 622
       object Label6: TLabel [0]
         Left = 10
         Top = 163
@@ -104,9 +104,22 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         Font.Style = [fsBold]
         ParentFont = False
       end
+      object Label16: TLabel [7]
+        Left = 8
+        Top = 318
+        Width = 210
+        Height = 13
+        Caption = 'Indicador de outra apura'#231#227'o de ICMS'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
       inherited PanelBarra: TPanel
         Width = 3
-        Height = 510
+        Height = 622
       end
       object GroupBox3: TGroupBox
         Left = 6
@@ -215,7 +228,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         object De: TDateEdit
           Left = 29
           Top = 19
-          Width = 92
+          Width = 91
           Height = 21
           DefaultToday = True
           Font.Charset = DEFAULT_CHARSET
@@ -226,6 +239,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
           NumGlyphs = 2
           ParentFont = False
           TabOrder = 0
+          Text = 'ql/  /    '
         end
         object Ate: TDateEdit
           Left = 158
@@ -289,7 +303,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         Left = 5
         Top = 367
         Width = 382
-        Height = 139
+        Height = 149
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Height = -11
@@ -300,7 +314,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         TabStop = True
         object Label3: TLabel
           Left = 14
-          Top = 61
+          Top = 67
           Width = 66
           Height = 13
           Caption = 'Data Movto'
@@ -313,7 +327,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         end
         object Label13: TLabel
           Left = 115
-          Top = 61
+          Top = 67
           Width = 193
           Height = 13
           Caption = 'Motivo da Apura'#231#227'o do Invent'#225'rio'
@@ -326,7 +340,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         end
         object Label14: TLabel
           Left = 15
-          Top = 101
+          Top = 107
           Width = 335
           Height = 13
           Caption = 'Codigo Conta Contabil anal'#237'tica cont'#225'bil debitada/creditada'
@@ -339,7 +353,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         end
         object DataInventario: TDateEdit
           Left = 10
-          Top = 75
+          Top = 81
           Width = 92
           Height = 22
           DefaultToday = True
@@ -354,7 +368,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         end
         object cmbMotivoInventario: TComboBox
           Left = 110
-          Top = 74
+          Top = 80
           Width = 267
           Height = 21
           Style = csDropDownList
@@ -379,7 +393,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         end
         object edtContaAnalitica: TEdit
           Left = 12
-          Top = 114
+          Top = 120
           Width = 365
           Height = 21
           TabOrder = 3
@@ -629,7 +643,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object chkItensNFe: TCheckBox
         Left = 397
-        Top = 351
+        Top = 349
         Width = 265
         Height = 17
         Caption = 'Incluir Itens das NF-e de Emiss'#227'o Pr'#243'pria'
@@ -643,7 +657,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object ChkImporta: TCheckBox
         Left = 397
-        Top = 409
+        Top = 403
         Width = 351
         Height = 17
         Caption = 'Criar Cupons Fiscais a partir de dados importados das ECFs'
@@ -657,7 +671,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object ckC400: TCheckBox
         Left = 397
-        Top = 389
+        Top = 385
         Width = 246
         Height = 17
         Caption = 'Nao Criar Cupons Fiscais e NFCe'
@@ -671,7 +685,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object ckQuestor: TCheckBox
         Left = 397
-        Top = 429
+        Top = 421
         Width = 247
         Height = 17
         Caption = 'Questor - Unidade compra=venda'
@@ -693,7 +707,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object ckDominioProdutos: TCheckBox
         Left = 397
-        Top = 448
+        Top = 439
         Width = 247
         Height = 17
         Caption = 'Gerar Dominio - Produtos.txt'
@@ -707,7 +721,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object GroupBox6: TGroupBox
         Left = 397
-        Top = 472
+        Top = 476
         Width = 180
         Height = 39
         Caption = ' Cod Empresa na Contabilidade '
@@ -722,7 +736,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       object ckC100: TCheckBox
         Left = 397
-        Top = 370
+        Top = 367
         Width = 322
         Height = 17
         Caption = 'Nao Criar C100/C170/C190 - Notas Entradas e Saidas'
@@ -762,15 +776,55 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
         ParentFont = False
         TabOrder = 16
       end
+      object ck1900: TCheckBox
+        Left = 397
+        Top = 457
+        Width = 247
+        Height = 17
+        Caption = 'Gerar Registro 1900'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 25
+      end
+      object ComboBox1: TComboBox
+        Left = 8
+        Top = 334
+        Width = 181
+        Height = 21
+        Style = csDropDownList
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ItemHeight = 13
+        ItemIndex = 0
+        ParentFont = False
+        TabOrder = 26
+        Text = '3 - Apura'#231#227'o 1'
+        Items.Strings = (
+          '3 - Apura'#231#227'o 1'
+          '4 - Apura'#231#227'o 2'
+          '5 - Apura'#231#227'o 3'
+          '6 - Apura'#231#227'o 4'
+          '7 - Apura'#231#227'o 5'
+          '8 - Apura'#231#227'o 6 '
+          ''
+          '')
+      end
     end
     inherited ScrollBoxTopo: TScrollBox
-      Width = 796
+      Width = 1362
       inherited PanelCabecalho: TPanel
-        Width = 796
+        Width = 1362
         inherited PanelNavigator: TPanel
-          Width = 796
+          Width = 1362
           inherited AdvPanelNavigator: TAdvOfficeStatusBar
-            Width = 796
+            Width = 1362
             object BtExecutar: TSpeedButton
               Tag = 3
               Left = 18
@@ -2327,5 +2381,16 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
     Macros = <>
     Left = 576
     Top = 24
+  end
+  object Mem1920: TRxMemoryData
+    FieldDefs = <>
+    Left = 736
+    Top = 336
+    object Mem1920Valor_ICMS_ST: TFloatField
+      FieldName = 'Valor_ICMS_ST'
+    end
+    object Mem1920Tipo: TStringField
+      FieldName = 'Tipo'
+    end
   end
 end

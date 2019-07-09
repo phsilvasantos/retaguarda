@@ -1,6 +1,6 @@
 object fDlgBuscarProdutosBRT: TfDlgBuscarProdutosBRT
-  Left = 125
-  Top = 109
+  Left = 132
+  Top = 125
   Width = 1158
   Height = 531
   Caption = 'Buscar Produtos Brasil Tribut'#225'rio'
@@ -486,8 +486,8 @@ object fDlgBuscarProdutosBRT: TfDlgBuscarProdutosBRT
   end
   object dsDados: TDataSource
     DataSet = cdsDados
-    Left = 608
-    Top = 32
+    Left = 600
+    Top = 24
   end
   object cxStyleRepository1: TcxStyleRepository
     PixelsPerInch = 96
@@ -500,5 +500,12 @@ object fDlgBuscarProdutosBRT: TfDlgBuscarProdutosBRT
       Font.Style = []
       TextColor = clAqua
     end
+  end
+  object FormStorage1: TFormStorage
+    StoredProps.Strings = (
+      'cmbSegmento.ItemIndex')
+    StoredValues = <>
+    Left = 688
+    Top = 48
   end
 end

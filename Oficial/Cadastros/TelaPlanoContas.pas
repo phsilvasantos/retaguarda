@@ -423,20 +423,20 @@ end;
 procedure TFormTelaPlanoContas.CodReduzidoEnter(Sender: TObject);
 begin
   inherited;
-  PanelArvore.Enabled:=False;
+//  PanelArvore.Enabled:=False;
 end;
 
 procedure TFormTelaPlanoContas.CodReduzidoExit(Sender: TObject);
 begin
   inherited;
-  If (DM.SQLPlanodeContas.State=dsEdit) OR (DM.SQLPlanodeContas.State=dsInsert) Then
-    Begin
-      DM.SQLPlanodeContas.Post;
-      PanelArvore.Enabled:=True;
-      Arvore.SetFocus;
-    end
-  Else
-    PanelArvore.Enabled:=True;
+//  If (DM.SQLPlanodeContas.State=dsEdit) OR (DM.SQLPlanodeContas.State=dsInsert) Then
+//    Begin
+//      DM.SQLPlanodeContas.Post;
+//      PanelArvore.Enabled:=True;
+//      Arvore.SetFocus;
+//    end
+//  Else
+//    PanelArvore.Enabled:=True;
 end;
 
 procedure TFormTelaPlanoContas.PopupMenu1Popup(Sender: TObject);
@@ -644,17 +644,17 @@ end;
 procedure TFormTelaPlanoContas.NomeEditExit(Sender: TObject);
 begin
   inherited;
-  if (DM.SQLPlanodeContas.State=dsEdit) OR (DM.SQLPlanodeContas.State=dsInsert) then
-    Begin
-      DM.SQLPlanodeContas.Post;
-      PanelArvore.Enabled:=True;
-      Arvore.SetFocus;
-    end
-  Else
-    Begin
-      PanelArvore.Enabled:=True;
-      Arvore.SetFocus;
-    End;
+//  if (DM.SQLPlanodeContas.State=dsEdit) OR (DM.SQLPlanodeContas.State=dsInsert) then
+//    Begin
+//      DM.SQLPlanodeContas.Post;
+//      PanelArvore.Enabled:=True;
+//      Arvore.SetFocus;
+//    end
+//  Else
+//    Begin
+//      PanelArvore.Enabled:=True;
+//      Arvore.SetFocus;
+//    End;
 end;
 
 procedure TFormTelaPlanoContas.SQLContaNewRecord(DataSet: TDataSet);
@@ -673,7 +673,18 @@ end;
 procedure TFormTelaPlanoContas.btnGravarPlanoClick(Sender: TObject);
 begin
   inherited;
-  NomeEditExit(Sender);
+  if (DM.SQLPlanodeContas.State=dsEdit) OR (DM.SQLPlanodeContas.State=dsInsert) then
+    Begin
+      DM.SQLPlanodeContas.Post;
+      PanelArvore.Enabled:=True;
+      Arvore.SetFocus;
+    end
+  Else
+    Begin
+      PanelArvore.Enabled:=True;
+      Arvore.SetFocus;
+    End;
+
 end;
 
 end.

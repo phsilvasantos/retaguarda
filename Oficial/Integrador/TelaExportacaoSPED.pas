@@ -281,6 +281,12 @@ type
     z0190UND_DESCR: TStringField;
     z0200: TRxQuery;
     ck170NFCe: TCheckBox;
+    ck1900: TCheckBox;
+    Label16: TLabel;
+    ComboBox1: TComboBox;
+    Mem1920: TRxMemoryData;
+    Mem1920Valor_ICMS_ST: TFloatField;
+    Mem1920Tipo: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure BtExecutarClick(Sender: TObject);
     function  MontaLinhaProduto4 : String;
@@ -296,10 +302,12 @@ type
     { Private declarations }
     PercDesconto : Real;
     ValorDescontoTotal : Real;
+    VlrAjusteDebito, VlrAjusteCredito, VlrEstornoDebito, VlrEstornoCredito, VlrSaldoRecolher, VlrSaldoTransportar : Real;
     Function  Registro_Bloco_Zero:Boolean;
     Function  Registro0150: Boolean;
     Function  Registro0206(Produto:String): Boolean;
     Function  Registro0220(Produto:String): Boolean;
+    Function  Registro1900: Boolean;
     Function  Registro_Bloco_B: boolean;
     Function  Registro_Bloco_C: boolean;
     Function  RegistroC100: boolean;
@@ -330,6 +338,10 @@ type
     Function  Registro_Bloco_9: boolean;
     Function  RegistroD100: Boolean;
     Function  RegistroD190: Boolean;
+    Function  Registro1920: Boolean;
+    Function  Registro1921: Boolean;
+    Function  Registro1923: Boolean;
+    Function  Registro1926: Boolean;
     Function  Inclui_0190(CodProduto : string): Boolean;
     Function  Inclui_0200(Produto : string; Selected: String): Boolean;
     Function GravaRegistros(LinhaErro : string): Boolean;
@@ -365,8 +377,7 @@ type
     nH001, nH005, nH010, nH020, nH990 : Integer;
     nK001, nK990 : Integer;
     nM001, nM100, nM200, nM210, nM600, nM610, nM990 : Integer;
-    n1001, n1010, n1100, n1105, n1300, n1310, n1320, n1350, n1360, n1370, n1990 : Integer;
-
+    n1001, n1010, n1100, n1105, n1300, n1310, n1320, n1350, n1360, n1370, n1900, n1910, n1920, n1921, n1923, n1926, n1990 : Integer;
     function SoNumeros(xText:String):String;
   end;
 
@@ -3344,10 +3355,10 @@ begin
       end;
     ProgressGeral.Position := 35;
 
-{   Não é necessario informar o participante do cupom fiscal
 
+    // Não é necessario informar o participante do cupom fiscal
     // Informa Clientes envolvidos nas operações de entrada e saida via tabela CUPOM
-    zPesquisa.Close;
+   { zPesquisa.Close;
     zPesquisa.SQL.Text := 'SELECT DISTINCT C.* FROM CUPOM N LEFT join CLIENTE C ON N.CLIEA13ID = C.CLIEA13ID WHERE (N.CUPODEMIS >= :DataInicial) AND (N.CUPODEMIS <= :DataFinal) and (N.CUPOCSTATUS = :Status)';
     zPesquisa.ParamByName('DataInicial').AsDate   := De.Date;
     zPesquisa.ParamByName('DataFinal').AsDate     := Ate.Date;
@@ -3360,24 +3371,24 @@ begin
     While not zPesquisa.EOF do
       begin
         Try
-          SQLCod_Part.Append;
-          SQLCod_PartCOD_PART.AsString      := zPesquisa.FieldByName('CLIEA13ID').AsString;
-          SQLCod_PartNOME.AsString          := zPesquisa.FieldByName('CLIEA60RAZAOSOC').AsString;
-          SQLCod_PartCOD_PAIS.AsString      := zPesquisa.FieldByName('CLIEICODPAIS').AsString;
-          SQLCod_PartCNPJ.AsString          := zPesquisa.FieldByName('CLIEA14CGC').AsString;
-          SQLCod_PartCPF.AsString           := zPesquisa.FieldByName('CLIEA11CPF').AsString;
+          z0150.Append;
+          z0150COD_PART.AsString      := zPesquisa.FieldByName('CLIEA13ID').AsString;
+          z0150NOME.AsString          := zPesquisa.FieldByName('CLIEA60RAZAOSOC').AsString;
+          z0150COD_PAIS.AsString      := zPesquisa.FieldByName('CLIEICODPAIS').AsString;
+          z0150CNPJ.AsString          := zPesquisa.FieldByName('CLIEA14CGC').AsString;
+          z0150CPF.AsString           := zPesquisa.FieldByName('CLIEA11CPF').AsString;
           // verifica se o cliente tem inscriçao de produtor
           If ((zPesquisa.FieldByName('CLIEA20IE').isnull) or (zPesquisa.FieldByName('CLIEA20IE').AsString = '')) and (zPesquisa.FieldByName('CLIEA30OUTROSDOC').AsString <> '') then
-            SQLCod_PartIE.AsString  := COPY(zPesquisa.FieldByName('CLIEA30OUTROSDOC').AsString,0,14)
+            z0150IE.AsString  := COPY(zPesquisa.FieldByName('CLIEA30OUTROSDOC').AsString,0,14)
           else
-            SQLCod_PartIE.AsString  :=  COPY(zPesquisa.FieldByName('CLIEA20IE').AsString,0,14) ;
-          SQLCod_PartCOD_MUN.AsString       := zPesquisa.FieldByName('CLIEIMUNICODFED').AsString;
-          SQLCod_PartENDERECO.AsString      := zPesquisa.FieldByName('CLIEA60ENDRES').AsString;
-          SQLCod_PartEND_NUM.AsString       := zPesquisa.FieldByName('CLIEA5NROENDRES').AsString;
-          SQLCod_PartBAIRRO.AsString        := zPesquisa.FieldByName('CLIEA60BAIRES').AsString;
-          SQLCod_PartCOD_SUFRAMA.AsString   := '';
-          SQLCod_PartCOMPLEMENTO.AsString   := '';
-          SQLCod_Part.Post;
+            z0150IE.AsString  :=  COPY(zPesquisa.FieldByName('CLIEA20IE').AsString,0,14) ;
+          z0150COD_MUN.AsString       := zPesquisa.FieldByName('CLIEIMUNICODFED').AsString;
+          z0150ENDERECO.AsString      := zPesquisa.FieldByName('CLIEA60ENDRES').AsString;
+          z0150END_NUM.AsString       := zPesquisa.FieldByName('CLIEA5NROENDRES').AsString;
+          z0150BAIRRO.AsString        := zPesquisa.FieldByName('CLIEA60BAIRES').AsString;
+          z0150COD_SUFRAMA.AsString   := '';
+          z0150COMPLEMENTO.AsString   := '';
+          z0150.Post;
         Except on E:Exception do
         begin
           Showmessage('Falha ao Criar Tabela de Participantes (Clientes Nota Fiscal):'+#13+#10+E.Message+#13+#10+'Cliente: '+zPesquisa.FieldByName('CLIEA13ID').AsString);
@@ -3388,7 +3399,7 @@ begin
         Progress.Position := Progress.Position + 1;
         Progress.Update;
       end;
-    }
+       }
 
     z0150.Close;
     z0150.Open;
@@ -3467,7 +3478,7 @@ Begin
       //Progress.Max := zPesquisa.RecordCount;
       Progress.Position := 1;
       zPesquisa.First;
-                                                            
+
       nC100 := 0;
       nC140 := 0;
       While not zPesquisa.EOF do
@@ -6497,6 +6508,15 @@ Begin
     n1300 := -1 ;
   end;
 
+  if ck1900.Checked then
+  begin
+    if Not Registro1900 Then
+      begin
+        Result := False;
+        Exit;
+      end;
+  end;
+
   n1990 := 1;
   Inc(Total_Bloco_1);
   Linha := '|1990|'     + // Encerramento do registro |1990|
@@ -6944,6 +6964,53 @@ Begin
       Inc(Total_Bloco_9);
       {-------------------------------------------------}
     End;
+    if n1900 > 0 then
+    begin
+      Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
+                '1900|'         + // Registro a ser totalizado
+                IntToStr(n1900) + '|'; // Total de linhas do registro
+        If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+        Inc(n9900);
+        Inc(Total_Bloco_9);
+
+      Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
+                '1910|'         + // Registro a ser totalizado
+                IntToStr(n1910) + '|'; // Total de linhas do registro
+        If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+        Inc(n9900);
+        Inc(Total_Bloco_9);
+
+      Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
+                '1920|'         + // Registro a ser totalizado
+                IntToStr(n1920) + '|'; // Total de linhas do registro
+        If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+        Inc(n9900);
+        Inc(Total_Bloco_9);
+
+      Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
+                '1921|'         + // Registro a ser totalizado
+                IntToStr(n1921) + '|'; // Total de linhas do registro
+        If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+        Inc(n9900);
+        Inc(Total_Bloco_9);
+
+      Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
+                '1923|'         + // Registro a ser totalizado
+                IntToStr(n1923) + '|'; // Total de linhas do registro
+        If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+        Inc(n9900);
+        Inc(Total_Bloco_9);
+
+      if n1926 > 0 then
+      begin
+        Linha :=  '|9900|'        + // Incio do registro |9900| OBRIGAÇÕES DO ICMS A RECOLHER |0|
+                  '1926|'         + // Registro a ser totalizado
+                  IntToStr(n1926) + '|'; // Total de linhas do registro
+          If Not GravaRegistros('9900') Then Begin Result := False; Exit; End;
+          Inc(n9900);
+          Inc(Total_Bloco_9);
+      end;
+    end;
 
   Linha :=  '|9900|'        + // Incio do registro |9900| e Indicador de Nota de Entrada |0|
             '1990|'         + // Registro a ser totalizado
@@ -7638,6 +7705,306 @@ begin
   End;
   Inc(nB990);
   Inc(Total_Bloco_B);
+end;
+
+function TFormTelaExportacaoSped.Registro1900: Boolean;
+begin
+  if ck1900.Checked then
+  begin
+    n1900 := 0;
+    //Registro C1900
+        EditTabela.Text := 'Criando Bloco 1'; EditTabela.Update;
+        Linha :=   '|1900|'                                                            + // 01-Registro 1900
+                   '3'                                      + '|'                      + // IND_MOV = Indicador de apuração: 3-Apuração 1,
+                   'APURACAO 1|';                                                        //                                   4-Apuração 2,
+                                                                                         //                                   5-Apuração 3,
+                                                                                         //                                   6-Apuração 4,
+                                                                                         //                                   7-Apuração 5,
+                                                                                         //                                   8-Apuração 6
+    if Not GravaRegistros('1900') Then Begin Result := False; Exit; End;
+    inc(n1900);
+    inc(Total_Bloco_1);
+
+    Linha :=  '|1910|'    + // Incio do registro |1920| SUB-APURAÇÃO ICMS
+              FormatDateTime('ddmmyyyy',De.Date)  + '|' + // Data inicial
+              FormatDateTime('ddmmyyyy',Ate.Date) + '|' ; // Data final
+
+    if Not GravaRegistros('1910') Then Begin Result := False; Exit; End;
+    inc(n1910);
+    Inc(Total_Bloco_1);
+
+    zPesquisa2.Close;
+    zPesquisa2.SQL.Clear;
+    zPesquisa2.SQL.Add('select ICMUN2ALIQUOTA from ICMSUF ');
+    zPesquisa2.SQL.Add('where ICMUA2UF = (select EMPRA2UF from EMPRESA where EMPRICOD = ' + ComboEmpresa.KeyValue + ')');
+    zPesquisa2.Open;
+
+    zPesquisa.Close;
+    zpesquisa.SQL.Clear;
+    zPesquisa.SQL.Add('select sum(NCI.NOCIN3VLRSUBST) VLR_ICM_ST,' + QuotedStr('ENT') + ' TIPO from NOTACOMPRA NC ');
+    zPesquisa.SQL.Add('inner join NOTACOMPRAITEM NCI on NC.NOCPA13ID = NCI.NOCPA13ID ');
+    zPesquisa.SQL.Add('where NC.NOCPDEMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NC.NOCPDEMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa.SQL.Add(' NOCIA3CSTICMS in (' + quotedstr('60') + ','+QuotedStr('500') + ') and');
+    zPesquisa.SQL.Add(' NC.EMPRICOD = ' + ComboEmpresa.KeyValue + 'and NCI.NOCIN2VBCST > 0');
+
+    zPesquisa.SQL.Add(' union all ');
+
+    zPesquisa.SQL.Add('select sum((NFI.NFITN3QUANT * NFI.NFITN2VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ' + QuotedStr('SAI') + ' TIPO ');
+    zPesquisa.SQL.Add('from NOTAFISCAL NF ');
+    zPesquisa.SQL.Add('inner join NOTAFISCALITEM NFI on NF.NOFIA13ID = NFI.NOFIA13ID ');
+    zPesquisa.SQL.Add('where NF.NOFIDEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NF.NOFIDEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa.SQL.Add(' NFI.NFITICST in (' + quotedstr('60') + ','+QuotedStr('500') + ') and ');
+    zPesquisa.SQL.Add('NF.EMPRICOD = ' + ComboEmpresa.KeyValue);
+
+    zPesquisa.SQL.Add(' union all ');
+
+    zPesquisa.SQL.Add('select sum((CFI.CPITN3QTD * CFI.CPITN3VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ' + QuotedStr('SAI') + ' TIPO ');
+    zPesquisa.SQL.Add('from CUPOM CF ');
+    zPesquisa.SQL.Add('inner join CUPOMITEM CFI on CF.CUPOA13ID = CFI.CUPOA13ID ');
+    zPesquisa.SQL.Add('inner join PRODUTO P on CFI.PRODICOD = P.PRODICOD ');
+    zPesquisa.SQL.Add('where CF.CUPODEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'CF.CUPODEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa.SQL.Add('P.PRODISITTRIB in (' + QuotedStr('60') + ', ' + QuotedStr('500') + ') and');
+    zPesquisa.SQL.Add(' CF.EMPRICOD = ' + ComboEmpresa.KeyValue);
+    zPesquisa.Open;
+
+    EditTabela.Text := 'Criando - BLOCO 1920 - PERÍODO SUB-APURAÇÃO ICMS'; EditTabela.Update;
+    if Not Registro1920 then
+    begin
+      Result := False;
+      Exit;
+    end;
+    Result := True;
+  end;
+end;
+
+function TFormTelaExportacaoSped.Registro1920: Boolean;
+begin
+  Result := False;
+  VlrAjusteDebito := 0;
+  VlrAjusteCredito := 0;
+  VlrEstornoDebito := 0;
+  VlrEstornoCredito := 0;
+  VlrSaldoRecolher := 0;
+  VlrSaldoTransportar := 0;
+
+  if not zPesquisa.IsEmpty then
+  begin
+    EditTabela.Text := 'Criando Bloco 1'; EditTabela.Update;
+    Progress.position := 0;
+    Progress.Max := zPesquisa.RecordCount;
+    Progress.Update;
+    Mem1920.Open;
+    while not zPesquisa.eof do
+    begin
+      if zPesquisa.fieldbyname('VLR_ICM_ST').Value > 0 then
+      begin
+        if zPesquisa.fieldbyname('TIPO').Value = 'ENT' then
+          VlrAjusteCredito := zPesquisa.fieldbyname('VLR_ICM_ST').Value
+        else
+          VlrAjusteDebito := VlrAjusteDebito + zPesquisa.fieldbyname('VLR_ICM_ST').Value;
+      end;
+      if Mem1920.Locate('Tipo',zPesquisa.fieldbyname('TIPO').Value,[loCaseInsensitive]) then
+        Mem1920.Edit
+      else
+        Mem1920.Append;
+      Mem1920Tipo.Value := zPesquisa.fieldbyname('TIPO').Value;
+      Mem1920Valor_ICMS_ST.Value := Mem1920Valor_ICMS_ST.Value + zPesquisa.fieldbyname('VLR_ICM_ST').Value;
+      Mem1920.Post;
+      Result := True;
+      zPesquisa.Next;
+    end;
+  end;
+  if VlrAjusteDebito > VlrAjusteCredito then
+    VlrSaldoRecolher := VlrAjusteDebito - VlrAjusteCredito;
+  if VlrAjusteDebito < VlrAjusteCredito then
+    VlrSaldoTransportar := VlrAjusteCredito - VlrAjusteDebito;
+  try
+    Linha :=  '|1920|'    + // Incio do registro |1920| PERÍODO SUB-APURAÇÃO ICMS
+           '0|' +       // Valor Transferencia do Imposto;
+           FormatFloat('0.00',VlrAjusteDebito)                    + '|' +       // Valor total de Ajustes a débito;
+           '0|'                                                   +             // Valor total de Estorno de Crédito;
+           '0|'                                                   +             // Valor total por Entrada e aquisição com crédito do imposto;
+           FormatFloat('0.00',VlrAjusteCredito)                   + '|' +       // Valor total de Ajuste de Credito;
+           '0|'                                                   +             // Valor total de Estorno de Débitos;
+           '0|'                                                   +             // Valor total de Saldo credot do período anterior;
+           FormatFloat('0.00',VlrSaldoRecolher)                   + '|' +       // Valor total do saldo apurado;
+           '0|'                                                   +             // Valor total de Deduções;
+           FormatFloat('0.00',VlrSaldoRecolher)                   + '|' +       // Valor total de ICMS a Recolher;
+           FormatFloat('0.00',VlrSaldoTransportar)                + '|' +       // Valor total de Saldo Credor a transportar para o período seguinte;
+           '0|';                                                                // Valores recolhidos ou a recolher, extra apuração;
+    EditTabela.Text := 'Criando Registro 1920'; EditTabela.Update;
+    if Not GravaRegistros('1920') Then Begin Result := False; Exit; End;
+    inc(n1920);
+    Inc(Total_Bloco_1);
+  except on E:Exception do
+    begin
+      Showmessage('Falha ao gerar Linha para SubApuração do ICMS: ' + zPesquisa.FieldByName('TIPO').AsString + ' Erro: ' + e.Message);
+    end;
+  end;
+  if Not Registro1921 then
+  begin
+    Result := False;
+    Exit;
+  end;
+
+  if VlrSaldoRecolher > 0 then
+  begin
+    if Not Registro1926 then
+    begin
+      Result := False;
+      Exit;
+    end;
+  end;
+
+  Result := True;
+
+end;
+
+function TFormTelaExportacaoSped.Registro1921: Boolean;
+var
+  vCodigoSubApuracao : string;
+  vDescricaoSubApuracao : String;
+begin
+  Mem1920.First;
+  while not Mem1920.Eof do
+  begin
+    if Mem1920Tipo.Value = 'ENT' then
+    begin
+      vCodigoSubApuracao := 'RS021921';
+      vDescricaoSubApuracao := 'CRÉDITOS ICMS ST POR ENTRADAS';
+    end
+    else
+    begin
+      vDescricaoSubApuracao := 'DÉBITO ICMS ST';
+      vCodigoSubApuracao := 'RS001921';
+    end;
+    try
+      Linha :=  '|1921|'    + // Incio do registro |1921| AJUSTE BENEFICIO/INCENTIVO DA SUB-APURAÇÃO DO ICMS
+                 vCodigoSubApuracao + '|'+ // Código de ajuste de Sub-Apuração e dedução conforme a Tabela indicada no item 5.1.1;
+                 vDescricaoSubApuracao + '|' +       // Descrição complementar do ajuste de apuração;
+                 FormatFloat('0.00',Mem1920Valor_ICMS_ST.Value) + '|';        // Valor do ajuste de apuração;
+      If Not GravaRegistros('1921') Then Begin Result := False; Exit; End;
+      inc(n1921);
+      Inc(Total_Bloco_1);
+      EditTabela.Text := 'Criando - BLOCO 1921 - AJUSTE BENEFICIO/INCENTIVO DA SUB-APURAÇÃO DO ICMS'; EditTabela.Update;
+
+      if Not Registro1923 then
+      begin
+        Result := False;
+        Exit;
+      end;
+
+    except on E:Exception do
+      begin
+        Showmessage('Falha ao gerar Linha para SubApuração do ICMS: ' + zPesquisa.FieldByName('TIPO').AsString + ' Erro: ' + E.Message);
+      end;
+    end;
+    Mem1920.Next;
+  end;
+  Result := True;
+
+end;
+
+function TFormTelaExportacaoSped.Registro1923: Boolean;
+begin
+  zPesquisa1.Close;
+  zPesquisa1.SQL.Clear;
+  if Mem1920Tipo.Value = 'ENT' then
+  begin
+    zPesquisa1.SQL.Add('SELECT NC.NOFIA44CHAVEACESSO CHAVEACESSO, NC.NOCPA30NRO NUMERONOTA, ' + QuotedStr('55') + ' MODELO, ') ;
+    zPesquisa1.SQL.Add('NCI.NOCIN3VLRSUBST VLR_ICM_ST, NCI.NOCIN2VBCST, NCI.PRODICOD, NC.NOCPDEMISSAO DATAEMISSAO, ');
+    zPesquisa1.SQL.Add('NC.NOCPA5SERIE SERIE, NC.NOCPA30NRO, NC.FORNICOD CLIFOR from NOTACOMPRA NC ');
+    zPesquisa1.SQL.Add('inner join NOTACOMPRAITEM NCI on NC.NOCPA13ID = NCI.NOCPA13ID ');
+    zPesquisa1.SQL.Add('where NC.NOCPDEMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NC.NOCPDEMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa1.SQL.Add(' NOCIA3CSTICMS in (' + quotedstr('60') + ','+QuotedStr('500') + ') and');
+    zPesquisa1.SQL.Add(' NC.EMPRICOD = ' + ComboEmpresa.KeyValue + 'and NCI.NOCIN2VBCST > 0 AND');
+    zPesquisa1.SQL.Add(' NC.nocpcstatus = ''E''');
+  end
+  else
+  begin
+    zPesquisa1.SQL.Add('select  NF.NOFIA44CHAVEACESSO CHAVEACESSO, NF.NOFIINUMERO NUMERONOTA, ' + QuotedStr('55') + ' MODELO, ');
+    zPesquisa1.SQL.Add('sum((NFI.NFITN3QUANT * NFI.NFITN2VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ');
+    zPesquisa1.SQL.Add('NFI.PRODICOD, NF.NOFIDEMIS DATAEMISSAO, NF.SERIA5COD SERIE, NF.CLIEA13ID CLIFOR from NOTAFISCAL NF ');
+    zPesquisa1.SQL.Add('inner join NOTAFISCALITEM NFI on NF.NOFIA13ID = NFI.NOFIA13ID ');
+    zPesquisa1.SQL.Add('where NF.NOFIDEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NF.NOFIDEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa1.SQL.Add(' NFI.NFITICST in (' + quotedstr('60') + ','+QuotedStr('500') + ') and ');
+    zPesquisa1.SQL.Add('NF.EMPRICOD = ' + ComboEmpresa.KeyValue + ' AND ');
+    ZPesquisa1.SQL.Add('NF.NOFICSTATUS = ''E''');
+    zPesquisa1.SQL.Add(' GROUP BY NF.NOFIA44CHAVEACESSO, NF.NOFIINUMERO, NFI.PRODICOD , NF.NOFIDEMIS,NF.SERIA5COD, NF.CLIEA13ID');
+    zPesquisa1.SQL.Add(' union all ');
+    zPesquisa1.SQL.Add('select CF.CHAVEACESSO CHAVEACESSO, CF.CUPOINRO NUMERONOTA, ' + QuotedStr('65') + ' MODELO, ' );
+    zPesquisa1.SQL.Add('sum((CFI.CPITN3QTD * CFI.CPITN3VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ');
+    zPesquisa1.SQL.Add(''''' PRODICOD, CF.CUPODEMIS DATAEMISSAO, CF.TERMICOD SERIE, '''' CLIFOR from CUPOM CF ');
+    zPesquisa1.SQL.Add('inner join CUPOMITEM CFI on CF.CUPOA13ID = CFI.CUPOA13ID ');
+    zPesquisa1.SQL.Add('inner join PRODUTO P on CFI.PRODICOD = P.PRODICOD ');
+    zPesquisa1.SQL.Add('where CF.CUPODEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'CF.CUPODEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa1.SQL.Add('P.PRODISITTRIB in (' + QuotedStr('60') + ', ' + QuotedStr('500') + ') and');
+    zPesquisa1.SQL.Add(' CF.EMPRICOD = ' + ComboEmpresa.KeyValue + ' AND ');
+    zPesquisa1.SQL.Add('(CF.CUPOCSTATUS = ''A'' or CF.CUPOCSTATUS = ''C'') AND CF.CHAVEACESSO is not null');
+    zPesquisa1.SQL.Add(' GROUP BY CF.CHAVEACESSO, CF.CUPOINRO, CFI.PRODICOD, CF.CUPODEMIS, CF.TERMICOD, CF.CLIEA13ID');
+  end;
+  zPesquisa1.Open;
+  zPesquisa1.First;
+  while not zPesquisa1.Eof do
+  begin
+    vDataDocumento := FormatDateTime('ddmmyyyy',zPesquisa1.FieldByName('DATAEMISSAO').AsDateTime);
+    if Mem1920Tipo.Value = 'ENT' then
+      vCodParticipante := DM.SQLLocate('SPED_0150','COD_FORN','COD_PART', zPesquisa1.FieldByName('CLIFOR').AsString)
+    else
+      vCodParticipante := zPesquisa1.FieldByName('CLIFOR').AsString;
+    try
+      Linha :=  '|1923|'                                                           +         // Incio do registro |1923| informações adicionais dos ajustes da Sub-Apuração do ICMS - Identificação dos documentos fiscais
+                 vCodParticipante                                                  + '|' +   // codigo do participante
+                 zPesquisa1.FieldByName('MODELO').AsString                         + '|' +   // código do modelo
+                 Trim(zPesquisa1.FieldByName('SERIE').AsString)                    + '|' +   // serie do documento fiscal
+                                                                                     '|' +   // subserie do documento fiscal
+                 zPesquisa1.FieldByName('NUMERONOTA').AsString                     + '|' +   // numero do documento fiscal
+                 vDataDocumento                                                    + '|' +   // data de emissão do documento fiscal
+                 zPesquisa1.FieldByName('PRODICOD').AsString                       + '|' +   // código do item (campo 02 do registro 0200)
+                 FormatFloat('0.00',zPesquisa1.FieldByName('VLR_ICM_ST').AsFloat)  + '|' +   // valor do ajuste para operação/item
+                 zPesquisa1.FieldByName('CHAVEACESSO').AsString                    + '|' ;   // chave do documento eletrônico
+
+      EditTabela.Text := 'Criando - BLOCO 1923 - INFORMAÇÕES ADICIONAIS DOS AJUSTES'; EditTabela.Update;
+      If Not GravaRegistros('1923') Then Begin Result := False; Exit; End;
+      inc(n1923);
+      Inc(Total_Bloco_1);
+
+    except on E:Exception do
+      begin
+        Showmessage('Falha ao gerar Linha para SubApuração do ICMS: ' + zPesquisa.FieldByName('TIPO').AsString + ' Erro: ' + e.Message);
+      end;
+    end;
+    zPesquisa1.Next;
+  end;
+  Result := True;
+end;
+
+function TFormTelaExportacaoSped.Registro1926: Boolean;
+begin
+  try
+    Linha :=  '|1926|'                                                           +         // Incio do registro |1926|
+               '000'                                                             + '|' +   // Código da obrigação a recolher, conforme a Tabela 5.4
+               FormatFloat('0.00',VlrSaldoRecolher)                              + '|' +   // código do modelo
+               Trim(zPesquisa1.FieldByName('SERIE').AsString)                    + '|' +   // serie do documento fiscal
+                                                                                   '|' +   // subserie do documento fiscal
+               zPesquisa1.FieldByName('NUMERONOTA').AsString                     + '|' +   // numero do documento fiscal
+               vDataDocumento                                                    + '|' +   // data de emissão do documento fiscal
+               zPesquisa1.FieldByName('PRODICOD').AsString                       + '|' +   // código do item (campo 02 do registro 0200)
+               FormatFloat('0.00',zPesquisa1.FieldByName('VLR_ICM_ST').AsFloat)  + '|' +   // valor do ajuste para operação/item
+               zPesquisa1.FieldByName('CHAVEACESSO').AsString                    + '|' ;   // chave do documento eletrônico
+
+    EditTabela.Text := 'Criando - BLOCO 1926 - OBRIGAÇÕES DO ICMS A RECOLHER'; EditTabela.Update;
+    If Not GravaRegistros('1926') Then Begin Result := False; Exit; End;
+    inc(n1926);
+    Inc(Total_Bloco_1);
+
+  except on E:Exception do
+    begin
+      Showmessage('Falha ao gerar Linha para SubApuração do ICMS: ' + zPesquisa.FieldByName('TIPO').AsString + ' Erro: ' + e.Message);
+    end;
+  end;
+  Result := True;
+
 end;
 
 end.

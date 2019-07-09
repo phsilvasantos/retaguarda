@@ -24,19 +24,6 @@ type
     SQLProdutoPRODDFIMPROMO: TDateTimeField;
     SQLProdutoPRODN3VLRVENDAPROM: TFloatField;
     SQLProdutoPSLDN3QTDE: TFloatField;
-    TblTemporariaGRUPICOD: TIntegerField;
-    TblTemporariaGRUPA60DESCR: TStringField;
-    TblTemporariaSUBGICOD: TIntegerField;
-    TblTemporariaSUBGA60DESCR: TStringField;
-    TblTemporariaPRODICOD: TIntegerField;
-    TblTemporariaPRODA60DESCR: TStringField;
-    TblTemporariaPRODA60CODBAR: TStringField;
-    TblTemporariaPRODA60REFER: TStringField;
-    TblTemporariaPRODN3VLRVENDA: TFloatField;
-    TblTemporariaPRODDINIPROMO: TDateTimeField;
-    TblTemporariaPRODDFIMPROMO: TDateTimeField;
-    TblTemporariaPRODN3VLRVENDAPROM: TFloatField;
-    TblTemporariaPSLDN3QTDE: TFloatField;
     DSSQLSubGrupo: TDataSource;
     SQLSubGrupo: TRxQuery;
     SQLSubGrupoSUBGICOD: TIntegerField;
@@ -51,12 +38,25 @@ type
     ComboSubgrupo: TRxDBLookupCombo;
     Report: TCrpe;
     SQLProdutoEMPRA60RAZAOSOC: TStringField;
-    TblTemporariaEMPRA60RAZAOSOC: TStringField;
     GroupBoxPromocao: TGroupBox;
     Label5: TLabel;
     DtaInicio: TDateEdit;
     DtaFim: TDateEdit;
     Label6: TLabel;
+    TblTemporariaGRUPICOD: TIntegerField;
+    TblTemporariaGRUPA60DESCR: TStringField;
+    TblTemporariaSUBGICOD: TIntegerField;
+    TblTemporariaSUBGA60DESCR: TStringField;
+    TblTemporariaPRODICOD: TIntegerField;
+    TblTemporariaPRODA60DESCR: TStringField;
+    TblTemporariaPRODA60CODBAR: TStringField;
+    TblTemporariaPRODA60REFER: TStringField;
+    TblTemporariaPRODN3VLRVENDA: TBCDField;
+    TblTemporariaPRODDINIPROMO: TDateTimeField;
+    TblTemporariaPRODDFIMPROMO: TDateTimeField;
+    TblTemporariaPRODN3VLRVENDAPROM: TBCDField;
+    TblTemporariaPSLDN3QTDE: TBCDField;
+    TblTemporariaEMPRA60RAZAOSOC: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure ExecutarBtnClick(Sender: TObject);
   private
@@ -108,8 +108,10 @@ begin
   SQLProduto.Open;
   if not SQLProduto.IsEmpty then
     begin
-      BatchExec(SQLProduto,TblTemporaria);
       TblTemporaria.Close;
+      TblTemporaria.Open;
+      CopyQueryTable(SQLProduto, TblTemporaria);
+//      BatchExec(SQLProduto,TblTemporaria);
       Report.ReportName        := DM.SQLConfigGeralCFGEA255PATHREPORT.AsString + '\Produtos em Promocao.rpt';
       Report.ReportTitle       := 'Relatório de Produtos em Promoção';
       Report.WindowStyle.Title := 'Relatório de Produtos em Promoção';

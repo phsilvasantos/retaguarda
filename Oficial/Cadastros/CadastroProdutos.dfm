@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 137
-  Top = 16
+  Left = 79
+  Top = 10
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -868,7 +868,6 @@ inherited FormCadastroProduto: TFormCadastroProduto
           BorderStyle = bsNone
           Color = clWhite
           DataSource = DSSQLProdutoSaldo
-          Enabled = False
           FixedColor = 13225421
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -2266,7 +2265,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                 Top = 296
                 Width = 754
                 Height = 168
-                ActivePage = TabSheet2
+                ActivePage = TabSheet1
                 TabOrder = 15
                 object TabSheet1: TTabSheet
                   Caption = 'Tributa'#231#227'o ICMS'

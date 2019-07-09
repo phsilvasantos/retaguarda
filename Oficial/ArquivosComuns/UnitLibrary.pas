@@ -153,6 +153,7 @@ var
     FoneClienteRec: string;
   NroUltItem: Integer;
   DataAtualizacaoEstoque, DataNotaCompra: TDateTime;
+  EanBRT, NomeBRT, NcmBRT : String;
 
 procedure Informa(Texto: string);
 function RetornarNomeComputador: string;

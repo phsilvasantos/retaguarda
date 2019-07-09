@@ -1302,7 +1302,13 @@ begin
   ComboSitTrib.Values.Add('500');
   ComboSitTrib.Values.Add('900');
 
-  MnuBuscarProdutosBrasilTributrio.Visible := SQLLocate('EMPRESA', 'EMPRICOD', 'BUSCAR_PRODUTO_BRT', IntToStr(EmpresaCorrente)) = 'S';
+  if SQLLocate('EMPRESA', 'EMPRICOD', 'BUSCAR_PRODUTO_BRT', IntToStr(EmpresaCorrente)) = 'S' then
+  begin
+    MnuBuscarProdutosBrasilTributrio.Visible := True;
+    DBGridLista.Hint := 'Botão direito do mouse para consultar Brasil Tributário';
+    DBGridLista.ShowHint := True;
+  end;
+
 end;
 
 procedure TFormCadastroProduto.RxComboComissaoChange(Sender: TObject);
@@ -1651,19 +1657,19 @@ begin
   // CONSISTENCIAS DE GRADE
   if (SQLTemplateGRADICOD.AsVariant <> Null) and (SQLTemplateGRTMICOD.AsVariant = Null) then
   begin
-    Informa('Vocï¿½ informou uma GRADE mas Não selecionou nenhum TAMANHO, por favor verifique!');
+    Informa('Você informou uma GRADE mas Não selecionou nenhum TAMANHO, por favor verifique!');
     ComboTamanho.SetFocus;
     Abort;
   end;
   if (SQLTemplateGRTMICOD.AsVariant <> Null) and (SQLTemplateGRADICOD.AsVariant = Null) then
   begin
-    Informa('Vocï¿½ informou um TAMANHO mas Não selecionou nenhuma GRADE, por favor verifique!');
+    Informa('Você informou um TAMANHO mas Não selecionou nenhuma GRADE, por favor verifique!');
     ComboGrade.SetFocus;
     Abort;
   end;
   if (SQLTemplateGRTMICOD.AsVariant <> Null) and (SQLTemplateCORICOD.AsVariant = Null) then
   begin
-    Informa('Vocï¿½ informou uma GRADE mas Não selecionou nenhuma COR, por favor verifique!');
+    Informa('Você informou uma GRADE mas Não selecionou nenhuma COR, por favor verifique!');
     ComboGrade.SetFocus;
     Abort;
   end;
@@ -1948,6 +1954,7 @@ begin
         dm.SQLTemplate.sql.Add(', PRODN3PERCMARGLUC2 = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3PERCMARGLUC2').Value));
       if (SQLTemplate.FindField('PRODN3VLRVENDA2').Value > 0) and (not FileExists('NaoAlteraPrecoVendaNaGrade.txt')) then
         dm.SQLTemplate.sql.Add(', PRODN3VLRVENDA2 = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3VLRVENDA2').Value));
+
       if ValorCompra > 0 then
         dm.SQLTemplate.sql.Add(', PRODN3VLRCOMPRA = ' + ConvFloatToStr(ValorCompra));
       if ValorCusto > 0 then
@@ -1981,6 +1988,13 @@ begin
         dm.SQLTemplate.sql.Add(', PRODA2TIPOITEM = ''' + SQLTemplate.FindField('PRODA2TIPOITEM').AsString + '''');
       if SQLTemplate.FindField('NCMICOD').AsString <> '' then
         dm.SQLTemplate.sql.Add(', NCMICOD = ' + SQLTemplate.FindField('NCMICOD').AsString);
+
+      if SQLTemplate.FindField('PRODDINIPROMO').AsDateTime > 10 then
+        dm.SQLTemplate.sql.Add(', PRODDINIPROMO = ''' + FormatDateTime('mm/dd/yyyy', SQLTemplate.FindField('PRODDINIPROMO').AsDateTime) + '''');
+      if SQLTemplate.FindField('PRODDFIMPROMO').AsDateTime > 10 then
+        dm.SQLTemplate.sql.Add(', PRODDFIMPROMO = ''' + FormatDateTime('mm/dd/yyyy', SQLTemplate.FindField('PRODDFIMPROMO').AsDateTime) + '''');
+      if SQLTemplate.FindField('PRODN3VLRVENDAPROM').AsFloat > 0 then
+        dm.SQLTemplate.sql.Add(', PRODN3VLRVENDAPROM = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3VLRVENDAPROM').Value));
 
       dm.SQLTemplate.sql.Add(', PRODN3CAPACEMBAL = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3CAPACEMBAL').Value));
       dm.SQLTemplate.sql.Add(', PRODN2PERCIPIENTRADA = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN2PERCIPIENTRADA').Value));
@@ -4859,6 +4873,11 @@ var
   end;
 
 begin
+  NcmBRT := '';
+  if SQLLocate('NCM','NCMICOD','NCMA30CODIGO', SQLTemplateNCMICOD.AsString) <> '' then
+    NcmBRT := SQLLocate('NCM','NCMICOD','NCMA30CODIGO', SQLTemplateNCMICOD.AsString);
+  NomeBRT := SQLTemplatePRODA60DESCR.AsString;
+  EanBRT := SQLTemplatePRODA60CODBAR.AsString;
   cds := TfDlgBuscarProdutosBRT.BuscarDadosBRT;
   if cds <> nil then
   begin
@@ -4891,7 +4910,7 @@ begin
       end;
 
       SQLTemplate.FieldByName('NCMICOD').AsString := SQLLocate('NCM', 'NCMA30CODIGO', 'NCMICOD', cds.fieldbyname('Ncm').AsString);
-      SQLTemplate.FieldByName('ICMSICOD').AsString := SQLLocate('ICMS', 'ICMSN2ALIQUOTA', 'ICMSICOD', cds.fieldbyname('ALIQUOTA_ICMS').AsString);
+      SQLTemplate.FieldByName('ICMSICOD').AsString := SQLLocate('ICMS', 'ICMSN2ALIQUOTA', 'ICMSICOD', cds.fieldbyname('ALIQUOTA_ICMS_VAREJO').AsString);
       //  ORIGEM = WEBSERVICE //  DESTINO = SISTEMA
       AtualizaCampo('EAN', 'PRODA60CODBAR');
 //      AtualizaCampo('NCM',  'NCMICOD');
@@ -4903,6 +4922,7 @@ begin
       AtualizaCampo('CST_COFINS', 'PRODA2CSTCOFINS');
       AtualizaCampo('ALIQUOTA_PIS_PRESUMIDO', 'PRODN2ALIQPIS');
       AtualizaCampo('ALIQUOTA_COFINS_PRESUMIDO', 'PRODN2ALIQCOFINS');
+      AtualizaCampo('BASE_ICMS_VAREJO', 'PERC_REDUCAO_BASE_CALCULO');
     end;
   end;
 end;

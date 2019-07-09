@@ -8,7 +8,15 @@ uses
   DBClient, cxStyles, cxCustomData, cxGraphics, cxFilter, cxData,
   cxDataStorage, cxEdit, cxDBData, cxGridLevel, cxClasses, cxControls,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, cxButtonEdit;
+  cxGridDBTableView, cxGrid, cxButtonEdit, dxSkinsCore, dxSkinBlack,
+  dxSkinBlue, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide,
+  dxSkinFoggy, dxSkinGlassOceans, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green,
+  dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinPumpkin, dxSkinSeven,
+  dxSkinSharp, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinsDefaultPainters, dxSkinValentine,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter, Placemnt;
 
 type
   TfDlgBuscarProdutosBRT = class(TForm)
@@ -115,6 +123,7 @@ type
     cxGrid1DBTableView1ColumnPRODICOD: TcxGridDBColumn;
     cxStyleRepository1: TcxStyleRepository;
     cxStyle1: TcxStyle;
+    FormStorage1: TFormStorage;
     procedure Button1Click(Sender: TObject);
     procedure cxGrid1DBTableView1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -253,6 +262,9 @@ end;
 procedure TfDlgBuscarProdutosBRT.FormShow(Sender: TObject);
 begin
   ItemSelecionado := False;
+  edtEAN.Text := EanBRT;
+  edtNCM.Text := NcmBRT;
+  edtNome.Text := NomeBRT;
 end;
 
 end.
