@@ -7741,30 +7741,12 @@ begin
 
     zPesquisa.Close;
     zpesquisa.SQL.Clear;
-    zPesquisa.SQL.Add('select sum(NCI.NOCIN3VLRSUBST) VLR_ICM_ST,' + QuotedStr('ENT') + ' TIPO from NOTACOMPRA NC ');
-    zPesquisa.SQL.Add('inner join NOTACOMPRAITEM NCI on NC.NOCPA13ID = NCI.NOCPA13ID ');
-    zPesquisa.SQL.Add('where NC.NOCPDEMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NC.NOCPDEMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa.SQL.Add(' NOCIA3CSTICMS in (' + quotedstr('60') + ','+QuotedStr('500') + ') and');
-    zPesquisa.SQL.Add(' NC.EMPRICOD = ' + ComboEmpresa.KeyValue + 'and NCI.NOCIN2VBCST > 0');
-
-    zPesquisa.SQL.Add(' union all ');
-
-    zPesquisa.SQL.Add('select sum((NFI.NFITN3QUANT * NFI.NFITN2VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ' + QuotedStr('SAI') + ' TIPO ');
-    zPesquisa.SQL.Add('from NOTAFISCAL NF ');
-    zPesquisa.SQL.Add('inner join NOTAFISCALITEM NFI on NF.NOFIA13ID = NFI.NOFIA13ID ');
-    zPesquisa.SQL.Add('where NF.NOFIDEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NF.NOFIDEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa.SQL.Add(' NFI.NFITICST in (' + quotedstr('60') + ','+QuotedStr('500') + ') and ');
-    zPesquisa.SQL.Add('NF.EMPRICOD = ' + ComboEmpresa.KeyValue);
-
-    zPesquisa.SQL.Add(' union all ');
-
-    zPesquisa.SQL.Add('select sum((CFI.CPITN3QTD * CFI.CPITN3VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ' + QuotedStr('SAI') + ' TIPO ');
-    zPesquisa.SQL.Add('from CUPOM CF ');
-    zPesquisa.SQL.Add('inner join CUPOMITEM CFI on CF.CUPOA13ID = CFI.CUPOA13ID ');
-    zPesquisa.SQL.Add('inner join PRODUTO P on CFI.PRODICOD = P.PRODICOD ');
-    zPesquisa.SQL.Add('where CF.CUPODEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'CF.CUPODEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa.SQL.Add('P.PRODISITTRIB in (' + QuotedStr('60') + ', ' + QuotedStr('500') + ') and');
-    zPesquisa.SQL.Add(' CF.EMPRICOD = ' + ComboEmpresa.KeyValue);
+    zpesquisa.SQL.Add('select SUM(SP.VLR_ICMS_ST * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICMS_ST, SUM(SP.VLR_ICMS) VLR_ICMS, SP.TIPO TIPO ');
+    zpesquisa.SQL.Add('from SPED_1900 SP ');
+    zPesquisa.SQL.Add('where SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa.SQL.Add(' SP.CST in (' + quotedstr('60') + ','+QuotedStr('500') + ',' +QuotedStr('20') + ', ' +QuotedStr('0') + ') and');
+    zPesquisa.SQL.Add(' SP.EMPRESA = ' + ComboEmpresa.KeyValue);
+    zPesquisa.SQL.Add(' GROUP BY TIPO');
     zPesquisa.Open;
 
     EditTabela.Text := 'Criando - BLOCO 1920 - PERÍODO SUB-APURAÇÃO ICMS'; EditTabela.Update;
@@ -7796,19 +7778,19 @@ begin
     Mem1920.Open;
     while not zPesquisa.eof do
     begin
-      if zPesquisa.fieldbyname('VLR_ICM_ST').Value > 0 then
+      if zPesquisa.fieldbyname('VLR_ICMS_ST').Value > 0 then
       begin
-        if zPesquisa.fieldbyname('TIPO').Value = 'ENT' then
-          VlrAjusteCredito := zPesquisa.fieldbyname('VLR_ICM_ST').Value
+        if zPesquisa.fieldbyname('TIPO').Value = 'NFE' then
+          VlrAjusteCredito := zPesquisa.fieldbyname('VLR_ICMS_ST').Value + zPesquisa.fieldbyname('VLR_ICMS').Value
         else
-          VlrAjusteDebito := VlrAjusteDebito + zPesquisa.fieldbyname('VLR_ICM_ST').Value;
+          VlrAjusteDebito := VlrAjusteDebito + zPesquisa.fieldbyname('VLR_ICMS_ST').Value + zPesquisa.fieldbyname('VLR_ICMS').Value;
       end;
       if Mem1920.Locate('Tipo',zPesquisa.fieldbyname('TIPO').Value,[loCaseInsensitive]) then
         Mem1920.Edit
       else
         Mem1920.Append;
       Mem1920Tipo.Value := zPesquisa.fieldbyname('TIPO').Value;
-      Mem1920Valor_ICMS_ST.Value := Mem1920Valor_ICMS_ST.Value + zPesquisa.fieldbyname('VLR_ICM_ST').Value;
+      Mem1920Valor_ICMS_ST.Value := Mem1920Valor_ICMS_ST.Value + zPesquisa.fieldbyname('VLR_ICMS_ST').Value + zPesquisa.fieldbyname('VLR_ICMS').Value;
       Mem1920.Post;
       Result := True;
       zPesquisa.Next;
@@ -7868,7 +7850,7 @@ begin
   Mem1920.First;
   while not Mem1920.Eof do
   begin
-    if Mem1920Tipo.Value = 'ENT' then
+    if Mem1920Tipo.Value = 'NFE' then
     begin
       vCodigoSubApuracao := 'RS021921';
       vDescricaoSubApuracao := 'CRÉDITOS ICMS ST POR ENTRADAS';
@@ -7906,49 +7888,45 @@ begin
 end;
 
 function TFormTelaExportacaoSped.Registro1923: Boolean;
+var
+  vValor_ICMS : Real;
 begin
   zPesquisa1.Close;
   zPesquisa1.SQL.Clear;
-  if Mem1920Tipo.Value = 'ENT' then
+
+
+  if Mem1920Tipo.Value = 'NFE' then
   begin
-    zPesquisa1.SQL.Add('SELECT NC.NOFIA44CHAVEACESSO CHAVEACESSO, NC.NOCPA30NRO NUMERONOTA, ' + QuotedStr('55') + ' MODELO, ') ;
-    zPesquisa1.SQL.Add('NCI.NOCIN3VLRSUBST VLR_ICM_ST, NCI.NOCIN2VBCST, NCI.PRODICOD, NC.NOCPDEMISSAO DATAEMISSAO, ');
-    zPesquisa1.SQL.Add('NC.NOCPA5SERIE SERIE, NC.NOCPA30NRO, NC.FORNICOD CLIFOR from NOTACOMPRA NC ');
-    zPesquisa1.SQL.Add('inner join NOTACOMPRAITEM NCI on NC.NOCPA13ID = NCI.NOCPA13ID ');
-    zPesquisa1.SQL.Add('where NC.NOCPDEMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NC.NOCPDEMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa1.SQL.Add(' NOCIA3CSTICMS in (' + quotedstr('60') + ','+QuotedStr('500') + ') and');
-    zPesquisa1.SQL.Add(' NC.EMPRICOD = ' + ComboEmpresa.KeyValue + 'and NCI.NOCIN2VBCST > 0 AND');
-    zPesquisa1.SQL.Add(' NC.nocpcstatus = ''E''');
+    zPesquisa1.SQL.Add('select SP.CHAVEACESSO, SP.NRO_NOTA NUMERONOTA, SP.MODELO MODELO, SP.VLR_ICMS_ST VLR_ICMS_ST, SP.VLR_ICMS VLR_ICMS, ');
+    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR ');
+    zPesquisa1.SQL.Add('from SPED_1900 SP ');
+    zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
+    zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ',' + QuotedStr('500')+ ', ' + QuotedStr('20') + ', ' + QuotedStr('0') +  ') and ');
+    zPesquisa1.SQL.Add('SP.EMPRESA = ' + ComboEmpresa.KeyValue + ' AND ');
+    zPesquisa1.SQL.Add('SP.STATUS = ''E'' AND ');
+    zPesquisa1.SQL.Add('(SP.VLR_ICMS_ST > 0 or SP.VLR_ICMS > 0)');
   end
   else
   begin
-    zPesquisa1.SQL.Add('select  NF.NOFIA44CHAVEACESSO CHAVEACESSO, NF.NOFIINUMERO NUMERONOTA, ' + QuotedStr('55') + ' MODELO, ');
-    zPesquisa1.SQL.Add('sum((NFI.NFITN3QUANT * NFI.NFITN2VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ');
-    zPesquisa1.SQL.Add('NFI.PRODICOD, NF.NOFIDEMIS DATAEMISSAO, NF.SERIA5COD SERIE, NF.CLIEA13ID CLIFOR from NOTAFISCAL NF ');
-    zPesquisa1.SQL.Add('inner join NOTAFISCALITEM NFI on NF.NOFIA13ID = NFI.NOFIA13ID ');
-    zPesquisa1.SQL.Add('where NF.NOFIDEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'NF.NOFIDEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa1.SQL.Add(' NFI.NFITICST in (' + quotedstr('60') + ','+QuotedStr('500') + ') and ');
-    zPesquisa1.SQL.Add('NF.EMPRICOD = ' + ComboEmpresa.KeyValue + ' AND ');
-    ZPesquisa1.SQL.Add('NF.NOFICSTATUS = ''E''');
-    zPesquisa1.SQL.Add(' GROUP BY NF.NOFIA44CHAVEACESSO, NF.NOFIINUMERO, NFI.PRODICOD , NF.NOFIDEMIS,NF.SERIA5COD, NF.CLIEA13ID');
-    zPesquisa1.SQL.Add(' union all ');
-    zPesquisa1.SQL.Add('select CF.CHAVEACESSO CHAVEACESSO, CF.CUPOINRO NUMERONOTA, ' + QuotedStr('65') + ' MODELO, ' );
-    zPesquisa1.SQL.Add('sum((CFI.CPITN3QTD * CFI.CPITN3VLRUNIT) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICM_ST, ');
-    zPesquisa1.SQL.Add(''''' PRODICOD, CF.CUPODEMIS DATAEMISSAO, CF.TERMICOD SERIE, '''' CLIFOR from CUPOM CF ');
-    zPesquisa1.SQL.Add('inner join CUPOMITEM CFI on CF.CUPOA13ID = CFI.CUPOA13ID ');
-    zPesquisa1.SQL.Add('inner join PRODUTO P on CFI.PRODICOD = P.PRODICOD ');
-    zPesquisa1.SQL.Add('where CF.CUPODEMIS >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'CF.CUPODEMIS <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa1.SQL.Add('P.PRODISITTRIB in (' + QuotedStr('60') + ', ' + QuotedStr('500') + ') and');
-    zPesquisa1.SQL.Add(' CF.EMPRICOD = ' + ComboEmpresa.KeyValue + ' AND ');
-    zPesquisa1.SQL.Add('(CF.CUPOCSTATUS = ''A'' or CF.CUPOCSTATUS = ''C'') AND CF.CHAVEACESSO is not null');
-    zPesquisa1.SQL.Add(' GROUP BY CF.CHAVEACESSO, CF.CUPOINRO, CFI.PRODICOD, CF.CUPODEMIS, CF.TERMICOD, CF.CLIEA13ID');
+    zPesquisa1.SQL.Add('select SP.CHAVEACESSO CHAVEACESSO, SP.NRO_NOTA NUMERONOTA, SP.MODELO MODELO, ');
+    zPesquisa1.SQL.Add('sum((SP.VLR_ICMS_ST) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICMS_ST, SP.VLR_ICMS VLR_ICMS, ');
+    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR ');
+    zPesquisa1.SQL.Add('from SPED_1900 SP ');
+    zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
+    zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
+    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ', '+QuotedStr('500') + ', ' + QuotedStr('20')+ ', ' + QuotedStr('0') +  ') AND ');
+    zPesquisa1.SQL.Add('SP.EMPRESA = ' + ComboEmpresa.KeyValue + ' AND ');
+    zPesquisa1.SQL.Add('SP.STATUS = ''E'' ');
+    zPesquisa1.SQL.Add(' GROUP BY SP.CHAVEACESSO, SP.NRO_NOTA, SP.MODELO, SP.VLR_ICMS , SP.COD_PRODUTO , SP.DT_EMISSAO, SP.SERIE, SP.CLIFOR');
   end;
   zPesquisa1.Open;
   zPesquisa1.First;
   while not zPesquisa1.Eof do
   begin
     vDataDocumento := FormatDateTime('ddmmyyyy',zPesquisa1.FieldByName('DATAEMISSAO').AsDateTime);
-    if Mem1920Tipo.Value = 'ENT' then
+    vValor_ICMS := zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
+    if Mem1920Tipo.Value = 'NFE' then
       vCodParticipante := DM.SQLLocate('SPED_0150','COD_FORN','COD_PART', zPesquisa1.FieldByName('CLIFOR').AsString)
     else
       vCodParticipante := zPesquisa1.FieldByName('CLIFOR').AsString;
@@ -7958,10 +7936,10 @@ begin
                  zPesquisa1.FieldByName('MODELO').AsString                         + '|' +   // código do modelo
                  Trim(zPesquisa1.FieldByName('SERIE').AsString)                    + '|' +   // serie do documento fiscal
                                                                                      '|' +   // subserie do documento fiscal
-                 zPesquisa1.FieldByName('NUMERONOTA').AsString                     + '|' +   // numero do documento fiscal
+                 Trim(zPesquisa1.FieldByName('NUMERONOTA').AsString)               + '|' +   // numero do documento fiscal
                  vDataDocumento                                                    + '|' +   // data de emissão do documento fiscal
                  zPesquisa1.FieldByName('PRODICOD').AsString                       + '|' +   // código do item (campo 02 do registro 0200)
-                 FormatFloat('0.00',zPesquisa1.FieldByName('VLR_ICM_ST').AsFloat)  + '|' +   // valor do ajuste para operação/item
+                 FormatFloat('0.00',vValor_ICMS)                                   + '|' +   // valor do ajuste para operação/item
                  zPesquisa1.FieldByName('CHAVEACESSO').AsString                    + '|' ;   // chave do documento eletrônico
 
       EditTabela.Text := 'Criando - BLOCO 1923 - INFORMAÇÕES ADICIONAIS DOS AJUSTES'; EditTabela.Update;
@@ -7980,8 +7958,11 @@ begin
 end;
 
 function TFormTelaExportacaoSped.Registro1926: Boolean;
+var
+  vValor_Icms : Real;
 begin
   try
+    vValor_Icms := zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
     Linha :=  '|1926|'                                                           +         // Incio do registro |1926|
                '000'                                                             + '|' +   // Código da obrigação a recolher, conforme a Tabela 5.4
                FormatFloat('0.00',VlrSaldoRecolher)                              + '|' +   // código do modelo
@@ -7990,7 +7971,7 @@ begin
                zPesquisa1.FieldByName('NUMERONOTA').AsString                     + '|' +   // numero do documento fiscal
                vDataDocumento                                                    + '|' +   // data de emissão do documento fiscal
                zPesquisa1.FieldByName('PRODICOD').AsString                       + '|' +   // código do item (campo 02 do registro 0200)
-               FormatFloat('0.00',zPesquisa1.FieldByName('VLR_ICM_ST').AsFloat)  + '|' +   // valor do ajuste para operação/item
+               FormatFloat('0.00',vValor_Icms)                                   + '|' +   // valor do ajuste para operação/item
                zPesquisa1.FieldByName('CHAVEACESSO').AsString                    + '|' ;   // chave do documento eletrônico
 
     EditTabela.Text := 'Criando - BLOCO 1926 - OBRIGAÇÕES DO ICMS A RECOLHER'; EditTabela.Update;
