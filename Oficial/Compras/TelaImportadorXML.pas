@@ -373,6 +373,15 @@ type
     lblUltimoNSU: TLabel;
     Label9: TLabel;
     lblUltimoNSUSefaz: TLabel;
+    edtPesquisa: TEdit;
+    btnPesquisar: TSpeedButton;
+    lblPesquisa: TLabel;
+    cdsItensvalor_venda: TFloatField;
+    cdsItensmargem: TFloatField;
+    cxGrid1DBTableViewItensvalor_venda: TcxGridDBColumn;
+    cxGrid1DBTableViewItensmargem: TcxGridDBColumn;
+    cdsItensListaPreco: TBooleanField;
+    cxGrid1DBTableViewItensListaPreco: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -434,6 +443,11 @@ type
       State: TGridDrawState);
     procedure btnPedidoClick(Sender: TObject);
     procedure btnGravarCSTClick(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure cxGrid1DBTableViewItensCellDblClick(
+      Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
 
   private
     XMLOutraEmpresa: Boolean;
@@ -661,6 +675,12 @@ begin
           cdsItens.FieldByName('codigo_gravar').AsString := IntToStr(RetornaCodigoProdutoGravar(cdsItens.FieldByName('codigo').AsString, StrToInt(Trim(edtCodigoFornecedor.Text)), cdsItens.FieldByName('ean').AsString,cdsItens.FieldByName('eantrib').AsString))
         else
           cdsItens.FieldByName('codigo_gravar').AsString := '0';
+
+        if cdsItens.FieldByName('codigo_gravar').AsString <> '0' then
+        begin
+          cdsItens.FieldByName('valor_venda').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString));
+          cdsItens.FieldByName('margem').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
+        end;
 
         cdsItens.FieldByName('descricao').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.xProd;
 
@@ -1714,7 +1734,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VICMSSTRET, NOCIN2VCREDICMSSN, NOCA3CSTIPI, NOCN4QTDIPI, ');
                 dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, UNIDICOD,  ');
-                dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA)  ');
+                dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO)  ');
                 dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, :NOCIN3CAPEMBAL,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEMBAL, :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
@@ -1726,7 +1746,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VICMSSTRET, :NOCIN2VCREDICMSSN, :NOCA3CSTIPI, :NOCN4QTDIPI,  ');
                 dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, :UNIDICOD,');
-                dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA)');
+                dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO)');
 
                 dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := RetornaCodigoCompra(iSequencialNf);
                 dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
@@ -1844,6 +1864,11 @@ begin
 
                 dm.SQLUpdate.ParamByName('PENDENTE').AsString  := 'S';
                 dm.SQLUpdate.ParamByName('REGISTRO').AsString  := FormatDateTime('mm/dd/yyyy hh:nn:ss',Now);
+
+                if cdsItensListaPreco.AsBoolean then
+                  dm.SQLUpdate.ParamByName('IMPORTA_LISTA_PRECO').AsString := 'S'
+                else
+                  dm.SQLUpdate.ParamByName('IMPORTA_LISTA_PRECO').AsString := 'N';
 
                 // Adilson, removi pq tem q buscar do nosso cad.produto dm.SQLUpdate.ParamByName('UNIDICOD').AsInteger := getUnidadeId(cdsItensunidade.AsString);
                 dm.SQLUpdate.ParamByName('UNIDICOD').AsString := dm.SQLLocate('PRODUTO','PRODICOD','UNIDICOD',cdsItens.FieldByName('codigo_gravar').AsString);
@@ -3349,6 +3374,31 @@ begin
       result := '';
     end;
 
+end;
+
+procedure TFormTelaImportadorXML.btnPesquisarClick(Sender: TObject);
+begin
+  inherited;
+  SQLNFSEFAZ.Close;
+  if edtPesquisa.Text <> '' then
+    SQLNFSEFAZ.MacroByName('MFiltro').Value := 'NUMERO = ''' + edtPesquisa.Text + ''''
+  else
+    SQLNFSEFAZ.MacroByName('MFiltro').Value := '0=0';
+  SQLNFSEFAZ.Open;
+end;
+
+procedure TFormTelaImportadorXML.cxGrid1DBTableViewItensCellDblClick(
+  Sender: TcxCustomGridTableView;
+  ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+  AShift: TShiftState; var AHandled: Boolean);
+begin
+  inherited;
+  if not (cdsItens.IsEmpty) then
+  begin
+    cdsItens.Edit;
+    cdsItens.FieldByName('ListaPreco').AsBoolean := not cdsItens.FieldByName('ListaPreco').AsBoolean;
+    cdsItens.Post;
+  end;
 end;
 
 end.

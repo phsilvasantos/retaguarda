@@ -469,7 +469,8 @@ uses
   RelatorioRetornoBanco in 'Relatorios\Administrativo\RelatorioRetornoBanco.pas' {FormRelatorioRetornoBanco},
   CadastroObsProdutoRest in 'Cadastros\CadastroObsProdutoRest.pas' {FormCadastroObsProdutoRest},
   CadastroMotoboy in 'Cadastros\CadastroMotoboy.pas' {FormCadastroMotoboy},
-  RelatorioMotoboy in 'Relatorios\Administrativo\RelatorioMotoboy.pas' {FormRelatorioMotoboy};
+  RelatorioMotoboy in 'Relatorios\Administrativo\RelatorioMotoboy.pas' {FormRelatorioMotoboy},
+  CadastroNCMUF in 'Cadastros\CadastroNCMUF.pas' {FormCadastroNCMUF};
 
 {$R *.res}
 

@@ -610,15 +610,29 @@ begin
             {alimenta os campos no Pdv}
         for i := 0 to ZConsultaTabelaServidor.FieldCount - 1 do
         begin
-          try ZConsultaPDV.FindField(ZConsultaTabelaServidor.Fields[i].FieldName).AsVariant := ZConsultaTabelaServidor.Fields[i].AsVariant; except Application.ProcessMessages; end;
+          try
+            ZConsultaPDV.FindField(ZConsultaTabelaServidor.Fields[i].FieldName).AsVariant := ZConsultaTabelaServidor.Fields[i].AsVariant;
+          except
+            on e : Exception do
+            begin
+              ShowMessage('Erro: ' + e.Message);
+              Application.ProcessMessages;
+            end;
+          end;
         end;
         try
           ZConsultaPDV.post;
           Erro := False;
         except
-          ZConsultaPDV.cancel;
-          Erro := True;
-          Application.ProcessMessages;
+          on e : Exception do
+          begin
+            ShowMessage('Erro: ' + e.Message);
+            Application.ProcessMessages;
+            ZConsultaPDV.cancel;
+            Erro := True;
+            Application.ProcessMessages;
+          end;
+
         end;
 
         if not erro then

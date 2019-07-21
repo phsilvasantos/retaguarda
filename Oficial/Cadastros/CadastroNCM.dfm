@@ -1,6 +1,6 @@
 inherited FormCadastroNCM: TFormCadastroNCM
-  Left = 311
-  Top = 58
+  Left = 219
+  Top = 116
   Caption = 'Cadastro NCM'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -14,13 +14,74 @@ inherited FormCadastroNCM: TFormCadastroNCM
           Visible = True
           OnClick = ImportarArquivoIBPTAtual1Click
         end
+        object Button4: TRxSpeedButton
+          Tag = 2
+          Left = 1
+          Top = 74
+          Width = 127
+          Height = 23
+          Cursor = crHandPoint
+          BiDiMode = bdRightToLeftNoAlign
+          ParentBiDiMode = False
+          GroupIndex = 1
+          Caption = '&4 Tributa'#231#227'o UF'
+          Flat = True
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          Glyph.Data = {
+            6E040000424D6E04000000000000360000002800000014000000120000000100
+            18000000000038040000CE0E0000C40E00000000000000000000FFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFF000000000000FFBFBF000000000000FFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            000000000000FFBFBFFFBFBFFFBFBF000000000000FFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFBFBF00
+            0000FFBFBFFFBFBFFFBFBFFFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFBFBF000000FFBF
+            BFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBF000000000000FFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFF000000FFBFBFFFBFBF000000FFBFBFFFBFBF
+            FFBFBFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBF000000000000FFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFF000000FFBFBFF7FEFF000000FFBFBFFFBFBFFFBFBFFF
+            BFBFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFF
+            FFFFFF000000FFBFBFFFBFBFF7FEFF000000FFBFBFFFBFBFFFBFBFFFBFBFFFBF
+            BFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFFFFFFFF00
+            0000FFBFBFF7FEFFF7FEFF000000FFBFBFFFBFBFFFBFBFFFBFBFFFBFBFFFBFBF
+            FFBFBFFFBFBFFFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFF000000FFBFBFFFBF
+            BFF7FEFFF7FEFFF7FEFF000000000000FFBFBFFFBFBFFFBFBFFFBFBFFFBFBFFF
+            BFBFFFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFF000000FFBFBFFFBFBFF7FEFF
+            F7FEFFF7FEFFF7FEFFF7FEFF000000000000FFBFBFFFBFBFFFBFBFFFBFBFFFBF
+            BFFFBFBF000000FFFFFFFFFFFF000000FFBFBFFFBFBFFFBFBFFFBFBFFFBFBFF7
+            FEFFF7FEFFF7FEFFF7FEFFF7FEFF000000000000FFBFBFFFBFBFFFBFBFFFBFBF
+            000000FFFFFFFFFFFF000000FFBFBFFFBFBF000000000000FFBFBFFFBFBFFFBF
+            BFFFBFBFF7FEFFF7FEFFF7FEFFF7FEFF000000000000FFBFBFFFBFBF000000FF
+            FFFFFFFFFFFFFFFF000000000000FFFFFFFFFFFF000000000000000000FFBFBF
+            FFBFBFFFBFBFFFBFBFF7FEFFF7FEFFFFFFFF000000000000000000FFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000
+            0000FFBFBFFFBFBF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
+            00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+          GrayedInactive = False
+          Layout = blGlyphLeft
+          Margin = 1
+          ParentFont = False
+          Transparent = True
+          OnClick = Button4Click
+        end
       end
       inherited PanelFundoDados: TPanel
         inherited Panel5: TPanel
           inherited PagePrincipal: TPageControl
             Top = 94
             Height = 355
-            ActivePage = TabSheetDadosIBPT
+            ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Height = 282
@@ -71,7 +132,7 @@ inherited FormCadastroNCM: TFormCadastroNCM
               object GroupBox2: TGroupBox
                 Left = 8
                 Top = 77
-                Width = 302
+                Width = 609
                 Height = 105
                 Caption = ' ICMS NORMAL E ICMS ST '
                 Font.Charset = DEFAULT_CHARSET
@@ -83,7 +144,7 @@ inherited FormCadastroNCM: TFormCadastroNCM
                 TabOrder = 1
                 object Label10: TLabel
                   Left = 145
-                  Top = 46
+                  Top = 45
                   Width = 67
                   Height = 13
                   Caption = 'Aliq. Normal'
@@ -146,9 +207,22 @@ inherited FormCadastroNCM: TFormCadastroNCM
                   Font.Style = [fsBold]
                   ParentFont = False
                 end
+                object Label9: TLabel
+                  Left = 310
+                  Top = 45
+                  Width = 63
+                  Height = 13
+                  Caption = 'Aliq Red.ST'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = 8404992
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
                 object DBEdit5: TDBEdit
                   Left = 217
-                  Top = 42
+                  Top = 41
                   Width = 74
                   Height = 21
                   DataField = 'ALIQ_ICMS'
@@ -220,6 +294,21 @@ inherited FormCadastroNCM: TFormCadastroNCM
                   Font.Style = []
                   ParentFont = False
                   TabOrder = 4
+                end
+                object DBEdit19: TDBEdit
+                  Left = 378
+                  Top = 41
+                  Width = 74
+                  Height = 21
+                  DataField = 'ALIQ_RED_BASE_ST'
+                  DataSource = DSTemplate
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  ParentFont = False
+                  TabOrder = 5
                 end
               end
               object GroupBox3: TGroupBox
@@ -1128,6 +1217,17 @@ inherited FormCadastroNCM: TFormCadastroNCM
       FieldName = 'VERSAO'
       Origin = 'DB.NCM.VERSAO'
       Size = 10
+    end
+    object SQLTemplateCEST: TStringField
+      FieldName = 'CEST'
+      Origin = 'DB.NCM.CEST'
+      Size = 10
+    end
+    object SQLTemplateALIQ_RED_BASE_ST: TFloatField
+      FieldName = 'ALIQ_RED_BASE_ST'
+      Origin = 'DB.NCM.ALIQ_RED_BASE_ST'
+      DisplayFormat = '#0.00'
+      EditFormat = '#0.00'
     end
   end
 end

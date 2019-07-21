@@ -713,7 +713,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
             Color = clTeal
             TabOrder = 1
             object DBText3: TDBText
-              Left = 224
+              Left = 242
               Top = 67
               Width = 53
               Height = 12
@@ -728,7 +728,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               Transparent = True
             end
             object DBText7: TDBText
-              Left = 224
+              Left = 242
               Top = 52
               Width = 59
               Height = 13
@@ -795,7 +795,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               ParentFont = False
             end
             object Label23: TLabel
-              Left = 176
+              Left = 191
               Top = 67
               Width = 44
               Height = 11
@@ -808,7 +808,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               ParentFont = False
             end
             object Label29: TLabel
-              Left = 170
+              Left = 185
               Top = 51
               Width = 50
               Height = 11
@@ -819,6 +819,34 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False
+            end
+            object Label32: TLabel
+              Left = 170
+              Top = 35
+              Width = 65
+              Height = 11
+              Caption = 'Margem Fixa'
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clNavy
+              Font.Height = -9
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object DBText8: TDBText
+              Left = 242
+              Top = 36
+              Width = 59
+              Height = 13
+              DataField = 'VLRMARGEMATUAL'
+              DataSource = dsLista
+              Font.Charset = ANSI_CHARSET
+              Font.Color = clBlack
+              Font.Height = -9
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+              Transparent = True
             end
             object DBEdit5: TDBEdit
               Left = 82
@@ -1689,6 +1717,12 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
       FieldName = 'VLR_FRETE'
       Origin = 'DB.LISTAPRECO.VLR_FRETE'
       OnChange = SQLListaVLR_FRETEChange
+      DisplayFormat = '#0.00'
+      EditFormat = '#0.00'
+    end
+    object SQLListaVLRMARGEMATUAL: TFloatField
+      FieldName = 'VLRMARGEMATUAL'
+      Origin = 'DB.LISTAPRECO.VLRMARGEMATUAL'
       DisplayFormat = '#0.00'
       EditFormat = '#0.00'
     end

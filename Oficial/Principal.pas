@@ -7,7 +7,7 @@ uses
   PrincipalTemplate, Menus, ExtCtrls, jpeg, ComCtrls, ToolWin, VarSys, EWall, DB,
   ImgList, StdCtrls, DBTables, AdvGlowButton, XPMan, AdvOfficeStatusBar,
   AdvOfficeStatusBarStylers, dxGDIPlusClasses, RXCtrls, FormResources, IniFiles,
-  Buttons;
+  Buttons, ShellApi;
 
 type
   TFormPrincipal = class(TFormPrincipalTemplate)
@@ -267,6 +267,7 @@ type
     Motoboy1: TMenuItem;
     EntregaporMotoboy1: TMenuItem;
     Atendimento1: TMenuItem;
+    Vasilhame1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -529,6 +530,7 @@ type
     procedure Motoboy1Click(Sender: TObject);
     procedure EntregaporMotoboy1Click(Sender: TObject);
     procedure Atendimento1Click(Sender: TObject);
+    procedure Vasilhame1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -3253,6 +3255,12 @@ begin
   inherited;
   if FileExists(DM.PathAplicacao + 'Atendimento.exe') then
     WinExec(PChar(DM.PathAplicacao + 'Atendimento.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual)), SW_SHOW)
+end;
+
+procedure TFormPrincipal.Vasilhame1Click(Sender: TObject);
+begin
+  inherited;
+  ShellExecute(Handle,'open','http://192.168.100.121/vasilhame',nil,nil,SW_SHOW);
 end;
 
 end.

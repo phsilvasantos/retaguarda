@@ -1568,6 +1568,7 @@ begin
   Dataset.FieldByName('CLIECVNDCHEQ').Value := 'N';
   Dataset.FieldByName('CLIECTPPRCVENDA').Value := 'V';
   DataSet.FieldByName('CLIEICODPAIS').Value := 1058;
+  DataSet.FieldByName('TAXA_BANCARIA').Value := 'S';
   //  Dataset.FieldByName('CLIEA2UFRES').Value        :=  SQLLocate('Empresa','EMPRICOD','EMPRA2UF',EmpresaPadrao);
 end;
 

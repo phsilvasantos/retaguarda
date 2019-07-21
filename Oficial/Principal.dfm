@@ -11501,6 +11501,10 @@ inherited FormPrincipal: TFormPrincipal
         Caption = 'Hist'#243'rico de N'#186' de S'#233'rie'
         OnClick = MnFormTelaConsultaMovNumeroSerieClick
       end
+      object Vasilhame1: TMenuItem
+        Caption = 'Vasilhame'
+        OnClick = Vasilhame1Click
+      end
     end
     object mmFinanceiro: TMenuItem [4]
       Caption = '&Financeiro'

@@ -200,6 +200,9 @@ type
     SQLListaVLR_DESCONTO: TFloatField;
     SQLListaVLR_FRETE: TFloatField;
     SpeedButton2: TSpeedButton;
+    SQLListaVLRMARGEMATUAL: TFloatField;
+    Label32: TLabel;
+    DBText8: TDBText;
     procedure CalculaCusto;
     procedure BTListaAClick(Sender: TObject);
     procedure SQLListaVLRVENDA1Change(Sender: TField);
@@ -461,7 +464,7 @@ begin
   'LEFT JOIN PRODUTO P ON P.PRODICOD = I.PRODICOD '+
   'LEFT JOIN NOTACOMPRA N ON N.NOCPA13ID = I.NOCPA13ID '+
   'LEFT JOIN OPERACAOESTOQUE O ON O.OPESICOD = N.OPESICOD '+
-  'Where %Filtro and %NroNF and %Periodo';
+  'Where %Filtro and %NroNF and %Periodo and %Importa';
   SQLPesquisa.Prepare;
   SQLPesquisa.MacroByName('Filtro').AsString := 'N.NOCPCSTATUS = ''A'' and OPESCGERAFINANCEIRO=''S'' and OPESCENTRADASAIDA=''E''';
 
@@ -469,6 +472,8 @@ begin
     SQLPesquisa.MacroByName('NroNF').AsString  := 'N.NOCPA30NRO  = '''+ EDTNF.Text + ''''
   else
     SQLPesquisa.MacroByName('NroNF').AsString  := '0=0';
+
+  SQLPesquisa.MacroByName('Importa').AsString  := 'I.IMPORTA_LISTA_PRECO  = ' + QuotedStr('S');
 
   if ( (de.Date > 0) and (ate.date>0) ) then
     SQLPesquisa.MacrobyName('Periodo').Value   := 'N.NOCPDRECEBIMENTO >= ''' + FormatDateTime('mm/dd/yyyy', De.Date) + ''' and ' +
@@ -524,7 +529,8 @@ begin
           SQLListaVLRVENDA1ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA').AsString;
           SQLListaVLRVENDA2ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA2').AsString;
           SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString;
-
+          //aqui
+          SQLListaVLRMARGEMATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3PERCMGLVFIXA').AsString;
 
           TotalItemNF := 0;
           TotalItemNF := (SQLPesquisa.FieldByName('NOCIN3VLREMBAL').AsFloat*SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').asFloat)-SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsFloat;
@@ -1160,6 +1166,7 @@ begin
   begin
     EDTNF.Text := editRetorno.text;
     SpeedButton1Click(Sender);
+    BTListaAClick(Sender);
   end;
 end;
 

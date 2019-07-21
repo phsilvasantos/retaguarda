@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, CadastroTEMPLATE, DB, DBTables, DBActns, ActnList, RxQuery, Menus,
   StdCtrls, Mask, Grids, DBGrids, ComCtrls, RXCtrls, Buttons, ExtCtrls, DBCtrls,
-  EDBNum, AdvOfficeStatusBar, AdvOfficeStatusBarStylers, AdvPanel, ToolEdit;
+  EDBNum, AdvOfficeStatusBar, AdvOfficeStatusBarStylers, AdvPanel, ToolEdit, VarSYS,
+  FormResources;
 
 type
   TFormCadastroNCM = class(TFormCadastroTEMPLATE)
@@ -107,6 +108,11 @@ type
     FilenameEdit1: TFilenameEdit;
     Label8: TLabel;
     SpeedButton1: TSpeedButton;
+    Button4: TRxSpeedButton;
+    Label9: TLabel;
+    DBEdit19: TDBEdit;
+    SQLTemplateCEST: TStringField;
+    SQLTemplateALIQ_RED_BASE_ST: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure CorrigeNCMmenorque8digitos1Click(Sender: TObject);
     procedure ImportarArquivoIBPTAtual1Click(Sender: TObject);
@@ -114,6 +120,7 @@ type
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
     procedure ImportarArquivoSuperTributarioClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     vArquivo: string;
     { Private declarations }
@@ -127,7 +134,7 @@ var
 implementation
 
 uses
-  UnitLibrary;
+  UnitLibrary, CadastroNCMUF;
 
 {$R *.dfm}
 
@@ -580,6 +587,21 @@ begin
     SQLTemplate.EnableControls;
   end;
 
+end;
+
+procedure TFormCadastroNCM.Button4Click(Sender: TObject);
+begin
+  inherited;
+  if (Sender as TRxSpeedButton).Name = 'Button4' then
+  begin
+    DSMasterSys := DSTemplate;
+    CriaFormulario(TFormCadastroNCMUF,
+      'FormCadastroNCMUF',
+      True,
+      False,
+      True,
+      '');
+  end;
 end;
 
 end.

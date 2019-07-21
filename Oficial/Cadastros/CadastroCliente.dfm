@@ -9779,7 +9779,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 0
     PrinterSetup.mmPaperWidth = 0
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -12748,7 +12748,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 0
     PrinterSetup.mmPaperWidth = 0
-    PrinterSetup.PaperSize = 119
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
@@ -13071,7 +13071,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 0
     PrinterSetup.mmPaperWidth = 0
-    PrinterSetup.PaperSize = 9
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OnPreviewFormCreate = ppExtratoCreditoResumidoPreviewFormCreate

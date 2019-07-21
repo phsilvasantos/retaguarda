@@ -1,5 +1,5 @@
 inherited FormTelaImportadorXML: TFormTelaImportadorXML
-  Left = 19
+  Left = -5
   Top = 44
   Width = 1382
   Height = 744
@@ -33,7 +33,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
           Top = 1
           Width = 1359
           Height = 471
-          ActivePage = TabConsultaSefaz
+          ActivePage = tsItens
           Align = alClient
           TabOrder = 0
           object tsXMLs: TTabSheet
@@ -1170,6 +1170,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
               object cxGrid1DBTableViewItens: TcxGridDBTableView
                 PopupMenu = pmGrid
                 NavigatorButtons.ConfirmDelete = False
+                OnCellDblClick = cxGrid1DBTableViewItensCellDblClick
                 OnCustomDrawCell = cxGrid1DBTableViewItensCustomDrawCell
                 DataController.DataSource = dsItens
                 DataController.Summary.DefaultGroupSummaryItems = <>
@@ -1181,6 +1182,9 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
                 OptionsData.Editing = False
                 OptionsData.Inserting = False
                 OptionsView.GroupByBox = False
+                object cxGrid1DBTableViewItensListaPreco: TcxGridDBColumn
+                  DataBinding.FieldName = 'ListaPreco'
+                end
                 object cxgrdbclmnGrid1DBTableView1sequencia: TcxGridDBColumn
                   DataBinding.FieldName = 'sequencia'
                   Visible = False
@@ -1392,6 +1396,12 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
                   DataBinding.FieldName = 'perc_mva'
                   HeaderAlignmentHorz = taRightJustify
                   Width = 52
+                end
+                object cxGrid1DBTableViewItensvalor_venda: TcxGridDBColumn
+                  DataBinding.FieldName = 'valor_venda'
+                end
+                object cxGrid1DBTableViewItensmargem: TcxGridDBColumn
+                  DataBinding.FieldName = 'margem'
                 end
               end
               object cxGrid1Level1: TcxGridLevel
@@ -2290,6 +2300,47 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
                 Height = 13
                 Caption = '.'
               end
+              object btnPesquisar: TSpeedButton
+                Left = 754
+                Top = 1
+                Width = 24
+                Height = 21
+                Hint = 'Busca Nota'
+                Flat = True
+                Glyph.Data = {
+                  E6000000424DE60000000000000076000000280000000E0000000E0000000100
+                  0400000000007000000000000000000000001000000000000000000000000000
+                  80000080000000808000800000008000800080800000C0C0C000808080000000
+                  FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00DDDDDDDDDDDD
+                  DD00DDDDDDDDDDD00D00DDDDDDDDDD000D00DDDDDDDDD000DD00DDDDDDDD000D
+                  DD00DD73000800DDDD00D70888800DDDDD00D38788888DDDDD00D07778880DDD
+                  DD00D07F77880DDDDD00D387F7783DDDDD00D70877807DDDDD00DD730037DDDD
+                  DD00DDDDDDDDDDDDDD00}
+                ParentShowHint = False
+                ShowHint = True
+                OnClick = btnPesquisarClick
+              end
+              object lblPesquisa: TLabel
+                Left = 536
+                Top = 8
+                Width = 82
+                Height = 13
+                Caption = 'N'#250'mero da Nota:'
+              end
+              object edtPesquisa: TEdit
+                Left = 629
+                Top = 1
+                Width = 124
+                Height = 21
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                TabOrder = 0
+                OnKeyDown = edtChaveProcuraKeyDown
+              end
             end
           end
         end
@@ -2784,6 +2835,19 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     end
     object cdsItenspst: TFloatField
       FieldName = 'pst'
+    end
+    object cdsItensvalor_venda: TFloatField
+      DisplayLabel = 'Valor Venda'
+      FieldName = 'valor_venda'
+      DisplayFormat = ',0.00'
+    end
+    object cdsItensmargem: TFloatField
+      DisplayLabel = '% Margem'
+      FieldName = 'margem'
+      DisplayFormat = ',0.00'
+    end
+    object cdsItensListaPreco: TBooleanField
+      FieldName = 'ListaPreco'
     end
   end
   object dsItens: TDataSource
