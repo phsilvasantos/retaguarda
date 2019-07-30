@@ -9,10 +9,10 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 1366
-    Height = 706
+    Height = 705
     inherited PanelCentral: TPanel
       Width = 1362
-      Height = 622
+      Height = 621
       object Label6: TLabel [0]
         Left = 10
         Top = 163
@@ -119,7 +119,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       end
       inherited PanelBarra: TPanel
         Width = 3
-        Height = 622
+        Height = 621
       end
       object GroupBox3: TGroupBox
         Left = 6
@@ -2225,7 +2225,9 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
       'chkGeraInventario.Checked'
       'cmbMotivoInventario.ItemIndex'
       'edtContaAnalitica.Text'
-      'DataInventario.Text')
+      'DataInventario.Text'
+      'EditDiretorio.Text'
+      'ck1900.Checked')
     StoredValues = <>
     Left = 448
     Top = 7

@@ -1,6 +1,6 @@
 inherited FormCadastroContasReceber: TFormCadastroContasReceber
-  Left = 67
-  Top = 22
+  Left = -16
+  Top = 11
   Caption = 'Cadastro de Documentos '#224' Receber'
   ClientHeight = 652
   ClientWidth = 1366

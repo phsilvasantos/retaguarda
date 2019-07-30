@@ -11,7 +11,7 @@ uses
   ppComm, ppRelatv, ppProd, ppClass, ppReport, ppCtrls, ppPrnabl, ppBands,
   ppCache, UnSoundPlay, ppStrtch, ppRichTx, Serial, AdvOfficeStatusBar, ppViewr,
   AdvOfficeStatusBarStylers, AdvPanel, ppDBBDE, XMLDoc, XMLIntf, ACBrBase,
-  ACBrSocket, ACBrCEP, JvExComCtrls, JvDateTimePicker, JvDBDateTimePicker;
+  ACBrSocket, ACBrCEP, JvDateTimePicker;
 
 type
   TProtectDBGrid = class(TDBGrid);
@@ -986,8 +986,8 @@ type
     DBCheckBox2: TDBCheckBox;
     SQLTemplateTAXA_BANCARIA: TStringField;
     Label103: TLabel;
-    JvDBDateTimePicker1: TJvDBDateTimePicker;
     SQLTemplateCLIENTE_DESDE: TDateTimeField;
+    JvDateTimePicker1: TJvDateTimePicker;
     procedure FormCreate(Sender: TObject);
     procedure AcessaVendedorClick(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);

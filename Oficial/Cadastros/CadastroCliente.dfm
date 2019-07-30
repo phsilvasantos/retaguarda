@@ -4964,18 +4964,17 @@ inherited FormCadastroCliente: TFormCadastroCliente
                   ValueChecked = 'S'
                   ValueUnchecked = 'N'
                 end
-                object JvDBDateTimePicker1: TJvDBDateTimePicker
+                object JvDateTimePicker1: TJvDateTimePicker
                   Left = 8
                   Top = 64
-                  Width = 115
+                  Width = 113
                   Height = 21
-                  Date = 43503.738586608790000000
+                  Date = 43671.423984884260000000
                   Format = 'MM/yyyy'
-                  Time = 43503.738586608790000000
+                  Time = 43671.423984884260000000
                   TabOrder = 6
-                  DropDownDate = 43503.000000000000000000
-                  DataField = 'CLIENTE_DESDE'
-                  DataSource = DSTemplate
+                  DropDownDate = 43671.000000000000000000
+                  NullText = '(none)'
                 end
               end
               object GroupBox11: TGroupBox
@@ -9771,7 +9770,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PassSetting = psTwoPass
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Letter'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 6350
     PrinterSetup.mmMarginLeft = 6350
@@ -12740,7 +12739,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PassSetting = psTwoPass
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'Letter'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 6350
     PrinterSetup.mmMarginLeft = 6350
@@ -13063,7 +13062,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     PassSetting = psTwoPass
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
-    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PaperName = 'Custom'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.mmMarginBottom = 6350
     PrinterSetup.mmMarginLeft = 6350
