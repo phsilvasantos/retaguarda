@@ -1182,7 +1182,7 @@ function TFormPrincipal.ExportaMovimentosPDV: boolean;
 var erro: boolean;
 var i, ContaCorrente: integer;
 var xEmpresa, xProduto, xProxCod, xData, xTotalDia, xCancelado: string;
-var ValorMov : Double;
+var ValorMov, QtdeTroca : Double;
 begin
   ValorMov := 0;
   ContaCorrente := 0;
@@ -1372,6 +1372,9 @@ begin
 
           xEmpresa := ZConsultaPDV.fieldbyname('EMPRICOD').AsString;
           xCancelado := ZConsultaPDV.fieldbyname('CPITCSTATUS').AsString;
+          QtdeTroca := 0;
+          if ZConsultaPDV.FieldByName('CPITN3QTDTROCA').AsFloat > 0 then
+             QtdeTroca := ZConsultaPDV.FieldByName('CPITN3QTDTROCA').AsFloat;
           xProduto := ZConsultaPDV.fieldbyname('PRODICOD').AsString;
           xData := FormatDateTime('mm/dd/yyyy', ZConsultaPDV.fieldbyname('registro').Value);
                 {tenta criar o registro zerado na tabela produtosaldo, caso nao tenha ainda para aquela empresa}
@@ -1402,6 +1405,9 @@ begin
           ZInsereEstoqueServidor.SQL.Add('MVESICOD, ');
           ZInsereEstoqueServidor.SQL.Add('PRODICOD, ');
           ZInsereEstoqueServidor.SQL.Add('OPESICOD, ');
+          if QtdeTroca > 0 then
+            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDENTRADA, ')
+          else
           if xCancelado <> 'C' then
             ZInsereEstoqueServidor.SQL.Add('MVESN3QTDSAIDA, ')
           else
@@ -1416,7 +1422,10 @@ begin
           ZInsereEstoqueServidor.SQL.Add(xProxCod + ', '); //MVESICOD
           ZInsereEstoqueServidor.SQL.Add(xProduto + ', '); //PRODICOD
           ZInsereEstoqueServidor.SQL.Add('''14'', '); //OPESICOD 14= venda cupom
-          ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(ZinsereServidor.FieldByName('CPITN3QTD').AsString) + ', '); //QUANT VENDA
+          if QtdeTroca > 0 then
+            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(FloatToStr(QtdeTroca)) + ', ') //QUANT TROCA
+          else
+            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(ZinsereServidor.FieldByName('CPITN3QTD').AsString) + ', '); //QUANT VENDA
           ZInsereEstoqueServidor.SQL.Add('''' + ZinsereServidor.FieldByName('CUPOA13ID').AsString + ''', '); //CUPOA13ID
           ZInsereEstoqueServidor.SQL.Add('''N'', '); //MVESCESTOQUEOK
           ZInsereEstoqueServidor.SQL.Add('''S'', '); //PENDENTE

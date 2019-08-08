@@ -7902,7 +7902,8 @@ begin
     zPesquisa1.SQL.Add('from SPED_1900 SP ');
     zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
     zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ',' + QuotedStr('500')+ ', ' + QuotedStr('20') + ', ' + QuotedStr('0') +  ') and ');
+//    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ',' + QuotedStr('500')+ ', ' + QuotedStr('20') + ', ' + QuotedStr('0') +  ') and ');
+    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ',' + QuotedStr('500')+ ') and ');
     zPesquisa1.SQL.Add('SP.EMPRESA = ' + ComboEmpresa.KeyValue + ' AND ');
     zPesquisa1.SQL.Add('SP.STATUS = ''E'' AND ');
     zPesquisa1.SQL.Add('(SP.VLR_ICMS_ST > 0 or SP.VLR_ICMS > 0)');
@@ -7915,7 +7916,8 @@ begin
     zPesquisa1.SQL.Add('from SPED_1900 SP ');
     zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
     zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
-    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ', '+QuotedStr('500') + ', ' + QuotedStr('20')+ ', ' + QuotedStr('0') +  ') AND ');
+//    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ', '+QuotedStr('500') + ', ' + QuotedStr('20')+ ', ' + QuotedStr('0') +  ') AND ');
+    zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ', '+QuotedStr('500') +') AND ');
     zPesquisa1.SQL.Add('SP.EMPRESA = ' + ComboEmpresa.KeyValue + ' AND ');
     zPesquisa1.SQL.Add('SP.STATUS = ''E'' ');
     zPesquisa1.SQL.Add(' GROUP BY SP.CHAVEACESSO, SP.NRO_NOTA, SP.MODELO, SP.VLR_ICMS , SP.COD_PRODUTO , SP.DT_EMISSAO, SP.SERIE, SP.CLIFOR');

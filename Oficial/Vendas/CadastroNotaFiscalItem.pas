@@ -277,6 +277,7 @@ type
     SQLProdutoPERC_REDUCAO_BASE_CALCULO: TFloatField;
     SQLTemplateBASE_ST_RETIDO: TFloatField;
     SQLTemplateVALOR_ST_RETIDO: TFloatField;
+    SQLTemplateOBS: TMemoField;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -690,7 +691,10 @@ begin
       if DM.SQLTemplate.FindField('PRODCSERVICO').asString = 'S' then
       begin
         if DM.SQLTemplate.FindField('PRODA255DESCRTEC').AsString <> '' then
+        begin
           SQLTemplateNFITA254OBS.Text := DM.SQLTemplate.FindField('PRODA255DESCRTEC').AsString;
+          SQLTemplateOBS.Text := DM.SQLTemplate.FindField('PRODA255DESCRTEC').AsString;
+        end;
         try
           vISSQN := StrToFloat(SQLLocate('CIDADE', 'CIDAA60NOME', 'CIDAN3ISSQN', '''' + DSMasterTemplate.DataSet.FieldbyName('CLIFORNEMPCIDADELOOKUP').AsString + ''''));
         except
@@ -995,7 +999,10 @@ begin
     DataSet.FieldByName('NFITN3QUANTVEND').asFloat := DataSet.FieldByName('NFITN3QUANT').asFloat;
 
   if FileExists('VFNota.txt') then // exibe o valor final (total custo + subst. Trib.) ao lado do nome do produto.
+  begin
     DataSet.FieldByName('NFITA254OBS').AsString := CalculaSubstituicaoTributaria;
+    DataSet.FieldByName('OBS').AsString := CalculaSubstituicaoTributaria;
+  end;
 
   if DataSet.FieldByName('ServicoLookup').asString = 'S' then
   begin
@@ -1076,6 +1083,7 @@ begin
       if DSMasterTemplate.DataSet.FieldByName('OrigemDestinoLookUp').AsString <> '' then
       begin
         DataSet.FieldByName('NFITA254OBS').AsString := '';
+        DataSet.FieldByName('OBS').AsString := '';
         NumeroSerie := '';
         Status := ' PRSECSTATUS = ' + QuotedStr('D');
         CodigoProduto := SQLTemplatePRODICOD.AsString;
@@ -1099,6 +1107,13 @@ begin
                   DataSet.FieldByName('NFITA254OBS').AsString := ' Nro Serie: ' + NumeroSerie
                 else
                   DataSet.FieldByName('NFITA254OBS').AsString := DataSet.FieldByName('NFITA254OBS').AsString + ', ' + NumeroSerie;
+
+                //dupliquei o NFITA254OBS para o OBS
+                if DataSet.FieldByName('OBS').AsString = '' then
+                  DataSet.FieldByName('OBS').AsString := ' Nro Serie: ' + NumeroSerie
+                else
+                  DataSet.FieldByName('OBS').AsString := DataSet.FieldByName('OBS').AsString + ', ' + NumeroSerie;
+
                 GravaMovimentoNumeroSerie(EmpresaPadrao,
                                           NumeroSerie, 'S',
                                           DSMasterTemplate.DataSet.FieldByName('NOFIINUMERO').AsString,

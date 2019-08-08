@@ -3205,6 +3205,12 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
       FieldName = 'VALOR_ST_RETIDO'
       Origin = 'DB.NOTAFISCALITEM.VALOR_ST_RETIDO'
     end
+    object SQLTemplateOBS: TMemoField
+      FieldName = 'OBS'
+      Origin = 'DB.NOTAFISCALITEM.OBS'
+      BlobType = ftMemo
+      Size = 1
+    end
   end
   inherited AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler
     Left = 469

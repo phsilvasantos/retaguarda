@@ -679,7 +679,8 @@ begin
         if cdsItens.FieldByName('codigo_gravar').AsString <> '0' then
         begin
           cdsItens.FieldByName('valor_venda').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString));
-          cdsItens.FieldByName('margem').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
+          if dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString) <> '' then
+            cdsItens.FieldByName('margem').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
         end;
 
         cdsItens.FieldByName('descricao').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.xProd;

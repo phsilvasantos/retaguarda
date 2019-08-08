@@ -268,6 +268,7 @@ type
     EntregaporMotoboy1: TMenuItem;
     Atendimento1: TMenuItem;
     Vasilhame1: TMenuItem;
+    RepresentanteNSrie1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -531,6 +532,7 @@ type
     procedure EntregaporMotoboy1Click(Sender: TObject);
     procedure Atendimento1Click(Sender: TObject);
     procedure Vasilhame1Click(Sender: TObject);
+    procedure RepresentanteNSrie1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -621,7 +623,7 @@ uses
   TelaGerarSaldoProduto, CadastroMesa, TelaConsultaSaldoPorEmpresa,
   CadastroSabores, CadastroTributacaoNFSE, CadastroNotaServico,
   CadastroServico, RelatorioComissaoRepresentanteDetalhado, TelaConsultaMovNumeroSerie, CadastroTipoFornecedor,
-  TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy;
+  TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy, RelatorioRepresentanteNSerie;
 
 
 
@@ -3261,6 +3263,16 @@ procedure TFormPrincipal.Vasilhame1Click(Sender: TObject);
 begin
   inherited;
   ShellExecute(Handle,'open','http://192.168.100.121/vasilhame',nil,nil,SW_SHOW);
+end;
+
+procedure TFormPrincipal.RepresentanteNSrie1Click(Sender: TObject);
+begin
+  inherited;
+  if DM.Acesso((Sender as TMenuItem).Name) > 0 then
+    CriaFormulario(TFormRelatorioRepresentanteNSerie, 'FormRelatorioRepresentanteNSerie', False, False, False, '')
+  else
+    SoundPlay('Acesso Negado.wav', Sender);
+
 end;
 
 end.

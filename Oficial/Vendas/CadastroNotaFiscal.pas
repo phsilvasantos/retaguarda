@@ -1106,6 +1106,7 @@ type
     SQLNotaFiscalItemBASE_ST_RETIDO: TFloatField;
     SQLNotaFiscalItemVALOR_ST_RETIDO: TFloatField;
     SQLContasReceberDATA_PREVISTA: TDateTimeField;
+    SQLNotaFiscalItemOBS: TMemoField;
     function TabelaNFE_123(Produto, Situacao: string): string;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -1515,6 +1516,7 @@ var
         SQLNotaFiscalItem.FieldByName('NFITN2PERCDESC').AsFloat := SQLComposicaoPedido.FieldByName('PVCON2PERCDESC').AsFloat;
         CalculaImpostosNotaFiscalItem(SQLNotaFiscalItem, DSTemplate, 1);
         SQLNotaFiscalItem.FieldByName('NFITA254OBS').AsString := SQLComposicaoPedido.FieldByName('PVCOA254OBS').AsString;
+        SQLNotaFiscalItem.FieldByName('OBS').AsString := SQLComposicaoPedido.FieldByName('PVCOA254OBS').AsString;
         PesoLiquido := PesoLiquido + SQLNotaFiscalItem.FieldByName('PesoLiquidoLookup').AsFloat;
         PesoBruto := PesoBruto + SQLNotaFiscalItem.FieldByName('PesoBrutoLookup').AsFloat;
         SQLNotaFiscalItem.Post;
@@ -1672,6 +1674,7 @@ var
         CalculaImpostosNotaFiscalItem(SQLNotaFiscalItem, DSTemplate, SQLUnidadeUNIDN3FATORCONV.AsFloat);
         SQLNotaFiscalItem.FieldByName('LOTEA30NRO').AsString := SQLPedidoVendaItem.FieldByName('LOTEA30NRO').AsString;
         SQLNotaFiscalItem.FieldByName('NFITA254OBS').AsString := SQLPedidoVendaItem.FieldByName('PDVDA255OBS1').AsString;
+        SQLNotaFiscalItem.FieldByName('OBS').AsString := SQLPedidoVendaItem.FieldByName('PDVDA255OBS1').AsString;
         PesoLiquido := PesoLiquido + SQLNotaFiscalItem.FieldByName('PesoLiquidoLookup').AsFloat;
         PesoBruto := PesoBruto + SQLNotaFiscalItem.FieldByName('PesoBrutoLookup').AsFloat;
         SQLNotaFiscalItem.Post;
@@ -6624,8 +6627,12 @@ begin
       if FileExists('NFEReferencia.txt') then
         Descr_Prod := 'Ref.: ' + dm.sqlConsulta.fieldbyname('PRODA60REFER').AsString + ' - ' + Descr_Prod;
 
-      if FileExists('NFEImpOBS.txt') and (SQLNotaFiscalItemNFITA254OBS.AsString <> '') then
-        Descr_Prod := SQLNotaFiscalItemNFITA254OBS.AsString;
+//      if FileExists('NFEImpOBS.txt') and (SQLNotaFiscalItemNFITA254OBS.AsString <> '') then
+//        Descr_Prod := SQLNotaFiscalItemNFITA254OBS.AsString;
+
+      if FileExists('NFEImpOBS.txt') and (SQLNotaFiscalItemOBS.AsString <> '') then
+        Descr_Prod := SQLNotaFiscalItemOBS.AsString;
+
 
       SitTrib := SQLNotaFiscalItemNFITICST.AsString;
         // Testa se tem SitTrib
@@ -6690,7 +6697,8 @@ begin
         Prod.vSeg := SQLNotaFiscalItemNFITN2SEGURO.AsFloat;
         Prod.vOutro := SQLNotaFiscalItemNFITN2OUTRASDESP.AsFloat;
 
-        infAdProd := SQLNotaFiscalItemNFITA254OBS.AsString; // complemento do nome do item
+//        infAdProd := SQLNotaFiscalItemNFITA254OBS.AsString; // complemento do nome do item
+        infAdProd := SQLNotaFiscalItemOBS.AsString; // complemento do nome do item
         Prod.EXTIPI := '23';
         Prod.IndTot := itSomaTotalNFe;
         if (Copy(CdBarras, 0, 3) <> '999') and (cdBarras <> '') then

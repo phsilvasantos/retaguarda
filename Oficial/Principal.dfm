@@ -11884,6 +11884,10 @@ inherited FormPrincipal: TFormPrincipal
             Caption = 'Produtos sem Movimenta'#231#227'o'
             OnClick = MnProdutosSemMovtoClick
           end
+          object RepresentanteNSrie1: TMenuItem
+            Caption = 'N'#186' S'#233'rie por Representante'
+            OnClick = RepresentanteNSrie1Click
+          end
         end
         object Clientes2: TMenuItem
           Caption = 'Clientes'

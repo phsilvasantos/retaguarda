@@ -1032,6 +1032,9 @@ type
     SQLProduto_DescontoPDVPRECO: TFloatField;
     SQLProduto_DescontoPDVDATA_VALIDADE: TDateTimeField;
     SQLProduto_DescontoPDVEXCLUIR: TStringField;
+    Label57: TLabel;
+    DBEdit12: TDBEdit;
+    SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure RxComboComissaoChange(Sender: TObject);
     procedure AcessaMarcaClick(Sender: TObject);

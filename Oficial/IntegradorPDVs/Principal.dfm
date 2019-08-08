@@ -17,7 +17,7 @@ object FormPrincipal: TFormPrincipal
   TextHeight = 13
   object lbStatus: TLabel
     Left = 0
-    Top = 177
+    Top = 176
     Width = 559
     Height = 20
     Align = alBottom

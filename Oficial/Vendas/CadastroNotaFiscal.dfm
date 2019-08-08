@@ -16911,6 +16911,12 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
       FieldName = 'VALOR_ST_RETIDO'
       Origin = 'DB.NOTAFISCALITEM.VALOR_ST_RETIDO'
     end
+    object SQLNotaFiscalItemOBS: TMemoField
+      FieldName = 'OBS'
+      Origin = 'DB.NOTAFISCALITEM.OBS'
+      BlobType = ftMemo
+      Size = 1
+    end
   end
   object SQLProduto: TRxQuery
     DatabaseName = 'DB'

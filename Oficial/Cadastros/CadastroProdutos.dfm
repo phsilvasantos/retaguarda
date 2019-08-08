@@ -2475,6 +2475,19 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     Font.Style = [fsBold]
                     ParentFont = False
                   end
+                  object Label57: TLabel
+                    Left = 541
+                    Top = 34
+                    Width = 128
+                    Height = 13
+                    Caption = '% Red Base C'#225'lculo ST'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
                   object ComboICMS: TRxDBLookupCombo
                     Left = 125
                     Top = 14
@@ -2629,7 +2642,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                   object ComboDetBaseCalcICM: TRxDBComboBox
                     Left = 6
                     Top = 48
-                    Width = 294
+                    Width = 274
                     Height = 21
                     Style = csDropDownList
                     DataField = 'PRODA1MODBC'
@@ -2655,9 +2668,9 @@ inherited FormCadastroProduto: TFormCadastroProduto
                       '3')
                   end
                   object ComboDetBaseCalcICMST: TRxDBComboBox
-                    Left = 305
+                    Left = 286
                     Top = 48
-                    Width = 328
+                    Width = 254
                     Height = 21
                     Style = csDropDownList
                     DataField = 'PRODA1MODBCST'
@@ -2799,6 +2812,23 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     ParentShowHint = False
                     ShowHint = False
                     TabOrder = 9
+                  end
+                  object DBEdit12: TDBEdit
+                    Left = 541
+                    Top = 48
+                    Width = 115
+                    Height = 21
+                    DataField = 'PERC_REDUCAO_BASE_CALCULO_ST'
+                    DataSource = DSTemplate
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    ParentFont = False
+                    ParentShowHint = False
+                    ShowHint = False
+                    TabOrder = 10
                   end
                 end
                 object TabSheet2: TTabSheet
@@ -11143,6 +11173,12 @@ inherited FormCadastroProduto: TFormCadastroProduto
       EditFormat = '##0,000.00'
       Calculated = True
     end
+    object SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField
+      FieldName = 'PERC_REDUCAO_BASE_CALCULO_ST'
+      Origin = 'DB.PRODUTO.PERC_REDUCAO_BASE_CALCULO_ST'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
   end
   inherited UpdateSQLTemplate: TUpdateSQL
     ModifySQL.Strings = (
@@ -14294,7 +14330,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
       'FROM PRODUTO_DESCONTOS'
       'WHERE PRODICOD = :PRODICOD')
     Macros = <>
-    Left = 837
+    Left = 853
     Top = 465
     ParamData = <
       item
@@ -14331,7 +14367,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
   object dsProduto_Descontos: TDataSource
     DataSet = sqlProduto_Descontos
     OnDataChange = DSSQLSubGrupoDataChange
-    Left = 866
+    Left = 882
     Top = 465
   end
   object ppGrid: TPopupMenu
@@ -14345,7 +14381,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
   object dsProduto_DescontoPDV: TDataSource
     DataSet = SQLProduto_DescontoPDV
     OnDataChange = DSSQLSubGrupoDataChange
-    Left = 866
+    Left = 882
     Top = 505
   end
   object SQLProduto_DescontoPDV: TRxQuery
@@ -14363,7 +14399,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 837
+    Left = 853
     Top = 505
     object SQLProduto_DescontoPDVTERMICOD: TIntegerField
       FieldName = 'TERMICOD'
