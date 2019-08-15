@@ -1,17 +1,43 @@
 inherited FormCadastroTipoDocumento: TFormCadastroTipoDocumento
-  Left = 329
+  Left = 190
+  Top = 74
   Caption = 'Cadastro de Tipos de Documentos'
+  ClientWidth = 946
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
+    Width = 946
+    inherited PanelCabecalho: TPanel
+      Width = 944
+      inherited ScrollBoxPanelCabecalho: TScrollBox
+        Width = 944
+        inherited Panel1: TPanel
+          Width = 942
+          inherited PanelNavigator: TPanel
+            Width = 942
+            inherited AdvPanelNavigator: TAdvOfficeStatusBar
+              Width = 942
+            end
+          end
+          inherited PanelLeft: TPanel
+            Left = 485
+          end
+        end
+      end
+    end
     inherited PanelCentral: TPanel
+      Width = 944
       inherited PanelFundoDados: TPanel
+        Width = 814
         inherited Panel5: TPanel
+          Width = 814
           inherited PagePrincipal: TPageControl
+            Width = 814
             ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
+                Width = 806
                 Columns = <
                   item
                     Expanded = False
@@ -26,13 +52,18 @@ inherited FormCadastroTipoDocumento: TFormCadastroTipoDocumento
                   end>
               end
               inherited PanelProcura: TPanel
+                Width = 806
                 inherited PanelBetween: TPanel
+                  Width = 412
                   inherited AdvPanel1: TAdvPanel
+                    Width = 412
                     FullHeight = 0
                   end
                 end
                 inherited PanelEditProcura: TPanel
+                  Width = 412
                   inherited AdvPanelEditProcura: TAdvPanel
+                    Width = 412
                     FullHeight = 0
                   end
                 end
@@ -44,7 +75,11 @@ inherited FormCadastroTipoDocumento: TFormCadastroTipoDocumento
               end
             end
           end
+          inherited PanelMaster: TPanel
+            Width = 814
+          end
           inherited PanelCodigoDescricao: TPanel
+            Width = 814
             object Label1: TLabel
               Left = 6
               Top = 3
@@ -114,6 +149,18 @@ inherited FormCadastroTipoDocumento: TFormCadastroTipoDocumento
               DataSource = DSTemplate
               TabOrder = 2
             end
+            object chkSomaQuitados: TDBCheckBox
+              Left = 664
+              Top = 20
+              Width = 97
+              Height = 17
+              Caption = 'Soma Quitados'
+              DataField = 'SOMA_QUITADO'
+              DataSource = DSTemplate
+              TabOrder = 3
+              ValueChecked = 'S'
+              ValueUnchecked = 'N'
+            end
           end
         end
       end
@@ -152,6 +199,12 @@ inherited FormCadastroTipoDocumento: TFormCadastroTipoDocumento
     object SQLTemplateVLRTAXA: TFloatField
       FieldName = 'VLRTAXA'
       Origin = 'EASY_GESTAO.TIPODOCUMENTO.VLRTAXA'
+    end
+    object SQLTemplateSOMA_QUITADO: TStringField
+      FieldName = 'SOMA_QUITADO'
+      Origin = 'DB.TIPODOCUMENTO.SOMA_QUITADO'
+      FixedChar = True
+      Size = 1
     end
   end
 end

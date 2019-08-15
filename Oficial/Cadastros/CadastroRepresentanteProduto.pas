@@ -374,43 +374,43 @@ begin
     cdsSerie.first;
     while not cdsSerie.Eof do
     begin
-      dm.SQLUpdate.SQL.Clear;
-      dm.SQLUpdate.SQL.Add('UPDATE OR INSERT INTO PRODUTOREPRESENTANTE (REPRICOD,PRODICOD,PRSEA60NROSERIE,NOFIA13ID,NOCPA13ID,FORNICOD,CLIEA13ID,CLIEA60RAZAOSOC,');
-      DM.SQLUpdate.SQL.Add('DATA_SAIDA,DATE_ENTRADA,EMPRICOD,STATUS,ENTRADA_SAIDA,DATA_REGISTRO) values (');
-      DM.SQLUpdate.SQL.Add(inttostr(vREPRICOD) + ',' + SQLTemplatePRODICOD.AsString + ',''' + cdsSerieNumeroSerie.AsString + ''',');
-      if SQLTemplateNOFIA13ID.AsString <> '' then
-        DM.SQLUpdate.SQL.Add('''' + SQLTemplateNOFIA13ID.AsString + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateNOCPA13ID.AsString <> '' then
-        DM.SQLUpdate.SQL.Add('''' + SQLTemplateNOCPA13ID.AsString + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateFORNICOD.AsInteger > 0 then
-        DM.SQLUpdate.SQL.Add('''' + SQLTemplateFORNICOD.AsString + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateCLIEA13ID.AsString <> '' then
-        DM.SQLUpdate.SQL.Add('''' + SQLTemplateCLIEA13ID.AsString + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateCLIEA60RAZAOSOC.AsString <> '' then
-        DM.SQLUpdate.SQL.Add('''' + SQLTemplateCLIEA60RAZAOSOC.AsString + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateDATA_SAIDA.AsDateTime > 10 then
-        DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATA_SAIDA.AsDateTime) + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      if SQLTemplateDATE_ENTRADA.AsDateTime > 10 then
-        DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATE_ENTRADA.AsDateTime) + ''',')
-      else
-        DM.SQLUpdate.SQL.Add('null,');
-      DM.SQLUpdate.SQL.Add('''' + SQLTemplateEMPRICOD.AsString + ''',');
-      DM.SQLUpdate.SQL.Add('''' + SQLTemplateSTATUS.AsString + ''',');
-      DM.SQLUpdate.SQL.Add('''' + SQLTemplateENTRADA_SAIDA.AsString + ''',');
-      DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATA_REGISTRO.AsDateTime) + ''')');
-      DM.SQLUpdate.ExecSQL;
+//      dm.SQLUpdate.SQL.Clear;
+//      dm.SQLUpdate.SQL.Add('UPDATE OR INSERT INTO PRODUTOREPRESENTANTE (REPRICOD,PRODICOD,PRSEA60NROSERIE,NOFIA13ID,NOCPA13ID,FORNICOD,CLIEA13ID,CLIEA60RAZAOSOC,');
+//      DM.SQLUpdate.SQL.Add('DATA_SAIDA,DATE_ENTRADA,EMPRICOD,STATUS,ENTRADA_SAIDA,DATA_REGISTRO) values (');
+//      DM.SQLUpdate.SQL.Add(inttostr(vREPRICOD) + ',' + SQLTemplatePRODICOD.AsString + ',''' + cdsSerieNumeroSerie.AsString + ''',');
+//      if SQLTemplateNOFIA13ID.AsString <> '' then
+//        DM.SQLUpdate.SQL.Add('''' + SQLTemplateNOFIA13ID.AsString + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateNOCPA13ID.AsString <> '' then
+//        DM.SQLUpdate.SQL.Add('''' + SQLTemplateNOCPA13ID.AsString + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateFORNICOD.AsInteger > 0 then
+//        DM.SQLUpdate.SQL.Add('''' + SQLTemplateFORNICOD.AsString + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateCLIEA13ID.AsString <> '' then
+//        DM.SQLUpdate.SQL.Add('''' + SQLTemplateCLIEA13ID.AsString + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateCLIEA60RAZAOSOC.AsString <> '' then
+//        DM.SQLUpdate.SQL.Add('''' + SQLTemplateCLIEA60RAZAOSOC.AsString + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateDATA_SAIDA.AsDateTime > 10 then
+//        DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATA_SAIDA.AsDateTime) + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      if SQLTemplateDATE_ENTRADA.AsDateTime > 10 then
+//        DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATE_ENTRADA.AsDateTime) + ''',')
+//      else
+//        DM.SQLUpdate.SQL.Add('null,');
+//      DM.SQLUpdate.SQL.Add('''' + SQLTemplateEMPRICOD.AsString + ''',');
+//      DM.SQLUpdate.SQL.Add('''' + SQLTemplateSTATUS.AsString + ''',');
+//      DM.SQLUpdate.SQL.Add('''' + SQLTemplateENTRADA_SAIDA.AsString + ''',');
+//      DM.SQLUpdate.SQL.Add('''' + FormatDateTime('mm/dd/yyyy', SQLTemplateDATA_REGISTRO.AsDateTime) + ''')');
+//      DM.SQLUpdate.ExecSQL;
       if cdsSerieNumeroSerie.AsString <> '' then
         GravaSaidaNroSerieProduto(cdsSerieNumeroSerie.AsString,
                                   SQLTemplatePRODICOD.AsString,
@@ -453,6 +453,7 @@ begin
     ShowMessage('Nenhum número de série informado!');
     Abort;
   end;
+  GravarNumeroSeries;  
   inherited;
 
 end;
@@ -460,7 +461,7 @@ end;
 procedure TFormCadastroRepresentanteProduto.SQLTemplateAfterPost(DataSet: TDataSet);
 begin
   inherited;
-  GravarNumeroSeries;
+//  GravarNumeroSeries;
 end;
 end.
 

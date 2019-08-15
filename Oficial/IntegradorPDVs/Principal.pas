@@ -615,7 +615,6 @@ begin
           except
             on e : Exception do
             begin
-              ShowMessage('Erro: ' + e.Message);
               Application.ProcessMessages;
             end;
           end;
@@ -626,7 +625,6 @@ begin
         except
           on e : Exception do
           begin
-            ShowMessage('Erro: ' + e.Message);
             Application.ProcessMessages;
             ZConsultaPDV.cancel;
             Erro := True;

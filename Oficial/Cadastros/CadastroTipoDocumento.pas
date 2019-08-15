@@ -22,6 +22,8 @@ type
     DBEdit3: TDBEdit;
     Label3: TLabel;
     SQLTemplateVLRTAXA: TFloatField;
+    chkSomaQuitados: TDBCheckBox;
+    SQLTemplateSOMA_QUITADO: TStringField;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }

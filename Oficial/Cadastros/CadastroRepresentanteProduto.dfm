@@ -23,6 +23,7 @@ inherited FormCadastroRepresentanteProduto: TFormCadastroRepresentanteProduto
           inherited PagePrincipal: TPageControl
             Top = 81
             Height = 506
+            ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Height = 433
