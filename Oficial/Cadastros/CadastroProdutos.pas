@@ -1531,8 +1531,8 @@ begin
     Faltas := Faltas + 'Tipo de Produto Não Especificado' + #13#10;
   if SQLtemplatePRODA2TIPOITEM.IsNull then
     Faltas := Faltas + 'Identificação do Produto (SPED PIS/COFINS) Não Especificado' + #13#10;
-  if (SQLtemplatePRODISITTRIB.Value = 20) and (SQLTemplatePERC_REDUCAO_BASE_CALCULO.Value = 0) then
-    Faltas := Faltas + 'Situação tributária 20 exige um valor na redução da base de cálculo' + #13#10;
+  if ((SQLtemplatePRODISITTRIB.Value = 20) or (SQLtemplatePRODISITTRIB.Value = 70)) and (SQLTemplatePERC_REDUCAO_BASE_CALCULO.Value = 0) then
+    Faltas := Faltas + 'Situação tributária 20 ou 70 exige um valor na redução da base de cálculo' + #13#10;
 
 { if SQLtemplateNCMICOD.IsNull then
     Faltas := Faltas + 'Codigo NCM Não Especificado'+#13#10; }
@@ -4925,7 +4925,8 @@ begin
       AtualizaCampo('CST_COFINS', 'PRODA2CSTCOFINS');
       AtualizaCampo('ALIQUOTA_PIS_PRESUMIDO', 'PRODN2ALIQPIS');
       AtualizaCampo('ALIQUOTA_COFINS_PRESUMIDO', 'PRODN2ALIQCOFINS');
-      AtualizaCampo('BASE_ICMS_VAREJO', 'PERC_REDUCAO_BASE_CALCULO');
+//      AtualizaCampo('BASE_ICMS_VAREJO', 'PERC_REDUCAO_BASE_CALCULO');
+      AtualizaCampo('BASE_ICMS', 'PERC_REDUCAO_BASE_CALCULO');
     end;
   end;
 end;
