@@ -69,7 +69,6 @@ inherited FormRelatorioRepresentanteNSerie: TFormRelatorioRepresentanteNSerie
           Height = 21
           DropDownCount = 8
           DisplayAllFields = True
-          DataSource = DSSQLProduto
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -78,6 +77,7 @@ inherited FormRelatorioRepresentanteNSerie: TFormRelatorioRepresentanteNSerie
           LookupField = 'PRODICOD'
           LookupDisplay = 'PRODICOD;PRODA60DESCR'
           LookupDisplayIndex = 1
+          LookupSource = DSSQLProduto
           ParentFont = False
           TabOrder = 0
         end

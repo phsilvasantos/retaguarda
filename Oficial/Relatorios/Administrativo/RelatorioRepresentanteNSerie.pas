@@ -106,6 +106,8 @@ begin
   Report.Formulas.Formula.Text := '"' + FormatDateTime('dd/mm/yyyy hh:mm:ss', Now) + '"';
   Report.Formulas.Name := 'Periodo';
   Report.Formulas.Formula.Text := '"' + 'De' + FormatDateTime('dd/mm/yyyy', De.Date) + ' Até ' + FormatDateTime('dd/mm/yyyy', Ate.Date) + '"';
+  Report.Formulas.Name := 'Empresa';
+  Report.Formulas.Formula.Text := '"' + ComboEmpresa.Text + '"';
       //--------------------------------------------------------------------------\\
   Report.Execute;
 
