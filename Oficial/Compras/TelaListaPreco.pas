@@ -528,7 +528,7 @@ begin
           SQLListaVLRCUSTOATUAL.AsString    := SQLPesquisa.FieldByName('PRODN3VLRCUSTO').AsString;
           SQLListaVLRVENDA1ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA').AsString;
           SQLListaVLRVENDA2ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA2').AsString;
-          SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString;
+          SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value;
           //aqui
           SQLListaVLRMARGEMATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3PERCMGLVFIXA').AsString;
 

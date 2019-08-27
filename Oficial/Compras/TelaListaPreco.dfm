@@ -11,19 +11,19 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 1366
-    Height = 706
+    Height = 705
     inherited PanelCentral: TPanel
       Width = 1362
-      Height = 622
+      Height = 621
       inherited PanelBarra: TPanel
         Width = 0
-        Height = 622
+        Height = 621
       end
       object GroupProdFiltrados: TGroupBox
         Left = 0
         Top = 0
         Width = 1362
-        Height = 622
+        Height = 621
         Align = alClient
         Caption = ' Produtos Filtrados '
         Font.Charset = ANSI_CHARSET
@@ -37,7 +37,7 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
           Left = 2
           Top = 15
           Width = 1358
-          Height = 605
+          Height = 604
           Align = alClient
           Color = 16249066
           DataSource = dsLista
