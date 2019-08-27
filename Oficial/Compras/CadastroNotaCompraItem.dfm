@@ -1274,11 +1274,24 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                 Left = 10
                 Top = 116
                 Width = 807
-                Height = 194
+                Height = 220
                 ActivePage = TabSheet1
                 TabOrder = 9
                 object TabSheet1: TTabSheet
                   Caption = 'Informa'#231#245'es Tribut'#225'ria '
+                  object Label91: TLabel
+                    Left = 410
+                    Top = 125
+                    Width = 76
+                    Height = 13
+                    Caption = 'Base Calc. IPI'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = 8404992
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
                   object Button5: TButton
                     Left = 779
                     Top = 111
@@ -1296,9 +1309,9 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                   end
                   object GroupBox1: TGroupBox
                     Left = 2
-                    Top = 1
+                    Top = 0
                     Width = 774
-                    Height = 85
+                    Height = 120
                     Caption = '  ICMS NORMAL   E    ICMS ST  '
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clWindowText
@@ -1347,7 +1360,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                       ParentFont = False
                     end
                     object Label71: TLabel
-                      Left = 415
+                      Left = 423
                       Top = 12
                       Width = 65
                       Height = 13
@@ -1374,7 +1387,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label10: TLabel
                       Left = 414
-                      Top = 45
+                      Top = 46
                       Width = 71
                       Height = 13
                       Caption = 'MVA ST( % )'
@@ -1387,7 +1400,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label65: TLabel
                       Left = 496
-                      Top = 45
+                      Top = 46
                       Width = 79
                       Height = 13
                       Caption = 'Base ICMS ST.'
@@ -1400,7 +1413,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label64: TLabel
                       Left = 597
-                      Top = 45
+                      Top = 46
                       Width = 61
                       Height = 13
                       Caption = '% Icms ST'
@@ -1413,7 +1426,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label66: TLabel
                       Left = 673
-                      Top = 45
+                      Top = 46
                       Width = 78
                       Height = 13
                       Caption = 'Valor ICMS ST'
@@ -1426,7 +1439,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label57: TLabel
                       Left = 12
-                      Top = 47
+                      Top = 48
                       Width = 46
                       Height = 13
                       Caption = '% Frete'
@@ -1439,7 +1452,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label72: TLabel
                       Left = 84
-                      Top = 46
+                      Top = 47
                       Width = 48
                       Height = 13
                       Caption = 'R$ Frete'
@@ -1452,7 +1465,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label45: TLabel
                       Left = 173
-                      Top = 45
+                      Top = 46
                       Width = 47
                       Height = 13
                       Caption = '% Desp.'
@@ -1465,7 +1478,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label74: TLabel
                       Left = 248
-                      Top = 46
+                      Top = 47
                       Width = 72
                       Height = 13
                       Caption = 'Outras Desp.'
@@ -1478,10 +1491,36 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object Label73: TLabel
                       Left = 331
-                      Top = 46
+                      Top = 47
                       Width = 72
                       Height = 13
                       Caption = 'Valor Seguro'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = 8404992
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                    end
+                    object Label92: TLabel
+                      Left = 492
+                      Top = 82
+                      Width = 91
+                      Height = 13
+                      Caption = 'Base Calc.St.Ret'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = 8404992
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                    end
+                    object Label93: TLabel
+                      Left = 593
+                      Top = 82
+                      Width = 70
+                      Height = 13
+                      Caption = 'Vlr St.Retido'
                       Font.Charset = DEFAULT_CHARSET
                       Font.Color = 8404992
                       Font.Height = -11
@@ -1740,7 +1779,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object edtMVA: TCurrencyEdit
                       Left = 410
-                      Top = 59
+                      Top = 60
                       Width = 79
                       Height = 21
                       AutoSize = False
@@ -1749,7 +1788,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object DBEdit18: TEvDBNumEdit
                       Left = 492
-                      Top = 59
+                      Top = 60
                       Width = 97
                       Height = 21
                       AutoHideCalculator = False
@@ -1791,7 +1830,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object DBEdtPercSubstTrib: TEvDBNumEdit
                       Left = 593
-                      Top = 59
+                      Top = 60
                       Width = 71
                       Height = 21
                       AutoHideCalculator = False
@@ -1833,7 +1872,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object DBEdit19: TEvDBNumEdit
                       Left = 668
-                      Top = 59
+                      Top = 60
                       Width = 97
                       Height = 21
                       AutoHideCalculator = False
@@ -1874,7 +1913,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object dbeditfretePerc: TEvDBNumEdit
                       Left = 5
-                      Top = 60
+                      Top = 61
                       Width = 68
                       Height = 21
                       AutoHideCalculator = False
@@ -1916,7 +1955,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object dbeditFreteValor: TEvDBNumEdit
                       Left = 79
-                      Top = 60
+                      Top = 61
                       Width = 84
                       Height = 21
                       AutoHideCalculator = False
@@ -1957,7 +1996,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object DBEditPercDespesas: TEvDBNumEdit
                       Left = 168
-                      Top = 59
+                      Top = 60
                       Width = 73
                       Height = 21
                       AutoHideCalculator = False
@@ -2000,7 +2039,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object dbeditOutrasDesp: TEvDBNumEdit
                       Left = 246
-                      Top = 59
+                      Top = 60
                       Width = 78
                       Height = 21
                       AutoHideCalculator = False
@@ -2041,7 +2080,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     end
                     object dbeditValorSeguro: TEvDBNumEdit
                       Left = 330
-                      Top = 59
+                      Top = 60
                       Width = 77
                       Height = 21
                       AutoHideCalculator = False
@@ -2080,12 +2119,94 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                       ParentFont = False
                       TabOrder = 9
                     end
+                    object EvDBNumEdit14: TEvDBNumEdit
+                      Left = 492
+                      Top = 95
+                      Width = 97
+                      Height = 21
+                      AutoHideCalculator = False
+                      DataField = 'NOCIN2VBCSTRET'
+                      DataSource = DSTemplate
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = []
+                      Glyph.Data = {
+                        E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                        100003000000A402000000000000000000000000000000000000007C0000E003
+                        00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                        EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                        EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                        FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                        FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                        FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                        FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                        FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                        EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                        FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                        070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                        EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                        FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5E}
+                      ParentFont = False
+                      TabOrder = 14
+                    end
+                    object EvDBNumEdit17: TEvDBNumEdit
+                      Left = 593
+                      Top = 96
+                      Width = 73
+                      Height = 21
+                      AutoHideCalculator = False
+                      DataField = 'NOCIN2VICMSSTRET'
+                      DataSource = DSTemplate
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = []
+                      Glyph.Data = {
+                        E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                        100003000000A402000000000000000000000000000000000000007C0000E003
+                        00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                        EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                        EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                        FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                        FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                        FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                        FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                        FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                        EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                        FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                        070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                        EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                        FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5E}
+                      ParentFont = False
+                      TabOrder = 15
+                    end
                   end
                   object GroupBox2: TGroupBox
                     Left = 2
-                    Top = 85
+                    Top = 121
                     Width = 774
-                    Height = 54
+                    Height = 60
                     Caption = '  IPI   '
                     Font.Charset = DEFAULT_CHARSET
                     Font.Color = clWindowText
@@ -4645,6 +4766,8 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
       FieldName = 'NOCIN2VBCSTRET'
       Origin = 'DB.NOTACOMPRAITEM.NOCIN2VBCSTRET'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = '##0.00'
+      EditFormat = '##0.00'
     end
     object SQLTemplateNOCIN2VCREDICMSSN: TFloatField
       FieldName = 'NOCIN2VCREDICMSSN'
@@ -4655,6 +4778,8 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
       FieldName = 'NOCIN2VICMSSTRET'
       Origin = 'DB.NOTACOMPRAITEM.NOCIN2VICMSSTRET'
       ProviderFlags = [pfInUpdate]
+      DisplayFormat = '##0.00'
+      EditFormat = '##0.00'
     end
     object SQLTemplateNOCA3CSTCOFINS: TStringField
       FieldName = 'NOCA3CSTCOFINS'

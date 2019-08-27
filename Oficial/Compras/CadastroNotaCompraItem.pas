@@ -333,6 +333,11 @@ type
     Label73: TLabel;
     Label7: TLabel;
     DBEdit6: TDBEdit;
+    Label91: TLabel;
+    Label92: TLabel;
+    EvDBNumEdit14: TEvDBNumEdit;
+    EvDBNumEdit17: TEvDBNumEdit;
+    Label93: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
     procedure SQLTemplatePRODICODChange(Sender: TField);
