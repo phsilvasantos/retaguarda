@@ -223,6 +223,7 @@ begin
       dm.SQLTemplate.SQL.Add('Select * from '+ TabelaItem);
       dm.SQLTemplate.SQL.Add('Where '+CampoID+'='''+ IDNota +'''');
       dm.SQLTemplate.Open;
+      dm.SQLTemplate.FetchAll;
       if not dm.SQLTemplate.IsEmpty then
         begin
           Item := 1;
