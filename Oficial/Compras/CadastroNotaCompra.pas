@@ -1225,47 +1225,49 @@ begin
                     if (DM.SQLConfigCompra.fieldbyname('CFCOCALTPRCPRODENT').Value = 'S') and
                        (SQLLocate('OPERACAOESTOQUE','OPESICOD','OPESCENTRADASAIDA',IntToStr(OperacaoEstoque)) = 'E') then
                       begin
-                        if SQLProduto.FindField('ICMSICOD').IsNull then
-                          ICMS := 0
-                        else
-                          ICMS := StrToFloat(SQLLocate('ICMS','ICMSICOD','ICMSN2ALIQUOTA',SQLProduto.FieldByName('ICMSICOD').AsString));
+                        if (StatusAnterior <> 'P') then
+                        begin
+                          if SQLProduto.FindField('ICMSICOD').IsNull then
+                            ICMS := 0
+                          else
+                            ICMS := StrToFloat(SQLLocate('ICMS','ICMSICOD','ICMSN2ALIQUOTA',SQLProduto.FieldByName('ICMSICOD').AsString));
 
-                        If DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value='U' Then
-                          ValorBase := SQLProduto.FindField('PRODN3VLRCUSTO').asFloat;
-                        If DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value='M' Then
-                          ValorBase := SQLProduto.FindField('PRODN3VLRCUSTOMED').asFloat;
+                          If DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value='U' Then
+                            ValorBase := SQLProduto.FindField('PRODN3VLRCUSTO').asFloat;
+                          If DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value='M' Then
+                            ValorBase := SQLProduto.FindField('PRODN3VLRCUSTOMED').asFloat;
 
-                        // Margem Varejo Fixa
-                        if SQLNotaCompraItens.FindField('NOCIN2MGVENDA').asFloat > 0 then
-                          SQLProduto.FindField('PRODN3PERCMGLVFIXA').value := SQLNotaCompraItens.FindField('NOCIN2MGVENDA').asFloat;
-                        // Margem Atacado Fixa
-                        if SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat > 0 then
-                          SQLProduto.FindField('PRODN3PERCMGLAFIXA').value := SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat;
+                          // Margem Varejo Fixa
+                          if SQLNotaCompraItens.FindField('NOCIN2MGVENDA').asFloat > 0 then
+                            SQLProduto.FindField('PRODN3PERCMGLVFIXA').value := SQLNotaCompraItens.FindField('NOCIN2MGVENDA').asFloat;
+                          // Margem Atacado Fixa
+                          if SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat > 0 then
+                            SQLProduto.FindField('PRODN3PERCMGLAFIXA').value := SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat;
 
-                        // Valor Venda Varejo
-                        if SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat > 0 then
-                          begin
-                            SQLProduto.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat / ValorBase) - 1) * 100;
-                            SQLProduto.FindField('PRODN3VLRVENDA').asFloat  := SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat;
-                          end;
+                          // Valor Venda Varejo
+                          if SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat > 0 then
+                            begin
+                              SQLProduto.FindField('PRODN3PERCMARGLUCR').asFloat := ((SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat / ValorBase) - 1) * 100;
+                              SQLProduto.FindField('PRODN3VLRVENDA').asFloat  := SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat;
+                            end;
 
-                        // Valor Venda Atacado
-                        if SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat > 0 then
-                          begin
-                            SQLProduto.FindField('PRODN3PERCMARGLUC2').asFloat := SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat;
-                            SQLProduto.FindField('PRODN3VLRVENDA2').asFloat := SQLNotaCompraItens.FindField('NOCIN2VLRVENDA2').asFloat;
-                          end;
+                          // Valor Venda Atacado
+                          if SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat > 0 then
+                            begin
+                              SQLProduto.FindField('PRODN3PERCMARGLUC2').asFloat := SQLNotaCompraItens.FindField('NOCIN2MGVENDA2').asFloat;
+                              SQLProduto.FindField('PRODN3VLRVENDA2').asFloat := SQLNotaCompraItens.FindField('NOCIN2VLRVENDA2').asFloat;
+                            end;
 
-                        // Lança Reajuste de Preço
-                        if SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat > 0 then
-                          LancaReajustePreco(SQLProduto.FindField('PRODN3VLRVENDA').asFloat,
-                                             0,
-                                             0,
-                                             0,
-                                             0,
-                                             0,
-                                             SQLProduto.FindField('PRODICOD').asInteger);
-
+                          // Lança Reajuste de Preço
+                          if SQLNotaCompraItens.FindField('NOCIN2VLRVENDA').asFloat > 0 then
+                            LancaReajustePreco(SQLProduto.FindField('PRODN3VLRVENDA').asFloat,
+                                               0,
+                                               0,
+                                               0,
+                                               0,
+                                               0,
+                                               SQLProduto.FindField('PRODICOD').asInteger);
+                        end;
                       end
                     else
                       begin
