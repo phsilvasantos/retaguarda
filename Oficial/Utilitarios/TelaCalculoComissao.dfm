@@ -9,13 +9,13 @@ inherited FormTelaCalculoComissao: TFormTelaCalculoComissao
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 944
-    Height = 529
+    Height = 528
     inherited PanelCentral: TPanel
       Width = 940
-      Height = 445
+      Height = 444
       inherited PanelBarra: TPanel
         Width = 141
-        Height = 445
+        Height = 444
         TabOrder = 2
         object Label2: TLabel
           Left = 14
@@ -758,6 +758,7 @@ inherited FormTelaCalculoComissao: TFormTelaCalculoComissao
       
         ' INNER JOIN VENDEDOR VENDEDOR ON CUPOMITEM.VENDICOD = VENDEDOR.V' +
         'ENDICOD'
+      ' LEFT JOIN PRODUTO on PRODUTO.PRODICOD = CUPOMITEM.PRODICOD'
       'where'
       '  CUPOM.CUPOCSTATUS = '#39'A'#39' and'
       '  CUPOMITEM.CPITN3QTD > 0 and'
@@ -766,10 +767,9 @@ inherited FormTelaCalculoComissao: TFormTelaCalculoComissao
         '  CUPOM.CUPON2TOTITENS+CUPOM.CUPON3CREDTAXA+CUPOM.CUPON2ACRESC-C' +
         'UPOM.CUPON2DESC-CUPOM.CUPON3BONUSTROCA > 0 and'
       '  (%MVendedor) and'
-      '  (%MData)'
-      ''
+      '  (%MData) and'
+      '  (%MParticipa) '
       'union all'
-      ''
       'SELECT'
       'cast(NOTAFISCAL.NOFIINUMERO as CHAR(13)) as CUPOA13ID,'
       'NOTAFISCAL.VENDICOD as VENDICOD,'
@@ -816,13 +816,13 @@ inherited FormTelaCalculoComissao: TFormTelaCalculoComissao
       end
       item
         DataType = ftString
-        Name = 'MData1'
+        Name = 'MParticipa'
         ParamType = ptInput
         Value = '0=0'
       end
       item
         DataType = ftString
-        Name = 'MParticipa'
+        Name = 'MData1'
         ParamType = ptInput
         Value = '0=0'
       end>
