@@ -1,6 +1,6 @@
 inherited FormTelaImportadorXML: TFormTelaImportadorXML
   Left = -5
-  Top = 44
+  Top = 31
   Width = 1382
   Height = 744
   Caption = 'Importador de XMLs'
@@ -33,7 +33,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
           Top = 1
           Width = 1359
           Height = 470
-          ActivePage = tsItens
+          ActivePage = tsXMLs
           Align = alClient
           TabOrder = 0
           object tsXMLs: TTabSheet
@@ -2518,7 +2518,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
               Height = 25
               Cursor = crHandPoint
               Hint = 'Fechar Tela'
-              Caption = '&Gravar NCM'
+              Caption = 'Regravar Itens NFE'
               Flat = True
               Font.Charset = ANSI_CHARSET
               Font.Color = clBlack

@@ -514,7 +514,8 @@ type
 
     {Procedimento de Conversão de Dados}
     function getCSTConversao(aTipoImposto: TTipoImposto; aCSTOrigem: string): String;
-    function getCFOPConversao(aOperacaoEstoqueId: Integer; aCFOPOrigem: String): string;
+
+    function getCFOPConversao(aOperacaoEstoqueId: Integer; aCFOPOrigem: String; aCSTOrigem : Integer): String;
 
     function RetornaCodigoCompra(aSequencia: Integer): String;
 
@@ -589,7 +590,7 @@ end;
 procedure TFormTelaImportadorXML.PopulaComponentesTela(aTipoVisualizacao: TTipoVisualizacao);
 var
   s, sEan, xTitulo_Embalagem : String;
-  i: Integer;
+  i, vCST: Integer;
   ce: Real;
 begin
   {Dados da nota fiscal}
@@ -691,9 +692,13 @@ begin
         CriaNCM(cdsItens.FieldByName('ncm').AsString);
         CriaCEST(cdsItens.FieldByName('cest').AsString, cdsItens.FieldByName('ncm').AsString);
 
+        vCST := 0;
+        if (ACBrNFe.NotasFiscais.Items[0].Nfe.Det.Items[i].Imposto.ICMS.CST = cst60) then
+          vCST := 60;
+
         {CFOP NF E CFOP A GRAVAR}
         cdsItens.FieldByName('cfop_nf_entrada').AsInteger := StrToInt(ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.CFOP);
-        cdsItens.FieldByName('cfop_gravar').AsInteger := StrToInt(getCFOPConversao(dblkcbbOpEstoque.KeyValue,ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.CFOP));
+        cdsItens.FieldByName('cfop_gravar').AsInteger := StrToInt(getCFOPConversao(dblkcbbOpEstoque.KeyValue,ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.CFOP, vCST));
 
         {VALORES, UNIDADE, ORIGEM E QUANTIDADE COMERCIALIZADA}
         cdsItens.FieldByName('unidade').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.uCom;
@@ -1077,7 +1082,7 @@ begin
         begin
           {Verifica se possue ja vinculo, se sim edita a linha}
           cdsItens.Edit;
-          cdsItens.FieldByName('cfop_gravar').AsInteger := StrToInt(getCFOPConversao(dblkcbbOpEstoque.KeyValue,cdsItens.FieldByName('cfop_nf_entrada').AsString));
+          cdsItens.FieldByName('cfop_gravar').AsInteger := StrToInt(getCFOPConversao(dblkcbbOpEstoque.KeyValue,cdsItens.FieldByName('cfop_nf_entrada').AsString,0));
           cdsItens.Post;
         end;
         cdsItens.Next;
@@ -1245,7 +1250,7 @@ begin
           try
             dm.SQLUpdate.Close;
             dm.SQLUpdate.SQL.Clear;
-            dm.SQLUpdate.sql.add('INSERT INTO PRODUTOFORNECEDOR (PRODICOD, FORNICOD, PRFOA30REFERENCIA)');
+            dm.SQLUpdate.sql.add('UPDATE OR INSERT INTO PRODUTOFORNECEDOR (PRODICOD, FORNICOD, PRFOA30REFERENCIA)');
             dm.SQLUpdate.sql.add('VALUES (:PRODICOD, :FORNICOD, :PRFOA30REFERENCIA)');
             dm.SQLUpdate.Params.ParamByName('PRODICOD').AsInteger := cod;
             dm.SQLUpdate.Params.ParamByName('FORNICOD').AsInteger := aIdFornecedor;
@@ -1407,6 +1412,8 @@ procedure TFormTelaImportadorXML.cxGrid4DBTableView1CellDblClick(
   AShift: TShiftState; var AHandled: Boolean);
 begin
   inherited;
+  ValorSTRetido := 0;
+  BaseSTRetido  := 0;
   VisualizaArquivoXML(tvProcessar);
 end;
 
@@ -1480,19 +1487,23 @@ begin
   ExecutaValidacoes;
 end;
 
-function TFormTelaImportadorXML.getCFOPConversao(aOperacaoEstoqueId: Integer; aCFOPOrigem: String): string;
+function TFormTelaImportadorXML.getCFOPConversao(aOperacaoEstoqueId: Integer; aCFOPOrigem: String ; aCSTOrigem : Integer): String;
 begin
   result := '0';
   dm.SQLConsulta.Close;
   dm.SQLConsulta.sql.clear;
   dm.SQLConsulta.SQL.Add('SELECT OPESICOD, CFOP, CFOPCONVERTE ');
   dm.SQLConsulta.SQL.Add('FROM OPERACAOESTOQUECONVERSOR ');
-  dm.SQLConsulta.SQL.Add('WHERE (OPESICOD = :OPESICOD) AND (CFOP = :CFOP) ');
+  dm.SQLConsulta.SQL.Add('WHERE (OPESICOD = :OPESICOD) AND (CFOP = :CFOP) AND (coalesce(CST,0) = :CST) ');
   dm.SQLConsulta.ParamByName('OPESICOD').AsInteger := aOperacaoEstoqueId;
   dm.SQLConsulta.ParamByName('CFOP').AsString := aCFOPOrigem;
+  dm.SQLConsulta.ParamByName('CST').AsInteger := aCSTOrigem;
   dm.SQLConsulta.Open;
   if not (dm.SQLConsulta.IsEmpty) then
+  begin
     result := dm.SQLConsulta.FieldByName('CFOPCONVERTE').AsString;
+  end;
+
 end;
 
 function TFormTelaImportadorXML.getCSTConversao(aTipoImposto: TTipoImposto; aCSTOrigem: string): String;
@@ -1552,7 +1563,7 @@ procedure TFormTelaImportadorXML.actCfopConvertExecute(Sender: TObject);
 begin
   inherited;
   {Verificar se o CFOP em questão ja não possui vinculos para a operação de estoque atual}
-  if (getCFOPConversao(dblkcbbOpEstoque.KeyValue, IntToStr(cdsItenscfop_nf_entrada.AsInteger)) <> '0') then
+  if (getCFOPConversao(dblkcbbOpEstoque.KeyValue, IntToStr(cdsItenscfop_nf_entrada.AsInteger),0) <> '0') then
   begin
     raise Exception.Create('O CFOP selecionado ja possui vínculo para a Operação de Estoque informada.');
   end;
@@ -1735,7 +1746,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VICMSSTRET, NOCIN2VCREDICMSSN, NOCA3CSTIPI, NOCN4QTDIPI, ');
                 dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, UNIDICOD,  ');
-                dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO)  ');
+                dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO, VALOR_ICMS_CREDITO)  ');
                 dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, :NOCIN3CAPEMBAL,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEMBAL, :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
@@ -1747,7 +1758,8 @@ begin
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VICMSSTRET, :NOCIN2VCREDICMSSN, :NOCA3CSTIPI, :NOCN4QTDIPI,  ');
                 dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, :UNIDICOD,');
-                dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO)');
+                dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO,');
+                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO)');
 
                 dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := RetornaCodigoCompra(iSequencialNf);
                 dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
@@ -1795,9 +1807,10 @@ begin
                 else
                   dm.SQLUpdate.ParamByName('NOCIA3CSTICMS').AsString    := cdsItenscst_icms.AsString;
 
-                dm.SQLUpdate.ParamByName('NOCIN2VBC').AsFloat         := cdsItensbase_icms.AsFloat;
-                dm.SQLUpdate.ParamByName('NOCIN3PERCICMS').AsFloat    := cdsItensaliquota_icms.AsFloat;
-                dm.SQLUpdate.ParamByName('NOCIN3VLRICMS').AsFloat     := cdsItensvalor_icms.AsFloat;
+                dm.SQLUpdate.ParamByName('NOCIN2VBC').AsFloat          := cdsItensbase_icms.AsFloat;
+                dm.SQLUpdate.ParamByName('NOCIN3PERCICMS').AsFloat     := cdsItensaliquota_icms.AsFloat;
+                dm.SQLUpdate.ParamByName('NOCIN3VLRICMS').AsFloat      := cdsItensvalor_icms.AsFloat;
+                dm.SQLUpdate.ParamByName('VALOR_ICMS_CREDITO').AsFloat := cdsItensvalor_icms.AsFloat;
 
                 dm.SQLUpdate.ParamByName('NOCIN2PMVAST').AsFloat      := cdsItensperc_mva.AsFloat;
                 dm.SQLUpdate.ParamByName('NOCIN2VBCST').AsFloat       := cdsItensbase_icms_st.AsFloat;
@@ -3336,16 +3349,124 @@ begin
     MessageDlg('Nenhum XML processado!', mtError, [mbOK],0);
     Exit;
   end;
+  dm.SeqItemCompra := 1;
+  dm.SqlConsulta.SQL.Clear;
+  dm.SqlConsulta.SQL.Add(' SELECT NOCPA13ID FROM NOTACOMPRA WHERE nofia44chaveacesso = ' + QuotedStr(edtChaveNfe.Text));
+  dm.SqlConsulta.Open;
+  if dm.SqlConsulta.IsEmpty then
+  begin
+    ShowMessage('Nenhuma nota localizda com a chave: ' + edtChaveNfe.Text);
+    Exit;
+  end;
   try
     cdsItens.DisableControls;
     cdsItens.First;
+
     while not cdsItens.Eof do
     begin
-      if not(ProdutoContemNCM(StrToInt(cdsItenscodigo_gravar.AsString), getIdNCMFromCodigo(cdsItensncm.AsString))) then
-      begin
-        AtualizaNCMCadastroProduto(StrToInt(cdsItenscodigo_gravar.AsString), cdsItensncm.AsString);
-      end;
+
+      dm.SQLUpdate.close;
+      dm.SQLUpdate.sql.clear;
+      dm.SQLUpdate.SQL.Add('UPDATE OR INSERT INTO NOTACOMPRAITEM (NOCPA13ID, NOCIIITEM, PRODICOD, ');
+      dm.SQLUpdate.SQL.Add('                            NOCIN3QTDEPED, NOCIN3TOTPED, NOCIN3VLRDESC, NOCIN3PERCDESC,');
+      dm.SQLUpdate.SQL.Add('                            NOCIN3VLRICMS, NOCIN3PERCICMS, NOCIN3VLRSUBST, NOCIN3VLRIPI, NOCIN3PERCIPI,');
+      dm.SQLUpdate.SQL.Add('                            NOCIN3VLRCUSTOMED, NOCIN3VLRFRETE, PDCPA13ID, PCITIPOS,');
+      dm.SQLUpdate.SQL.Add('                            NOCICALTPRECO, NOCIN2PERCDIFICM, NOCIN2PERCSUBST, CFOPA5CODAUX, ');
+      dm.SQLUpdate.SQL.Add('                            NOCIN2PMVAST, NOCIN2VLRSEGURO, NOCIN2VLRDESPESAS, NOCN4COFINSQTD,');
+      dm.SQLUpdate.SQL.Add('                            NOCA3CSTCOFINS, NOCIN2PERCCOFINS, NOCIN2VLRCOFINS, NOCN4COFINSREAL, NOCIN2BASECOFINS, ');
+      dm.SQLUpdate.SQL.Add('                            NOCIN2VBC, NOCIN2VBCST, NOCIN2VBCSTRET, NOCIN2PREDBC, NOCIN2PREDBCST, NOCIA3CSTICMS,');
+      dm.SQLUpdate.SQL.Add('                            NOCIN2VICMSSTRET, NOCIN2VCREDICMSSN, NOCA3CSTIPI, NOCN4QTDIPI, ');
+      dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
+      dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, ');
+      dm.SQLUpdate.SQL.Add('                            NOCIN3PERCFRETE, NOCIN3QTDBONIF, VALOR_ICMS_CREDITO)  ');
+      dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRCUSTOMED, :NOCIN3VLRFRETE, :PDCPA13ID, :PCITIPOS, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCICALTPRECO, :NOCIN2PERCDIFICM, :NOCIN2PERCSUBST, :CFOPA5CODAUX, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN2PMVAST, :NOCIN2VLRSEGURO, :NOCIN2VLRDESPESAS, :NOCN4COFINSQTD, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCA3CSTCOFINS, :NOCIN2PERCCOFINS, :NOCIN2VLRCOFINS, :NOCN4COFINSREAL, :NOCIN2BASECOFINS, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN2VBC, :NOCIN2VBCST, :NOCIN2VBCSTRET, :NOCIN2PREDBC, :NOCIN2PREDBCST, :NOCIA3CSTICMS, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN2VICMSSTRET, :NOCIN2VCREDICMSSN, :NOCA3CSTIPI, :NOCN4QTDIPI,  ');
+      dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, ');
+      dm.SQLUpdate.SQL.Add('                            :NOCIN3PERCFRETE, :NOCIN3QTDBONIF,:VALOR_ICMS_CREDITO)');
+
+      dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := dm.SqlConsulta.FieldByName('NOCPA13ID').Value;
+      dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
+      dm.SQLUpdate.ParamByName('PCITIPOS').AsInteger     := dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger; {Posicao no Pedido Compra}
+      dm.SQLUpdate.ParamByName('PRODICOD').AsInteger     := cdsItens.FieldByName('codigo_gravar').AsInteger;
+      dm.SQLUpdate.ParamByName('CFOPA5CODAUX').AsString  := IntToStr(cdsItenscfop_gravar.AsInteger);
+      dm.SQLUpdate.ParamByName('PDCPA13ID').AsString     := cdsTempPDCPA13ID.AsString;
+      dm.SQLUpdate.ParamByName('NOCICALTPRECO').AsString := 'I';
+      dm.SQLUpdate.ParamByName('NOCIN3QTDBONIF').AsFloat := 0.00;
+
+      dm.SQLUpdate.ParamByName('NOCIN2VLRSEGURO').AsFloat   := cdsItensvalor_seguro.AsFloat;
+
+      dm.SQLUpdate.ParamByName('NOCIN2VLRDESPESAS').AsFloat := cdsItensvalor_outras_despesas.AsFloat;
+      if dm.SQLUpdate.ParamByName('NOCIN2VLRDESPESAS').IsNull then
+        dm.SQLUpdate.ParamByName('NOCIN2VLRDESPESAS').asfloat := 0.00;
+
+      dm.SQLUpdate.ParamByName('NOCIN3VLRDESC').AsFloat     := cdsItensvalor_desconto.AsFloat;
+      if dm.SQLUpdate.ParamByName('NOCIN3VLRDESC').AsFloat > 0 then
+        dm.SQLUpdate.ParamByName('NOCIN3PERCDESC').AsFloat    := (cdsItensvalor_desconto.AsFloat/(cdsItensvalor_unitario.AsFloat*cdsItens.FieldByName('quantidade').AsFloat)) * 100
+      else
+        dm.SQLUpdate.ParamByName('NOCIN3PERCDESC').AsFloat    := 0;
+      dm.SQLUpdate.ParamByName('NOCIN3VLRFRETE').AsFloat    := cdsItensvalor_frete.AsFloat;
+      if dm.SQLUpdate.ParamByName('NOCIN3VLRFRETE').AsFloat > 0 then
+        dm.SQLUpdate.ParamByName('NOCIN3PERCFRETE').AsFloat    := (cdsItensvalor_frete.AsFloat/edtValorFrete.Value) * 100
+      else
+        dm.SQLUpdate.ParamByName('NOCIN3PERCFRETE').AsFloat    := 0;
+      dm.SQLUpdate.ParamByName('NOCIN2PERCDIFICM').AsFloat  := 0.00;
+      if cdsItenscst_icms.AsString = '00' then
+        dm.SQLUpdate.ParamByName('NOCIA3CSTICMS').AsString    :=  '0'
+      else
+        dm.SQLUpdate.ParamByName('NOCIA3CSTICMS').AsString    := cdsItenscst_icms.AsString;
+      dm.SQLUpdate.ParamByName('NOCIN2VBC').AsFloat          := cdsItensbase_icms.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN3PERCICMS').AsFloat     := cdsItensaliquota_icms.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN3VLRICMS').AsFloat      := cdsItensvalor_icms.AsFloat;
+      dm.SQLUpdate.ParamByName('VALOR_ICMS_CREDITO').AsFloat := cdsItensvalor_icms.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2PMVAST').AsFloat      := cdsItensperc_mva.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2VBCST').AsFloat       := cdsItensbase_icms_st.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2PERCSUBST').AsFloat   := cdsItensaliquota_icms_st.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN3VLRSUBST').AsFloat    := cdsItensvalor_icms_st.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2VBCSTRET').AsFloat    := cdsItensbase_icms_st_retido.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2PREDBC').AsFloat      := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN2PREDBCST').AsFloat    := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN2VICMSSTRET').AsFloat  := cdsItensvalor_icms_st_retido.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2VCREDICMSSN').AsFloat := 0.00;
+      if cdsItenscst_ipi.AsString = '' then
+        dm.SQLUpdate.ParamByName('NOCA3CSTIPI').AsString := '02'
+      else
+        dm.SQLUpdate.ParamByName('NOCA3CSTIPI').AsString := cdsItenscst_ipi.AsString;
+      dm.SQLUpdate.ParamByName('NOCIN2VBCIPI').AsFloat   := 0.00;
+      dm.SQLUpdate.ParamByName('NOCN4QTDIPI').AsFloat    := 0.00;
+      dm.SQLUpdate.ParamByName('NOCN4UNDIPI').AsFloat    := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN3PERCIPI').AsFloat  := cdsItensaliquota_ipi.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN3VLRIPI').AsFloat   := cdsItensvalor_ipi.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCA3CSTPIS').AsString     := cdsItenscst_pis.AsString;
+      dm.SQLUpdate.ParamByName('NOCIN2BASEPIS').AsFloat    := cdsItensbase_pis.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2PERCPIS').AsFloat    := cdsItensaliquota_pis.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2VLRPIS').AsFloat     := cdsItensvalor_pis.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCN4PISQTD').AsFloat      := 0.000;
+      dm.SQLUpdate.ParamByName('NOCN4PISREAL').AsFloat     := 0.00;
+      dm.SQLUpdate.ParamByName('NOCA3CSTCOFINS').AsString  := cdsItenscst_cofins.AsString;
+      dm.SQLUpdate.ParamByName('NOCIN2BASECOFINS').AsFloat := cdsItensbase_cofins.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2PERCCOFINS').AsFloat := cdsItensaliquota_cofins.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN2VLRCOFINS').AsFloat  := cdsItensvalor_cofins.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCN4COFINSQTD').AsFloat   := 0.000;
+      dm.SQLUpdate.ParamByName('NOCN4COFINSREAL').AsFloat  := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN2PERCISS').AsFloat    := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN2BASEISS').AsFloat    := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN2VLRISS').AsFloat     := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN3VLRCUSTOMED').AsFloat := (cdsItensquantidade.AsFloat * (cdsItensvalor_unitario.AsFloat / cdsItensquantidade_emb.AsFloat)) / cdsItensquantidade.AsFloat;
+      dm.SQLUpdate.ParamByName('NOCIN3QTDEPED').AsFloat  := 0.00;
+      dm.SQLUpdate.ParamByName('NOCIN3TOTPED').AsFloat   := 0.00;
       cdsItens.Next;
+      dm.SeqItemCompra := dm.SeqItemCompra + 1;
+      if cdsItenscst_icms.AsString <> '' then
+        AtualizaCST_ICMSCadastroProduto(StrToInt(cdsItenscodigo_gravar.AsString), cdsItenscst_icms.AsString,cdsItensorigem_produto.AsString);
+      dm.SQLUpdate.ExecSQL;
     end;
   finally
     cdsItens.First;
