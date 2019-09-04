@@ -1012,6 +1012,19 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                 ShowHint = True
                 OnClick = SpeedButton2Click
               end
+              object Label94: TLabel
+                Left = 482
+                Top = 77
+                Width = 74
+                Height = 13
+                Caption = 'CFOP Original'
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = 8404992
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = [fsBold]
+                ParentFont = False
+              end
               object DBEditQtde: TEvDBNumEdit
                 Left = 119
                 Top = 53
@@ -1110,7 +1123,7 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
               object DBLookupComboBox2: TDBLookupComboBox
                 Left = 91
                 Top = 91
-                Width = 702
+                Width = 385
                 Height = 21
                 DataField = 'CFOPA5CODAUX'
                 DataSource = DSTemplate
@@ -3535,6 +3548,24 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                   end
                 end
               end
+              object edtCFOPOriginal: TDBEdit
+                Left = 482
+                Top = 90
+                Width = 108
+                Height = 21
+                DataField = 'CFOPORIGINAL'
+                DataSource = DSTemplate
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -11
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                ReadOnly = True
+                TabOrder = 10
+                OnExit = DBEditLoteExit
+                OnKeyDown = DBEditLoteKeyDown
+              end
             end
           end
           inherited PanelMaster: TPanel
@@ -4925,6 +4956,12 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
       ProviderFlags = [pfInUpdate]
       DisplayFormat = '##0.000'
       Calculated = True
+    end
+    object SQLTemplateCFOPORIGINAL: TStringField
+      FieldName = 'CFOPORIGINAL'
+      Origin = 'DB.NOTACOMPRAITEM.CFOPORIGINAL'
+      FixedChar = True
+      Size = 5
     end
   end
   inherited DSMasterTemplate: TDataSource

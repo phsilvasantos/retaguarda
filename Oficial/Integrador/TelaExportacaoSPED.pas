@@ -7898,7 +7898,8 @@ begin
   if Mem1920Tipo.Value = 'NFE' then
   begin
     zPesquisa1.SQL.Add('select SP.CHAVEACESSO, SP.NRO_NOTA NUMERONOTA, SP.MODELO MODELO, SP.VLR_ICMS_ST VLR_ICMS_ST, SP.VLR_ICMS VLR_ICMS, ');
-    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR ');
+    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR, SP.ALIQ_ICMS_ST, SP.ALIQ_RED_BASE_ST, ');
+    zPesquisa1.SQL.Add('SP.TOTAL_ITEM ');
     zPesquisa1.SQL.Add('from SPED_1900 SP ');
     zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
     zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
@@ -7912,7 +7913,8 @@ begin
   begin
     zPesquisa1.SQL.Add('select SP.CHAVEACESSO CHAVEACESSO, SP.NRO_NOTA NUMERONOTA, SP.MODELO MODELO, ');
     zPesquisa1.SQL.Add('sum((SP.VLR_ICMS_ST) * ' + ConvFloatToStr(zPesquisa2.FieldByName('ICMUN2ALIQUOTA').Value) + ' / 100) VLR_ICMS_ST, SP.VLR_ICMS VLR_ICMS, ');
-    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR ');
+    zPesquisa1.SQL.Add('SP.COD_PRODUTO PRODICOD, SP.DT_EMISSAO DATAEMISSAO, SP.SERIE SERIE, SP.CLIFOR CLIFOR, SP.ALIQ_ICMS_ST, SP.ALIQ_RED_BASE_ST, ');
+    zPesquisa1.SQL.Add('SP.TOTAL_ITEM ');
     zPesquisa1.SQL.Add('from SPED_1900 SP ');
     zPesquisa1.SQL.Add('WHERE SP.TIPO = ' + QuotedStr(Mem1920Tipo.AsString) + ' AND ');
     zPesquisa1.SQL.Add(' SP.DT_EMISSAO >= ''' +FormatDateTime('mm/dd/yyyy',De.Date) + ''' and ' + 'SP.DT_EMISSAO <= ''' + FormatDateTime('mm/dd/yyyy',Ate.Date) + ''' and ');
@@ -7920,14 +7922,21 @@ begin
     zPesquisa1.SQL.Add('SP.CST in (' + quotedstr('60') + ', '+QuotedStr('500') +') AND ');
     zPesquisa1.SQL.Add('SP.EMPRESA = ' + ComboEmpresa.KeyValue + ' AND ');
     zPesquisa1.SQL.Add('SP.STATUS = ''E'' ');
-    zPesquisa1.SQL.Add(' GROUP BY SP.CHAVEACESSO, SP.NRO_NOTA, SP.MODELO, SP.VLR_ICMS , SP.COD_PRODUTO , SP.DT_EMISSAO, SP.SERIE, SP.CLIFOR');
+    zPesquisa1.SQL.Add(' GROUP BY SP.CHAVEACESSO, SP.NRO_NOTA, SP.MODELO, SP.VLR_ICMS , SP.COD_PRODUTO , SP.DT_EMISSAO, SP.SERIE, SP.CLIFOR, SP.ALIQ_ICMS_ST, SP.ALIQ_RED_BASE_ST,SP.TOTAL_ITEM ');
   end;
   zPesquisa1.Open;
   zPesquisa1.First;
   while not zPesquisa1.Eof do
   begin
+    vValor_ICMS := 0;
     vDataDocumento := FormatDateTime('ddmmyyyy',zPesquisa1.FieldByName('DATAEMISSAO').AsDateTime);
-    vValor_ICMS := zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
+    if (zPesquisa1.FieldByName('ALIQ_ICMS_ST').AsFloat > 0) and
+       (zPesquisa1.FieldByName('ALIQ_RED_BASE_ST').AsFloat > 0) and
+       (zPesquisa1.FieldByName('VLR_ICMS').AsFloat = 0) then
+    begin
+      vValor_ICMS := (zPesquisa1.FieldByName('TOTAL_ITEM').AsFloat * (zPesquisa1.FieldByName('ALIQ_RED_BASE_ST').AsFloat / 100)) * (zPesquisa1.FieldByName('ALIQ_ICMS_ST').AsFloat / 100);
+    end;
+    vValor_ICMS := vValor_ICMS + zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
     if Mem1920Tipo.Value = 'NFE' then
       vCodParticipante := DM.SQLLocate('SPED_0150','COD_FORN','COD_PART', zPesquisa1.FieldByName('CLIFOR').AsString)
     else

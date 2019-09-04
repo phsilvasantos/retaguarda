@@ -121,6 +121,10 @@ type
     tblQuitadosAgendado: TStringField;
     tblQuitadosDataVencimento: TDateField;
     tblQuitadosPagarReceber: TStringField;
+    TblTemporariaJurosPrevisto: TFloatField;
+    SQLReceberCTRCN2TXJURO: TFloatField;
+    SQLReceberCUPOA13ID: TStringField;
+    SQLReceberCTRCINROPARC: TIntegerField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ComboPortadorExit(Sender: TObject);
@@ -164,15 +168,17 @@ begin
 
   SQLReceber.Open;
 
+  try
+    tblQuitados.Close;
+    tblQuitados.DeleteTable;
+    tblQuitados.CreateTable;
+  except
+    tblQuitados.CreateTable;
+  end;
+
+
   if chkListaBoleto.Checked then
   begin
-    try
-      tblQuitados.Close;
-      tblQuitados.DeleteTable;
-      tblQuitados.CreateTable;
-    except
-      tblQuitados.CreateTable;
-    end;
     vTotalQuitados := 0;
     SQLQuitados.Close;
     SQLQuitados.MacroByName('Empresa').Value := SQLDeLista(ComboEmpresa, ListaEmpresas, '', 'ContasReceber', 'EMPRICOD');
@@ -254,36 +260,57 @@ begin
     TblTemporariaDataVencimento.AsDateTime := SQLReceberCTRCDVENC.AsDateTime;
     TblTemporariaCliente.AsString := SQLReceberCLIEA60RAZAOSOC.AsString;
     if SQLReceberVALORRECEBER.AsFloat > 0 then
-      TblTemporariaCredito.AsFloat := SQLReceberVALORRECEBER.AsFloat
+    begin
+
+      TblTemporariaJurosPrevisto.AsFloat := CalculaJuroMultaDesc(SQLReceberVALORRECEBER.AsFloat,
+                                                                 SQLReceberCTRCN2TXJURO.AsFloat,
+                                                                 SQLReceberCTRCDVENC.AsDateTime,
+                                                                 Date,
+                                                                 0,
+                                                                 DM.SQLConfigCrediario.Fieldbyname('CFCRINRODIASTOLJUR').AsInteger,
+                                                                 'Juro',
+                                                                 SQLReceberCUPOA13ID.AsString,
+                                                                 SQLReceberCTRCINROPARC.AsString);
+
+      TblTemporariaCredito.AsFloat := SQLReceberVALORRECEBER.AsFloat + TblTemporariaJurosPrevisto.AsFloat;
+    end
     else
+    begin
+      TblTemporariaJurosPrevisto.AsFloat := 0;
       TblTemporariaCredito.AsFloat := SQLReceberVALORRECEBIDO.AsFloat;
+    end;
     TblTemporariaConta.AsString := SQLReceberPLCTA60DESCR.AsString;
     TblTemporariaHistorico.AsString := SQLReceberCTRCA254HIST.AsString;
     TblTemporariaAgendado.AsString := SQLReceberPREVISTO.AsString;
     TblTemporariaSoma_Quitado.AsString := SQLReceberSOMA_QUITADO.AsString;
+
     TblTemporariaDebito.AsFloat := 0;
+
     TblTemporaria.Post;
     SQLReceber.Next;
   end;
 
-  SQLQuitados.First;
-  while not SQLQuitados.Eof do
+  if chkListaBoleto.Checked then
   begin
+    SQLQuitados.First;
+    while not SQLQuitados.Eof do
     begin
-      TblTemporaria.Append;
-      TblTemporariaDataPrevista.AsDateTime := SQLQuitadosCTRCDULTREC.AsDateTime;
-      TblTemporariaPagarReceber.AsString := SQLQuitadosCTRCA13ID.AsString;
-      TblTemporariaPortador.AsString := SQLQuitadosPORTA60DESCR.AsString;
-      TblTemporariaDataVencimento.AsDateTime := SQLQuitadosCTRCDVENC.AsDateTime;
-      TblTemporariaCliente.AsString := SQLQuitadosCLIEA60RAZAOSOC.AsString;
-      TblTemporariaCredito.AsFloat := SQLQuitadosVALORRECEBIDO.AsFloat;
-      TblTemporariaConta.AsString := SQLQuitadosPLCTA15COD.AsString;
-      TblTemporariaHistorico.AsString := SQLQuitadosCTRCA254HIST.AsString;
-      TblTemporariaAgendado.AsString := SQLQuitadosPREVISTO.AsString;
-      TblTemporariaDebito.AsFloat := 0;
-      TblTemporaria.Post;
+      begin
+        TblTemporaria.Append;
+        TblTemporariaDataPrevista.AsDateTime := SQLQuitadosCTRCDULTREC.AsDateTime;
+        TblTemporariaPagarReceber.AsString := SQLQuitadosCTRCA13ID.AsString;
+        TblTemporariaPortador.AsString := SQLQuitadosPORTA60DESCR.AsString;
+        TblTemporariaDataVencimento.AsDateTime := SQLQuitadosCTRCDVENC.AsDateTime;
+        TblTemporariaCliente.AsString := SQLQuitadosCLIEA60RAZAOSOC.AsString;
+        TblTemporariaCredito.AsFloat := SQLQuitadosVALORRECEBIDO.AsFloat;
+        TblTemporariaConta.AsString := SQLQuitadosPLCTA15COD.AsString;
+        TblTemporariaHistorico.AsString := SQLQuitadosCTRCA254HIST.AsString;
+        TblTemporariaAgendado.AsString := SQLQuitadosPREVISTO.AsString;
+        TblTemporariaDebito.AsFloat := 0;
+        TblTemporaria.Post;
+      end;
+      SQLQuitados.Next;
     end;
-    SQLQuitados.Next;
   end;
 
   SQLPagar.First;
@@ -317,9 +344,7 @@ begin
 //      TblTemporariaSaldo.AsFloat := (TblTemporariaCredito.AsFloat + Saldo) - TblTemporariaDebito.AsFloat
 //    else
 //      TblTemporariaSaldo.AsFloat := Saldo;
-
     TblTemporariaSaldo.AsFloat := (TblTemporariaCredito.AsFloat + Saldo) - TblTemporariaDebito.AsFloat;
-
     TblTemporaria.Post;
     Saldo := TblTemporariaSaldo.AsFloat;
     TblTemporaria.Next;
@@ -427,6 +452,7 @@ procedure TFormRelatorioFluxoCaixa.FormShow(Sender: TObject);
 begin
   inherited;
   SQLPortador.Open;
+  DM.SQLConfigCrediario.Open;
 end;
 
 procedure TFormRelatorioFluxoCaixa.ComboPortadorExit(Sender: TObject);

@@ -6271,6 +6271,7 @@ var
   TotalDup, Vlr_Tot_Bruto, ValordoPis, ValordoCofins, PercCofins, PercPis, FatorConversao, vTotTrib, vPercSTEfe: double;
   iCRT, IndiceReferenciamento, vOrigem: integer;
   xProdTotal: string;
+  pMVA : Real;
 begin
   if not VerificaDadosCliente then
     Exit;
@@ -6650,6 +6651,8 @@ begin
 
       vOrigem := StrToInt(dm.sqlConsulta.fieldbyname('PRODIORIGEM').AsString);
       NCM := SQLLocate('NCM', 'NCMICOD', 'NCMA30CODIGO', SQLLocate('PRODUTO', 'PRODICOD', 'NCMICOD', SQLNotaFiscalItemPRODICOD.AsString));
+      if SQLLocate('NCM', 'NCMICOD', 'MVA', SQLLocate('PRODUTO', 'PRODICOD', 'NCMICOD', SQLNotaFiscalItemPRODICOD.AsString)) <> '' then
+        pMVA := StrToFloat(SQLLocate('NCM', 'NCMICOD', 'MVA', SQLLocate('PRODUTO', 'PRODICOD', 'NCMICOD', SQLNotaFiscalItemPRODICOD.AsString)));
       if SQLLocate('NCM', 'NCMICOD', 'ALIQ_ICMS', SQLLocate('PRODUTO', 'PRODICOD', 'NCMICOD', SQLNotaFiscalItemPRODICOD.AsString)) <> '' then
         vPercSTEfe := StrToFloat(SQLLocate('NCM', 'NCMICOD', 'ALIQ_ICMS', SQLLocate('PRODUTO', 'PRODICOD', 'NCMICOD', SQLNotaFiscalItemPRODICOD.AsString)));
       nTipoProduto := dm.sqlConsulta.fieldbyname('PRODA1TIPO').AsString;
@@ -6841,7 +6844,7 @@ begin
                   csosn201:
                     begin
                       ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := 0; // Adilson, verificar melhor
+                      ICMS.pMVAST := pMVA; // Adilson, verificar melhor
                       ICMS.pRedBCST := 00.00;
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
                       ICMS.pICMSST := 00.00;
@@ -6852,7 +6855,7 @@ begin
                   csosn202:
                     begin
                       ICMS.modBCST := dbisMargemValorAgregado;
-                      ICMS.pMVAST := 0; // Adilson, verificar melhor
+                      ICMS.pMVAST := pMVA; // Adilson, verificar melhor
                       ICMS.pRedBCST := 00.00;
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
                       ICMS.pICMSST := 00.00;

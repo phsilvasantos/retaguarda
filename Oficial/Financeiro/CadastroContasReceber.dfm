@@ -1738,6 +1738,7 @@ inherited FormCadastroContasReceber: TFormCadastroContasReceber
       '(CTRCCTIPOREGISTRO = '#39'N'#39' or CTRCCTIPOREGISTRO IS NULL)'
       'and'
       '(%MEmpresa)')
+    UpdateMode = upWhereKeyOnly
     Macros = <
       item
         DataType = ftString

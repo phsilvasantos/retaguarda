@@ -1,6 +1,6 @@
 inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
-  Left = 269
-  Top = 121
+  Left = 522
+  Top = 118
   Caption = 'Fluxo de Caixa'
   ClientWidth = 794
   OnShow = FormShow
@@ -170,6 +170,9 @@ inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
       FieldName = 'Soma_Quitado'
       Size = 1
     end
+    object TblTemporariaJurosPrevisto: TFloatField
+      FieldName = 'JurosPrevisto'
+    end
   end
   object SQLReceber: TRxQuery
     DatabaseName = 'DB'
@@ -187,7 +190,8 @@ inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
         'ECEBER.PLCTA15COD, PLANODECONTAS.PLCTA60DESCR,'
       
         '       CONTASRECEBER.CTRCA254HIST, CONTASRECEBER.CTRCA13ID, TIPO' +
-        'DOCUMENTO.SOMA_QUITADO'
+        'DOCUMENTO.SOMA_QUITADO, CONTASRECEBER.CTRCN2TXJURO, CONTASRECEBE' +
+        'R.CUPOA13ID, CONTASRECEBER.CTRCINROPARC'
       'from CONTASRECEBER'
       
         'inner join CLIENTE on CLIENTE.CLIEA13ID = CONTASRECEBER.CLIEA13I' +
@@ -212,7 +216,9 @@ inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
         'CEBER.CTRCDVENC, CONTASRECEBER.DATA_PREVISTA, CONTASRECEBER.PREV' +
         'ISTO, CONTASRECEBER.CLIEA13ID, CLIENTE.CLIEA60RAZAOSOC, CONTASRE' +
         'CEBER.PLCTA15COD, PLANODECONTAS.PLCTA60DESCR, CONTASRECEBER.CTRC' +
-        'A254HIST, CONTASRECEBER.CTRCA13ID, TIPODOCUMENTO.SOMA_QUITADO'
+        'A254HIST, CONTASRECEBER.CTRCA13ID, TIPODOCUMENTO.SOMA_QUITADO, C' +
+        'ONTASRECEBER.CTRCN2TXJURO, CONTASRECEBER.CUPOA13ID, CONTASRECEBE' +
+        'R.CTRCINROPARC'
       'order by PORTADOR.PORTA60DESCR, CONTASRECEBER.DATA_PREVISTA')
     Macros = <
       item
@@ -239,8 +245,8 @@ inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 421
-    Top = 5
+    Left = 419
+    Top = 4
     object SQLReceberVALORRECEBER: TFloatField
       FieldName = 'VALORRECEBER'
     end
@@ -300,6 +306,17 @@ inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
       FieldName = 'SOMA_QUITADO'
       FixedChar = True
       Size = 1
+    end
+    object SQLReceberCTRCN2TXJURO: TFloatField
+      FieldName = 'CTRCN2TXJURO'
+    end
+    object SQLReceberCUPOA13ID: TStringField
+      FieldName = 'CUPOA13ID'
+      FixedChar = True
+      Size = 13
+    end
+    object SQLReceberCTRCINROPARC: TIntegerField
+      FieldName = 'CTRCINROPARC'
     end
   end
   object SQLPagar: TRxQuery

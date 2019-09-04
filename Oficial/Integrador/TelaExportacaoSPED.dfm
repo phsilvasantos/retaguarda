@@ -3,7 +3,7 @@ inherited FormTelaExportacaoSped: TFormTelaExportacaoSped
   Top = -8
   Width = 1382
   Height = 744
-  Caption = 'val'
+  Caption = 'Gera Arquivo SPED'
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13

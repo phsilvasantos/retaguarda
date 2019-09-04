@@ -338,6 +338,9 @@ type
     EvDBNumEdit14: TEvDBNumEdit;
     EvDBNumEdit17: TEvDBNumEdit;
     Label93: TLabel;
+    Label94: TLabel;
+    SQLTemplateCFOPORIGINAL: TStringField;
+    edtCFOPOriginal: TDBEdit;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
     procedure SQLTemplatePRODICODChange(Sender: TField);
