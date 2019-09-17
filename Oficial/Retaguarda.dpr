@@ -471,7 +471,8 @@ uses
   CadastroMotoboy in 'Cadastros\CadastroMotoboy.pas' {FormCadastroMotoboy},
   RelatorioMotoboy in 'Relatorios\Administrativo\RelatorioMotoboy.pas' {FormRelatorioMotoboy},
   CadastroNCMUF in 'Cadastros\CadastroNCMUF.pas' {FormCadastroNCMUF},
-  RelatorioRepresentanteNSerie in 'Relatorios\Administrativo\RelatorioRepresentanteNSerie.pas' {FormRelatorioRepresentanteNSerie};
+  RelatorioRepresentanteNSerie in 'Relatorios\Administrativo\RelatorioRepresentanteNSerie.pas' {FormRelatorioRepresentanteNSerie},
+  RelatorioNotaServicoEmitida in 'Relatorios\Financeiro\RelatorioNotaServicoEmitida.pas' {FormRelatorioNotaServicoEmitidas};
 
 {$R *.res}
 

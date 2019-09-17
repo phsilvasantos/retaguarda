@@ -1479,6 +1479,20 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
               YearDigits = dyFour
               TabOrder = 2
             end
+            object rdgTipoFrete: TRadioGroup
+              Left = 808
+              Top = 4
+              Width = 185
+              Height = 42
+              Caption = 'Tipo Frete'
+              Columns = 2
+              ItemIndex = 0
+              Items.Strings = (
+                'Valor'
+                'Percentual')
+              TabOrder = 3
+              OnExit = rdgTipoFreteExit
+            end
           end
         end
       end
@@ -1723,6 +1737,13 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
     object SQLListaVLRMARGEMATUAL: TFloatField
       FieldName = 'VLRMARGEMATUAL'
       Origin = 'DB.LISTAPRECO.VLRMARGEMATUAL'
+      DisplayFormat = '#0.00'
+      EditFormat = '#0.00'
+    end
+    object SQLListaPERC_FRETE: TFloatField
+      FieldName = 'PERC_FRETE'
+      Origin = 'DB.LISTAPRECO.PERC_FRETE'
+      OnChange = SQLListaPERC_FRETEChange
       DisplayFormat = '#0.00'
       EditFormat = '#0.00'
     end
@@ -2206,5 +2227,12 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
       end>
     Left = 943
     Top = 1
+  end
+  object FormStorage1: TFormStorage
+    StoredProps.Strings = (
+      'rdgTipoFrete.ItemIndex')
+    StoredValues = <>
+    Left = 1168
+    Top = 34
   end
 end

@@ -64,6 +64,10 @@ type
     SQLNcmNCMA100DESCR: TStringField;
     SQLTemplateNCMA30CODIGO: TStringField;
     EvDBNumEdit1: TEvDBNumEdit;
+    SQLTemplatePOSSUI_FCP: TStringField;
+    SQLTemplatePERC_FCP: TFloatField;
+    Label11: TLabel;
+    EvDBNumEdit2: TEvDBNumEdit;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateBeforePost(DataSet: TDataSet);
     procedure Button4Click(Sender: TObject);

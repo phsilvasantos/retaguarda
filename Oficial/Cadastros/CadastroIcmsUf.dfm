@@ -1,6 +1,6 @@
 inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
-  Left = 209
-  Top = 86
+  Left = 376
+  Top = 27
   Caption = 'Cadastro ICMS por UF'
   ClientHeight = 593
   ClientWidth = 752
@@ -41,13 +41,13 @@ inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
           Width = 620
           Height = 519
           inherited PagePrincipal: TPageControl
-            Top = 313
+            Top = 335
             Width = 620
-            Height = 206
+            Height = 184
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Width = 612
-                Height = 133
+                Height = 111
                 Columns = <
                   item
                     Expanded = False
@@ -132,13 +132,13 @@ inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
             end
           end
           inherited PanelMaster: TPanel
-            Top = 303
+            Top = 325
             Width = 620
             Height = 10
           end
           inherited PanelCodigoDescricao: TPanel
             Width = 620
-            Height = 303
+            Height = 325
             object Label1: TLabel
               Left = 7
               Top = 2
@@ -339,6 +339,19 @@ inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
               Width = 99
               Height = 13
               Caption = 'Tabela Fiscal NCM'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = 8404992
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label11: TLabel
+              Left = 4
+              Top = 289
+              Width = 48
+              Height = 13
+              Caption = 'Perc.FCP'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = 8404992
               Font.Height = -11
@@ -749,6 +762,42 @@ inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
                 FF5EFF5EFF5EFF5EFF5E}
               TabOrder = 8
             end
+            object EvDBNumEdit2: TEvDBNumEdit
+              Left = 4
+              Top = 302
+              Width = 141
+              Height = 21
+              AutoHideCalculator = False
+              DataField = 'PERC_FCP'
+              DataSource = DSTemplate
+              Decimals = 3
+              Glyph.Data = {
+                E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                100003000000A402000000000000000000000000000000000000007C0000E003
+                00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                FF5EFF5EFF5EFF5EFF5E}
+              TabOrder = 13
+            end
           end
         end
       end
@@ -850,6 +899,18 @@ inherited FormCadastroIcmsUF: TFormCadastroIcmsUF
     object SQLTemplateICMUISITTRIBJURIDICA: TIntegerField
       FieldName = 'ICMUISITTRIBJURIDICA'
       Origin = 'DB.ICMSUF.ICMUISITTRIBJURIDICA'
+    end
+    object SQLTemplatePOSSUI_FCP: TStringField
+      FieldName = 'POSSUI_FCP'
+      Origin = 'DB.ICMSUF.POSSUI_FCP'
+      FixedChar = True
+      Size = 1
+    end
+    object SQLTemplatePERC_FCP: TFloatField
+      FieldName = 'PERC_FCP'
+      Origin = 'DB.ICMSUF.PERC_FCP'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
     end
   end
   inherited UpdateSQLTemplate: TUpdateSQL

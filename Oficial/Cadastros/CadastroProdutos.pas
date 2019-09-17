@@ -1035,6 +1035,36 @@ type
     Label57: TLabel;
     DBEdit12: TDBEdit;
     SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField;
+    MEMGradeComprasQtd16: TFloatField;
+    MEMGradeComprasQtd17: TFloatField;
+    MEMGradeComprasQtd18: TFloatField;
+    MEMGradeComprasQtd19: TFloatField;
+    MEMGradeComprasQtd20: TFloatField;
+    MEMGradeComprasQtd21: TFloatField;
+    MEMGradeComprasQtd22: TFloatField;
+    MEMGradeComprasQtd23: TFloatField;
+    MEMGradeComprasQtd24: TFloatField;
+    MEMGradeComprasQtd25: TFloatField;
+    MEMGradeProdutoTam16: TStringField;
+    MEMGradeProdutoTam17: TStringField;
+    MEMGradeProdutoTam18: TStringField;
+    MEMGradeProdutoTam19: TStringField;
+    MEMGradeProdutoTam20: TStringField;
+    MEMGradeProdutoTam21: TStringField;
+    MEMGradeProdutoTam22: TStringField;
+    MEMGradeProdutoTam23: TStringField;
+    MEMGradeProdutoTam24: TStringField;
+    MEMGradeProdutoTam25: TStringField;
+    TblSaldoEmpresaQtd16: TFloatField;
+    TblSaldoEmpresaQtd17: TFloatField;
+    TblSaldoEmpresaQtd18: TFloatField;
+    TblSaldoEmpresaQtd19: TFloatField;
+    TblSaldoEmpresaQtd20: TFloatField;
+    TblSaldoEmpresaQtd21: TFloatField;
+    TblSaldoEmpresaQtd22: TFloatField;
+    TblSaldoEmpresaQtd23: TFloatField;
+    TblSaldoEmpresaQtd24: TFloatField;
+    TblSaldoEmpresaQtd25: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure RxComboComissaoChange(Sender: TObject);
     procedure AcessaMarcaClick(Sender: TObject);
@@ -2506,8 +2536,8 @@ var
   Empresa, Cor: string;
   Posicao, I: Integer;
   Soma, SomaE: Double;
-  Qtd: array[1..15] of Double;
-  QtdE: array[1..15] of Double;
+  Qtd: array[1..25] of Double;
+  QtdE: array[1..25] of Double;
 begin
   if EncontrouProduto(SQLTemplatePRODICOD.AsString, SQLProdutoGrade) then
   begin
@@ -2522,9 +2552,9 @@ begin
     I := 0;
     if not SQLGradeTamanho.IsEmpty then
     begin
-      if SQLGradeTamanho.RecordCount > 15 then
+      if SQLGradeTamanho.RecordCount > 25 then
       begin
-        Informa('Problemas no cadastro da grade... ' + #13 + 'Nï¿½mero de tamanhos excedeu o limite de 15, verifique seu cadastro!' + #13 + 'A operaï¿½ï¿½o serï¿½ cancelada!');
+        Informa('Problemas no cadastro da grade... ' + #13 + 'Número de tamanhos excedeu o limite de 25, verifique seu cadastro!' + #13 + 'A operação será cancelada!');
         Exit;
       end;
       while not SQLGradeTamanho.Eof do
@@ -2544,8 +2574,8 @@ begin
       I := 0;
     end;
     inc(I);
-    if (I < 15) and (I > 0) then
-      for I := I to 15 do
+    if (I < 25) and (I > 0) then
+      for I := I to 25 do
         TblSaldoEmpresa.FindField('Qtd' + IntToStr(I)).DisplayLabel := ' ';
     SQLGradeTamanho.Close;
     SQLProduto.Close;
@@ -2555,7 +2585,7 @@ begin
     Empresa := '';
     Cor := '';
     Soma := 0;
-    for I := 1 to 15 do
+    for I := 1 to 25 do
       Qtd[I] := 0;
     if SQLProduto.IsEmpty then
     begin
@@ -2571,7 +2601,7 @@ begin
         begin
           TblSaldoEmpresaEmpresa.asString := SQLLocate('EMPRESA', 'EMPRICOD', 'EMPRA60RAZAOSOC', SQLProdutoEMPRICOD.AsString);
           SomaE := 0;
-          for I := 1 to 15 do
+          for I := 1 to 25 do
             QtdE[I] := 0;
         end;
         TblSaldoEmpresaCor.asString := SQLProdutoCORA30DESCR.AsString;
@@ -2599,7 +2629,7 @@ begin
         TblSaldoEmpresaEmpresa.asString := '------------------------------------------------------------';
         TblSaldoEmpresaCor.asString := 'SubTotal';
         TblSaldoEmpresaTotal.asFloat := SomaE;
-        for I := 1 to 15 do
+        for I := 1 to 25 do
           TblSaldoEmpresa.FindField('Qtd' + IntToStr(I)).asFloat := QtdE[I];
         TblSaldoEmpresa.Post;
               // LINHA EM BRANCO
@@ -2616,7 +2646,7 @@ begin
       TblSaldoEmpresaEmpresa.asString := '____________________________________________________________';
       TblSaldoEmpresaCor.asString := 'Total Geral';
       TblSaldoEmpresaTotal.asFloat := Soma;
-      for I := 1 to 15 do
+      for I := 1 to 25 do
         TblSaldoEmpresa.FindField('Qtd' + IntToStr(I)).asFloat := Qtd[I];
       TblSaldoEmpresa.Post;
     end;
@@ -2641,9 +2671,9 @@ begin
     I := 0;
     if not SQLGradeTamanho.IsEmpty then
     begin
-      if SQLGradeTamanho.RecordCount > 15 then
+      if SQLGradeTamanho.RecordCount > 25 then
       begin
-        Informa('Problemas no cadastro da grade... ' + #13 + 'Nï¿½mero de tamanhos excedeu o limite de 15, verifique seu cadastro!' + #13 + 'A operaï¿½ï¿½o serï¿½ cancelada!');
+        Informa('Problemas no cadastro da grade... ' + #13 + 'Número de tamanhos excedeu o limite de 25, verifique seu cadastro!' + #13 + 'A operação será cancelada!');
         Exit;
       end;
       while not SQLGradeTamanho.Eof do
@@ -2663,8 +2693,8 @@ begin
       I := 0;
     end;
     inc(I);
-    if (I < 15) and (I > 0) then
-      for I := I to 15 do
+    if (I < 25) and (I > 0) then
+      for I := I to 25 do
         MEMGradeProduto.FindField('Tam' + IntToStr(I)).DisplayLabel := ' ';
     SQLGradeTamanho.Close;
     SQLGradeProduto.Close;
@@ -2704,8 +2734,8 @@ var
   NroNota, Cor: string;
   Posicao, I: Integer;
   Soma, SomaE: Double;
-  Qtd: array[1..15] of Double;
-  QtdE: array[1..15] of Double;
+  Qtd: array[1..25] of Double;
+  QtdE: array[1..25] of Double;
 begin
   if EncontrouProduto(SQLTemplatePRODICOD.AsString, SQLProdutoGrade) then
   begin
@@ -2720,9 +2750,9 @@ begin
     I := 0;
     if not SQLGradeTamanho.IsEmpty then
     begin
-      if SQLGradeTamanho.RecordCount > 15 then
+      if SQLGradeTamanho.RecordCount > 25 then
       begin
-        Informa('Problemas no cadastro da grade... ' + #13 + 'Nï¿½mero de tamanhos excedeu o limite de 15, verifique seu cadastro!' + #13 + 'A operaï¿½ï¿½o serï¿½ cancelada!');
+        Informa('Problemas no cadastro da grade... ' + #13 + 'Número de tamanhos excedeu o limite de 25, verifique seu cadastro!' + #13 + 'A operação será cancelada!');
         Exit;
       end;
       while not SQLGradeTamanho.Eof do
@@ -2742,8 +2772,8 @@ begin
       I := 0;
     end;
     inc(I);
-    if (I < 15) and (I > 0) then
-      for I := I to 15 do
+    if (I < 25) and (I > 0) then
+      for I := I to 25 do
         MEMGradeCompras.FindField('Qtd' + IntToStr(I)).DisplayLabel := ' ';
     SQLGradeTamanho.Close;
     SQLGradeNotaCompra.Close;
@@ -2753,7 +2783,7 @@ begin
     NroNota := '';
     Cor := '';
     Soma := 0;
-    for I := 1 to 15 do
+    for I := 1 to 25 do
       Qtd[I] := 0;
     while not SQLGradeNotaCompra.Eof do
     begin
@@ -2764,7 +2794,7 @@ begin
         begin
           MEMGradeComprasNota.asString := SQLGradeNotaCompraNOCPA30NRO.AsString;
           SomaE := 0;
-          for I := 1 to 15 do
+          for I := 1 to 25 do
             QtdE[I] := 0;
         end;
         MEMGradeComprasCor.asString := SQLGradeNotaCompraCORA30DESCR.AsString;
@@ -2788,7 +2818,7 @@ begin
         MEMGradeComprasNota.asString := '------------------------------------------------------------';
         MEMGradeComprasCor.asString := 'SubTotal';
         MEMGradeComprasTotal.asFloat := SomaE;
-        for I := 1 to 15 do
+        for I := 1 to 25 do
           MEMGradeCompras.FindField('Qtd' + IntToStr(I)).asFloat := QtdE[I];
         MEMGradeCompras.Post;
               // LINHA EM BRANCO
@@ -2805,7 +2835,7 @@ begin
       MEMGradeComprasNota.asString := '____________________________________________________________';
       MEMGradeComprasCor.asString := 'Total Geral';
       MEMGradeComprasTotal.asFloat := Soma;
-      for I := 1 to 15 do
+      for I := 1 to 25 do
         MEMGradeCompras.FindField('Qtd' + IntToStr(I)).asFloat := Qtd[I];
       MEMGradeCompras.Post;
     end;

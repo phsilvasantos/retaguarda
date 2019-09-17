@@ -3211,6 +3211,64 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
       BlobType = ftMemo
       Size = 1
     end
+    object SQLTemplateNFITN2IMPOSTOMED: TFloatField
+      FieldName = 'NFITN2IMPOSTOMED'
+      Origin = 'DB.NOTAFISCALITEM.NFITN2IMPOSTOMED'
+    end
+    object SQLTemplateBASE_FCP: TFloatField
+      FieldName = 'BASE_FCP'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplatePERC_FCP: TFloatField
+      FieldName = 'PERC_FCP'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplateVALOR_FCP: TFloatField
+      FieldName = 'VALOR_FCP'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplateBASE_FCP_ST: TFloatField
+      FieldName = 'BASE_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP_ST'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplatePERC_FCP_ST: TFloatField
+      FieldName = 'PERC_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP_ST'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplateVALOR_FCP_ST: TFloatField
+      FieldName = 'VALOR_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplateBASE_FCP_ST_RET: TFloatField
+      FieldName = 'BASE_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP_ST_RET'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplatePERC_FCP_ST_RET: TFloatField
+      FieldName = 'PERC_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP_ST_RET'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
+    object SQLTemplateVALOR_FCP_ST_RET: TFloatField
+      FieldName = 'VALOR_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST_RET'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
+    end
   end
   inherited AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler
     Left = 469

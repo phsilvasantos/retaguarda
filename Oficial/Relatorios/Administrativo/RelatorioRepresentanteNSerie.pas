@@ -66,7 +66,7 @@ begin
   inherited;
   SQLRepresNSerie.Close ;
   SQLRepresNSerie.MacrobyName('MEmpresa').Value := SQLDeLista(ComboEmpresa, ListaEmpresas, ' ', 'PR', 'EMPRICOD');
-  SQLRepresNSerie.MacroByName('MData').Value := 'PR.DATA_REGISTRO >= ' + '"' + FormatDateTime('mm/dd/yyyy', De.Date) + '"' + ' AND ' + 'PR.DATA_REGISTRO <= ' + '"' + FormatDateTime('mm/dd/yyyy', Ate.Date) + '"';
+  SQLRepresNSerie.MacroByName('MData').Value := 'PR.DATA_REGISTRO >= ' + '"' + FormatDateTime('mm/dd/yyyy', De.Date) + ' 00:00"' + ' AND ' + 'PR.DATA_REGISTRO <= ' + '"' + FormatDateTime('mm/dd/yyyy', Ate.Date) + ' 23:59"';
   if ComboRepresentante.Text <> '' then
     SQLRepresNSerie.MacroByName('MRepresentante').Value := ' PR.REPRICOD = ' + ComboRepresentante.Value;
   if ComboProduto.Text <> '' then

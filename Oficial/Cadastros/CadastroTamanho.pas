@@ -61,9 +61,9 @@ begin
   SQLCount.SQL.Clear;
   SQLCount.SQL.ADD('SELECT COUNT(*) FROM GRADETAMANHO WHERE GRADICOD = ' + DSMasterTemplate.DataSet.FieldByName('GRADICOD').AsString);
   SQLCount.Open;
-  if SQLCount.FieldByName('COUNT').AsFloat = 15 then
+  if SQLCount.FieldByName('COUNT').AsFloat = 25 then
     begin
-      Informa('O número máximo de tamanhos para uma grade é 15, e este número já foi alcançado...' + #13 +
+      Informa('O número máximo de tamanhos para uma grade é 25, e este número já foi alcançado...' + #13 +
               'A operação não será concluída, se desejar inicie uma nova grade!');
       Abort;        
     end;

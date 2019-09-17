@@ -93,6 +93,26 @@ type
     Label14: TLabel;
     DBEdit5: TDBEdit;
     BtnOk: TSpeedButton;
+    TblQtdeFloatField16: TFloatField;
+    TblQtdeFloatField17: TFloatField;
+    TblQtdeFloatField18: TFloatField;
+    TblQtdeFloatField19: TFloatField;
+    TblQtdeFloatField20: TFloatField;
+    TblQtdeFloatField21: TFloatField;
+    TblQtdeFloatField22: TFloatField;
+    TblQtdeFloatField23: TFloatField;
+    TblQtdeFloatField24: TFloatField;
+    TblQtdeFloatField25: TFloatField;
+    TblQtdeCod16: TIntegerField;
+    TblQtdeCod17: TIntegerField;
+    TblQtdeCod18: TIntegerField;
+    TblQtdeCod19: TIntegerField;
+    TblQtdeCod20: TIntegerField;
+    TblQtdeCod21: TIntegerField;
+    TblQtdeCod22: TIntegerField;
+    TblQtdeCod23: TIntegerField;
+    TblQtdeCod24: TIntegerField;
+    TblQtdeCod25: TIntegerField;
     procedure FormCreate(Sender: TObject);
     procedure TblQtdeBeforeInsert(DataSet: TDataSet);
     procedure TblQtdeField1Change(Sender: TField);
@@ -160,7 +180,7 @@ begin
           TblQtde.Post;
         End;
       Posicao:=EncontraTamanho(SQLProdutoGrade.FindField('GRTMICOD').Value);
-      If (Posicao>0) and (Posicao<16) Then
+      If (Posicao>0) and (Posicao<26) Then
         Begin
           TblQtde.Edit;
           TblQtde.FindField('Cod'+IntToStr(Posicao)).Value:=SQLProdutoGrade.FindField('PRODICOD').asInteger;
@@ -243,7 +263,7 @@ begin
   PCITN3PERVIPI    := DataSet.FindField('PCITN3PERVIPI').asFloat;
   While Not TblQtde.Eof Do
     Begin
-      For I:=1 To 15 Do
+      For I:=1 To 25 Do
         Begin
           If TblQtde.FindField(IntToStr(I)).asFloat<>0 Then
             Begin
@@ -276,7 +296,7 @@ begin
   inherited;
   If MontandoGrade Then Exit;
   TblQtde.FindField('Total').asFloat:=0;
-  For I:=1 To 15 Do
+  For I:=1 To 25 Do
     TblQtde.FindField('Total').asFloat:=TblQtde.FindField('Total').asFloat+TblQtde.FindField(IntToStr(I)).asFloat;
 end;
 

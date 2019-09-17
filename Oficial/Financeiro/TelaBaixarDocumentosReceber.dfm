@@ -9,20 +9,20 @@ inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 1181
-    Height = 518
+    Height = 517
     inherited PanelCentral: TPanel
       Top = 67
       Width = 1177
-      Height = 447
+      Height = 446
       inherited PanelBarra: TPanel
         Width = 0
-        Height = 447
+        Height = 446
       end
       object PanelFundoBxDocREc: TPanel
         Left = 0
         Top = 0
         Width = 1177
-        Height = 447
+        Height = 446
         Align = alClient
         BevelOuter = bvNone
         ParentColor = True
@@ -447,7 +447,7 @@ inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
         end
         object GroupLegenda: TGroupBox
           Left = 0
-          Top = 410
+          Top = 409
           Width = 1177
           Height = 37
           Align = alBottom
@@ -543,7 +543,7 @@ inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
           Left = 0
           Top = 217
           Width = 1177
-          Height = 193
+          Height = 192
           Align = alClient
           BorderStyle = bsNone
           DataSource = DSTblRecebimento
@@ -1126,7 +1126,7 @@ inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
   end
   object Progress: TProgressBar [1]
     Left = 0
-    Top = 518
+    Top = 517
     Width = 1181
     Height = 16
     Align = alBottom

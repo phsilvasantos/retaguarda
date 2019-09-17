@@ -448,6 +448,7 @@ type
       Sender: TcxCustomGridTableView;
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
+    procedure cdsItensNewRecord(DataSet: TDataSet);
 
   private
     XMLOutraEmpresa: Boolean;
@@ -679,7 +680,7 @@ begin
 
         if cdsItens.FieldByName('codigo_gravar').AsString <> '0' then
         begin
-          cdsItens.FieldByName('valor_venda').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString));
+          cdsItens.FieldByName('valor_venda').AsFloat := StrToFloat(SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString));
           if dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString) <> '' then
             cdsItens.FieldByName('margem').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
         end;
@@ -3523,6 +3524,12 @@ begin
     cdsItens.FieldByName('ListaPreco').AsBoolean := not cdsItens.FieldByName('ListaPreco').AsBoolean;
     cdsItens.Post;
   end;
+end;
+
+procedure TFormTelaImportadorXML.cdsItensNewRecord(DataSet: TDataSet);
+begin
+  inherited;
+  cdsItensListaPreco.AsBoolean := True;
 end;
 
 end.

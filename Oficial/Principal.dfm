@@ -1,18 +1,20 @@
 inherited FormPrincipal: TFormPrincipal
   Tag = 4
-  Left = -1355
-  Top = -65
-  Width = 1364
+  Left = -1374
+  Top = -91
+  Width = 1382
+  Height = 744
   Caption = 'Advanced Control'
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited RodapePrincipal: TStatusBar
-    Width = 1348
+    Top = 666
+    Width = 1366
   end
   inherited ptopo: TAdvOfficeStatusBar
-    Width = 1348
+    Width = 1366
     Height = 67
     object RxLabel5: TRxLabel
       Left = 11
@@ -12350,6 +12352,13 @@ inherited FormPrincipal: TFormPrincipal
           object CobranadeFrete1: TMenuItem
             Caption = 'Cobran'#231'a de Frete'
             OnClick = MnCobrancaFreteClick
+          end
+        end
+        object NotaServio1: TMenuItem
+          Caption = 'Nota Servi'#231'o'
+          object Emitidas4: TMenuItem
+            Caption = 'Emitidas'
+            OnClick = Emitidas4Click
           end
         end
       end

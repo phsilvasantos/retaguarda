@@ -1,7 +1,7 @@
 inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
   Left = 259
   Top = 106
-  Width = 796
+  Width = 939
   Height = 546
   ActiveControl = DBGridLista
   Caption = 'Lan'#231'amento por Grade'
@@ -9,10 +9,10 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
-    Width = 780
+    Width = 923
     Height = 507
     inherited PanelCentral: TPanel
-      Width = 776
+      Width = 919
       Height = 423
       inherited PanelBarra: TPanel
         Top = 57
@@ -22,7 +22,7 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 776
+        Width = 919
         Height = 57
         Align = alTop
         BevelOuter = bvNone
@@ -156,7 +156,7 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
       object Panel6: TPanel
         Left = 0
         Top = 57
-        Width = 776
+        Width = 919
         Height = 329
         Align = alClient
         BevelOuter = bvNone
@@ -166,7 +166,7 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
         object DBGridLista: TDBGrid
           Left = 20
           Top = 20
-          Width = 736
+          Width = 879
           Height = 289
           Align = alClient
           BorderStyle = bsNone
@@ -192,7 +192,7 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
       object Panel5: TPanel
         Left = 0
         Top = 386
-        Width = 776
+        Width = 919
         Height = 37
         Align = alBottom
         BevelOuter = bvNone
@@ -232,13 +232,13 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
       end
     end
     inherited ScrollBoxTopo: TScrollBox
-      Width = 776
+      Width = 919
       inherited PanelCabecalho: TPanel
-        Width = 776
+        Width = 919
         inherited PanelNavigator: TPanel
-          Width = 776
+          Width = 919
           inherited AdvPanelNavigator: TAdvOfficeStatusBar
-            Width = 776
+            Width = 919
             inherited BtnFecharTela: TSpeedButton
               Left = 675
             end
@@ -535,6 +535,76 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
       DisplayFormat = '#,###'
       EditFormat = '#,###'
     end
+    object TblQtdeField16: TFloatField
+      FieldName = '16'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField17: TFloatField
+      FieldName = '17'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField18: TFloatField
+      FieldName = '18'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField19: TFloatField
+      FieldName = '19'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField20: TFloatField
+      FieldName = '20'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField21: TFloatField
+      FieldName = '21'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField22: TFloatField
+      FieldName = '22'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField23: TFloatField
+      FieldName = '23'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField24: TFloatField
+      FieldName = '24'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeField25: TFloatField
+      FieldName = '25'
+      Visible = False
+      OnChange = TblQtdeField1Change
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
     object TblQtdeCod1: TIntegerField
       FieldName = 'Cod1'
       Visible = False
@@ -593,6 +663,46 @@ inherited FormTelaLancamentoGradeMovto: TFormTelaLancamentoGradeMovto
     end
     object TblQtdeCod15: TIntegerField
       FieldName = 'Cod15'
+      Visible = False
+    end
+    object TblQtdeCod16: TIntegerField
+      FieldName = 'Cod16'
+      Visible = False
+    end
+    object TblQtdeCod17: TIntegerField
+      FieldName = 'Cod17'
+      Visible = False
+    end
+    object TblQtdeCod18: TIntegerField
+      FieldName = 'Cod18'
+      Visible = False
+    end
+    object TblQtdeCod19: TIntegerField
+      FieldName = 'Cod19'
+      Visible = False
+    end
+    object TblQtdeCod20: TIntegerField
+      FieldName = 'Cod20'
+      Visible = False
+    end
+    object TblQtdeCod21: TIntegerField
+      FieldName = 'Cod21'
+      Visible = False
+    end
+    object TblQtdeCod22: TIntegerField
+      FieldName = 'Cod22'
+      Visible = False
+    end
+    object TblQtdeCod23: TIntegerField
+      FieldName = 'Cod23'
+      Visible = False
+    end
+    object TblQtdeCod24: TIntegerField
+      FieldName = 'Cod24'
+      Visible = False
+    end
+    object TblQtdeCod25: TIntegerField
+      FieldName = 'Cod25'
       Visible = False
     end
     object TblQtdeTotal: TFloatField

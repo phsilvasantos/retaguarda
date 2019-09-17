@@ -103,6 +103,26 @@ type
     Label24: TLabel;
     EvDBNumEdit4: TEvDBNumEdit;
     BtnOk: TSpeedButton;
+    TblQtdeField16: TFloatField;
+    TblQtdeField17: TFloatField;
+    TblQtdeField18: TFloatField;
+    TblQtdeField19: TFloatField;
+    TblQtdeField20: TFloatField;
+    TblQtdeField21: TFloatField;
+    TblQtdeFloatField22: TFloatField;
+    TblQtdeFloatField23: TFloatField;
+    TblQtdeFloatField24: TFloatField;
+    TblQtdeFloatField25: TFloatField;
+    TblQtdeCod16: TIntegerField;
+    TblQtdeCod17: TIntegerField;
+    TblQtdeCod18: TIntegerField;
+    TblQtdeCod19: TIntegerField;
+    TblQtdeCod20: TIntegerField;
+    TblQtdeCod21: TIntegerField;
+    TblQtdeCod22: TIntegerField;
+    TblQtdeCod23: TIntegerField;
+    TblQtdeCod24: TIntegerField;
+    TblQtdeCod25: TIntegerField;
     procedure TblQtde1Change(Sender: TField);
     procedure BtnOkClick(Sender: TObject);
     procedure TblQtdeBeforeInsert(DataSet: TDataSet);
@@ -207,7 +227,7 @@ begin
   NFITICST          := DataSet.FindField('NFITICST').AsInteger;
   While Not TblQtde.Eof Do
     Begin
-      For I:=1 To 15 Do
+      For I:=1 To 25 Do
         Begin
           If TblQtde.FindField(IntToStr(I)).asFloat<>0 Then
             Begin
@@ -280,7 +300,7 @@ begin
       DataSet.FieldByName('CorLookup').AsVariant  := Null;
     end ;
   TblQtde.FindField('Total').asFloat:=0;
-  For I:=1 To 15 Do
+  For I:=1 To 25 Do
     TblQtde.FindField('Total').asFloat:=TblQtde.FindField('Total').asFloat+TblQtde.FindField(IntToStr(I)).asFloat;
 end;
 
@@ -327,7 +347,7 @@ begin
           TblQtde.Post;
         End;
       Posicao:=EncontraTamanho(SQLProdutoGrade.FindField('GRTMICOD').Value);
-      If (Posicao>0) and (Posicao<16) Then
+      If (Posicao>0) and (Posicao<26) Then
         Begin
           TblQtde.Edit;
           TblQtde.FindField('Cod'+IntToStr(Posicao)).Value:=SQLProdutoGrade.FindField('PRODICOD').asInteger;
@@ -343,7 +363,7 @@ begin
   DBGridLista.Columns[DBGridLista.Columns.Count-1].Color:=$00E0E0E0;
   For I := 1 To DBGridLista.Columns.Count-1 Do
     Begin
-      DBGridLista.Columns[I].Width:=(820 - 248) DIV (DBGridLista.Columns.Count-1);
+      DBGridLista.Columns[I].Width:=(1000 - 100) DIV (DBGridLista.Columns.Count-1);
       DBGridLista.Columns[I].Title.Alignment := taRightJustify;
     End;
   TblQtde.First;

@@ -6,7 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, TelaGeralTEMPLATE, Buttons, jpeg, ExtCtrls, StdCtrls, DB, Grids,
   DBGrids, Mask, DBCtrls, dbcgrids, DBTables, RxQuery, RXCtrls, RDprint,
-  Menus, ToolEdit, AdvOfficeStatusBar, AdvOfficeStatusBarStylers;
+  Menus, ToolEdit, AdvOfficeStatusBar, AdvOfficeStatusBarStylers, Placemnt;
+
+type
+  TEnumTipoFrete = (tpValor, tpPercentual);
 
 type
   TFormTelaListaPreco = class(TFormTelaGeralTEMPLATE)
@@ -203,6 +206,9 @@ type
     SQLListaVLRMARGEMATUAL: TFloatField;
     Label32: TLabel;
     DBText8: TDBText;
+    rdgTipoFrete: TRadioGroup;
+    FormStorage1: TFormStorage;
+    SQLListaPERC_FRETE: TFloatField;
     procedure CalculaCusto;
     procedure BTListaAClick(Sender: TObject);
     procedure SQLListaVLRVENDA1Change(Sender: TField);
@@ -235,6 +241,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure SQLListaVLR_DESCONTOChange(Sender: TField);
     procedure SQLListaVLR_FRETEChange(Sender: TField);
+    procedure rdgTipoFreteExit(Sender: TObject);
+    procedure SQLListaPERC_FRETEChange(Sender: TField);
   private
     { Private declarations }
      VlrIPI, VlrICMSST, VlrDesc, VlrFrete, VlrPisDif, VlrCofinsDif, VlrOutras, VlrDifIcms, PercEncargosOper, VlrEncargosOper, VlrVendaTeste : Double;
@@ -284,7 +292,7 @@ end;
 
 procedure TFormTelaListaPreco.BtnReajusteClick(Sender: TObject);
 var xInconsistencias : string;
-var NovoCustoMedio, SaldoAtual : Double;
+var NovoCustoMedio, SaldoAtual, vValorICMSST : Double;
 begin
   inherited;
   // Testar se falta alguma informação importante no Produto
@@ -294,7 +302,7 @@ begin
     begin
       dm.sqlConsulta.Close;
       dm.sqlConsulta.sql.Clear;
-      dm.sqlConsulta.sql.add('select icmsicod, unidicod, ncmicod, PRODN2PERCIPIENTRADA, PRODN3PERCIPI, PRODN2PERCSUBST, PRODN2PERCFRETE, PRODN2PERCDESP, PRODN2PERCDIFICM from produto where prodicod = '+SQLListaPRODICOD.AsString);
+      dm.sqlConsulta.sql.add('select icmsicod, unidicod, ncmicod, PRODN2PERCIPIENTRADA, PRODN3PERCIPI, PRODN2PERCSUBST, PRODN2PERCFRETE, PRODN2PERCDESP, PRODN2PERCDIFICM, VALOR_ICMSST from produto where prodicod = '+SQLListaPRODICOD.AsString);
       dm.sqlConsulta.Open ;
       if dm.sqlConsulta.IsEmpty then
         xInconsistencias := 'Produto: '+SQLListaPRODICOD.AsString+'. Não Encontrado no Cadastro de Produtos!';
@@ -365,6 +373,13 @@ begin
             dm.SQLTemplate.sql.Add(', PRODN3PERCMGLAFIXA = '+ ConvFloatToStr(SQLListaPERCMGATACADO.Value));
           end;
 
+        case TEnumTipoFrete(rdgTipoFrete.ItemIndex) of
+          tpPercentual :
+            begin
+              SQLListaVLR_FRETE.Value :=  SQLListaVLRCOMPRA.Value * (SQLListaPERC_FRETE.Value / 100);
+            end;
+        end;
+
         dm.SQLTemplate.sql.Add(', PRODN3VLRCOMPRA = '+ ConvFloatToStr(SQLListaVLRCOMPRA.Value));
         dm.SQLTemplate.sql.Add(', PRODN3VLRCUSTO  = '+ ConvFloatToStr(SQLListaVLRCUSTO.Value));
         dm.SQLTemplate.sql.Add(', PRODN2PERCIPIENTRADA  = '+ ConvFloatToStr(SQLListaPERCIPIENTRADA.Value));
@@ -373,6 +388,13 @@ begin
         dm.SQLTemplate.sql.Add(', PRODN2PERCDESP  = '+ ConvFloatToStr(SQLListaPERCOUTRAS.Value));
         dm.SQLTemplate.sql.Add(', PRODN2PERCDIFICM  = '+ ConvFloatToStr(SQLListaPERCDIFICMS.Value));
         dm.SQLTemplate.sql.Add(', VALOR_FRETE  = '+ ConvFloatToStr(SQLListaVLR_FRETE.Value));
+        vValorICMSST := 0;
+
+        if SQLListaPERCICMSST.Value > 0 then
+        begin
+          vValorICMSST :=  SQLListaVLRCOMPRA.Value * (SQLListaPERCICMSST.Value / 100);
+          dm.SQLTemplate.sql.Add(', VALOR_ICMSST  = '+ ConvFloatToStr(vValorICMSST));
+        end;
 
         if SQLListaALTERAPRECO.Value = 'S' then
           begin
@@ -528,7 +550,11 @@ begin
           SQLListaVLRCUSTOATUAL.AsString    := SQLPesquisa.FieldByName('PRODN3VLRCUSTO').AsString;
           SQLListaVLRVENDA1ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA').AsString;
           SQLListaVLRVENDA2ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA2').AsString;
-          SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value;
+
+          if SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value > 1 then
+            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value
+          else
+            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value;
           //aqui
           SQLListaVLRMARGEMATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3PERCMGLVFIXA').AsString;
 
@@ -662,8 +688,22 @@ begin
     VlrIPI := SQLListaVLRCOMPRA.Value * (SQLListaPERCIPIENTRADA.Value/100) else VlrIPI := 0;
   if SQLListaPERCICMSST.Value > 0 then
     VlrICMSST := SQLListaVLRCOMPRA.Value * (SQLListaPERCICMSST.Value/100) else VlrICMSST := 0;
-  if SQLListaVLR_FRETE.Value > 0 then
-    VlrFrete := SQLListaVLR_FRETE.Value else VlrFrete := 0;
+
+  case TEnumTipoFrete(rdgTipoFrete.ItemIndex) of
+    tpValor :
+      begin
+        if SQLListaVLR_FRETE.Value > 0 then
+          VlrFrete := SQLListaVLR_FRETE.Value else VlrFrete := 0;
+      end;
+    tpPercentual :
+      begin
+        if SQLListaPERC_FRETE.Value > 0 then
+          VlrFrete :=  SQLListaVLRCOMPRA.Value * (SQLListaPERC_FRETE.Value / 100)
+        else
+          VlrFrete := 0;
+      end;
+  end;
+
   if SQLListaPERCOUTRAS.Value > 0 then
     VlrOutras := SQLListaVLRCOMPRA.Value * (SQLListaPERCOUTRAS.Value/100) else VlrOutras := 0;
   if SQLListaPERCDIFICMS.Value > 0 then
@@ -1168,6 +1208,7 @@ begin
     SpeedButton1Click(Sender);
     BTListaAClick(Sender);
   end;
+  rdgTipoFreteExit(Sender);
 end;
 
 procedure TFormTelaListaPreco.SQLListaVLR_DESCONTOChange(Sender: TField);
@@ -1178,6 +1219,30 @@ begin
 end;
 
 procedure TFormTelaListaPreco.SQLListaVLR_FRETEChange(Sender: TField);
+begin
+  inherited;
+  if not Bloqueado then
+    CalculaCusto;
+end;
+
+procedure TFormTelaListaPreco.rdgTipoFreteExit(Sender: TObject);
+begin
+  inherited;
+  case tEnumTipoFrete(rdgTipoFrete.ItemIndex) of
+    tpValor :
+      begin
+        Label12.Caption := 'Vlr Frete';
+        DBEdit12.DataField := 'VLR_FRETE';
+      end;
+    tpPercentual :
+      begin
+        Label12.Caption := '% Frete';
+        DBEdit12.DataField := 'PERC_FRETE';
+      end;
+  end;
+end;
+
+procedure TFormTelaListaPreco.SQLListaPERC_FRETEChange(Sender: TField);
 begin
   inherited;
   if not Bloqueado then

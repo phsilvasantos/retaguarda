@@ -12,7 +12,7 @@ uses
 
 type
   TICMSUF = record
-    nICMS, nRED_ICMS, nICMS_INTERNO, nMVA: Double;
+    nICMS, nRED_ICMS, nICMS_INTERNO, nMVA, nPERC_FCP: Double;
     nSTFisica: string;
     nSTJuridica: string;
   end;
@@ -278,6 +278,16 @@ type
     SQLTemplateBASE_ST_RETIDO: TFloatField;
     SQLTemplateVALOR_ST_RETIDO: TFloatField;
     SQLTemplateOBS: TMemoField;
+    SQLTemplateNFITN2IMPOSTOMED: TFloatField;
+    SQLTemplateBASE_FCP: TFloatField;
+    SQLTemplatePERC_FCP: TFloatField;
+    SQLTemplateVALOR_FCP: TFloatField;
+    SQLTemplateBASE_FCP_ST: TFloatField;
+    SQLTemplatePERC_FCP_ST: TFloatField;
+    SQLTemplateVALOR_FCP_ST: TFloatField;
+    SQLTemplateBASE_FCP_ST_RET: TFloatField;
+    SQLTemplatePERC_FCP_ST_RET: TFloatField;
+    SQLTemplateVALOR_FCP_ST_RET: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -414,6 +424,17 @@ begin
       if (SQLTemplateNFITN2PERCREDUCAO.Value > 0) then
         SQLTemplateNFITN2BASEICMS.asFloat := (((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat) * (SQLTemplateNFITN2PERCREDUCAO.Value / 100);
       SQLTemplateNFITN2VLRICMS.asFloat := SQLTemplateNFITN2BASEICMS.asFloat * (SQLTemplateNFITN2PERCICMS.asFloat / 100);
+
+      //Calcula o FCP
+      if nResultICMS.nPERC_FCP > 0 then
+      begin
+        if Situacao = '0' then
+          SQLTemplateBASE_FCP.AsFloat := 0
+        else
+          SQLTemplateBASE_FCP.AsFloat :=  SQLTemplateNFITN2BASEICMS.AsFloat;
+        SQLTemplateVALOR_FCP.AsFloat := (SQLTemplateNFITN2BASEICMS.AsFloat * (nResultICMS.nPERC_FCP / 100));
+        SQLTemplatePERC_FCP.AsFloat := nResultICMS.nPERC_FCP;
+      end;
     end
     else
     begin
@@ -421,6 +442,9 @@ begin
       SQLTemplateNFITN2VLRICMS.asFloat := 0;
       SQLTemplateNFITN2PERCICMS.AsFloat := 0;
       SQLTemplateNFITN2PERCREDUCAO.AsFloat := 0;
+      SQLTemplateBASE_FCP.AsFloat := 0;
+      SQLTemplateVALOR_FCP.AsFloat := 0;
+      SQLTemplatePERC_FCP.AsFloat := 0;
     end;
   end;
 
@@ -444,10 +468,16 @@ begin
       except
         Showmessage('Erro: Tabela de NCM sem MVA ou Nulo!');
       end;
-      if (SQLLocate('PRODUTO', 'PRODICOD', 'BASE_ICM_ST_RET', SQLTemplatePRODICOD.AsString) <> '') and (SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICM_ST_RET', SQLTemplatePRODICOD.AsString) <> '') then
+
+
+      if (Situacao = '60') or (Situacao = '500') then
       begin
-        SQLTemplateBASE_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'BASE_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
-        SQLTemplateVALOR_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
+        if (SQLLocate('PRODUTO', 'PRODICOD', 'BASE_ICM_ST_RET', SQLTemplatePRODICOD.AsString) <> '') and
+           (SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICM_ST_RET', SQLTemplatePRODICOD.AsString) <> '') then
+        begin
+          SQLTemplateBASE_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'BASE_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
+          SQLTemplateVALOR_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
+        end;
       end;
 
       if SQLTemplateNFITN2PERCSUBS.asFloat > 0 then
@@ -455,12 +485,32 @@ begin
         SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.00', (((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) + ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) * (xMVA / 100))));
           // SQLTemplateNFITN2VLRSUBS.asFloat    := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2BASESUBS.value * (StrToFloat(Aliquotainterna)/100)) -
         SQLTemplateNFITN2VLRSUBS.asFloat := StrToFloat(FormatFloat('0.00', ((SQLTemplateNFITN2BASESUBS.value * SQLTemplateNFITN2PERCSUBS.value / 100)) - ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat) * (nResultICMS.nICMS / 100))));
+
+         //Calcula o FCP ST
+        if nResultICMS.nPERC_FCP > 0 then
+        begin
+          SQLTemplateBASE_FCP_ST.AsFloat :=  SQLTemplateNFITN2BASESUBS.AsFloat;
+          SQLTemplateVALOR_FCP_ST.AsFloat := SQLTemplateNFITN2BASESUBS.AsFloat * (nResultICMS.nPERC_FCP / 100);
+          SQLTemplatePERC_FCP_ST.AsFloat := nResultICMS.nPERC_FCP;
+          if (Situacao = '60') or (Situacao = '500') then
+          begin
+            SQLTemplateBASE_FCP_ST_RET.AsFloat :=  SQLTemplateBASE_ST_RETIDO.AsFloat;
+            SQLTemplateVALOR_FCP_ST_RET.AsFloat := SQLTemplateBASE_ST_RETIDO.AsFloat * (nResultICMS.nPERC_FCP / 100);
+            SQLTemplatePERC_FCP_ST_RET.AsFloat := nResultICMS.nPERC_FCP;
+          end;
+        end;
       end
       else
       begin
         SQLTemplateNFITN2BASESUBS.asFloat := 0;
         SQLTemplateNFITN2VLRSUBS.asFloat := 0;
         SQLTemplateNFITN2PERCSUBS.AsFloat := 0;
+        SQLTemplateBASE_FCP_ST.AsFloat :=  0;
+        SQLTemplateVALOR_FCP_ST.AsFloat := 0;
+        SQLTemplatePERC_FCP_ST.AsFloat := 0;
+        SQLTemplateBASE_FCP_ST_RET.AsFloat :=  0;
+        SQLTemplateVALOR_FCP_ST_RET.AsFloat := 0;
+        SQLTemplatePERC_FCP_ST_RET.AsFloat := 0;
       end;
     end
     else
@@ -468,6 +518,12 @@ begin
       SQLTemplateNFITN2BASESUBS.asFloat := 0;
       SQLTemplateNFITN2VLRSUBS.asFloat := 0;
       SQLTemplateNFITN2PERCSUBS.AsFloat := 0;
+      SQLTemplateBASE_FCP_ST.AsFloat :=  0;
+      SQLTemplateVALOR_FCP_ST.AsFloat := 0;
+      SQLTemplatePERC_FCP_ST.AsFloat := 0;
+      SQLTemplateBASE_FCP_ST_RET.AsFloat :=  0;
+      SQLTemplateVALOR_FCP_ST_RET.AsFloat := 0;
+      SQLTemplatePERC_FCP_ST_RET.AsFloat := 0;
     end;
   end
   else
@@ -1787,6 +1843,7 @@ begin
     nICMSUF.nMVA := SQLICMSUF.FindField('ICMUN3MVA').asFloat;
     nICMSUF.nSTFisica := SQLICMSUF.FindField('ICMUISITTRIB').AsString;
     nICMSUF.nSTJuridica := SQLICMSUF.FindField('ICMUISITTRIBJURIDICA').AsString;
+    nICMSUF.nPERC_FCP := SQLICMSUF.FindField('PERC_FCP').AsFloat;
   end;
   Result := nICMSUF;
 end;

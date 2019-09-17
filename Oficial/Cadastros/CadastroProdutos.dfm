@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 79
-  Top = 10
+  Left = 314
+  Top = 2
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -921,7 +921,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
             Top = 52
             Width = 1027
             Height = 556
-            ActivePage = TabSheetDadosPrincipais
+            ActivePage = TabSheetSaldos
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Top = 83
@@ -2265,7 +2265,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                 Top = 296
                 Width = 754
                 Height = 168
-                ActivePage = TabSheet1
+                ActivePage = TabSheetDescontos
                 TabOrder = 15
                 object TabSheet1: TTabSheet
                   Caption = 'Tributa'#231#227'o ICMS'
@@ -8119,6 +8119,76 @@ inherited FormCadastroProduto: TFormCadastroProduto
                       Title.Alignment = taCenter
                       Width = 40
                       Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd16'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd17'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd18'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd19'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd20'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd21'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd22'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd23'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd24'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
+                    end
+                    item
+                      Expanded = False
+                      FieldName = 'Qtd25'
+                      Title.Alignment = taCenter
+                      Width = 40
+                      Visible = True
                     end>
                 end
                 object DBGridSaldo: TDBGrid
@@ -8932,7 +9002,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
               object DBGridGradeCompras: TDBGrid
                 Left = 0
                 Top = 35
-                Width = 660
+                Width = 657
                 Height = 411
                 TabStop = False
                 BorderStyle = bsNone
@@ -9090,6 +9160,86 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     Alignment = taCenter
                     Expanded = False
                     FieldName = 'Qtd15'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd16'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd17'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd18'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd19'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd20'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd21'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd22'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd23'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd24'
+                    Title.Alignment = taCenter
+                    Width = 40
+                    Visible = True
+                  end
+                  item
+                    Alignment = taCenter
+                    Expanded = False
+                    FieldName = 'Qtd25'
                     Title.Alignment = taCenter
                     Width = 40
                     Visible = True
@@ -9259,6 +9409,66 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     Expanded = False
                     FieldName = 'Tam15'
                     Title.Alignment = taCenter
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam16'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam17'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam18'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam19'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam20'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam21'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam22'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam23'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam24'
+                    Width = 43
+                    Visible = True
+                  end
+                  item
+                    Expanded = False
+                    FieldName = 'Tam25'
+                    Width = 43
                     Visible = True
                   end>
               end
@@ -12262,6 +12472,36 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object TblSaldoEmpresaQtd15: TFloatField
       FieldName = 'Qtd15'
     end
+    object TblSaldoEmpresaQtd16: TFloatField
+      FieldName = 'Qtd16'
+    end
+    object TblSaldoEmpresaQtd17: TFloatField
+      FieldName = 'Qtd17'
+    end
+    object TblSaldoEmpresaQtd18: TFloatField
+      FieldName = 'Qtd18'
+    end
+    object TblSaldoEmpresaQtd19: TFloatField
+      FieldName = 'Qtd19'
+    end
+    object TblSaldoEmpresaQtd20: TFloatField
+      FieldName = 'Qtd20'
+    end
+    object TblSaldoEmpresaQtd21: TFloatField
+      FieldName = 'Qtd21'
+    end
+    object TblSaldoEmpresaQtd22: TFloatField
+      FieldName = 'Qtd22'
+    end
+    object TblSaldoEmpresaQtd23: TFloatField
+      FieldName = 'Qtd23'
+    end
+    object TblSaldoEmpresaQtd24: TFloatField
+      FieldName = 'Qtd24'
+    end
+    object TblSaldoEmpresaQtd25: TFloatField
+      FieldName = 'Qtd25'
+    end
   end
   object DSTblSaldoEmpresa: TDataSource
     AutoEdit = False
@@ -12344,6 +12584,36 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object MEMGradeProdutoTam15: TStringField
       FieldName = 'Tam15'
       Size = 5
+    end
+    object MEMGradeProdutoTam16: TStringField
+      FieldName = 'Tam16'
+    end
+    object MEMGradeProdutoTam17: TStringField
+      FieldName = 'Tam17'
+    end
+    object MEMGradeProdutoTam18: TStringField
+      FieldName = 'Tam18'
+    end
+    object MEMGradeProdutoTam19: TStringField
+      FieldName = 'Tam19'
+    end
+    object MEMGradeProdutoTam20: TStringField
+      FieldName = 'Tam20'
+    end
+    object MEMGradeProdutoTam21: TStringField
+      FieldName = 'Tam21'
+    end
+    object MEMGradeProdutoTam22: TStringField
+      FieldName = 'Tam22'
+    end
+    object MEMGradeProdutoTam23: TStringField
+      FieldName = 'Tam23'
+    end
+    object MEMGradeProdutoTam24: TStringField
+      FieldName = 'Tam24'
+    end
+    object MEMGradeProdutoTam25: TStringField
+      FieldName = 'Tam25'
     end
   end
   object DSMEMGradeProduto: TDataSource
@@ -12722,6 +12992,36 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object MEMGradeComprasQtd15: TFloatField
       FieldName = 'Qtd15'
       DisplayFormat = '#'
+    end
+    object MEMGradeComprasQtd16: TFloatField
+      FieldName = 'Qtd16'
+    end
+    object MEMGradeComprasQtd17: TFloatField
+      FieldName = 'Qtd17'
+    end
+    object MEMGradeComprasQtd18: TFloatField
+      FieldName = 'Qtd18'
+    end
+    object MEMGradeComprasQtd19: TFloatField
+      FieldName = 'Qtd19'
+    end
+    object MEMGradeComprasQtd20: TFloatField
+      FieldName = 'Qtd20'
+    end
+    object MEMGradeComprasQtd21: TFloatField
+      FieldName = 'Qtd21'
+    end
+    object MEMGradeComprasQtd22: TFloatField
+      FieldName = 'Qtd22'
+    end
+    object MEMGradeComprasQtd23: TFloatField
+      FieldName = 'Qtd23'
+    end
+    object MEMGradeComprasQtd24: TFloatField
+      FieldName = 'Qtd24'
+    end
+    object MEMGradeComprasQtd25: TFloatField
+      FieldName = 'Qtd25'
     end
   end
   object SQLGradeNotaCompra: TRxQuery

@@ -7926,7 +7926,7 @@ begin
   end;
   zPesquisa1.Open;
   zPesquisa1.First;
-  while not zPesquisa1.Eof do
+  while not zPesquisa1.Eof do                                                   
   begin
     vValor_ICMS := 0;
     vDataDocumento := FormatDateTime('ddmmyyyy',zPesquisa1.FieldByName('DATAEMISSAO').AsDateTime);
@@ -7936,7 +7936,10 @@ begin
     begin
       vValor_ICMS := (zPesquisa1.FieldByName('TOTAL_ITEM').AsFloat * (zPesquisa1.FieldByName('ALIQ_RED_BASE_ST').AsFloat / 100)) * (zPesquisa1.FieldByName('ALIQ_ICMS_ST').AsFloat / 100);
     end;
-    vValor_ICMS := vValor_ICMS + zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
+    if vValor_ICMS > 0 then
+      vValor_ICMS := vValor_ICMS + zPesquisa1.FieldByName('VLR_ICMS').AsFloat
+    else
+      vValor_ICMS := zPesquisa1.FieldByName('VLR_ICMS_ST').AsFloat + zPesquisa1.FieldByName('VLR_ICMS').AsFloat;
     if Mem1920Tipo.Value = 'NFE' then
       vCodParticipante := DM.SQLLocate('SPED_0150','COD_FORN','COD_PART', zPesquisa1.FieldByName('CLIFOR').AsString)
     else

@@ -1107,6 +1107,15 @@ type
     SQLNotaFiscalItemVALOR_ST_RETIDO: TFloatField;
     SQLContasReceberDATA_PREVISTA: TDateTimeField;
     SQLNotaFiscalItemOBS: TMemoField;
+    SQLNotaFiscalItemBASE_FCP: TFloatField;
+    SQLNotaFiscalItemPERC_FCP: TFloatField;
+    SQLNotaFiscalItemVALOR_FCP: TFloatField;
+    SQLNotaFiscalItemBASE_FCP_ST: TFloatField;
+    SQLNotaFiscalItemPERC_FCP_ST: TFloatField;
+    SQLNotaFiscalItemVALOR_FCP_ST: TFloatField;
+    SQLNotaFiscalItemBASE_FCP_ST_RET: TFloatField;
+    SQLNotaFiscalItemPERC_FCP_ST_RET: TFloatField;
+    SQLNotaFiscalItemVALOR_FCP_ST_RET: TFloatField;
     function TabelaNFE_123(Produto, Situacao: string): string;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -6717,7 +6726,6 @@ begin
         Total.ICMSTot.vFrete := Total.ICMSTot.vFrete + Prod.vFrete;
         Total.ICMSTot.vSeg := Total.ICMSTot.vSeg + prod.vSeg;
         Total.ICMSTot.vOutro := Total.ICMSTot.vOutro + prod.vOutro;
-
             // lei da transparencia nos impostos
         vTotTrib := 0;
         with Imposto do
@@ -6965,6 +6973,26 @@ begin
                 else if modBC = '3' then
                   ICMS.modBC := dbiValorOperacao;
 
+                //Fundo de combate a pobreza - FCP
+                if (Dest.indIEDest = inContribuinte) and (Ide.idDest = doInterestadual) then
+                begin
+                  if SQLNotaFiscalItemBASE_FCP_ST.AsFloat > 0 then
+                  begin
+                    ICMS.vBCFCPST := SQLNotaFiscalItemBASE_FCP_ST.AsFloat;
+                    ICMS.vFCPST := SQLNotaFiscalItemVALOR_FCP_ST.AsFloat;
+                    ICMS.pFCPST := SQLNotaFiscalItemPERC_FCP_ST.AsFloat;
+                  end;
+
+                  if SQLNotaFiscalItemVALOR_FCP.AsFloat > 0 then
+                  begin
+                    if ICMS.CST = cst00 then
+                    else
+                      ICMS.vFCP := SQLNotaFiscalItemBASE_FCP.AsFloat;
+                    ICMS.vFCP := SQLNotaFiscalItemVALOR_FCP.AsFloat;
+                    ICMS.pFCP := SQLNotaFiscalItemPERC_FCP.AsFloat;
+                  end;
+                end;
+
                 ICMS.vBC := SQLNotaFiscalItemNFITN2BASEICMS.Value;
                 ICMS.pICMS := SQLNotaFiscalItemNFITN2PERCICMS.Value;
                 ICMS.vICMS := SQLNotaFiscalItemNFITN2VLRICMS.Value;
@@ -7036,17 +7064,17 @@ begin
                 if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '49' then
                   COFINS.CST := cof49;
 
-                      { Alimenta Pis
-                      01 - Operação Tributável com Aliquota Básica (base de cálculo = valor da operação alíquota normal (cumulativo/não cumulativo));
-                      02 - Operação Tributável com Alíquota Diferenciada (base de cálculo = valor da operação (alíquota diferenciada));
-                      03 - Operação Tributável com Alíquota por Unidade de Medida de Produto (base de cálculo = quantidade vendida x alíquota por unidade de produto);
-                      04 - Operação Tributável(tributação monofásica (alíquota zero));
-                      05 - Operação Tributável por Substituição Tributária;
-                      06 - Operação Tributável (alíquota zero);
-                      07 - Operação Isenta da Contribuição;
-                      08 - Operação Sem Incidência da Contribuição;
-                      09 - Operação com Suspensão da Contribuição;
-                      49 - Outras Operações de Saída; }
+                { Alimenta Pis
+                01 - Operação Tributável com Aliquota Básica (base de cálculo = valor da operação alíquota normal (cumulativo/não cumulativo));
+                02 - Operação Tributável com Alíquota Diferenciada (base de cálculo = valor da operação (alíquota diferenciada));
+                03 - Operação Tributável com Alíquota por Unidade de Medida de Produto (base de cálculo = quantidade vendida x alíquota por unidade de produto);
+                04 - Operação Tributável(tributação monofásica (alíquota zero));
+                05 - Operação Tributável por Substituição Tributária;
+                06 - Operação Tributável (alíquota zero);
+                07 - Operação Isenta da Contribuição;
+                08 - Operação Sem Incidência da Contribuição;
+                09 - Operação com Suspensão da Contribuição;
+                49 - Outras Operações de Saída; }
                 if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '01' then
                 begin
                   PIS.CST := pis01;
@@ -7107,6 +7135,9 @@ begin
           Total.ICMSTot.vICMS := Total.ICMSTot.vICMS + ICMS.vICMS;
           Total.ICMSTot.vBCST := Total.ICMSTot.vBCST + ICMS.vBCST;
           Total.ICMSTot.vST := Total.ICMSTot.vST + ICMS.vICMSST;
+          Total.ICMSTot.vFCP := Total.ICMSTot.vFCP + icms.vFCP;
+          Total.ICMSTot.vFCPST := Total.ICMSTot.vFCPST + icms.vFCPST;
+
         end; // fim do with imposto
       end; // fim do with det.add
 
@@ -7243,6 +7274,11 @@ begin
 
   // Gerar, Assinar e Gravar arquivo XML
   ACBrNFe1.NotasFiscais.GerarNFe;
+
+  if DirectoryExists('c:\temp') then
+    if ACBrNFe1.NotasFiscais.Count > 0 then
+      ACBrNFe1.NotasFiscais[0].GravarXML('nfe.xml', 'c:\temp');
+
   ACBrNFe1.NotasFiscais.Items[0].GravarXML();
   result := ACBrNFe1.NotasFiscais.Items[0].NomeArq;
 end;

@@ -1,6 +1,6 @@
 inherited FormRelatorioFluxoCaixa: TFormRelatorioFluxoCaixa
-  Left = 522
-  Top = 118
+  Left = 314
+  Top = 120
   Caption = 'Fluxo de Caixa'
   ClientWidth = 794
   OnShow = FormShow

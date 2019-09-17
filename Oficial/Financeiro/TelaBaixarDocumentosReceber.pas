@@ -384,6 +384,7 @@ end;
 procedure TFormTelaBaixarDocumentosReceber.BtnSelecionarDocClick(
   Sender: TObject);
 var VarValorPago : Double;
+var vDataBaixa : TDateTime;
 begin
   inherited;
   Mensagem.Caption := 'Verificando contas pendentes...' ;
@@ -472,11 +473,15 @@ begin
       if CheckJuros.Checked then
         IF SqlContasReceber.FieldByname('CTRCDULTREC').ISNULL THEN
         Begin
+          vDataBaixa := Date;
+          if DtBaixa.Date > 10 then
+            vDataBaixa := DtBaixa.Date;
+
           // TblRecebimento.FieldByName('Valor').Value
           TblRecebimento.FieldByName('ValorJuro').value := CalculaJuroMultaDesc(SQLContasReceber.FieldByName('Saldo').AsFloat,
                                                                     SQLContasReceber.FieldByName('CTRCN2TXJURO').Value ,
                                                                     SqlContasReceber.FieldByname('CTRCDVENC').AsDateTime,
-                                                                    Date,
+                                                                    vDataBaixa,
                                                                     0,
                                                                     DM.SQLConfigCrediario.Fieldbyname('CFCRINRODIASTOLJUR').AsInteger,
                                                                     'Juro',
@@ -488,7 +493,7 @@ begin
             TblRecebimento.FieldByName('ValorJuro').value := CalculaJuroMultaDesc(SQLContasReceber.FieldByName('Saldo').AsFloat,
                                                                     SQLContasReceber.FieldByName('CTRCN2TXJURO').Value ,
                                                                     SqlContasReceber.FieldByname('CTRCDULTREC').AsDateTime,
-                                                                    Date,
+                                                                    vDataBaixa,
                                                                     0,
                                                                     DM.SQLConfigCrediario.Fieldbyname('CFCRINRODIASTOLJUR').AsInteger,
                                                                     'Juro',
@@ -498,7 +503,7 @@ begin
             TblRecebimento.FieldByName('ValorJuro').value := CalculaJuroMultaDesc(SQLContasReceber.FieldByName('Saldo').AsFloat,
                                                                     SQLContasReceber.FieldByName('CTRCN2TXJURO').Value ,
                                                                     SqlContasReceber.FieldByname('CTRCDVENC').AsDateTime,
-                                                                    Date,
+                                                                    vDataBaixa,
                                                                     0,
                                                                     DM.SQLConfigCrediario.Fieldbyname('CFCRINRODIASTOLJUR').AsInteger,
                                                                     'Juro',

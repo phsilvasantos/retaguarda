@@ -1,7 +1,7 @@
 inherited FormRelatorioRepresentanteNSerie: TFormRelatorioRepresentanteNSerie
   Left = 229
   Top = 106
-  Caption = 'Relat'#243'rio N'#250'mero de S'#233'rio por Representante'
+  Caption = 'Relatório Número de Série por Representante'
   ClientHeight = 506
   ClientWidth = 827
   PixelsPerInch = 96
@@ -132,7 +132,7 @@ inherited FormRelatorioRepresentanteNSerie: TFormRelatorioRepresentanteNSerie
         'ERIE'
       'left join REPRESENTANTE R on PR.REPRICOD = R.REPRICOD'
       'left join PRODUTO P on PR.PRODICOD = P.PRODICOD'
-      'where PS.PRSECSTATUS = '#39'U'#39' and'
+      'where PS.PRSECSTATUS = ''U'' and'
       '      %MEMPRESA AND'
       '      %MREPRESENTANTE and'
       '      %MDATA and'

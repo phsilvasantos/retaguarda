@@ -9,14 +9,14 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 765
-    Height = 501
+    Height = 500
     inherited PanelCentral: TPanel
       Width = 761
-      Height = 417
+      Height = 416
       inherited PanelBarra: TPanel
         Top = 183
         Width = 0
-        Height = 197
+        Height = 196
       end
       object Panel4: TPanel
         Left = 0
@@ -964,7 +964,7 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
         Left = 0
         Top = 183
         Width = 761
-        Height = 197
+        Height = 196
         Align = alClient
         BevelOuter = bvNone
         BorderWidth = 20
@@ -974,7 +974,7 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
           Left = 20
           Top = 20
           Width = 721
-          Height = 157
+          Height = 156
           Align = alClient
           BorderStyle = bsNone
           Color = clWhite
@@ -998,7 +998,7 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
       end
       object Panel5: TPanel
         Left = 0
-        Top = 380
+        Top = 379
         Width = 761
         Height = 37
         Align = alBottom
@@ -1300,6 +1300,46 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
       Visible = False
       OnChange = TblQtde1Change
     end
+    object TblQtdeField16: TFloatField
+      FieldName = '16'
+      Visible = False
+    end
+    object TblQtdeField17: TFloatField
+      FieldName = '17'
+      Visible = False
+    end
+    object TblQtdeField18: TFloatField
+      FieldName = '18'
+      Visible = False
+    end
+    object TblQtdeField19: TFloatField
+      FieldName = '19'
+      Visible = False
+    end
+    object TblQtdeField20: TFloatField
+      FieldName = '20'
+      Visible = False
+    end
+    object TblQtdeField21: TFloatField
+      FieldName = '21'
+      Visible = False
+    end
+    object TblQtdeFloatField22: TFloatField
+      FieldName = '22'
+      Visible = False
+    end
+    object TblQtdeFloatField23: TFloatField
+      FieldName = '23'
+      Visible = False
+    end
+    object TblQtdeFloatField24: TFloatField
+      FieldName = '24'
+      Visible = False
+    end
+    object TblQtdeFloatField25: TFloatField
+      FieldName = '25'
+      Visible = False
+    end
     object TblQtdeCod1: TIntegerField
       FieldName = 'Cod1'
       Visible = False
@@ -1358,6 +1398,46 @@ inherited FormTelaLancamentoGradeNotaFiscal: TFormTelaLancamentoGradeNotaFiscal
     end
     object TblQtdeCod15: TIntegerField
       FieldName = 'Cod15'
+      Visible = False
+    end
+    object TblQtdeCod16: TIntegerField
+      FieldName = 'Cod16'
+      Visible = False
+    end
+    object TblQtdeCod17: TIntegerField
+      FieldName = 'Cod17'
+      Visible = False
+    end
+    object TblQtdeCod18: TIntegerField
+      FieldName = 'Cod18'
+      Visible = False
+    end
+    object TblQtdeCod19: TIntegerField
+      FieldName = 'Cod19'
+      Visible = False
+    end
+    object TblQtdeCod20: TIntegerField
+      FieldName = 'Cod20'
+      Visible = False
+    end
+    object TblQtdeCod21: TIntegerField
+      FieldName = 'Cod21'
+      Visible = False
+    end
+    object TblQtdeCod22: TIntegerField
+      FieldName = 'Cod22'
+      Visible = False
+    end
+    object TblQtdeCod23: TIntegerField
+      FieldName = 'Cod23'
+      Visible = False
+    end
+    object TblQtdeCod24: TIntegerField
+      FieldName = 'Cod24'
+      Visible = False
+    end
+    object TblQtdeCod25: TIntegerField
+      FieldName = 'Cod25'
       Visible = False
     end
     object TblQtdeTotal: TFloatField

@@ -10,18 +10,18 @@ inherited FormTelaLancamentoGrade: TFormTelaLancamentoGrade
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 852
-    Height = 474
+    Height = 473
     inherited PanelCentral: TPanel
       Width = 848
-      Height = 390
+      Height = 389
       inherited PanelBarra: TPanel
         Top = 137
         Width = 0
-        Height = 216
+        Height = 215
       end
       object Panel5: TPanel
         Left = 0
-        Top = 353
+        Top = 352
         Width = 848
         Height = 37
         Align = alBottom
@@ -741,7 +741,7 @@ inherited FormTelaLancamentoGrade: TFormTelaLancamentoGrade
         Left = 0
         Top = 137
         Width = 848
-        Height = 216
+        Height = 215
         Align = alClient
         BevelOuter = bvNone
         BorderWidth = 20
@@ -751,7 +751,7 @@ inherited FormTelaLancamentoGrade: TFormTelaLancamentoGrade
           Left = 20
           Top = 20
           Width = 808
-          Height = 176
+          Height = 175
           Align = alClient
           BorderStyle = bsNone
           DataSource = DSTblQtde
@@ -974,6 +974,66 @@ inherited FormTelaLancamentoGrade: TFormTelaLancamentoGrade
       DisplayFormat = '#,###'
       EditFormat = '#,###'
     end
+    object TblQtdeFloatField16: TFloatField
+      FieldName = '16'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField17: TFloatField
+      FieldName = '17'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField18: TFloatField
+      FieldName = '18'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField19: TFloatField
+      FieldName = '19'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField20: TFloatField
+      FieldName = '20'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField21: TFloatField
+      FieldName = '21'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField22: TFloatField
+      FieldName = '22'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField23: TFloatField
+      FieldName = '23'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField24: TFloatField
+      FieldName = '24'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
+    object TblQtdeFloatField25: TFloatField
+      FieldName = '25'
+      Visible = False
+      DisplayFormat = '#,###'
+      EditFormat = '#,###'
+    end
     object TblQtdeCod1: TIntegerField
       FieldName = 'Cod1'
       Visible = False
@@ -1032,6 +1092,46 @@ inherited FormTelaLancamentoGrade: TFormTelaLancamentoGrade
     end
     object TblQtdeCod15: TIntegerField
       FieldName = 'Cod15'
+      Visible = False
+    end
+    object TblQtdeCod16: TIntegerField
+      FieldName = 'Cod16'
+      Visible = False
+    end
+    object TblQtdeCod17: TIntegerField
+      FieldName = 'Cod17'
+      Visible = False
+    end
+    object TblQtdeCod18: TIntegerField
+      FieldName = 'Cod18'
+      Visible = False
+    end
+    object TblQtdeCod19: TIntegerField
+      FieldName = 'Cod19'
+      Visible = False
+    end
+    object TblQtdeCod20: TIntegerField
+      FieldName = 'Cod20'
+      Visible = False
+    end
+    object TblQtdeCod21: TIntegerField
+      FieldName = 'Cod21'
+      Visible = False
+    end
+    object TblQtdeCod22: TIntegerField
+      FieldName = 'Cod22'
+      Visible = False
+    end
+    object TblQtdeCod23: TIntegerField
+      FieldName = 'Cod23'
+      Visible = False
+    end
+    object TblQtdeCod24: TIntegerField
+      FieldName = 'Cod24'
+      Visible = False
+    end
+    object TblQtdeCod25: TIntegerField
+      FieldName = 'Cod25'
       Visible = False
     end
     object TblQtdeTotal: TFloatField

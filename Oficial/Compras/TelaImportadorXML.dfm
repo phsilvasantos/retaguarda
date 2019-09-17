@@ -2650,6 +2650,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     Aggregates = <>
     IndexFieldNames = 'sequencia'
     Params = <>
+    OnNewRecord = cdsItensNewRecord
     Left = 112
     Top = 9
     object cdsItenssequencia: TIntegerField

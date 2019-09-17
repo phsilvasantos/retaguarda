@@ -16917,6 +16917,42 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
       BlobType = ftMemo
       Size = 1
     end
+    object SQLNotaFiscalItemBASE_FCP: TFloatField
+      FieldName = 'BASE_FCP'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP'
+    end
+    object SQLNotaFiscalItemPERC_FCP: TFloatField
+      FieldName = 'PERC_FCP'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP'
+    end
+    object SQLNotaFiscalItemVALOR_FCP: TFloatField
+      FieldName = 'VALOR_FCP'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP'
+    end
+    object SQLNotaFiscalItemBASE_FCP_ST: TFloatField
+      FieldName = 'BASE_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP_ST'
+    end
+    object SQLNotaFiscalItemPERC_FCP_ST: TFloatField
+      FieldName = 'PERC_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP_ST'
+    end
+    object SQLNotaFiscalItemVALOR_FCP_ST: TFloatField
+      FieldName = 'VALOR_FCP_ST'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST'
+    end
+    object SQLNotaFiscalItemBASE_FCP_ST_RET: TFloatField
+      FieldName = 'BASE_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.BASE_FCP_ST_RET'
+    end
+    object SQLNotaFiscalItemPERC_FCP_ST_RET: TFloatField
+      FieldName = 'PERC_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.PERC_FCP_ST_RET'
+    end
+    object SQLNotaFiscalItemVALOR_FCP_ST_RET: TFloatField
+      FieldName = 'VALOR_FCP_ST_RET'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST_RET'
+    end
   end
   object SQLProduto: TRxQuery
     DatabaseName = 'DB'
