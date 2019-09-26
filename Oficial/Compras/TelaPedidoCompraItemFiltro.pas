@@ -236,6 +236,7 @@ type
     sqlEmpresaEMPRA60NOMEFANT: TStringField;
     Label34: TLabel;
     RxDBLookupCombo1: TRxDBLookupCombo;
+    CKMinimo: TCheckBox;
     procedure BTFiltrarClick(Sender: TObject);
     procedure BtnFecharTelaClick(Sender: TObject);
     procedure BtSugestaoClick(Sender: TObject);
@@ -344,6 +345,23 @@ begin
   if ComboFornecedor.Value <> '' then
     sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from ProdutoFornecedor where FORNICOD = ' + ComboFornecedor.KeyValue + ')';
 
+
+  if CKMinimo.Checked then
+  begin
+    if EmpresaPadraoPedidosCompra = '0' then
+      sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from PRODUTOSALDO where PRODUTOSALDO.PRODICOD = PRODUTO.PRODICOD and PRODUTOSALDO.PSLDN3QTDE < PRODUTOSALDO.PSLDN3QTDMIN)'
+    else
+      sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from PRODUTOSALDO where EMPRICOD = ' + EmpresaPadraoPedidosCompra +
+                                      ' and PRODUTOSALDO.PRODICOD = PRODUTO.PRODICOD and PRODUTOSALDO.PSLDN3QTDE < PRODUTOSALDO.PSLDN3QTDMIN)';
+  end
+  else
+  begin
+    if EmpresaPadraoPedidosCompra = '0' then
+      sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from PRODUTOSALDO)'
+    else
+      sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from PRODUTOSALDO where EMPRICOD = ' + EmpresaPadraoPedidosCompra +')';
+  end;
+
   if CKNegativo.Checked then
   begin
     if EmpresaPadraoPedidosCompra = '0' then
@@ -359,6 +377,9 @@ begin
     else
       sql := sql + ' and PRODUTO.PRODICOD in (select PRODICOD from PRODUTOSALDO where EMPRICOD = ' + EmpresaPadraoPedidosCompra +')';
   end;
+
+
+
 
   if not CKOrdemMarcaDescr.Checked then
     sql := sql + ' Order By PRODUTO.PRODA60DESCR, PRODUTO.PRODA60REFER'

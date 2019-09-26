@@ -6987,7 +6987,7 @@ begin
                   begin
                     if ICMS.CST = cst00 then
                     else
-                      ICMS.vFCP := SQLNotaFiscalItemBASE_FCP.AsFloat;
+                      ICMS.vBCFCP := SQLNotaFiscalItemBASE_FCP.AsFloat;
                     ICMS.vFCP := SQLNotaFiscalItemVALOR_FCP.AsFloat;
                     ICMS.pFCP := SQLNotaFiscalItemPERC_FCP.AsFloat;
                   end;

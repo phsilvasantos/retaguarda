@@ -179,6 +179,14 @@ type
     cdsSerieEmpresa: TIntegerField;
     cdsSerieProduto: TIntegerField;
     cdsSerieItem: TIntegerField;
+    TblEtiquetasPRECO_DESCONTO: TFloatField;
+    TblEtiquetasVALIDADE_DESCONTO: TDateField;
+    TblEtiquetasQTDE_DESCONTO: TFloatField;
+    cdsProdutoDesconto: TClientDataSet;
+    cdsProdutoDescontoCodigoProduto: TIntegerField;
+    cdsProdutoDescontoQtde_Desconto: TFloatField;
+    cdsProdutoDescontoData_Validade: TDateField;
+    cdsProdutoDescontoPreco_Desconto: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure CodProdKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure QuantKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -314,6 +322,29 @@ begin
     begin
       if (sqllocate('PRODUTO', 'PRODICOD', 'PRODCIMPETIQCDBAR', SQLProdutoPRODICOD.AsString) = 'S') then
       begin
+         //busca produto desconto
+        dm.SqlConsulta.SQL.Clear;
+        dm.SqlConsulta.SQL.Add('select * from PRODUTO_DESCONTOS  WHERE PRODICOD = ');
+        dm.SqlConsulta.SQL.Add(SQLProdutoPRODICOD.AsString);
+        dm.SqlConsulta.Open;
+        if not (dm.SqlConsulta.IsEmpty) then
+        begin
+          dm.SqlConsulta.First;
+          cdsProdutoDesconto.EmptyDataSet;
+          vItem := 0;
+          while not dm.SqlConsulta.Eof do
+          begin
+            cdsProdutoDesconto.Insert;
+            cdsProdutoDescontoCodigoProduto.AsInteger := dm.SqlConsulta.FieldByName('PRODICOD').AsInteger;
+            cdsProdutoDescontoPreco_Desconto.AsFloat := dm.SqlConsulta.FieldByName('PRECO').AsFloat;
+            cdsProdutoDescontoQtde_Desconto.AsFloat := dm.SqlConsulta.FieldByName('QUANTIDADE').AsFloat;
+            cdsProdutoDescontoPreco_Desconto.AsFloat := dm.SqlConsulta.FieldByName('PRECO').AsFloat;
+            cdsProdutoDescontoData_Validade.AsDateTime := dm.SqlConsulta.FieldByName('DATA_VALIDADE').AsDateTime;
+            cdsProdutoDesconto.Post;
+            dm.SqlConsulta.Next;
+          end;
+        end;
+
         if SQLProdutoGRTMICOD.AsString <> '' then
         begin
           DSMasterSys := DSTblEtiquetas;
@@ -407,6 +438,11 @@ begin
       TblEtiquetasDescricao.AsString := SQLProdutoPRODA60DESCR.AsString;
       if cdsSerie.Locate('Item',i,[]) then
         TblEtiquetasNumero_Serie.AsString := cdsSerieNumeroSerie.AsString;
+
+      cdsProdutoDesconto.First;
+      TblEtiquetasQTDE_DESCONTO.AsFloat := cdsProdutoDescontoQtde_Desconto.AsFloat;
+      TblEtiquetasVALIDADE_DESCONTO.AsFloat := cdsProdutoDescontoData_Validade.AsFloat;
+      TblEtiquetasPRECO_DESCONTO.AsFloat := cdsProdutoDescontoPreco_Desconto.AsFloat;
 
       TblEtiquetasPreco.Value := RetornaPreco(SQLProduto, DM.SQLConfigVenda.fieldbyname('TPRCICOD').asString, '');
       TblEtiquetasPrecoPromo.Value := SQLProdutoPRODN3VLRVENDAPROM.Value;
@@ -710,6 +746,7 @@ begin
         TblEtiquetasCodigoEstrut.AsString := SQLProdutoPRODA30CODESTRUT.AsString;
         TblEtiquetasMarca.AsString := SQLProdutoMarcaLookup.AsString;
         TblEtiquetasUnidade.AsString := SQLProdutoUnidadeLookup.AsString;
+
         TblEtiquetasDtUltEntr.AsString := dm.SQLLocate('NOTACOMPRA', 'NOCPA13ID', 'NOCPDRECEBIMENTO', '''' + SQLNotaCompraItem.FindField('NOCPA13ID').AsString + '''');
         TblEtiquetasNFnumero.AsString := dm.SQLLocate('NOTACOMPRA', 'NOCPA13ID', 'NOCPA30NRO', '''' + SQLNotaCompraItem.FindField('NOCPA13ID').AsString + '''');
         TblEtiquetasCOD_FORN.AsString := dm.SQLLocate('NOTACOMPRA', 'NOCPA13ID', 'FORNICOD', '''' + SQLNotaCompraItem.FindField('NOCPA13ID').AsString + '''');
@@ -793,6 +830,7 @@ begin
         TblEtiquetasInfo01EtqBarras.AsString := SQLProdutoPRODA30INF01ETQBARRAS.AsString;
         TblEtiquetasInfo02EtqBarras.AsString := SQLProdutoPRODA30INF02ETQBARRAS.AsString;
         TblEtiquetasDescricaoTecnica.AsString := SQLProdutoPRODA255DESCRTEC.AsString;
+        
         if ComboLote.Value <> '' then
           TblEtiquetasLote.AsString := ComboLote.Value;
         TblEtiquetas.Post;
@@ -861,6 +899,7 @@ begin
         TblEtiquetasInfo01EtqBarras.AsString := SQLProdutoPRODA30INF01ETQBARRAS.AsString;
         TblEtiquetasInfo02EtqBarras.AsString := SQLProdutoPRODA30INF02ETQBARRAS.AsString;
         TblEtiquetasDescricaoTecnica.AsString := SQLProdutoPRODA255DESCRTEC.AsString;
+        
         if ComboLote.Value <> '' then
           TblEtiquetasLote.AsString := ComboLote.Value;
         TblEtiquetas.Post;
@@ -962,7 +1001,6 @@ begin
         TblEtiquetasProdutoCodigo.AsString := SQLProdutoPRODICOD.AsString;
         TblEtiquetasCodigoBarras.AsString := SQLProdutoPRODA60CODBAR.AsString;
         TblEtiquetasREFERENCIA.AsString := SQLProdutoPRODA60REFER.AsString;
-        ;
         TblEtiquetasDescricao.AsString := SQLProdutoPRODA60DESCR.AsString;
         TblEtiquetasPreco.Value := RetornaPreco(SQLProduto, DM.SQLConfigVenda.fieldbyname('TPRCICOD').asString, '');
         TblEtiquetasPrecoPromo.Value := SQLProdutoPRODN3VLRVENDAPROM.Value;
@@ -982,6 +1020,7 @@ begin
         TblEtiquetasInfo01EtqBarras.AsString := SQLProdutoPRODA30INF01ETQBARRAS.AsString;
         TblEtiquetasInfo02EtqBarras.AsString := SQLProdutoPRODA30INF02ETQBARRAS.AsString;
         TblEtiquetasDescricaoTecnica.AsString := SQLProdutoPRODA255DESCRTEC.AsString;
+
         if ComboLote.Value <> '' then
           TblEtiquetasLote.AsString := ComboLote.Value;
         TblEtiquetas.Post;
@@ -1033,7 +1072,6 @@ begin
     TblEtiquetasProdutoCodigo.AsString := SQLProdutoPRODICOD.AsString;
     TblEtiquetasCodigoBarras.AsString := SQLProdutoPRODA60CODBAR.AsString;
     TblEtiquetasREFERENCIA.AsString := SQLProdutoPRODA60REFER.AsString;
-    ;
     TblEtiquetasDescricao.AsString := SQLProdutoPRODA60DESCR.AsString;
     TblEtiquetasPreco.Value := SQLProdutoPRODN3VLRVENDA.AsFloat;
     TblEtiquetasPrecoPromo.Value := SQLProdutoPRODN3VLRVENDAPROM.Value;
@@ -1051,6 +1089,7 @@ begin
     TblEtiquetasInfo01EtqBarras.AsString := SQLProdutoPRODA30INF01ETQBARRAS.AsString;
     TblEtiquetasInfo02EtqBarras.AsString := SQLProdutoPRODA30INF02ETQBARRAS.AsString;
     TblEtiquetasDescricaoTecnica.AsString := SQLProdutoPRODA255DESCRTEC.AsString;
+
     TblEtiquetas.Post;
     SQLProduto.Next;
   end;

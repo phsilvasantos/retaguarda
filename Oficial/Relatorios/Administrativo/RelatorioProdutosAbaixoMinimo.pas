@@ -46,9 +46,29 @@ type
     SQLProdutoMINIMO: TFloatField;
     SQLProdutoMAXIMO: TFloatField;
     Pipe: TppBDEPipeline;
+    GroupBox2: TGroupBox;
+    ComboFornecedor: TRxDBLookupCombo;
+    Label11: TLabel;
+    ComboGrupo: TRxDBLookupCombo;
+    Label5: TLabel;
+    ComboMarca: TRxDBLookupCombo;
+    SQLMarca: TRxQuery;
+    SQLMarcaMARCICOD: TIntegerField;
+    SQLMarcaMARCA60DESCR: TStringField;
+    DSSQLMarca: TDataSource;
+    SQLGrupo: TRxQuery;
+    SQLGrupoGRUPICOD: TIntegerField;
+    SQLGrupoGRUPA60DESCR: TStringField;
+    DSSQLGrupo: TDataSource;
+    SQLFornecedor: TRxQuery;
+    DSSQLFornecedor: TDataSource;
+    NomeGrupo: TppLabel;
+    NomeMarca: TppLabel;
+    NomeFornecedor: TppLabel;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure ReportPreviewFormCreate(Sender: TObject);
     procedure ppHeaderBand1BeforePrint(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -66,10 +86,26 @@ procedure TFormRelatorioProdutosAbaixoMinimo.ExecutarBtnClick(
   Sender: TObject);
 begin
   inherited;
+  SQLProduto.Close;
   if ComboEmpresa.Value <> 'Todas' then
     SQLProduto.MacroByName('MEmpresa').Value := 'PRODUTOSALDO.EMPRICOD = ' + ComboEmpresa.Value
   else
     SQLProduto.MacroByName('MEmpresa').Value := '0=0';
+
+  if ComboFornecedor.Value <> '' then
+     SQLProduto.MacroByName('Fornecedor').Value := 'PRODUTO.PRODICOD IN (Select PRODICOD From PRODUTOFORNECEDOR Where FORNICOD = '+ComboFornecedor.Value+')'
+  else
+     SQLProduto.MacroByName('Fornecedor').Value := '0=0';
+
+  if ComboGrupo.Value <> '' then
+    SQLProduto.MacroByName('Grupo').Value := 'PRODUTO.GRUPICOD = ' + ComboGrupo.Value
+  else
+    SQLProduto.MacroByName('Grupo').Value := '0=0';
+
+  if ComboMarca.Value <> '' then
+    SQLProduto.MacroByName('Marca').Value      := 'PRODUTO.MARCICOD = ' + ComboMarca.Value
+  else
+    SQLProduto.MacroByName('Marca').Value      := '0=0';
 
   if OrdemCodigo.Checked then
     SQLProduto.MacroByName('MOrdem').Value := 'PRODUTO.PRODICOD'
@@ -104,6 +140,30 @@ begin
     NomeEmpresa.Caption := 'Empresa: ' + ComboEmpresa.Text
   else
     NomeEmpresa.Caption := 'Empresa: Todas';
+
+  if ComboGrupo.Value <> EmptyStr then
+    NomeGrupo.Caption := 'Grupo: ' + ComboGrupo.Text
+  else
+    NomeGrupo.Caption := 'Grupo: Todos';
+
+  if ComboMarca.Value <> EmptyStr then
+    NomeMarca.Caption := 'Marca: ' + ComboMarca.Text
+  else
+    NomeMarca.Caption := 'Marca: Todas';
+
+  if ComboFornecedor.Value <> EmptyStr then
+    NomeFornecedor.Caption := 'Fornecedor: ' + ComboFornecedor.Text
+  else
+    NomeFornecedor.Caption := 'Fornecedor: Todos';
+
+end;
+
+procedure TFormRelatorioProdutosAbaixoMinimo.FormCreate(Sender: TObject);
+begin
+  inherited;
+  SQLGrupo.Open;
+  SQLMarca.Open;
+  SQLFornecedor.Open;
 end;
 
 end.

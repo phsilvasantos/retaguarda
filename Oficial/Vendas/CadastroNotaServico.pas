@@ -347,6 +347,7 @@ type
     procedure prc_Montar_Discriminacao;
     procedure SQLTemplateID_SERVICOChange(Sender: TField);
     procedure SQLTemplateVALOR_TOTALChange(Sender: TField);
+    procedure dbedtUFExit(Sender: TObject);
   private
     ContasReceberCliente, ContasReceberID: string;
     { Private declarations }
@@ -996,6 +997,14 @@ procedure TFormCadastroNotaServico.SQLTemplateVALOR_TOTALChange(
 begin
   inherited;
   prc_Montar_Discriminacao;
+end;
+
+procedure TFormCadastroNotaServico.dbedtUFExit(Sender: TObject);
+begin
+  inherited;
+  SQLCidade.Close;
+  SQLCidade.ParamByName('SIGLA').AsString := dbedtUF.Text;
+  SQLCidade.Open;
 end;
 
 end.

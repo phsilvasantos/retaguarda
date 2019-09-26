@@ -240,6 +240,9 @@ inherited FormRelatorioNotaServicoEmitidas: TFormRelatorioNotaServicoEmitidas
     object TblTemporariaEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
     end
+    object TblTemporariaBASE_CALCULO_ISS: TFloatField
+      FieldName = 'BASE_CALCULO_ISS'
+    end
   end
   inherited AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler
     Left = 543
@@ -256,7 +259,7 @@ inherited FormRelatorioNotaServicoEmitidas: TFormRelatorioNotaServicoEmitidas
       
         '       NFS.VALOR_INSS, NFS.VALOR_IRPJ, NFS.VALOR_TOTAL, NFS.VALO' +
         'R_DESCONTO, NFS.VALOR_FRETE, C.CLIEA60RAZAOSOC,'
-      '       S.NOME_SERVICO, NFS.EMPRICOD'
+      '       S.NOME_SERVICO, NFS.EMPRICOD, NFS.BASE_CALCULO_ISS'
       'from NOTASERVICO NFS'
       'inner join CLIENTE C on C.CLIEA13ID = NFS.CLIEA13ID'
       'inner join SERVICO S on S.ID_SERVICO = NFS.ID_SERVICO'
@@ -401,6 +404,9 @@ inherited FormRelatorioNotaServicoEmitidas: TFormRelatorioNotaServicoEmitidas
     end
     object SQLNotaServicoEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
+    end
+    object SQLNotaServicoBASE_CALCULO_ISS: TFloatField
+      FieldName = 'BASE_CALCULO_ISS'
     end
   end
   object DSSQLOperEstoque: TDataSource

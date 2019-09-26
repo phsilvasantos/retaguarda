@@ -387,9 +387,9 @@ inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
       end
       object CKNegativo: TCheckBox
         Left = 391
-        Top = 96
+        Top = 99
         Width = 314
-        Height = 15
+        Height = 17
         Caption = 'Mostrar Apenas com Saldo igual a Zero ou Negativo'
         Font.Charset = ANSI_CHARSET
         Font.Color = 8404992
@@ -519,6 +519,20 @@ inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
         TabOrder = 11
         OnChange = RxDBLookupCombo1Change
         OnKeyDown = ComboGrupoKeyDown
+      end
+      object CKMinimo: TCheckBox
+        Left = 391
+        Top = 117
+        Width = 337
+        Height = 17
+        Caption = 'Mostrar Apenas Produtos com Saldo Abaixo do M'#237'nimo'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 8404992
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 12
       end
     end
     object Panel3: TPanel
@@ -718,7 +732,7 @@ inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
         object DBGrid3: TDBGrid
           Left = 765
           Top = 15
-          Width = 179
+          Width = 192
           Height = 238
           BorderStyle = bsNone
           Color = clWhite
@@ -741,24 +755,30 @@ inherited FormTelaPedidoCompraItemFiltro: TFormTelaPedidoCompraItemFiltro
             item
               Expanded = False
               FieldName = 'EMPRICOD'
-              Width = 30
+              Title.Alignment = taCenter
+              Title.Caption = 'Empresa'
+              Width = 56
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'PSLDN3QTDE'
-              Width = 62
+              Title.Alignment = taCenter
+              Title.Caption = 'Qtde'
+              Width = 51
               Visible = True
             end
             item
               Expanded = False
               FieldName = 'PSLDN3QTDMIN'
+              Title.Alignment = taCenter
               Title.Caption = 'Q.Minimo'
+              Width = 61
               Visible = True
             end>
         end
         object Panel9: TPanel
-          Left = 947
+          Left = 960
           Top = 19
           Width = 84
           Height = 145

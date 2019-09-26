@@ -72,6 +72,8 @@ type
     Report: TCrpe;
     SQLNotaServicoEMPRICOD: TIntegerField;
     TblTemporariaEMPRICOD: TIntegerField;
+    SQLNotaServicoBASE_CALCULO_ISS: TFloatField;
+    TblTemporariaBASE_CALCULO_ISS: TFloatField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private

@@ -288,6 +288,7 @@ type
     SQLTemplateBASE_FCP_ST_RET: TFloatField;
     SQLTemplatePERC_FCP_ST_RET: TFloatField;
     SQLTemplateVALOR_FCP_ST_RET: TFloatField;
+    SQLComposicao: TRxQuery;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -338,6 +339,7 @@ type
     TemProdutoSemSubsTrib, TemProdutoComSubsTrib: Boolean;
     DescontoMaximo: Real;
     RetornoCampoUsuario: string;
+    ObservacaoNota : String;
     procedure CalculaImpostos;
     procedure AtualizaPedidoVenda(CodigoPedidoVenda: string; PosicaoItemPedido: Integer; QtdePed, NovaQtdePed: Double);
     function BuscaIcmsUf: TICMSUF;
@@ -345,6 +347,7 @@ type
     function Busca_CFOP(Operacao: Integer; Origem: Integer; CST: Integer): string;
     function CalculaSubstituicaoTributaria: string;
     procedure CalculaFrete;
+    procedure LancaNumeroSerie(CodProd : String; Qtde : Integer);
   public
     { Public declarations }
   end;
@@ -956,9 +959,8 @@ end;
 
 procedure TFormCadastroNotaFiscalItem.SQLTemplateBeforePost(DataSet: TDataSet);
 var
-  NumeroSerie: string;
-  I: integer;
   RetornoUser: TInfoRetornoUser;
+  ExisteComposicao : Boolean;
 begin
   if not DM.ImportandoPedidoVenda then
   begin
@@ -1128,63 +1130,38 @@ begin
   end;
   dm.sqlconsulta.close;
 
+
+
   // Informa Numero de Serie
-  SQLTemplateControlaSerieLookup.AsVariant := DM.SQLlocate('produto', 'prodicod', 'PRODCTEMNROSERIE', SQLTemplatePRODICOD.AsString);
-  if SQLTemplateControlaSerieLookup.AsVariant <> Null then
-    if SQLTemplateControlaSerieLookup.AsString = 'S' then
+  ExisteComposicao := False;
+  SQLComposicao.Close;
+  SQLComposicao.SQL.Clear;
+  SQLComposicao.SQL.Add('SELECT * FROM PRODUTOCOMPOSICAO WHERE PRODICOD = ' + SQLTemplatePRODICOD.AsString);
+  SQLComposicao.Open;
+  if not SQLComposicao.IsEmpty then
+    ExisteComposicao := True;
+
+  ObservacaoNota := '';
+  DataSet.FieldByName('NFITA254OBS').AsString := '';
+  DataSet.FieldByName('OBS').AsString := '';
+  if ExisteComposicao then
+  begin
+    SQLComposicao.First;
+    while not SQLComposicao.Eof do
     begin
-      if SQLTemplate.State = dsEdit then
-        if MessageDlg('Deseja informar número de série?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
-          Exit;
-      if DSMasterTemplate.DataSet.FieldByName('OrigemDestinoLookUp').AsString <> '' then
-      begin
-        DataSet.FieldByName('NFITA254OBS').AsString := '';
-        DataSet.FieldByName('OBS').AsString := '';
-        NumeroSerie := '';
-        Status := ' PRSECSTATUS = ' + QuotedStr('D');
-        CodigoProduto := SQLTemplatePRODICOD.AsString;
-        Application.CreateForm(TFormTelaInformaNumeroSerieProduto, FormTelaInformaNumeroSerieProduto);
-        FormTelaInformaNumeroSerieProduto.NumeroItens := SQLTemplateNFITN3QUANT.AsInteger;
-        FormTelaInformaNumeroSerieProduto.Valida_Qtde := True;
-        FormTelaInformaNumeroSerieProduto.ShowModal;
-        for I := 1 to SQLTemplateNFITN3QUANT.AsInteger do
-        begin
-          if FormTelaInformaNumeroSerieProduto.ModalResult = MrOK then
-          begin
-            FormTelaInformaNumeroSerieProduto.RXSerie.First;
-            while not FormTelaInformaNumeroSerieProduto.RXSerie.Eof do
-            begin
-              if FormTelaInformaNumeroSerieProduto.RXSerieItem.AsInteger = I then
-              begin
-                NumeroSerie := FormTelaInformaNumeroSerieProduto.RXSerieNumeroSerie.Text;
-                if NumeroSerie <> '' then
-                  GravaSaidaNroSerieProduto(NumeroSerie, SQLTemplatePRODICOD.AsString, 'I', EmpresaPadrao, DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString, '', '', DSMasterTemplate.DataSet.FieldByName('NOFIA13ID').AsString, '');
-                if DataSet.FieldByName('NFITA254OBS').AsString = '' then
-                  DataSet.FieldByName('NFITA254OBS').AsString := ' Nro Serie: ' + NumeroSerie
-                else
-                  DataSet.FieldByName('NFITA254OBS').AsString := DataSet.FieldByName('NFITA254OBS').AsString + ', ' + NumeroSerie;
-
-                //dupliquei o NFITA254OBS para o OBS
-                if DataSet.FieldByName('OBS').AsString = '' then
-                  DataSet.FieldByName('OBS').AsString := ' Nro Serie: ' + NumeroSerie
-                else
-                  DataSet.FieldByName('OBS').AsString := DataSet.FieldByName('OBS').AsString + ', ' + NumeroSerie;
-
-                GravaMovimentoNumeroSerie(EmpresaPadrao,
-                                          NumeroSerie, 'S',
-                                          DSMasterTemplate.DataSet.FieldByName('NOFIINUMERO').AsString,
-                                          DM.SQLlocate('CLIENTE', 'CLIEA13ID', 'CLIEA60RAZAOSOC', DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString),
-                                          'Nota de Saída',
-                                          SQLTemplatePRODICOD.AsInteger,
-                                          DSMasterTemplate.DataSet.FieldByName('NOFIDEMIS').AsDateTime);
-              end;
-              FormTelaInformaNumeroSerieProduto.RXSerie.Next;
-            end;
-          end;
-        end;
-        FormTelaInformaNumeroSerieProduto.Destroy;
-      end;
+      SQLTemplateControlaSerieLookup.AsVariant := DM.SQLlocate('produto', 'prodicod', 'PRODCTEMNROSERIE', SQLComposicao.FieldByName('PRODICODFILHO').AsString);
+      LancaNumeroSerie(SQLComposicao.FieldByName('PRODICODFILHO').AsString,SQLComposicao.FieldByName('PRODN3QTDE').AsInteger );
+      DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
+      DataSet.FieldByName('OBS').AsString := ObservacaoNota;
+      SQLComposicao.Next;
     end;
+  end
+  else
+  begin
+    LancaNumeroSerie(SQLTemplatePRODICOD.AsString,SQLTemplateNFITN3QUANT.AsInteger);
+    DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
+    DataSet.FieldByName('OBS').AsString := ObservacaoNota;
+  end;
 end;
 
 procedure TFormCadastroNotaFiscalItem.SQLTemplateAfterPost(DataSet: TDataSet);
@@ -2173,6 +2150,62 @@ procedure TFormCadastroNotaFiscalItem.SQLTemplateAfterEdit(DataSet: TDataSet);
 begin
   inherited;
   DescontoMaximo := StrToFloat(SQLLocate('USUARIO', 'USUAA60LOGIN', 'USUAN2PERCDESC', QuotedStr(UsuarioAtualNome)));
+end;
+
+procedure TFormCadastroNotaFiscalItem.LancaNumeroSerie(CodProd: String; Qtde : Integer);
+var
+  NumeroSerie: string;
+  I: integer;
+begin
+  SQLTemplateControlaSerieLookup.AsVariant := DM.SQLlocate('produto', 'prodicod', 'PRODCTEMNROSERIE', CodProd);
+  if SQLTemplateControlaSerieLookup.AsVariant <> Null then
+    if SQLTemplateControlaSerieLookup.AsString = 'S' then
+    begin
+      if SQLTemplate.State = dsEdit then
+        if MessageDlg('Deseja informar número de série?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+          Exit;
+      if DSMasterTemplate.DataSet.FieldByName('OrigemDestinoLookUp').AsString <> '' then
+      begin
+        NumeroSerie := '';
+        Status := ' PRSECSTATUS = ' + QuotedStr('D');
+        CodigoProduto := CodProd;
+        Application.CreateForm(TFormTelaInformaNumeroSerieProduto, FormTelaInformaNumeroSerieProduto);
+        FormTelaInformaNumeroSerieProduto.lblNomeProduto.Caption := DM.SQLlocate('PRODUTO','PRODICOD', 'PRODA60DESCR', CodProd);
+        FormTelaInformaNumeroSerieProduto.NumeroItens := Qtde;
+        FormTelaInformaNumeroSerieProduto.Valida_Qtde := True;
+        FormTelaInformaNumeroSerieProduto.ShowModal;
+        for I := 1 to SQLTemplateNFITN3QUANT.AsInteger do
+        begin
+          if FormTelaInformaNumeroSerieProduto.ModalResult = MrOK then
+          begin
+            FormTelaInformaNumeroSerieProduto.RXSerie.First;
+            while not FormTelaInformaNumeroSerieProduto.RXSerie.Eof do
+            begin
+              if FormTelaInformaNumeroSerieProduto.RXSerieItem.AsInteger = I then
+              begin
+                NumeroSerie := FormTelaInformaNumeroSerieProduto.RXSerieNumeroSerie.Text;
+                if NumeroSerie <> EmptyStr then
+                  GravaSaidaNroSerieProduto(NumeroSerie, CodProd, 'I', EmpresaPadrao, DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString, '', '', DSMasterTemplate.DataSet.FieldByName('NOFIA13ID').AsString, '');
+                if ObservacaoNota = EmptyStr then
+                  ObservacaoNota := ' Nro Serie: ' + NumeroSerie
+                else
+                  ObservacaoNota := ObservacaoNota + ', ' + NumeroSerie;
+
+                GravaMovimentoNumeroSerie(EmpresaPadrao,
+                                          NumeroSerie, 'S',
+                                          DSMasterTemplate.DataSet.FieldByName('NOFIINUMERO').AsString,
+                                          DM.SQLlocate('CLIENTE', 'CLIEA13ID', 'CLIEA60RAZAOSOC', DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString),
+                                          'Nota de Saída',
+                                          StrToInt(CodProd),
+                                          DSMasterTemplate.DataSet.FieldByName('NOFIDEMIS').AsDateTime);
+              end;
+              FormTelaInformaNumeroSerieProduto.RXSerie.Next;
+            end;
+          end;
+        end;
+        FormTelaInformaNumeroSerieProduto.Destroy;
+      end;
+    end;
 end;
 
 end.

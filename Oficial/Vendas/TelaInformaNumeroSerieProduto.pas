@@ -32,6 +32,7 @@ type
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     SMDBGrid1: TSMDBGrid;
+    lblNomeProduto: TLabel;
     procedure BitBtn1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure DBGridListaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

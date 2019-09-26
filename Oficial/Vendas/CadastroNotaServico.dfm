@@ -752,6 +752,7 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
                   DataSource = DSTemplate
                   ParentCtl3D = False
                   TabOrder = 13
+                  OnExit = dbedtUFExit
                 end
                 object DBMemo2: TDBMemo
                   Left = 7

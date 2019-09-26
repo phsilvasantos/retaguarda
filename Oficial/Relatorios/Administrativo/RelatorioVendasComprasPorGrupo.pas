@@ -24,11 +24,7 @@ type
     TblTemporariaGRUPA60DESCR: TStringField;
     SQLRelComprasPorGrupoTOTCOMPRA: TFloatField;
     SQLRelVendasPorGrupoQTDEVENDA: TIntegerField;
-    TblTemporariaTOTVENDA: TFloatField;
-    TblTemporariaQTDEVENDA: TIntegerField;
-    TblTemporariaTOTCOMPRA: TFloatField;
     SQLRelComprasPorGrupoQTDECOMPRA: TIntegerField;
-    TblTemporariaQTDECOMPRA: TIntegerField;
     SQLRelSaldoPorGrupoGRUPICOD: TIntegerField;
     SQLRelSaldoPorGrupoGRUPA60DESCR: TStringField;
     SQLRelSaldoPorGrupoVENDA: TFloatField;
@@ -40,14 +36,18 @@ type
     SQLRelSaldoPorGrupoTOTALCUSTO: TFloatField;
     TblTemporariaSaldoGRUPICOD: TIntegerField;
     TblTemporariaSaldoGRUPA60DESCR: TStringField;
-    TblTemporariaSaldoVENDA: TFloatField;
-    TblTemporariaSaldoCOMPRA: TFloatField;
-    TblTemporariaSaldoCUSTO: TFloatField;
-    TblTemporariaSaldoSALDO: TFloatField;
-    TblTemporariaSaldoTOTALVENDA: TFloatField;
-    TblTemporariaSaldoTOTALCOMPRA: TFloatField;
-    TblTemporariaSaldoTOTALCUSTO: TFloatField;
     Report: TCrpe;
+    TblTemporariaTOTVENDA: TBCDField;
+    TblTemporariaQTDEVENDA: TIntegerField;
+    TblTemporariaTOTCOMPRA: TBCDField;
+    TblTemporariaQTDECOMPRA: TIntegerField;
+    TblTemporariaSaldoVENDA: TBCDField;
+    TblTemporariaSaldoCOMPRA: TBCDField;
+    TblTemporariaSaldoCUSTO: TBCDField;
+    TblTemporariaSaldoSALDO: TBCDField;
+    TblTemporariaSaldoTOTALVENDA: TBCDField;
+    TblTemporariaSaldoTOTALCOMPRA: TBCDField;
+    TblTemporariaSaldoTOTALCUSTO: TBCDField;
     procedure BtnVisualizarClick(Sender: TObject);
   private
     { Private declarations }
@@ -152,8 +152,9 @@ begin
         end;
       SQLRelComprasPorGrupo.Next ;
     end;
-
-  BatchExec(SQLRelSaldoPorGrupo,TblTemporariaSaldo);
+  if not TblTemporariaSaldo.Active then
+    TblTemporariaSaldo.Open;
+  CopyQueryTable(SQLRelSaldoPorGrupo,TblTemporariaSaldo);
   Report.ReportName := DM.SQLConfigGeralCFGEA255PATHREPORT.AsString + '\Vendas Compras Por Grupo.rpt' ;
   Report.ReportTitle := 'Relatório de Vendas e Compras Por Grupo';
   Report.WindowStyle.Title := 'Relatório de Vendas e Compras Por Grupo';

@@ -1,6 +1,6 @@
 inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
-  Left = 159
-  Top = 44
+  Left = 305
+  Top = 51
   Caption = 'Itens da Nota Fiscal'
   ClientHeight = 580
   ClientWidth = 999
@@ -3632,5 +3632,11 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
       FieldName = 'PERC_REDUCAO_BASE_CALCULO'
       Origin = 'DB.PRODUTO.PERC_REDUCAO_BASE_CALCULO'
     end
+  end
+  object SQLComposicao: TRxQuery
+    DatabaseName = 'DB'
+    Macros = <>
+    Left = 8
+    Top = 288
   end
 end

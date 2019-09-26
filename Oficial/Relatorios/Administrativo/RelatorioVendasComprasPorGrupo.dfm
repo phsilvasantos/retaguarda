@@ -1,6 +1,6 @@
 inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrupo
-  Left = 67
-  Top = 61
+  Left = 303
+  Top = 209
   Caption = 'Relat'#243'rio de Vendas e Compras por Grupo'
   PixelsPerInch = 96
   TextHeight = 13
@@ -26,13 +26,13 @@ inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrup
       FixedChar = True
       Size = 60
     end
-    object TblTemporariaTOTVENDA: TFloatField
+    object TblTemporariaTOTVENDA: TBCDField
       FieldName = 'TOTVENDA'
     end
     object TblTemporariaQTDEVENDA: TIntegerField
       FieldName = 'QTDEVENDA'
     end
-    object TblTemporariaTOTCOMPRA: TFloatField
+    object TblTemporariaTOTCOMPRA: TBCDField
       FieldName = 'TOTCOMPRA'
     end
     object TblTemporariaQTDECOMPRA: TIntegerField
@@ -235,25 +235,25 @@ inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrup
       FixedChar = True
       Size = 60
     end
-    object TblTemporariaSaldoVENDA: TFloatField
+    object TblTemporariaSaldoVENDA: TBCDField
       FieldName = 'VENDA'
     end
-    object TblTemporariaSaldoCOMPRA: TFloatField
+    object TblTemporariaSaldoCOMPRA: TBCDField
       FieldName = 'COMPRA'
     end
-    object TblTemporariaSaldoCUSTO: TFloatField
+    object TblTemporariaSaldoCUSTO: TBCDField
       FieldName = 'CUSTO'
     end
-    object TblTemporariaSaldoSALDO: TFloatField
+    object TblTemporariaSaldoSALDO: TBCDField
       FieldName = 'SALDO'
     end
-    object TblTemporariaSaldoTOTALVENDA: TFloatField
+    object TblTemporariaSaldoTOTALVENDA: TBCDField
       FieldName = 'TOTALVENDA'
     end
-    object TblTemporariaSaldoTOTALCOMPRA: TFloatField
+    object TblTemporariaSaldoTOTALCOMPRA: TBCDField
       FieldName = 'TOTALCOMPRA'
     end
-    object TblTemporariaSaldoTOTALCUSTO: TFloatField
+    object TblTemporariaSaldoTOTALCUSTO: TBCDField
       FieldName = 'TOTALCUSTO'
     end
   end

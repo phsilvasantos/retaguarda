@@ -1195,6 +1195,15 @@ inherited FormTelaEmissaoEtiquetasCodigoBarras: TFormTelaEmissaoEtiquetasCodigoB
       FieldName = 'Numero_Serie'
       Size = 60
     end
+    object TblEtiquetasPRECO_DESCONTO: TFloatField
+      FieldName = 'PRECO_DESCONTO'
+    end
+    object TblEtiquetasVALIDADE_DESCONTO: TDateField
+      FieldName = 'VALIDADE_DESCONTO'
+    end
+    object TblEtiquetasQTDE_DESCONTO: TFloatField
+      FieldName = 'QTDE_DESCONTO'
+    end
   end
   object DSTblEtiquetas: TDataSource
     DataSet = TblEtiquetas
@@ -1682,6 +1691,56 @@ inherited FormTelaEmissaoEtiquetasCodigoBarras: TFormTelaEmissaoEtiquetasCodigoB
     end
     object cdsSerieItem: TIntegerField
       FieldName = 'Item'
+    end
+  end
+  object cdsProdutoDesconto: TClientDataSet
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'CodigoProduto'
+        DataType = ftInteger
+      end
+      item
+        Name = 'Qtde_Desconto'
+        DataType = ftFloat
+      end
+      item
+        Name = 'Data_Validade'
+        DataType = ftDate
+      end
+      item
+        Name = 'Preco_Desconto'
+        DataType = ftFloat
+      end>
+    IndexDefs = <
+      item
+        Name = 'DEFAULT_ORDER'
+      end
+      item
+        Name = 'CHANGEINDEX'
+      end>
+    Params = <>
+    StoreDefs = True
+    Left = 740
+    Top = 186
+    Data = {
+      890000009619E0BD01000000180000000400000000000300000089000D436F64
+      69676F50726F6475746F04000100000000000D517464655F446573636F6E746F
+      08000400000000000D446174615F56616C696461646504000600000000000E50
+      7265636F5F446573636F6E746F080004000000000001000D44454641554C545F
+      4F524445520200820000000000}
+    object cdsProdutoDescontoCodigoProduto: TIntegerField
+      FieldName = 'CodigoProduto'
+    end
+    object cdsProdutoDescontoQtde_Desconto: TFloatField
+      FieldName = 'Qtde_Desconto'
+    end
+    object cdsProdutoDescontoData_Validade: TDateField
+      FieldName = 'Data_Validade'
+    end
+    object cdsProdutoDescontoPreco_Desconto: TFloatField
+      FieldName = 'Preco_Desconto'
     end
   end
 end
