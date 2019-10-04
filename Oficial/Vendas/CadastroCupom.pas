@@ -10,7 +10,7 @@ uses
   DBRichEd, RxDBComb, RxLookup, ppDB, ppDBPipe, ppDBBDE, ppCtrls, ppStrtch,
   ppMemo, ppBands, ppVar, ppPrnabl, ppClass, ppCache, ppComm, ppRelatv,
   ppProd, ppReport, ppSubRpt, Serial, AdvOfficeStatusBar, AdvPanel, AdvOfficeStatusBarStylers,
-  pcnConversao, pcnConversaoNFe ;
+  pcnConversao, pcnConversaoNFe, ACBrDFeUtil ;
 
 type
   TFormCadastroCupom = class(TFormCadastroTEMPLATE)
@@ -793,7 +793,8 @@ begin
 end;
 
 procedure TFormCadastroCupom.MnadmRetransmitirNFCeClick(Sender: TObject);
-var nfce_tentativa : integer;
+var
+  nfce_tentativa : integer;
 begin
   inherited;
   {$IFDEF ACBrNFeOpenSSL}
@@ -807,11 +808,11 @@ begin
 
   dm.ACBrNFe.Configuracoes.Geral.IdCSC := SQLLocate('EMPRESA','EMPRICOD','idTOKEN',SQLTemplateEMPRICOD.AsString);
   dm.ACBrNFe.Configuracoes.Geral.CSC   := SQLLocate('EMPRESA','EMPRICOD','TOKEN',SQLTemplateEMPRICOD.AsString);
-
+  dm.ACBrNFe.Configuracoes.Geral.VersaoQRCode := veqr200;
   //dm.ACBrNFe.DANFE.ViaConsumidor := True;
   //dm.ACBrNFe.DANFE.ImprimirItens := True;
 
-
+  IDReimprimir := SQLTemplateCUPOA13ID.Value;
   nfce_tentativa := 0 ;
   if sqltemplatestnfe.Value = '100' then
     begin
@@ -845,6 +846,7 @@ begin
               LabelRegistros.Caption := 'Envio ao Sefaz RS NFCe: '+sqltemplateCUPOINRO.AsString +' Autorizado com sucesso!';
               LabelRegistros.Update;
               SQLImpressaoCupom.Close;
+              SQLImpressaoCupom.SQL.Clear;
               SQLImpressaoCupom.RequestLive := False;
               SQLImpressaoCupom.SQL.Text := 'Update CUPOM Set STNFE='+IntToStr(dm.ACBrNFe.WebServices.consulta.cStat)+
                                             ', PROTOCOLO='''+dm.ACBrNFe.WebServices.consulta.Protocolo +''''+
@@ -853,6 +855,30 @@ begin
 
               nfce_tentativa := 9;
             end;
+
+          if (dm.ACBrNFe.WebServices.Consulta.cStat = 613) or (dm.ACBrNFe.WebServices.Consulta.cStat = 539) then
+          begin
+            if dm.ACBrNFe.WebServices.Consulta.XMotivo <> '' then
+            begin
+              if pos('NF-e [', dm.ACBrNFe.WebServices.Consulta.XMotivo) > 0 then
+              begin
+                Chave := Copy(dm.ACBrNFe.WebServices.Consulta.XMotivo, pos('NF-e [', dm.ACBrNFe.WebServices.Consulta.XMotivo), 200);
+                Chave := StringReplace(Chave, 'NF-e [', '', [rfReplaceAll, rfIgnoreCase]);
+                Chave := StringReplace(Chave, ']', '', [rfReplaceAll]);
+                if Chave <> '' then
+                begin
+                  SQLImpressaoCupom.SQL.Clear;
+                  SQLImpressaoCupom.RequestLive := False;
+                  SQLImpressaoCupom.SQL.Add('Update CUPOM Set CHAVEACESSO = ''' + chave + '''');
+                  SQLImpressaoCupom.SQL.Add(' Where CUPOA13ID = ''' + IDReimprimir + '''');
+                  SQLImpressaoCupom.ExecSQL;
+                  SQLImpressaoCupom.SQL.Clear;
+                  SQLTemplate.Close;
+                  SQLTemplate.Open;
+                end;
+              end;
+            end;
+          end;
         end;
     end;
 end;
@@ -874,7 +900,7 @@ begin
   dm.ACBrNFe.NotasFiscais.Clear;
   with dm.ACBrNFe.NotasFiscais.Add.NFe do
      begin
-       Ide.cNF       := SQLTemplateCUPOINRO.Value;
+       Ide.cNF       := GerarCodigoDFe(SQLTemplateCUPOINRO.Value);
        Ide.natOp     := 'VENDA CONSUMIDOR';
        Ide.modelo    := 65;
        Ide.serie     := SQLTemplateTERMICOD.Value;
