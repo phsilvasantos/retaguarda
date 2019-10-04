@@ -271,6 +271,8 @@ type
     RepresentanteNSrie1: TMenuItem;
     NotaServio1: TMenuItem;
     Emitidas4: TMenuItem;
+    pnlValidadeCertificado: TPanel;
+    lblValidadeCertificado: TLabel;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -540,6 +542,7 @@ type
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
     procedure ConfigurarMenus;
+    procedure BuscaVencimentoCertificado;
 
     { Private declarations }
   public
@@ -626,7 +629,8 @@ uses
   TelaGerarSaldoProduto, CadastroMesa, TelaConsultaSaldoPorEmpresa,
   CadastroSabores, CadastroTributacaoNFSE, CadastroNotaServico,
   CadastroServico, RelatorioComissaoRepresentanteDetalhado, TelaConsultaMovNumeroSerie, CadastroTipoFornecedor,
-  TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy, RelatorioRepresentanteNSerie, RelatorioNotaServicoEmitida;
+  TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy, RelatorioRepresentanteNSerie, RelatorioNotaServicoEmitida,
+  DateUtils;
 
 
 
@@ -3008,6 +3012,7 @@ begin
       Application.CreateForm(TFormTelaResumoFinanceiro,FormTelaResumoFinanceiro);
       FormTelaResumoFinanceiro.ShowModal;
     end;
+  BuscaVencimentoCertificado;
 end;
 
 procedure TFormPrincipal.MnADMUtilitariosConsultadeCuponsClick(
@@ -3284,6 +3289,43 @@ begin
     CriaFormulario(TFormRelatorioNotaServicoEmitidas, 'FormRelatorioNotaServicoEmitidas', False, False, False, '')
   else
     SoundPlay('Acesso Negado.wav', Sender);
+end;
+
+procedure TFormPrincipal.BuscaVencimentoCertificado;
+var
+  DiasVencimento : integer;
+begin
+  try
+    DM.ACBrNFe.Configuracoes.Certificados.NumeroSerie := SQLLocate('EMPRESA','EMPRICOD','EMPRA100CERTIFSERIE',IntToStr(EmpresaCorrente));
+    if DM.ACBrNFe.SSL.CertificadoLido = False then
+      DM.ACBrNFe.SSL.CarregarCertificado;
+//    DiasVencimento :=  DaysBetween(Date,DM.ACBrNFe.SSL.CertDataVenc);
+    DiasVencimento :=  Trunc(DM.ACBrNFe.SSL.CertDataVenc) - Trunc(Date);
+    if (DiasVencimento <= 15) and (DiasVencimento > 0) then
+    begin
+      pnlValidadeCertificado.Visible := True;
+      lblValidadeCertificado.Caption := 'Certificado Digital vencerá em ' + IntToStr(DiasVencimento) + ' dia(s)';
+    end
+    else
+    if (DiasVencimento = 0) then
+    begin
+      pnlValidadeCertificado.Visible := True;
+      pnlValidadeCertificado.Width := 375;
+      lblValidadeCertificado.Caption := 'Certificado Digital vence hoje';
+    end
+    else
+    begin
+      if DiasVencimento < 0 then
+      begin
+        pnlValidadeCertificado.Visible := True;
+      pnlValidadeCertificado.Width := 375;
+        lblValidadeCertificado.Caption := 'Certificado Digital está vencido';
+      end;
+    end;
+  except
+    pnlValidadeCertificado.Visible := False;
+  end;
+
 end;
 
 end.

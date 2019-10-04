@@ -2815,6 +2815,32 @@ inherited FormPrincipal: TFormPrincipal
       Layout = blGlyphTop
     end
   end
+  object pnlValidadeCertificado: TPanel [2]
+    Left = 888
+    Top = 629
+    Width = 475
+    Height = 36
+    Anchors = [akRight, akBottom]
+    TabOrder = 3
+    Visible = False
+    object lblValidadeCertificado: TLabel
+      Left = 1
+      Top = 0
+      Width = 473
+      Height = 35
+      Align = alBottom
+      Alignment = taRightJustify
+      Caption = 'Vencimento Certificado'
+      Color = clSilver
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -28
+      Font.Name = 'Impact'
+      Font.Style = []
+      ParentColor = False
+      ParentFont = False
+    end
+  end
   inherited BackGround: TEvWallPaper
     Picture.Data = {
       0A544A504547496D61676576340400FFD8FFE107FC4578696600004D4D002A00
