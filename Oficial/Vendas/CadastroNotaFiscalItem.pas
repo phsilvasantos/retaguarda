@@ -347,7 +347,7 @@ type
     function Busca_CFOP(Operacao: Integer; Origem: Integer; CST: Integer): string;
     function CalculaSubstituicaoTributaria: string;
     procedure CalculaFrete;
-    procedure LancaNumeroSerie(CodProd : String; Qtde : Integer);
+    procedure LancaNumeroSerie(CodProd : String; Qtde : Integer; Composicao : Boolean);
   public
     { Public declarations }
   end;
@@ -1150,7 +1150,7 @@ begin
     while not SQLComposicao.Eof do
     begin
       SQLTemplateControlaSerieLookup.AsVariant := DM.SQLlocate('produto', 'prodicod', 'PRODCTEMNROSERIE', SQLComposicao.FieldByName('PRODICODFILHO').AsString);
-      LancaNumeroSerie(SQLComposicao.FieldByName('PRODICODFILHO').AsString,SQLComposicao.FieldByName('PRODN3QTDE').AsInteger );
+      LancaNumeroSerie(SQLComposicao.FieldByName('PRODICODFILHO').AsString,SQLComposicao.FieldByName('PRODN3QTDE').AsInteger,True);
       DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
       DataSet.FieldByName('OBS').AsString := ObservacaoNota;
       SQLComposicao.Next;
@@ -1158,7 +1158,7 @@ begin
   end
   else
   begin
-    LancaNumeroSerie(SQLTemplatePRODICOD.AsString,SQLTemplateNFITN3QUANT.AsInteger);
+    LancaNumeroSerie(SQLTemplatePRODICOD.AsString,SQLTemplateNFITN3QUANT.AsInteger, False);
     DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
     DataSet.FieldByName('OBS').AsString := ObservacaoNota;
   end;
@@ -2152,7 +2152,7 @@ begin
   DescontoMaximo := StrToFloat(SQLLocate('USUARIO', 'USUAA60LOGIN', 'USUAN2PERCDESC', QuotedStr(UsuarioAtualNome)));
 end;
 
-procedure TFormCadastroNotaFiscalItem.LancaNumeroSerie(CodProd: String; Qtde : Integer);
+procedure TFormCadastroNotaFiscalItem.LancaNumeroSerie(CodProd: String; Qtde : Integer; Composicao : Boolean);
 var
   NumeroSerie: string;
   I: integer;
@@ -2187,7 +2187,13 @@ begin
                 if NumeroSerie <> EmptyStr then
                   GravaSaidaNroSerieProduto(NumeroSerie, CodProd, 'I', EmpresaPadrao, DSMasterTemplate.DataSet.FieldByName('CLIEA13ID').AsString, '', '', DSMasterTemplate.DataSet.FieldByName('NOFIA13ID').AsString, '');
                 if ObservacaoNota = EmptyStr then
-                  ObservacaoNota := ' Nro Serie: ' + NumeroSerie
+                  if Composicao then
+                    ObservacaoNota := 'Composição: ' + DM.SQLlocate('PRODUTO','PRODICOD', 'PRODA60DESCR', CodProd) + '-' + NumeroSerie
+                  else
+                    ObservacaoNota := ' Nro Serie: ' + NumeroSerie
+                else
+                if Composicao then
+                  ObservacaoNota := ObservacaoNota + ', ' + DM.SQLlocate('PRODUTO','PRODICOD', 'PRODA60DESCR', CodProd) + '-' + NumeroSerie
                 else
                   ObservacaoNota := ObservacaoNota + ', ' + NumeroSerie;
 
