@@ -66,6 +66,7 @@ type
   public
     { Public declarations }
     TerminalCodigoSTR: string;
+    TempoCiclo : Integer;
   end;
 
 var
@@ -87,8 +88,12 @@ begin
   TerminalCodigoSTR := IniFile.ReadString('SERVIDOR', 'Terminal', '');
   ZdbServidor.HostName := IniFile.ReadString('SERVIDOR', 'HostName', '');
   ZdbServidor.Database := IniFile.ReadString('SERVIDOR', 'Database', '');
+  TempoCiclo := Inifile.ReadInteger('CICLO','TempoCiclo',0);
   IniFile.Free;
   // FormPrincipal.Hide;
+  if TempoCiclo = 0 then
+    TempoCiclo := 10000;
+  Timer.Interval := TempoCiclo;
   lbterminal.Caption := lbterminal.Caption + TerminalCodigoSTR;
   lbBancoLocal.caption := ZdbPDV.Database;
   lbBancoServidor.caption := ZdbServidor.HostName + ' ' + ZdbServidor.Database;
