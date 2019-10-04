@@ -129,6 +129,8 @@ begin
   if DM.SQLEmpresa.Locate('EMPRICOD', EmpresaPadrao, []) then
     MatrizFilial := DM.SQLEmpresa.FieldByName('EMPRCMATRIZFILIAL').AsString ;
 
+  DM.GetDataValidadeSistema;
+
   DM.SQLTerminalAtivo.Close;
   if FileExists('NaoTestaTerminal.txt') then
     SQLTerminal.MacroByName('MFiltro').Value := '0=0'

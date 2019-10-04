@@ -2,11 +2,11 @@ program Retaguarda;
 
 uses
   Forms,
+  WindowsLibrary in 'ArquivosComuns\WindowsLibrary.pas',
   windows,
   DataModuloTemplate in '..\Template\DataModuloTemplate.pas' {DMTemplate: TDataModule},
   VarSYS in '..\Template\VarSYS.pas',
   WaitWindow in 'ArquivosComuns\WaitWindow.pas',
-  WindowsLibrary in 'ArquivosComuns\WindowsLibrary.pas',
   TelaSplash in 'ArquivosComuns\TelaSplash.pas' {FormS1plash},
   UnitLibrary in 'ArquivosComuns\UnitLibrary.pas',
   DataModuloFaturamento in 'Faturamento\DataModuloFaturamento.pas' {DMFaturamento: TDataModule},
@@ -486,8 +486,18 @@ begin
 
   Application.Title := 'Gestão Empresarial - Módulo Retaguarda';
 
+
   Application.CreateForm(TDM, DM);
-  if ((DM.OBSAutorizacao <> '')or(dm.SQLConfigGeralCFGECBLOQ.AsString = 'S')) and(not DelphiAberto) then
+
+  FormTelaLogin := TFormTelaLogin.Create(Application);
+  FormTelaLogin.Caption := 'Bem Vindo ao Gestão Empresarial - Módulo Retaguarda';
+
+  if (FormTelaLogin.ShowModal <> idOk)  then
+  begin
+    application.terminate;
+  end;
+
+  if ((DM.OBSAutorizacao <> '') and (DM.SQLEmpresaCFGECBLOQ.AsString = '')) or (dm.SQLEmpresaCFGECBLOQ.AsString = 'S') then// and(not DelphiAberto) then
   begin
     FormTelaAtivacao := TFormTelaAtivacao.Create(Application);
     FormTelaAtivacao.ShowModal;
@@ -496,19 +506,11 @@ begin
     begin
     end
     else
-    if (dm.SQLConfigGeralCFGECBLOQ.AsString = 'S') then
+    if (dm.SQLEmpresaCFGECBLOQ.AsString = 'S') then
     begin
       Application.terminate;
       Exit;
     end;
-  end;
-
-  FormTelaLogin := TFormTelaLogin.Create(Application);
-  FormTelaLogin.Caption := 'Bem Vindo ao Gestão Empresarial - Módulo Retaguarda';
-
-  if (FormTelaLogin.ShowModal <> idOk)  then
-  begin
-    application.terminate;
   end;
 
   Application.CreateForm(TFormPrincipal, FormPrincipal);

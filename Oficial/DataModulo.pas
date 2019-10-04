@@ -9,7 +9,7 @@ uses
   ppReport, ppComm, ppRelatv, ppDB, ppDBPipe, ppDBBDE, ACBrNFeDANFEClass,
   ACBrNFeDANFeESCPOS, ACBrDFe, ACBrNFe, ACBrBase, ACBrPosPrinter, MemTable,
   RestClient, RestUtils, DBClient, UnitLibrary, pcnConversaoNFe,
-  ACBrDFeReport, ACBrDFeDANFeReport;
+  ACBrDFeReport, ACBrDFeDANFeReport, VarSYS;
 
 type
   TDM = class(TDMTemplate)
@@ -808,11 +808,12 @@ type
     SQLConfigServicoLOCAL_TRIBUTACAO: TIntegerField;
     TblPedidoItensVlrDesc: TFloatField;
     ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
+    SQLEmpresaCFGEDBLOQ: TDateTimeField;
+    SQLEmpresaCFGECBLOQ: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DBAfterConnect(Sender: TObject);
   private
     { Private declarations }
-    procedure GetDataValidadeSistema;
     procedure GetDataValidadeSistemaWebApi;
 
   public
@@ -839,6 +840,7 @@ type
     TemClienteDiferente: Boolean;
     OBSAutorizacao: string;
     function ConectaServidor: boolean;
+    procedure GetDataValidadeSistema;
     procedure Inicia_NFe;
     procedure Inicia_NFeCAD;
 
@@ -871,9 +873,10 @@ begin
 
   FormSplash.lbDados.Caption := 'Abrindo Tabela de Usuarios...'; FormSplash.lbDados.Update;
   SQLUsuario.Open;
-
-  FormSplash.lbDados.Caption := 'Licença de uso Válida até => ' + FormatDateTime('dd/mm/yyyy', SQLConfigGeralCFGEDBLOQ.Value); FormSplash.lbDados.Update;
   Sleep(1000);
+
+//  FormSplash.lbDados.Caption := 'Licença de uso Válida até => ' + FormatDateTime('dd/mm/yyyy', SQLEmpresaCFGEDBLOQ.Value); FormSplash.lbDados.Update;
+//  Sleep(1000);
   FormSplash.close;
 end;
 
@@ -943,13 +946,15 @@ begin
   DataSistema := ExecSql('select current_timestamp from rdb$relations').fieldbyname('current_timestamp').AsDateTime;
   DataSistema := StrToDate(FormatDateTime('dd/mm/yyyy', DataSistema));
   vSEM_INTERNET := False;
-  GetDataValidadeSistema;
+//  GetDataValidadeSistema;
+
 end;
 
 procedure TDM.GetDataValidadeSistema;
 var
   Data: TDateTime;
   DiasVencimento: integer;
+  Bloqueio : String;
 
   function DiasEmAviso:Boolean;
   begin
@@ -957,7 +962,7 @@ var
 
     if SQLConfigGeralDIAS_AVISO.Value > 0 then
     begin
-      DiasVencimento := DaysBetween(SQLConfigGeralCFGEDBLOQ.AsDateTime, DataSistema);
+      DiasVencimento := DaysBetween(SQLEmpresaCFGEDBLOQ.AsDateTime, DataSistema);
 
       if SQLConfigGeralDIAS_AVISO.Value >= DiasVencimento then
       begin
@@ -969,7 +974,7 @@ var
 begin
 
   OBSAutorizacao := '';
-  if (SQLConfigGeralCFGEDBLOQ.AsDateTime < DataSistema)or
+  if (SQLEmpresaCFGEDBLOQ.AsDateTime < DataSistema)or
     (DiasEmAviso) then
   begin
     GetDataValidadeSistemaWebApi;
@@ -984,10 +989,10 @@ begin
       Dm.SQLConfigGeralDATA_INI_SEM_NET.AsDateTime := DataSistema;
   end;
 
-  if SQLConfigGeralCFGEDBLOQ.AsDateTime < DataSistema then
-    SQLConfigGeralCFGECBLOQ.Value := 'S'
+  if SQLEmpresaCFGEDBLOQ.AsDateTime < DataSistema then
+    Bloqueio := 'S'
   else begin
-    SQLConfigGeralCFGECBLOQ.Value := '';
+    Bloqueio := '';
 
     if DiasEmAviso then
     begin
@@ -998,6 +1003,19 @@ begin
     end;
   end;
 
+  try
+    SQLConsulta.Close;
+    SQLConsulta.RequestLive := False;
+    SQLConsulta.SQL.Text    := 'Update EMPRESA Set CFGECBLOQ = ''' + Bloqueio + '''' +
+                                  ' Where EMPRICOD = '''+ IntToStr(EmpresaCorrente)+'''';
+    SQLConsulta.ExecSQL;
+  except
+
+  end;
+  SQLEmpresa.Close;
+  SQLEmpresa.Open;
+  SQLEmpresa.Locate('EMPRICOD',EmpresaCorrente,[]);
+
   if SQLConfigGeral.state in ([dsedit, dsinsert]) then
     SQLConfigGeral.Post;
 end;
@@ -1006,15 +1024,19 @@ procedure TDM.GetDataValidadeSistemaWebApi;
 var
   Data: TDate;
   xhttp: string;
+  xDocumento : String;
 begin
   if not SQLEmpresa.Active then
     SQLEmpresa.Open;
 
   cdsAPIAutorizacao.Close;
   cdsAPIAutorizacao.CreateDataSet;
+  xDocumento := SQLLocate('EMPRESA','EMPRICOD','EMPRA14CGC', IntToStr(EmpresaCorrente));
+  if xDocumento = EmptyStr then
+    xDocumento := SQLEmpresaEMPRA14CGC.AsString;
 
   xhttp := 'http://200.98.170.118/Automafour/api/cad_pessoa/documento/'
-    + SQLEmpresaEMPRA14CGC.AsString;
+    + xDocumento;
 
   //xhttp:= 'http://localhost:51308/api/cad_pessoa/documento/83125841020';
 
@@ -1037,6 +1059,19 @@ begin
         Data := StrToDate(copy(cdsAPIAutorizacaoDATA_AUTORIZACAO.value, 9, 2) + '/' + copy(cdsAPIAutorizacaoDATA_AUTORIZACAO.value, 6, 2)
           + '/' + copy(cdsAPIAutorizacaoDATA_AUTORIZACAO.value, 1, 4));
 
+        try
+          SQLConsulta.Close;
+          SQLConsulta.RequestLive := False;
+          SQLConsulta.SQL.Text    := 'Update EMPRESA Set CFGEDBLOQ = ''' + FormatDateTime('mm/dd/yyyy', Data) + '''' +
+                                        ' Where EMPRICOD = '''+ IntToStr(EmpresaCorrente)+'''';
+          SQLConsulta.ExecSQL;
+        except
+
+        end;
+        SQLEmpresa.Close;
+        SQLEmpresa.Open;
+        SQLEmpresa.Locate('EMPRICOD',EmpresaCorrente,[]);
+
         SQLConfigGeral.Edit;
         SQLConfigGeralCFGEDBLOQ.Value := Data;
         SQLConfigGeralDIAS_AVISO.AsInteger := StrToIntDef(cdsAPIAutorizacaoDIAS_AVISO.AsString, 0);
@@ -1045,7 +1080,7 @@ begin
     end;
 
   finally
-    if not((DM.vSEM_INTERNET)and((DM.DataSistema-DM.SQLConfigGeralDATA_INI_SEM_NET.AsDateTime) <= 7)) then
+    if ((not DM.vSEM_INTERNET)and((DM.DataSistema-DM.SQLConfigGeralDATA_INI_SEM_NET.AsDateTime) <= 7)) then
     if ((not cdsAPIAutorizacao.Active) or (cdsAPIAutorizacaoDATA_AUTORIZACAO.AsString = ''))and(not DelphiAberto) then
     begin
       FormTelaAtivacao := TFormTelaAtivacao.Create(Application);

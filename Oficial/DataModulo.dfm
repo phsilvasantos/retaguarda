@@ -1,12 +1,11 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 70
-  Top = 50
+  Left = 361
+  Top = 46
   Height = 600
   Width = 1200
   inherited DB: TDatabase
     AliasName = 'Easy_Gestao'
-    Connected = True
     AfterConnect = DBAfterConnect
   end
   object SQLConfigGeral: TRxQuery
@@ -505,6 +504,16 @@ inherited DM: TDM
     end
     object SQLEmpresaVERSAO: TStringField
       FieldName = 'VERSAO'
+      Size = 1
+    end
+    object SQLEmpresaCFGEDBLOQ: TDateTimeField
+      FieldName = 'CFGEDBLOQ'
+      Origin = 'DB.EMPRESA.CFGEDBLOQ'
+    end
+    object SQLEmpresaCFGECBLOQ: TStringField
+      FieldName = 'CFGECBLOQ'
+      Origin = 'DB.EMPRESA.CFGECBLOQ'
+      FixedChar = True
       Size = 1
     end
   end
@@ -1908,7 +1917,7 @@ inherited DM: TDM
     PrinterSetup.mmMarginTop = 6350
     PrinterSetup.mmPaperHeight = 0
     PrinterSetup.mmPaperWidth = 0
-    PrinterSetup.PaperSize = 160
+    PrinterSetup.PaperSize = 256
     DeviceType = 'Screen'
     EmailSettings.ReportFormat = 'PDF'
     OutlineSettings.CreateNode = True
