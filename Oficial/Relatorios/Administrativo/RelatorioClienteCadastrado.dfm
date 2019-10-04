@@ -452,7 +452,16 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
   object SQLCliente: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from CLIENTE'
+      
+        'select CLIEA13ID, EMPRICOD, CLIEICOD, CLIEA60RAZAOSOC, CLIEA15FO' +
+        'NE1, CLIEA15FONE2,'
+      
+        '       trim(CLIEA60ENDRES) || '#39' '#39' || trim(CLIEA5NROENDRES) as CL' +
+        'IEA60ENDRES, CLIEA60BAIRES, CLIEA60CIDRES, CLIEA2UFRES,'
+      
+        '       CLIEA8CEPRES, CLIEDCAD, ROTAICOD, CLIEA14CGC, CLIEA20IE, ' +
+        'CLIEA60NOMEFANT, CLIEA60CONTATO, CLIEA11CPF, CLIEA10RG'
+      'from CLIENTE  '
       'where'
       '(%MEmpresa) and'
       '(%Minativos) and '
