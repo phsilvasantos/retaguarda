@@ -10453,6 +10453,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
       '  (%MSituacao)'
       'and'
       '  PRODCSERVICO <> '#39'M'#39)
+    UpdateMode = upWhereKeyOnly
     Macros = <
       item
         DataType = ftString

@@ -3012,7 +3012,8 @@ begin
       Application.CreateForm(TFormTelaResumoFinanceiro,FormTelaResumoFinanceiro);
       FormTelaResumoFinanceiro.ShowModal;
     end;
-  BuscaVencimentoCertificado;
+  if not (DelphiAberto) then
+    BuscaVencimentoCertificado;
 end;
 
 procedure TFormPrincipal.MnADMUtilitariosConsultadeCuponsClick(

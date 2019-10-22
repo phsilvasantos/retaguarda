@@ -220,6 +220,19 @@ inherited FormCadastroNCM: TFormCadastroNCM
                   Font.Style = [fsBold]
                   ParentFont = False
                 end
+                object Label29: TLabel
+                  Left = 336
+                  Top = 74
+                  Width = 37
+                  Height = 13
+                  Caption = 'FCP ST'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = 8404992
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
                 object DBEdit5: TDBEdit
                   Left = 217
                   Top = 41
@@ -309,6 +322,21 @@ inherited FormCadastroNCM: TFormCadastroNCM
                   Font.Style = []
                   ParentFont = False
                   TabOrder = 5
+                end
+                object DBEdit20: TDBEdit
+                  Left = 378
+                  Top = 66
+                  Width = 74
+                  Height = 21
+                  DataField = 'PERC_FCP'
+                  DataSource = DSTemplate
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  ParentFont = False
+                  TabOrder = 6
                 end
               end
               object GroupBox3: TGroupBox
@@ -1228,6 +1256,12 @@ inherited FormCadastroNCM: TFormCadastroNCM
       Origin = 'DB.NCM.ALIQ_RED_BASE_ST'
       DisplayFormat = '#0.00'
       EditFormat = '#0.00'
+    end
+    object SQLTemplatePERC_FCP: TFloatField
+      FieldName = 'PERC_FCP'
+      Origin = 'DB.NCM.PERC_FCP'
+      DisplayFormat = ',0.00'
+      EditFormat = ',0.00'
     end
   end
 end

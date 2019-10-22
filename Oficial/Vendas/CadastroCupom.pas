@@ -783,6 +783,7 @@ end;
 procedure TFormCadastroCupom.CupomEletronicoNFCe1Click(Sender: TObject);
 begin
   inherited;
+
   chave := SQLTemplateCHAVEACESSO.AsString;
   PathPastaMensal := FormatDateTime('yyyymm',SQLTemplateCUPODEMIS.Value);
 

@@ -1116,6 +1116,8 @@ type
     SQLNotaFiscalItemBASE_FCP_ST_RET: TFloatField;
     SQLNotaFiscalItemPERC_FCP_ST_RET: TFloatField;
     SQLNotaFiscalItemVALOR_FCP_ST_RET: TFloatField;
+    SQLSerieEMPRICOD: TIntegerField;
+    SQLSerieSERIA2TIPONOTA: TStringField;
     function TabelaNFE_123(Produto, Situacao: string): string;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -2233,7 +2235,19 @@ begin
     SQLSerie.Close;
     SQLSerie.MacroByName('mEmpresa').value := 'EMPRICOD = ' + SQLTemplateEMPRICOD.AsString;
     SQLSerie.Open;
-    SQLSerie.Locate('SERIA5COD', SQLTemplateSERIA5COD.asString, []);
+    if not SQLSerie.Locate('SERIA5COD', SQLTemplateSERIA5COD.asString, []) then
+    begin
+      SQLSerie.Insert;
+      SQLSerieEMPRICOD.AsInteger := SQLTemplateEMPRICOD.AsInteger;
+      SQLSerieSERIA5COD.AsString := SQLTemplateSERIA5COD.asString;
+      SQLSerieSERIINRONF.asInteger := 1;
+      SQLSerieSERIA2TIPONOTA.AsString := '55';
+      SQLSeriePENDENTE.asString := 'S';
+      SQLSerieREGISTRO.asDateTime := Now;
+      SQLSerie.Post;
+      SQLSerie.Close;
+      SQLSerie.Open;
+    end;
     Erro := True;
     while Erro do
     try

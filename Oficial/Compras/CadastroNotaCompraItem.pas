@@ -333,7 +333,6 @@ type
     Label73: TLabel;
     Label7: TLabel;
     DBEdit6: TDBEdit;
-    Label91: TLabel;
     Label92: TLabel;
     EvDBNumEdit14: TEvDBNumEdit;
     EvDBNumEdit17: TEvDBNumEdit;
@@ -341,6 +340,19 @@ type
     Label94: TLabel;
     SQLTemplateCFOPORIGINAL: TStringField;
     edtCFOPOriginal: TDBEdit;
+    GroupBox3: TGroupBox;
+    Label95: TLabel;
+    dbedtPerc_FCP_ST: TEvDBNumEdit;
+    Label96: TLabel;
+    dbedtValor_FCP_ST: TEvDBNumEdit;
+    Label91: TLabel;
+    dbedtPerc_FCP: TEvDBNumEdit;
+    Label97: TLabel;
+    dbedtValor_FCP: TEvDBNumEdit;
+    SQLTemplatePERC_FCP_ST: TFloatField;
+    SQLTemplateVALOR_FCP_ST: TFloatField;
+    SQLTemplatePERC_FCP: TFloatField;
+    SQLTemplateVALOR_FCP: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
     procedure SQLTemplatePRODICODChange(Sender: TField);
@@ -866,6 +878,11 @@ begin
   SQLTemplateNOCIN2VLRCOFINS.asFloat     := 0  ;
   SQLTemplateNOCIN2VLRPIS.asFloat        := 0  ;
   SQLTemplateNOCIN2BASEPIS.asFloat       := 0  ;
+  SQLTemplatePERC_FCP.AsFloat            := 0  ;
+  SQLTemplateVALOR_FCP.AsFloat           := 0  ;
+  SQLTemplatePERC_FCP_ST.AsFloat         := 0  ;
+  SQLTemplateVALOR_FCP_ST.AsFloat        := 0  ;
+
   SQLTemplateNOCICALTPRECO.Value         := 'I';
   EditcdProduto.Clear;
   IncluindoItem := True;

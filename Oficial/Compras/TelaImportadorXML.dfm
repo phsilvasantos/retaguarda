@@ -2850,6 +2850,22 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     object cdsItensListaPreco: TBooleanField
       FieldName = 'ListaPreco'
     end
+    object cdsItensperc_fcp: TFloatField
+      FieldName = 'perc_fcp'
+      DisplayFormat = ',0.00'
+    end
+    object cdsItensvalor_fcp: TFloatField
+      FieldName = 'valor_fcp'
+      DisplayFormat = ',0.00'
+    end
+    object cdsItensperc_fcp_st: TFloatField
+      FieldName = 'perc_fcp_st'
+      DisplayFormat = ',0.00'
+    end
+    object cdsItensvalor_fcp_st: TFloatField
+      FieldName = 'valor_fcp_st'
+      DisplayFormat = ',0.00'
+    end
   end
   object dsItens: TDataSource
     DataSet = cdsItens

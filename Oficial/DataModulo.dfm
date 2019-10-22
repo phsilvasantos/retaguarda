@@ -1,12 +1,19 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 361
-  Top = 46
+  Left = 56
+  Top = 74
   Height = 600
   Width = 1200
   inherited DB: TDatabase
     AliasName = 'Easy_Gestao'
     AfterConnect = DBAfterConnect
+  end
+  inherited Campos: TTableItems
+    Left = 597
+    Top = 41
+  end
+  inherited SQLAcesso: TRxQuery
+    Left = 112
   end
   object SQLConfigGeral: TRxQuery
     DatabaseName = 'DB'
@@ -291,8 +298,8 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from EMPRESA')
     Macros = <>
-    Left = 221
-    Top = 8
+    Left = 173
+    Top = 56
     object SQLEmpresaEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
       Origin = 'DB.EMPRESA.EMPRICOD'
@@ -847,8 +854,8 @@ inherited DM: TDM
     GraphAxis.DivisionsY = 0
     GraphAxis.DivisionsY2 = 0
     GraphAxis.DivisionsZ = 0
-    Left = 545
-    Top = 57
+    Left = 697
+    Top = 97
   end
   object DSTblPedidoItens: TDataSource
     DataSet = TblPedidoItens
@@ -2944,8 +2951,8 @@ inherited DM: TDM
     ConfigLogo.IgnorarLogo = True
     LinhasEntreCupons = 3
     ControlePorta = True
-    Left = 606
-    Top = 5
+    Left = 1014
+    Top = 21
   end
   object ACBrNFe: TACBrNFe
     Configuracoes.Geral.SSLLib = libCapicom
@@ -2971,8 +2978,8 @@ inherited DM: TDM
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
     DANFE = ACBrNFeDANFeESCPOS1
-    Left = 545
-    Top = 5
+    Left = 969
+    Top = 21
   end
   object TblTicketPreVendaCab: TTable
     DatabaseName = 'Easy_Temp'
@@ -5633,8 +5640,8 @@ inherited DM: TDM
     Params.Strings = (
       'USER NAME=sysdba')
     SessionName = 'Default'
-    Left = 869
-    Top = 16
+    Left = 653
+    Top = 134
   end
   object RestClient: TRestClient
     ConnectionType = hctIndy
@@ -5693,8 +5700,8 @@ inherited DM: TDM
     Configuracoes.WebServices.TimeOut = 20000
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    Left = 957
-    Top = 49
+    Left = 1093
+    Top = 25
   end
   object SQLConfigServico: TRxQuery
     DatabaseName = 'DB'
@@ -5739,7 +5746,8 @@ inherited DM: TDM
     CasasDecimais.MaskvUnCom = ',0.00'
     ACBrNFe = ACBrNFe
     TipoDANFE = tiSemGeracao
-    Left = 704
-    Top = 104
+    PosPrinter = ACBrPosPrinter
+    Left = 1056
+    Top = 24
   end
 end

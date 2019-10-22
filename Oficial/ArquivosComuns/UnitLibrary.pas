@@ -2237,28 +2237,11 @@ begin
     if (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'P') or
       (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'A') then
     begin
-      {SQLProdFilho.Close;
-      SQLProdFilho.SQL.Clear;
-      SQLProdFilho.SQL.Add('SELECT * FROM PRODUTOCOMPOSICAO WHERE PRODICODFILHO = ' + IntToStr(ProdCod));
-      SQLProdFilho.Open;}
-      SQLProdFilho.First;
       if (not SQLProdFilho.IsEmpty) then
       begin
+        SQLProdFilho.First;
         while not SQLProdFilho.Eof do
         begin
-          Sair := False;
-          while not Sair do
-          begin
-            try
-              GravaMovimento(SQLProdFilho.FieldByName('PRODICOD').AsInteger, SQLProdFilho.FieldByName('PRODICODFILHO').AsInteger);
-              Sair := True;
-              Application.ProcessMessages;
-            except
-              Sair := False;
-              Application.ProcessMessages;
-              Sleep(1);
-            end;
-          end;
           if (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'A') and not (SQLProdFilho.IsEmpty) then
           begin
             Sair := False;
@@ -2278,7 +2261,7 @@ begin
           SQLProdFilho.Next;
         end;
       end;
-      if (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'P') and (SQLProdFilho.IsEmpty) then
+      if (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'P') or (SqlProd.FieldByName('PRODCTIPOBAIXA').Value = 'A') then // and (SQLProdFilho.IsEmpty) then
       begin
         Sair := False;
         while not Sair do

@@ -113,6 +113,9 @@ type
     DBEdit19: TDBEdit;
     SQLTemplateCEST: TStringField;
     SQLTemplateALIQ_RED_BASE_ST: TFloatField;
+    Label29: TLabel;
+    DBEdit20: TDBEdit;
+    SQLTemplatePERC_FCP: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure CorrigeNCMmenorque8digitos1Click(Sender: TObject);
     procedure ImportarArquivoIBPTAtual1Click(Sender: TObject);

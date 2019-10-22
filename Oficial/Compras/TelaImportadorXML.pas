@@ -382,6 +382,10 @@ type
     cxGrid1DBTableViewItensmargem: TcxGridDBColumn;
     cdsItensListaPreco: TBooleanField;
     cxGrid1DBTableViewItensListaPreco: TcxGridDBColumn;
+    cdsItensperc_fcp: TFloatField;
+    cdsItensvalor_fcp: TFloatField;
+    cdsItensperc_fcp_st: TFloatField;
+    cdsItensvalor_fcp_st: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -680,9 +684,8 @@ begin
 
         if cdsItens.FieldByName('codigo_gravar').AsString <> '0' then
         begin
-          cdsItens.FieldByName('valor_venda').AsFloat := StrToFloat(SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString));
-          if dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString) <> '' then
-            cdsItens.FieldByName('margem').AsFloat := StrToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
+          cdsItens.FieldByName('valor_venda').AsFloat := StrToFloatDef(SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString),0);
+          cdsItens.FieldByName('margem').AsFloat := StrToFloatDef(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString),0);
         end;
 
         cdsItens.FieldByName('descricao').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.xProd;
@@ -790,6 +793,11 @@ begin
         cdsItens.FieldByName('valor_icms_st_retido').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSSTRet;
         cdsItens.FieldByName('base_icms_st_retido').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vBCSTRet;
         cdsItens.FieldByName('pst').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.pST;
+        cdsItens.FieldByName('valor_fcp').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vFCP;
+        cdsItens.FieldByName('perc_fcp').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.pFCP;
+        cdsItens.FieldByName('valor_fcp_st').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vFCPST;
+        cdsItens.FieldByName('perc_fcp_st').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.pFCPST;
+
         ValorSTRetido := ValorSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSSTRet;
         BaseSTRetido  := BaseSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vBCSTRet;
 
@@ -1748,7 +1756,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, UNIDICOD,  ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO, ');
-                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL)  ');
+                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL, VALOR_FCP, PERC_FCP, VALOR_FCP_ST, PERC_FCP_ST)  ');
                 dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, :NOCIN3CAPEMBAL,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEMBAL, :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
@@ -1761,7 +1769,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, :UNIDICOD,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO,');
-                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL)');
+                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL, :VALOR_FCP, :PERC_FCP, :VALOR_FCP_ST, :PERC_FCP_ST)');
 
                 dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := RetornaCodigoCompra(iSequencialNf);
                 dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
@@ -1865,10 +1873,7 @@ begin
 
                 {Calcula o novo preco venda}
                 try
-                  if strToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString)) > 0 then
-                    dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat   := strToFloat(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString))
-                  else
-                    dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat   := 0.00;
+                  dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat   := StrToFloatDef(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString),0);
                   if dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat > 0 then
 //                    dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA').AsFloat   := dm.SQLUpdate.ParamByName('NOCIN3VLRUNIT').AsFloat + (dm.SQLUpdate.ParamByName('NOCIN3VLRUNIT').AsFloat * (dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat / 100))
                     dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA').AsFloat   := dm.SQLUpdate.ParamByName('NOCIN3VLRCUSTOMED').AsFloat + (dm.SQLUpdate.ParamByName('NOCIN3VLRCUSTOMED').AsFloat * (dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat / 100))
@@ -1886,6 +1891,12 @@ begin
                   dm.SQLUpdate.ParamByName('IMPORTA_LISTA_PRECO').AsString := 'S'
                 else
                   dm.SQLUpdate.ParamByName('IMPORTA_LISTA_PRECO').AsString := 'N';
+
+                 dm.SQLUpdate.ParamByName('VALOR_FCP').AsFloat  := cdsItensvalor_fcp.AsFloat;
+                 dm.SQLUpdate.ParamByName('PERC_FCP').AsFloat  := cdsItensperc_fcp.AsFloat;
+
+                 dm.SQLUpdate.ParamByName('VALOR_FCP_ST').AsFloat  := cdsItensvalor_fcp_st.AsFloat;
+                 dm.SQLUpdate.ParamByName('PERC_FCP_ST').AsFloat  := cdsItensperc_fcp_st.AsFloat;
 
                 // Adilson, removi pq tem q buscar do nosso cad.produto dm.SQLUpdate.ParamByName('UNIDICOD').AsInteger := getUnidadeId(cdsItensunidade.AsString);
                 dm.SQLUpdate.ParamByName('UNIDICOD').AsString := dm.SQLLocate('PRODUTO','PRODICOD','UNIDICOD',cdsItens.FieldByName('codigo_gravar').AsString);

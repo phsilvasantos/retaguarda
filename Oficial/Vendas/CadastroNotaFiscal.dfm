@@ -15289,6 +15289,16 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
       FixedChar = True
       Size = 100
     end
+    object SQLSerieEMPRICOD: TIntegerField
+      FieldName = 'EMPRICOD'
+      Origin = 'DB.SERIE.EMPRICOD'
+    end
+    object SQLSerieSERIA2TIPONOTA: TStringField
+      FieldName = 'SERIA2TIPONOTA'
+      Origin = 'DB.SERIE.SERIA2TIPONOTA'
+      FixedChar = True
+      Size = 2
+    end
   end
   object DSSQLSerie: TDataSource
     DataSet = SQLSerie

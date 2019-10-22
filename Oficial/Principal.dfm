@@ -1,16 +1,16 @@
 inherited FormPrincipal: TFormPrincipal
   Tag = 4
-  Left = -1374
-  Top = -91
+  Left = 22
+  Top = 8
   Width = 1382
-  Height = 744
+  Height = 804
   Caption = 'Advanced Control'
   OldCreateOrder = True
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   inherited RodapePrincipal: TStatusBar
-    Top = 666
+    Top = 726
     Width = 1366
   end
   inherited ptopo: TAdvOfficeStatusBar
@@ -2817,7 +2817,7 @@ inherited FormPrincipal: TFormPrincipal
   end
   object pnlValidadeCertificado: TPanel [2]
     Left = 888
-    Top = 629
+    Top = 689
     Width = 475
     Height = 36
     Anchors = [akRight, akBottom]

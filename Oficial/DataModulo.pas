@@ -962,9 +962,9 @@ var
 
     if SQLConfigGeralDIAS_AVISO.Value > 0 then
     begin
-      DiasVencimento := DaysBetween(SQLEmpresaCFGEDBLOQ.AsDateTime, DataSistema);
+      DiasVencimento := DaysBetween((SQLEmpresaCFGEDBLOQ.AsDateTime + SQLConfigGeralDIAS_AVISO.AsInteger), DataSistema);
 
-      if SQLConfigGeralDIAS_AVISO.Value >= DiasVencimento then
+      if (SQLConfigGeralDIAS_AVISO.Value >= DiasVencimento) and (SQLEmpresaCFGEDBLOQ.AsDateTime < DataSistema) then
       begin
         Result := True;
       end;
@@ -974,7 +974,7 @@ var
 begin
 
   OBSAutorizacao := '';
-  if (SQLEmpresaCFGEDBLOQ.AsDateTime < DataSistema)or
+  if ((SQLEmpresaCFGEDBLOQ.AsDateTime + SQLConfigGeralDIAS_AVISO.AsInteger) < DataSistema)or
     (DiasEmAviso) then
   begin
     GetDataValidadeSistemaWebApi;
@@ -989,7 +989,7 @@ begin
       Dm.SQLConfigGeralDATA_INI_SEM_NET.AsDateTime := DataSistema;
   end;
 
-  if SQLEmpresaCFGEDBLOQ.AsDateTime < DataSistema then
+  if (SQLEmpresaCFGEDBLOQ.AsDateTime + SQLConfigGeralDIAS_AVISO.AsInteger) < DataSistema then
     Bloqueio := 'S'
   else begin
     Bloqueio := '';
