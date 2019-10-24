@@ -193,7 +193,7 @@ inherited FormRelatorioMotvoDiversos: TFormRelatorioMotvoDiversos
       FixedChar = True
       Size = 60
     end
-    object TblTemporariaMVDIN3QTD: TFloatField
+    object TblTemporariaMVDIN3QTD: TBCDField
       FieldName = 'MVDIN3QTD'
     end
     object TblTemporariaPRODN3VLRCOMPRA: TFloatField

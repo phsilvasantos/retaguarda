@@ -119,7 +119,7 @@ object fDlgBuscarProdutosBRT: TfDlgBuscarProdutosBRT
     Left = 0
     Top = 94
     Width = 1142
-    Height = 399
+    Height = 398
     Align = alClient
     TabOrder = 1
     object cxGrid1DBTableView1: TcxGridDBTableView

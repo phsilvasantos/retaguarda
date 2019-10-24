@@ -903,7 +903,7 @@ begin
     Exit;
   Ocupado := True;
   if (SQLTemplateNFITN2PERCDESC.asFloat > 0) then
-    SQLTemplateNFITN2VLRDESC.asFloat := (SQLTemplateNFITN2VLRUNIT.AsFloat * SQLTemplateNFITN3QUANT.asFloat) * (SQLTemplateNFITN2PERCDESC.asFloat / 100)
+    SQLTemplateNFITN2VLRDESC.asFloat := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2VLRUNIT.AsFloat * SQLTemplateNFITN3QUANT.asFloat) * (SQLTemplateNFITN2PERCDESC.asFloat / 100)))
   else
     SQLTemplateNFITN2VLRDESC.asFloat := 0;
 

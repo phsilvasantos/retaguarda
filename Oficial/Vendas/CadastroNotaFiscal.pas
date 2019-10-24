@@ -5708,6 +5708,8 @@ begin
 
             // Limpa a nota do componente ACBr
           ACBrNFe1.NotasFiscais.Clear;
+          SQLTemplate.Close;
+          SQLTemplate.Open;
         end
         else
         begin
@@ -6602,7 +6604,7 @@ begin
         CFOP := SoNumeros(SQLTemplateCFOPA5COD.AsString);
 
         // Testa se tem CFOP
-      if Length(CFOP) <> 4 then
+      if Length(CFOP) <> 4 then                                  
       begin
         ShowMessage('Erro: Tamanho do CFOP incorreto! Verifique no Cadastro de Operações de Estoque');
         Exit;

@@ -4182,7 +4182,7 @@ begin
           if (SQLParcelas.FieldByName('CTRCA13ID').AsString <> '') and (Length(SQLParcelas.FieldByName('CTRCA13ID').AsString) = 13) then
             Documento := SQLParcelas.FieldByName('CTRCA13ID').AsString;
           if (SQLParcelas.FieldByName('CUPOA13ID').AsString <> '') and (Length(SQLParcelas.FieldByName('CUPOA13ID').AsString) = 13) then
-            Documento := dm.SQLTemplate.FieldByName('CUPOA13ID').AsString;
+            Documento := SQLParcelas.FieldByName('CUPOA13ID').AsString;
           if (SQLParcelas.FieldByName('NOFIA13ID').AsString <> '') and (Length(SQLParcelas.FieldByName('NOFIA13ID').AsString) = 13) then
             Documento := SQLParcelas.FieldByName('NOFIA13ID').AsString;
 

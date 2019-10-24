@@ -34,7 +34,6 @@ type
     TblTemporariaMOVDDMOVIMENTO: TDateTimeField;
     TblTemporariaPRODICOD: TIntegerField;
     TblTemporariaPRODA60DESCR: TStringField;
-    TblTemporariaMVDIN3QTD: TFloatField;
     TblTemporariaPRODN3VLRCOMPRA: TFloatField;
     TblTemporariaPRODN3VLRVENDA: TFloatField;
     TblTemporariaVLRTOTALCOMPRA: TFloatField;
@@ -52,6 +51,7 @@ type
     TblTemporariaVLRTOTALCUSTO: TFloatField;
     ID: TEdit;
     Label5: TLabel;
+    TblTemporariaMVDIN3QTD: TBCDField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -104,7 +104,7 @@ begin
       Abort;
     end;
 
-  //  BatchExec(SQLMovimentos, TblTemporaria) ;
+//  CopyQueryTable(SQLMovimentos, TblTemporaria) ;
   TblTemporaria.Close;
   TblTemporaria.Open;
   while not SQLMovimentos.Eof do
@@ -119,7 +119,7 @@ begin
       TblTemporaria.Post;
       SQLMovimentos.Next;
     end;
-  TblTemporaria.Close;
+//  TblTemporaria.Close;
 
   if not ckMostraVenda.Checked then
     Report.ReportName := DM.SQLConfigGeralCFGEA255PATHREPORT.Value + '\Movimentos Diversos Produtos.rpt'
