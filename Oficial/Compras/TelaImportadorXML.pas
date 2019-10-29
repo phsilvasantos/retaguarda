@@ -994,7 +994,10 @@ procedure TFormTelaImportadorXML.SetFornecedorCadastroVinculado(
 begin
   dm.SQLConsulta.Close;
   dm.SQLConsulta.SQL.clear;
-  dm.SQLConsulta.SQL.Add('select FORNICOD from FORNECEDOR where FORNECEDOR.FORNA14CGC = :FORNA14CGC');
+  if Length(Trim(aCodigoFornecedorVinculado)) = 11 then
+    dm.SQLConsulta.SQL.Add('select FORNICOD from FORNECEDOR where FORNECEDOR.FORNA11CPF = :FORNA14CGC')
+  else
+    dm.SQLConsulta.SQL.Add('select FORNICOD from FORNECEDOR where FORNECEDOR.FORNA14CGC = :FORNA14CGC');
   dm.SQLConsulta.Params.ParamByName('FORNA14CGC').AsString := Trim(aCodigoFornecedorVinculado);
   dm.SQLConsulta.Open;
   if not dm.SQLConsulta.IsEmpty then
@@ -2108,9 +2111,11 @@ begin
     begin
       dm.SQLUpdate.ParamByName('FORNCFISJURID').AsString := 'F';
       dm.SQLUpdate.ParamByName('FORNA11CPF').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Emit.CNPJCPF;
+      if dm.SQLUpdate.ParamByName('FORNA60NOMEFANT').AsString = EmptyStr then
+        dm.SQLUpdate.ParamByName('FORNA60NOMEFANT').AsString := dm.SQLUpdate.ParamByName('FORNA60RAZAOSOC').AsString;
 
-      dm.SQLUpdate.ParamByName('FORNCFISJURID').DataType := ftString;
-      dm.SQLUpdate.ParamByName('FORNCFISJURID').Value := null;
+//      dm.SQLUpdate.ParamByName('FORNCFISJURID').DataType := ftString;
+//      dm.SQLUpdate.ParamByName('FORNCFISJURID').Value := null;
       dm.SQLUpdate.ParamByName('FORNA14CGC').DataType := ftString;
       dm.SQLUpdate.ParamByName('FORNA14CGC').Value := null;
       dm.SQLUpdate.ParamByName('FORNA20IE').DataType := ftString;

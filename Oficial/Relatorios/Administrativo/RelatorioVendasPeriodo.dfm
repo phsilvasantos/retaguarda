@@ -1,6 +1,6 @@
 inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
-  Left = 281
-  Top = 122
+  Left = 310
+  Top = 74
   Caption = 'Relat'#243'rio de Vendas por Per'#237'odo'
   ClientHeight = 493
   ClientWidth = 792
@@ -203,31 +203,26 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 7
-        object ComboTipoVenda: TComboBox
+        object ComboTipoVenda: TRxDBLookupCombo
           Left = 8
-          Top = 15
-          Width = 324
+          Top = 14
+          Width = 321
           Height = 21
-          CharCase = ecUpperCase
+          DropDownCount = 8
           Ctl3D = True
+          DisplayEmpty = 'TODOS...'
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
-          ItemHeight = 13
+          LookupField = 'NUMEICOD'
+          LookupDisplay = 'NUMEA30DESCR'
+          LookupSource = DSSQLNumerario
           ParentCtl3D = False
           ParentFont = False
           TabOrder = 0
-          Text = 'TODOS...'
-          Items.Strings = (
-            'TODOS...'
-            'CART'#195'O'
-            'CHEQUE A PRAZO'
-            'CHEQUE '#192' VISTA'
-            'CONV'#202'NIO'
-            'CREDI'#193'RIO'
-            'DINHEIRO')
+          OnKeyDown = ComboVendedorKeyDown
         end
       end
       object GroupCliente: TGroupBox
@@ -600,21 +595,11 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
       '  CUPOM.CUPOCTIPOPADRAO,'
       '  CUPOM.CUPODCANC,'
       '  CUPOM.CUPODEMIS,'
-      '  (select sum(CUPOMITEM.TOTAL_ITEM)'
-      '        from CUPOMITEM'
-      '        where CUPOMITEM.CUPOA13ID = CUPOM.CUPOA13ID and'
-      '              (%MStatus) and'
-      '              CUPOMITEM.CPITN3QTD > 0'
-      '        group by CUPOMITEM.CUPOA13ID)  as CUPON2TOTITENS,'
+      ' MOVIMENTOCAIXA.MVCXN2VLRCRED CUPON2TOTITENS,'
       '  CUPOM.CUPON2ACRESC,'
       '  CUPOM.CUPON2DESC + CUPOM.CUPON2DESCITENS as CUPON2DESC,'
       '  CUPOM.CUPOA8PLACAVEIC,'
-      '  (select sum(CUPOMITEM.TOTAL_ITEM)'
-      '        from CUPOMITEM'
-      '        where CUPOMITEM.CUPOA13ID = CUPOM.CUPOA13ID and'
-      '              (%MStatus) and'
-      '              CUPOMITEM.CPITN3QTD > 0'
-      '        group by CUPOMITEM.CUPOA13ID) +'
+      '  MOVIMENTOCAIXA.MVCXN2VLRCRED +'
       '        CUPOM.CUPON2ACRESC'
       '        %MtaxaCred'
       '        (CUPON2DESC+CUPOM.CUPON2DESCITENS)-'
@@ -650,6 +635,11 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
       
         '  left outer join VENDEDOR VENDEDOR on CUPOM.VENDICOD = VENDEDOR' +
         '.VENDICOD'
+      
+        '  left outer join MOVIMENTOCAIXA on CUPOM.CUPOA13ID = MOVIMENTOC' +
+        'AIXA.MVCXA15DOCORIG and MOVIMENTOCAIXA.NUMEICOD is not null and ' +
+        'MOVIMENTOCAIXA.EMPRICOD = CUPOM.EMPRICOD and MOVIMENTOCAIXA.TERM' +
+        'ICOD = CUPOM.TERMICOD'
       'where'
       '  (%MStatus) and'
       '  CUPOM.CUPOCCONSIG <> '#39'S'#39' and'
@@ -667,13 +657,13 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
     Macros = <
       item
         DataType = ftString
-        Name = 'MStatus'
+        Name = 'MtaxaCred'
         ParamType = ptInput
         Value = '0=0'
       end
       item
         DataType = ftString
-        Name = 'MtaxaCred'
+        Name = 'MStatus'
         ParamType = ptInput
         Value = '0=0'
       end
@@ -1709,6 +1699,50 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
   object DSSQLCliente: TDataSource
     DataSet = SQLCliente
     Left = 695
+    Top = 4
+  end
+  object SQLNumerario: TRxQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      
+        'select NUMEICOD, NUMEA30DESCR, NUMECVISTAPRAZO, NUMECATIVO, NUME' +
+        'A5TIPO'
+      'from NUMERARIO')
+    Macros = <>
+    Left = 723
+    Top = 4
+    object SQLNumerarioNUMEICOD: TIntegerField
+      FieldName = 'NUMEICOD'
+      Origin = 'DB.NUMERARIO.NUMEICOD'
+    end
+    object SQLNumerarioNUMEA30DESCR: TStringField
+      FieldName = 'NUMEA30DESCR'
+      Origin = 'DB.NUMERARIO.NUMEA30DESCR'
+      FixedChar = True
+      Size = 30
+    end
+    object SQLNumerarioNUMECVISTAPRAZO: TStringField
+      FieldName = 'NUMECVISTAPRAZO'
+      Origin = 'DB.NUMERARIO.NUMECVISTAPRAZO'
+      FixedChar = True
+      Size = 1
+    end
+    object SQLNumerarioNUMECATIVO: TStringField
+      FieldName = 'NUMECATIVO'
+      Origin = 'DB.NUMERARIO.NUMECATIVO'
+      FixedChar = True
+      Size = 1
+    end
+    object SQLNumerarioNUMEA5TIPO: TStringField
+      FieldName = 'NUMEA5TIPO'
+      Origin = 'DB.NUMERARIO.NUMEA5TIPO'
+      FixedChar = True
+      Size = 5
+    end
+  end
+  object DSSQLNumerario: TDataSource
+    DataSet = SQLNumerario
+    Left = 751
     Top = 4
   end
 end

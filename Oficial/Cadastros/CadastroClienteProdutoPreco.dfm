@@ -1,42 +1,26 @@
-inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
-  Left = 386
-  Top = 93
-  Caption = 'Produtos com Desconto'
-  OldCreateOrder = True
+inherited FormCadastroClienteProdutoPreco: TFormCadastroClienteProdutoPreco
+  Left = 262
+  Top = 105
+  Caption = 'Cadastro de Cliente/Produto Pre'#231'o'
+  ClientHeight = 520
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
+    Height = 520
     inherited PanelCentral: TPanel
+      Height = 446
+      inherited PanelBarra: TPanel
+        Height = 446
+      end
       inherited PanelFundoDados: TPanel
+        Height = 446
         inherited Panel5: TPanel
+          Height = 446
           inherited PagePrincipal: TPageControl
+            Height = 364
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
-                Columns = <
-                  item
-                    Expanded = False
-                    FieldName = 'PRODICOD'
-                    Title.Caption = 'C'#243'digo'
-                    Visible = True
-                  end
-                  item
-                    Expanded = False
-                    FieldName = 'ProdutoLookup'
-                    Width = 322
-                    Visible = True
-                  end
-                  item
-                    Expanded = False
-                    FieldName = 'CLPRA1DESCTOPOR'
-                    Title.Caption = 'Descto Por'
-                    Visible = True
-                  end
-                  item
-                    Expanded = False
-                    FieldName = 'CLPRN3PERCDESC'
-                    Title.Caption = 'Perc.Desconto'
-                    Visible = True
-                  end>
+                Height = 291
               end
               inherited PanelProcura: TPanel
                 inherited PanelBetween: TPanel
@@ -54,23 +38,6 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
                     FullHeight = 0
                   end
                 end
-              end
-            end
-            inherited TabSheetDadosPrincipais: TTabSheet
-              object Label1: TLabel
-                Left = 16
-                Top = 24
-                Width = 186
-                Height = 39
-                Caption = 
-                  'Obs.: No campo Acre/Desc:'#13#10'- Numeros Negativos = Desconto'#13#10'- Num' +
-                  'eros Positivos = Acrescimo'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clRed
-                Font.Height = -11
-                Font.Name = 'Tahoma'
-                Font.Style = [fsBold]
-                ParentFont = False
               end
             end
           end
@@ -124,24 +91,11 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
               OnClick = AcessaProdutosClick
             end
             object Label22: TLabel
-              Left = 569
+              Left = 466
               Top = 3
-              Width = 87
+              Width = 70
               Height = 13
-              Caption = 'Perc.Acre/Desc'
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clRed
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = [fsBold]
-              ParentFont = False
-            end
-            object Label3: TLabel
-              Left = 468
-              Top = 3
-              Width = 61
-              Height = 13
-              Caption = 'Descto Por'
+              Caption = 'Pre'#231'o Venda'
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clRed
               Font.Height = -11
@@ -157,6 +111,7 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
               DataField = 'PRODICOD'
               DataSource = DSTemplate
               TabOrder = 0
+              OnKeyDown = DBEdit2KeyDown
             end
             object DBEdit6: TDBEdit
               Left = 107
@@ -181,12 +136,12 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
               TabOrder = 1
             end
             object EvDBNumEdit2: TEvDBNumEdit
-              Left = 566
+              Left = 463
               Top = 17
               Width = 91
               Height = 21
               AutoHideCalculator = False
-              DataField = 'CLPRN3PERCDESC'
+              DataField = 'PRECO'
               DataSource = DSTemplate
               Decimals = 3
               Font.Charset = DEFAULT_CHARSET
@@ -231,34 +186,7 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
                 C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FFC0C0FF
                 C0C0FFC0C0FFC0C0FF7F}
               ParentFont = False
-              TabOrder = 3
-              OnEnter = EvDBNumEdit2Enter
-            end
-            object ComboAtivo: TRxDBComboBox
-              Left = 465
-              Top = 17
-              Width = 98
-              Height = 21
-              Style = csDropDownList
-              DataField = 'CLPRA1DESCTOPOR'
-              DataSource = DSTemplate
-              EnableValues = True
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              ItemHeight = 13
-              Items.Strings = (
-                'Percentual'
-                'Valor'
-                'Com Valor Fixo em')
-              ParentFont = False
               TabOrder = 2
-              Values.Strings = (
-                'P'
-                'V'
-                'C')
             end
           end
         end
@@ -267,55 +195,48 @@ inherited FormCadastroClienteProduto: TFormCadastroClienteProduto
   end
   inherited SQLTemplate: TRxQuery
     SQL.Strings = (
-      'Select   *  From   CLIENTEPRODUTO'
-      'Where '
+      'Select * From CLIENTEPRODUTOPRECO '
+      'WHERE'
       '  CLIEA13ID = :CLIEA13ID and  (%MFiltro)')
     ParamData = <
       item
-        DataType = ftUnknown
+        DataType = ftString
         Name = 'CLIEA13ID'
-        ParamType = ptUnknown
+        ParamType = ptInput
       end>
     object SQLTemplateCLIEA13ID: TStringField
+      DisplayLabel = 'Cod.Cliente'
       FieldName = 'CLIEA13ID'
-      Origin = 'DB.CLIENTEPRODUTO.CLIEA13ID'
+      Origin = 'DB.CLIENTEPRODUTOPRECO.CLIEA13ID'
       FixedChar = True
       Size = 13
     end
     object SQLTemplatePRODICOD: TIntegerField
       DisplayLabel = 'Cod.Produto'
       FieldName = 'PRODICOD'
-      Origin = 'DB.CLIENTEPRODUTO.PRODICOD'
+      Origin = 'DB.CLIENTEPRODUTOPRECO.PRODICOD'
+      OnChange = SQLTemplatePRODICODChange
+    end
+    object SQLTemplatePRECO: TFloatField
+      DisplayLabel = 'Pre'#231'o'
+      FieldName = 'PRECO'
+      Origin = 'DB.CLIENTEPRODUTOPRECO.PRECO'
+      DisplayFormat = '#0.00'
+      EditFormat = '#0.00'
     end
     object SQLTemplateREGISTRO: TDateTimeField
       FieldName = 'REGISTRO'
-      Origin = 'DB.CLIENTEPRODUTO.REGISTRO'
-    end
-    object SQLTemplatePENDENTE: TStringField
-      FieldName = 'PENDENTE'
-      Origin = 'DB.CLIENTEPRODUTO.PENDENTE'
-      FixedChar = True
-      Size = 1
+      Origin = 'DB.CLIENTEPRODUTOPRECO.REGISTRO'
     end
     object SQLTemplateProdutoLookup: TStringField
+      DisplayWidth = 35
       FieldKind = fkLookup
       FieldName = 'ProdutoLookup'
       LookupDataSet = TblProduto
       LookupKeyFields = 'PRODICOD'
       LookupResultField = 'PRODA30ADESCRREDUZ'
       KeyFields = 'PRODICOD'
-      Size = 30
       Lookup = True
-    end
-    object SQLTemplateCLPRA1DESCTOPOR: TStringField
-      FieldName = 'CLPRA1DESCTOPOR'
-      Origin = 'DB.CLIENTEPRODUTO.CLPRA1DESCTOPOR'
-      FixedChar = True
-      Size = 1
-    end
-    object SQLTemplateCLPRN3PERCDESC: TFloatField
-      FieldName = 'CLPRN3PERCDESC'
-      Origin = 'DB.CLIENTEPRODUTO.CLPRN3PERCDESC'
     end
   end
   object TblProduto: TTable

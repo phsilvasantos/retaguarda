@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 314
-  Top = 2
+  Left = 46
+  Top = 15
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -921,7 +921,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
             Top = 52
             Width = 1027
             Height = 556
-            ActivePage = TabSheetSaldos
+            ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Top = 83

@@ -472,7 +472,8 @@ uses
   RelatorioMotoboy in 'Relatorios\Administrativo\RelatorioMotoboy.pas' {FormRelatorioMotoboy},
   CadastroNCMUF in 'Cadastros\CadastroNCMUF.pas' {FormCadastroNCMUF},
   RelatorioRepresentanteNSerie in 'Relatorios\Administrativo\RelatorioRepresentanteNSerie.pas' {FormRelatorioRepresentanteNSerie},
-  RelatorioNotaServicoEmitida in 'Relatorios\Financeiro\RelatorioNotaServicoEmitida.pas' {FormRelatorioNotaServicoEmitidas};
+  RelatorioNotaServicoEmitida in 'Relatorios\Financeiro\RelatorioNotaServicoEmitida.pas' {FormRelatorioNotaServicoEmitidas},
+  CadastroClienteProdutoPreco in 'Cadastros\CadastroClienteProdutoPreco.pas' {FormCadastroClienteProdutoPreco};
 
 {$R *.res}
 
@@ -488,7 +489,6 @@ begin
 
 
   Application.CreateForm(TDM, DM);
-
   FormTelaLogin := TFormTelaLogin.Create(Application);
   FormTelaLogin.Caption := 'Bem Vindo ao Gestão Empresarial - Módulo Retaguarda';
 

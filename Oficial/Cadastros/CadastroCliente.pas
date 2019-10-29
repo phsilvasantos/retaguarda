@@ -11,7 +11,7 @@ uses
   ppComm, ppRelatv, ppProd, ppClass, ppReport, ppCtrls, ppPrnabl, ppBands,
   ppCache, UnSoundPlay, ppStrtch, ppRichTx, Serial, AdvOfficeStatusBar, ppViewr,
   AdvOfficeStatusBarStylers, AdvPanel, ppDBBDE, XMLDoc, XMLIntf, ACBrBase,
-  ACBrSocket, ACBrCEP, JvDateTimePicker;
+  ACBrSocket, ACBrCEP, JvDateTimePicker, JvExComCtrls;
 
 type
   TProtectDBGrid = class(TDBGrid);
@@ -988,6 +988,7 @@ type
     Label103: TLabel;
     SQLTemplateCLIENTE_DESDE: TDateTimeField;
     JvDateTimePicker1: TJvDateTimePicker;
+    btnProdutoClientePreco: TRxSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure AcessaVendedorClick(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -1134,7 +1135,7 @@ uses //CadastroVendedor, TelaClienteHistorico, RelatorioExtratoCliente
   CadastroClienteHistorico, TelaConsultaPlanoRecebimento, TelaNegociacaoDivida, WaitWindow, TelaDadosTeleEntrega,
   CadastroTipoCliente, TelaGeracaoMalaDireta, CadastroClienteProduto, CadastroProfissional, CadastroClienteVeiculos,
   TelaDetalheRecebimento, TelaClienteHistorico, CadastroAnimais, TelaReceituario,
-  uConsulta_cnpj;
+  uConsulta_cnpj, CadastroClienteProdutoPreco;
      //CadastroAnimais, TelaDetalheRecebimento;
 
 
@@ -1755,6 +1756,16 @@ begin
       True,
       False, True, 'Cliente ' + SQLTemplateCLIEA60RAZAOSOC.asString);}
   end;
+  //-------------------------------------------------------------------------\\
+  if TRxSpeedButton(Sender).Name = 'btnProdutoClientePreco' then
+  begin
+    DSMasterSys := DSTemplate;
+    CriaFormulario(TFormCadastroClienteProdutoPreco,
+      'FormCadastroClienteProdutoPreco',
+      True,
+      False, True, 'Cliente ' + SQLTemplateCLIEA60RAZAOSOC.asString);
+  end;
+
 
 
 end;

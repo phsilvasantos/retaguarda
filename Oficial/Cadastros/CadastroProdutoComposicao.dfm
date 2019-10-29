@@ -1,6 +1,6 @@
 inherited FormCadastroProdutoComposicao: TFormCadastroProdutoComposicao
-  Left = 296
-  Top = 71
+  Left = 362
+  Top = 105
   Caption = 'Composi'#231#227'o do Produto'
   OldCreateOrder = True
   PixelsPerInch = 96

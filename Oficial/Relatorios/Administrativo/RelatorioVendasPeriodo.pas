@@ -103,7 +103,6 @@ type
     SQLVendasDOC: TIntegerField;
     RadioTipo: TRadioGroup;
     GroupTipoVenda: TGroupBox;
-    ComboTipoVenda: TComboBox;
     ComboVendedor: TRxDBLookupCombo;
     GroupCliente: TGroupBox;
     SQLCliente: TRxQuery;
@@ -190,6 +189,14 @@ type
     TblTemporariaCUPOA8PLACAVEIC: TStringField;
     TblTemporariaPROFICODINTERNET: TIntegerField;
     TblTemporariaMTBYA30DESCR: TStringField;
+    ComboTipoVenda: TRxDBLookupCombo;
+    SQLNumerario: TRxQuery;
+    DSSQLNumerario: TDataSource;
+    SQLNumerarioNUMEICOD: TIntegerField;
+    SQLNumerarioNUMEA30DESCR: TStringField;
+    SQLNumerarioNUMECVISTAPRAZO: TStringField;
+    SQLNumerarioNUMECATIVO: TStringField;
+    SQLNumerarioNUMEA5TIPO: TStringField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ComboVendedorKeyDown(Sender: TObject; var Key: Word;
@@ -273,18 +280,8 @@ begin
       SQLNotas.MacrobyName('MStatus').Value    := 'NOTAFISCAL.NOFICSTATUS = ''E''';
     end;
   // Seta o Tipo Padrão
-  if ComboTipoVenda.ItemIndex >= 0 then
-    begin
-      case ComboTipoVenda.ItemIndex of
-        0 : SQLVendas.MacrobyName('MTipoPadrao').Value := '0=0';
-        1 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CRT''';
-        2 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CHQP''';
-        3 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CHQV''';
-        4 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CNV''';
-        5 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CRD''';
-        6 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''VISTA''';
-      end;
-    end
+  if ComboTipoVenda.KeyValue > 0 then
+    SQLVendas.MacroByName('MTipoPadrao').Value :=  'MOVIMENTOCAIXA.NUMEICOD = ''' + ComboTipoVenda.KeyValue + ''''
   else
     SQLVendas.MacrobyName('MTipoPadrao').Value := '0=0';
 
@@ -551,7 +548,8 @@ begin
   inherited;
   SQLVendedor.Open;
   SQLCliente.Open;
-  ComboTipoVenda.ItemIndex := 0;
+  SQLNumerario.Open;
+//  ComboTipoVenda.ItemIndex := 0;
   if not UsuarioMaster then
     ListaTerminal(ListTerminal,EmpresaPadrao)
   else
@@ -641,7 +639,7 @@ begin
       SQLNotas.MacroByName('MPlaca').Value   := '0=0';
     end;
 
-  if ComboCliente.Value <> '' then
+  if ComboCliente.KeyValue > 0 then
     begin
       SQLVendas.MacrobyName('MCliente').Value   := 'CUPOM.CLIEA13ID      = ''' + ComboCliente.Value  + '''';
       SQLNotas.MacroByName('MCliente').Value    := 'NOTAFISCAL.CLIEA13ID = ''' + ComboCliente.Value  + '''';
@@ -653,18 +651,8 @@ begin
     end;
 
   // Seta o Tipo Padrão
-  if ComboTipoVenda.ItemIndex >= 0 then
-    begin
-      case ComboTipoVenda.ItemIndex of
-        0 : SQLVendas.MacrobyName('MTipoPadrao').Value := '0=0';
-        1 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CRT''';
-        2 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CHQP''';
-        3 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CHQV''';
-        4 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CNV''';
-        5 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''CRD''';
-        6 : SQLVendas.MacrobyName('MTipoPadrao').Value := 'CUPOM.CUPOCTIPOPADRAO = ''DIN''';
-      end;
-    end
+  if ComboTipoVenda.KeyValue > 0 then
+    SQLVendas.MacroByName('MTipoPadrao').Value :=  'MOVIMENTOCAIXA.NUMEICOD = ''' + ComboTipoVenda.KeyValue + ''''
   else
     SQLVendas.MacrobyName('MTipoPadrao').Value := '0=0';
 
