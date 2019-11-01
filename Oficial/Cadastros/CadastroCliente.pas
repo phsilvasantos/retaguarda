@@ -11,7 +11,7 @@ uses
   ppComm, ppRelatv, ppProd, ppClass, ppReport, ppCtrls, ppPrnabl, ppBands,
   ppCache, UnSoundPlay, ppStrtch, ppRichTx, Serial, AdvOfficeStatusBar, ppViewr,
   AdvOfficeStatusBarStylers, AdvPanel, ppDBBDE, XMLDoc, XMLIntf, ACBrBase,
-  ACBrSocket, ACBrCEP, JvDateTimePicker, JvExComCtrls;
+  ACBrSocket, ACBrCEP, JvDateTimePicker, JvExComCtrls, ShellAPI;
 
 type
   TProtectDBGrid = class(TDBGrid);
@@ -1720,9 +1720,14 @@ begin
 
   if TRxSpeedButton(Sender).Name = 'Button13' then
   begin
-    if FileExists(DM.PathAplicacao + 'animais.exe') then
-      vCaminhoAnimais := DM.PathAplicacao + 'animais.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual) + ' CLIENTE=' + SQLTemplateCLIEA13ID.AsString;
-      WinExec(PChar(vCaminhoAnimais), SW_SHOW);
+//    if FileExists(DM.PathAplicacao + 'animais.exe') then
+//      vCaminhoAnimais := DM.PathAplicacao + 'animais.exe' + ' EMPRESA='+ EmpresaPadrao + ' TERMINAL='+IntToStr(TerminalAtual) + ' CLIENTE=' + SQLTemplateCLIEA13ID.AsString;
+//      WinExec(PChar(vCaminhoAnimais), SW_SHOW);
+
+     vCaminhoAnimais :=  'http://' + Trim(DM.SQLConfigGeralIP_LINK_WEB.AsString) + Trim(DM.SQLConfigGeralLINK_WEB.AsString);
+     ShellExecute(Handle,'open',PAnsiChar(vCaminhoAnimais),nil,nil,SW_SHOW);
+
+
   //  EMPRESA=2 TERMINAL=4 CLIENTE=q
 
   //      DSMasterSys := DSTemplate;     //#ver

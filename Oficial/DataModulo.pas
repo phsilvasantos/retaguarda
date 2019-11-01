@@ -810,6 +810,8 @@ type
     ACBrNFeDANFeESCPOS1: TACBrNFeDANFeESCPOS;
     SQLEmpresaCFGEDBLOQ: TDateTimeField;
     SQLEmpresaCFGECBLOQ: TStringField;
+    SQLConfigGeralIP_LINK_WEB: TStringField;
+    SQLConfigGeralLINK_WEB: TStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DBAfterConnect(Sender: TObject);
   private

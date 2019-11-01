@@ -1,12 +1,11 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 56
-  Top = 74
+  Left = 296
+  Top = 39
   Height = 600
   Width = 1200
   inherited DB: TDatabase
     AliasName = 'Easy_Gestao'
-    Connected = False
     AfterConnect = DBAfterConnect
   end
   inherited Campos: TTableItems
@@ -261,6 +260,15 @@ inherited DM: TDM
       FieldName = 'DATA_INI_SEM_NET'
       Origin = 'DB.CONFIGGERAL.DATA_INI_SEM_NET'
     end
+    object SQLConfigGeralIP_LINK_WEB: TStringField
+      FieldName = 'IP_LINK_WEB'
+      Origin = 'DB.CONFIGGERAL.IP_LINK_WEB'
+    end
+    object SQLConfigGeralLINK_WEB: TStringField
+      FieldName = 'LINK_WEB'
+      Origin = 'DB.CONFIGGERAL.LINK_WEB'
+      Size = 100
+    end
   end
   object SQLUsuario: TQuery
     DatabaseName = 'DB'
@@ -299,8 +307,8 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from EMPRESA')
     Macros = <>
-    Left = 173
-    Top = 56
+    Left = 165
+    Top = 64
     object SQLEmpresaEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
       Origin = 'DB.EMPRESA.EMPRICOD'
