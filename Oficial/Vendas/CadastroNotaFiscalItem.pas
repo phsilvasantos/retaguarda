@@ -289,6 +289,7 @@ type
     SQLTemplatePERC_FCP_ST_RET: TFloatField;
     SQLTemplateVALOR_FCP_ST_RET: TFloatField;
     SQLComposicao: TRxQuery;
+    SQLProdutoImposto: TRxQuery;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -391,6 +392,18 @@ begin
       nResultICMS := BuscaIcmsUf
     else
       nResultICMS := BuscaIcms;
+
+    //verifica se tem imposto lançado na tabela produto imposto
+    SQLProdutoImposto.Close;
+    SQLProdutoImposto.ParamByName('PRODICOD').AsInteger := SQLTemplatePRODICOD.AsInteger;
+    SQLProdutoImposto.ParamByName('TIPO').AsString := Copy(SQLLocate('CLIENTE','CLIEA13ID','CLIECTPPRCVENDA',SQLTemplate.DataSource.DataSet.FindField('CLIEA13ID').asString),1,1);
+    SQLProdutoImposto.Open;
+
+    if not (SQLProdutoImposto.IsEmpty) then
+    begin
+       IcmsCod := SQLProdutoImposto.FindField('ICMSICOD').AsInteger;
+    end;
+
 
   { Adilson removi pq essa rotina atrapalha nas notas de devolucao pois pega o icms e cst conforme cadastro do produto e nas devolucoes nao é essa regra
   FisJur := DSMasterTemplate.DataSet.FieldByName('CliFornEmpFisicaJuridica').AsString;
@@ -661,6 +674,7 @@ var
   BKPBookMark: TBookMark;
   vISSQN: Extended;
   xUnidade1, xUnidade2, vCLIECTPPRCVENDA: string;
+  tipoCliente : String;
 begin
   inherited;
   EditProduto.Text := SQLTemplate.FieldByName((Sender as TField).FieldName).AsString;
@@ -672,6 +686,20 @@ begin
     IcmsCod := DM.SQLTemplate.FindField('ICMSICOD').AsInteger;
     SitTrib := DM.SQLTemplate.FindField('PRODISITTRIB').AsString;
     ReducaoBase := DM.SQLTemplate.FindField('PERC_REDUCAO_BASE_CALCULO').AsFloat;
+
+    //verifica se tem imposto lançado na tabela produto imposto
+    tipoCliente := Copy(SQLLocate('CLIENTE','CLIEA13ID','CLIECTPPRCVENDA',SQLTemplate.DataSource.DataSet.FindField('CLIEA13ID').asString),1,1);
+    SQLProdutoImposto.Close;
+    SQLProdutoImposto.ParamByName('PRODICOD').AsInteger := SQLTemplatePRODICOD.AsInteger;
+    SQLProdutoImposto.ParamByName('TIPO').AsString := tipoCliente;
+    SQLProdutoImposto.Open;
+
+    if not (SQLProdutoImposto.IsEmpty) then
+    begin
+       SitTrib := SQLProdutoImposto.FindField('PRODISITTRIB').AsString;
+       IcmsCod := SQLProdutoImposto.FindField('ICMSICOD').AsInteger;
+       ReducaoBase := SQLProdutoImposto.FindField('PERC_REDUCAO_BASE_CALCULO').AsFloat;
+    end;
 
       // Verifica CFOP Auxiliar
     SQLTemplateCFOPA5CODAUX.AsString := Busca_CFOP(SQLTemplate.DataSource.DataSet.FindField('OPESICOD').AsInteger, DM.SQLTemplate.FindField('PRODIORIGEM').AsInteger, DM.SQLTemplate.FindField('PRODISITTRIB').AsInteger);
@@ -1112,8 +1140,17 @@ begin
   {Atualiza Pis Cofins}
   dm.sqlconsulta.close;
   dm.sqlconsulta.sql.clear;
-  dm.sqlconsulta.sql.text := 'select PRODA2CSTPIS,PRODN2ALIQPIS,PRODA2CSTCOFINS,PRODN2ALIQCOFINS from produto where prodicod=' + SQLTemplatePRODICOD.AsString;
+  dm.sqlconsulta.sql.Add('select PRODA2CSTPIS,PRODN2ALIQPIS,PRODA2CSTCOFINS,PRODN2ALIQCOFINS from produto_imposto');
+  dm.sqlconsulta.sql.Add('where prodicod = ' + SQLTemplatePRODICOD.AsString + ' AND TIPO = ''' + Copy(SQLLocate('CLIENTE','CLIEA13ID','CLIECTPPRCVENDA',SQLTemplate.DataSource.DataSet.FindField('CLIEA13ID').asString),1,1) + '''');
   dm.sqlconsulta.open;
+  if DM.SqlConsulta.IsEmpty then
+  begin
+    dm.sqlconsulta.close;
+    dm.sqlconsulta.sql.clear;
+    dm.sqlconsulta.sql.text := 'select PRODA2CSTPIS,PRODN2ALIQPIS,PRODA2CSTCOFINS,PRODN2ALIQCOFINS from produto where prodicod=' + SQLTemplatePRODICOD.AsString;
+    dm.sqlconsulta.open;
+  end;
+
   SQLTemplateNOFIA2CSTCOFINS.AsString := dm.sqlconsulta.fieldbyname('PRODA2CSTCOFINS').AsString;
   SQLTemplateNOFIA2CSTPIS.AsString := dm.sqlconsulta.fieldbyname('PRODA2CSTPIS').AsString;
   SQLTemplateNOFIN3PERCCOFINS.AsString := dm.sqlconsulta.fieldbyname('PRODN2ALIQCOFINS').AsString;

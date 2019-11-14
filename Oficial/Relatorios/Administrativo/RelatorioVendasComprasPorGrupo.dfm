@@ -1,7 +1,7 @@
 inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrupo
-  Left = 303
-  Top = 209
-  Caption = 'Relat'#243'rio de Vendas e Compras por Grupo'
+  Left = 223
+  Top = 110
+  Caption = 'Relatório de Vendas e Compras por Grupo'
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBox: TScrollBox
@@ -57,7 +57,7 @@ inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrup
       '   CPI.PRODICOD = P.PRODICOD'
       '  and P.GRUPICOD = G.GRUPICOD'
       '  and CP.CUPOA13ID = CPI.CUPOA13ID'
-      '  and CP.CUPOA13ID <> '#39'C'#39
+      '  and CP.CUPOA13ID <> ''C'''
       '    and (%MEmpresa)'
       '  and (%MDataInicial)'
       '  and (%MDataFinal)'
@@ -116,7 +116,7 @@ inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrup
       '   GRUPO G'
       '   Where'
       '   NC.NOCPA13ID = NCI.NOCPA13ID'
-      '   and NC.NOCPCSTATUS <> '#39'C'#39
+      '   and NC.NOCPCSTATUS <> ''C'''
       '   and NCI.PRODICOD = P.PRODICOD'
       '   and P.GRUPICOD = G.GRUPICOD'
       '   and (%MDataInicial)'
@@ -247,13 +247,13 @@ inherited FormRelatorioVendasComprasPorGrupo: TFormRelatorioVendasComprasPorGrup
     object TblTemporariaSaldoSALDO: TBCDField
       FieldName = 'SALDO'
     end
-    object TblTemporariaSaldoTOTALVENDA: TBCDField
+    object TblTemporariaSaldoTOTALVENDA: TFloatField
       FieldName = 'TOTALVENDA'
     end
-    object TblTemporariaSaldoTOTALCOMPRA: TBCDField
+    object TblTemporariaSaldoTOTALCOMPRA: TFloatField
       FieldName = 'TOTALCOMPRA'
     end
-    object TblTemporariaSaldoTOTALCUSTO: TBCDField
+    object TblTemporariaSaldoTOTALCUSTO: TFloatField
       FieldName = 'TOTALCUSTO'
     end
   end

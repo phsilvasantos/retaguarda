@@ -20,7 +20,7 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       Height = 442
       inherited BtnVisualizar: TSpeedButton
         Left = 286
-        Top = 366
+        Top = 390
       end
       object Label7: TLabel [1]
         Left = 23
@@ -43,6 +43,20 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
         Height = 13
         Caption = 'Estado'
         FocusControl = ComboEmpresa
+        Font.Charset = ANSI_CHARSET
+        Font.Color = 8404992
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label9: TLabel [3]
+        Left = 256
+        Top = 327
+        Width = 24
+        Height = 13
+        Caption = 'Tipo'
+        FocusControl = ComboTipo
         Font.Charset = ANSI_CHARSET
         Font.Color = 8404992
         Font.Height = -11
@@ -101,7 +115,7 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       end
       object CheckDependente: TCheckBox
         Left = 21
-        Top = 367
+        Top = 391
         Width = 200
         Height = 17
         Caption = 'Incluir autorizados na listagem'
@@ -271,7 +285,7 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       object ComboVendedor: TRxDBLookupCombo
         Left = 20
         Top = 342
-        Width = 325
+        Width = 233
         Height = 21
         DropDownCount = 8
         DisplayAllFields = True
@@ -298,7 +312,7 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       end
       object CheckSimples: TCheckBox
         Left = 21
-        Top = 382
+        Top = 406
         Width = 200
         Height = 17
         Caption = 'Emitir Relat'#243'rio Simplificado'
@@ -312,7 +326,7 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       end
       object CheckInativos: TCheckBox
         Left = 21
-        Top = 398
+        Top = 422
         Width = 200
         Height = 17
         Caption = 'Ocultar Clientes Inativos'
@@ -325,6 +339,19 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
         ParentFont = False
         State = cbChecked
         TabOrder = 9
+      end
+      object ComboTipo: TComboBox
+        Left = 255
+        Top = 341
+        Width = 89
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 10
+        Items.Strings = (
+          'Varejo'
+          'Atacado1'
+          'Atacado2'
+          'Atacado3')
       end
     end
     inherited ScrollBoxTopo: TScrollBox
@@ -473,7 +500,8 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       'and'
       '(%MVendedor)'
       'and'
-      '(%MEstado)'
+      '(%MEstado) and'
+      '(%MTipo)'
       '%MOrdem')
     Macros = <
       item
@@ -515,6 +543,12 @@ inherited FormRelatorioClienteCadastrado: TFormRelatorioClienteCadastrado
       item
         DataType = ftString
         Name = 'MEstado'
+        ParamType = ptInput
+        Value = '0=0'
+      end
+      item
+        DataType = ftString
+        Name = 'MTipo'
         ParamType = ptInput
         Value = '0=0'
       end

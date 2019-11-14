@@ -1,8 +1,9 @@
 inherited FormCadastroClienteProdutoPreco: TFormCadastroClienteProdutoPreco
-  Left = 262
-  Top = 105
+  Left = 398
+  Top = 74
   Caption = 'Cadastro de Cliente/Produto Pre'#231'o'
   ClientHeight = 520
+  OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
@@ -238,6 +239,12 @@ inherited FormCadastroClienteProdutoPreco: TFormCadastroClienteProdutoPreco
       KeyFields = 'PRODICOD'
       Lookup = True
     end
+    object SQLTemplatePENDENTE: TStringField
+      FieldName = 'PENDENTE'
+      Origin = 'DB.CLIENTEPRODUTOPRECO.PENDENTE'
+      FixedChar = True
+      Size = 1
+    end
   end
   object TblProduto: TTable
     DatabaseName = 'DB'
@@ -253,5 +260,37 @@ inherited FormCadastroClienteProdutoPreco: TFormCadastroClienteProdutoPreco
       FixedChar = True
       Size = 30
     end
+  end
+  object SQLClientePdvs: TRxQuery
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'Select * from CLIENTEPDVS'
+      'where (%MFiltro)')
+    Macros = <
+      item
+        DataType = ftString
+        Name = 'MFiltro'
+        ParamType = ptInput
+        Value = '0=0'
+      end>
+    Left = 522
+    Top = 5
+  end
+  object SQLClienteProdutoPDVs: TRxQuery
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'Select * from CLIENTEPRODUTOPRECOPDVS'
+      'where (%MFiltro)')
+    Macros = <
+      item
+        DataType = ftString
+        Name = 'MFiltro'
+        ParamType = ptInput
+        Value = '0=0'
+      end>
+    Left = 562
+    Top = 5
   end
 end

@@ -2437,8 +2437,8 @@ begin
       zInventario.Close;
       zInventario.SQL.Clear;
       zInventario.SQL.Add('select p.prodicod, p.PRODA60DESCR, p.PRODA60CODBAR, p.PRODN3VLRVENDA, ');
-      zInventario.SQL.Add('p.PRODN3CAPACEMBAL, p.PRODISITTRIB, p.PRODN3VLRCUSTO, p.PRODN3VLRCUSTOMED, ');
-      zInventario.SQL.Add('p.ICMSICOD, i.ICMSA60DESCR, i.ICMSN2REDBASEICMS, u.UNIDA5DESCR, ');
+      zInventario.SQL.Add('p.PRODN3CAPACEMBAL, p.PRODISITTRIB, p.PRODN3VLRCUSTO, p.PRODN3VLRCUSTOMED, I.ICMSN2ALIQUOTA, ');
+      zInventario.SQL.Add('p.ICMSICOD, i.ICMSA60DESCR, coalesce(I.ICMSN2REDBASEICMS, 0) ICMSN2REDBASEICMS, u.UNIDA5DESCR, ');
       zInventario.SQL.Add('(iv.INVICONTAGEM1 * p.PRODN3VLRCUSTO) AS TOTAL, iv.INVICONTAGEM1 as Qtde from inventarioestoque iv ');
       zInventario.SQL.Add('left join produto p on p.prodicod = iv.prodicod  left join icms i on i.icmsicod = p.icmsicod ');
       zInventario.SQL.Add('left join unidade u on u.unidicod = p.unidicod where (iv.EMPRICOD = '+ComboEmpresa.Value+') and ');
@@ -2561,7 +2561,7 @@ begin
           inc(nH010);
 
           // se MOT_INV (motivo do Inventario) for de 2 a 5 deve gerar o registro H020
-          if cmbMotivoInventario.ItemIndex > 0 then
+          if cmbMotivoInventario.ItemIndex >= 0 then
           begin
             if zInventario.FieldByName('ICMSN2REDBASEICMS').value > 0 then
                        vBase:= (zInventario.FieldByName('PRODN3VLRCUSTO').Value * QtdMov) *
@@ -2572,7 +2572,7 @@ begin
             Linha := '|H020|' +
                      zInventario.FieldByName('PRODISITTRIB').AsString                   + '|' +
                      FormatFloat('0.00',vBase)                            + '|' +
-                     FormatFloat('0.00',vBase * zInventario.FieldByName('ICMSN2REDBASEICMS').Value) + '|';
+                     FormatFloat('0.00',(vBase * (zInventario.FieldByName('ICMSN2ALIQUOTA').Value / 100))) + '|';
 
             if Not GravaRegistros('H020') Then Begin Result := False; Exit; End;
             Inc(Total_Bloco_H);
@@ -3472,7 +3472,7 @@ Begin
       zPesquisa.Close;
       zPesquisa.SQL.Text := 'Select N.* from CUPOM N ' +
                             'Where (N.CUPODEMIS>='''+FormatDateTime('mm/dd/yyyy',De.date)+''') and (N.CUPODEMIS<='''+FormatDateTime('mm/dd/yyyy',ate.Date)+''') AND '+
-                            'N.EMPRICOD='+ComboEmpresa.Value+' AND (N.CUPOCSTATUS = ''A'' or N.CUPOCSTATUS = ''C'') AND N.CHAVEACESSO is not null' ;
+                            'N.EMPRICOD='+ComboEmpresa.Value+' AND (N.CUPOCSTATUS = ''A'' or N.CUPOCSTATUS = ''C'') AND N.CHAVEACESSO is not null AND N.STNFE is not null' ;
       zPesquisa.Open;
 
       //Progress.Max := zPesquisa.RecordCount;

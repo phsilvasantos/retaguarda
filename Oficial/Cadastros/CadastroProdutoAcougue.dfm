@@ -1,6 +1,6 @@
 inherited FormCadastroProdutoAcougue: TFormCadastroProdutoAcougue
-  Left = 304
-  Top = 73
+  Left = 216
+  Top = 60
   Caption = 'A'#231'ougue'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -100,8 +100,10 @@ inherited FormCadastroProdutoAcougue: TFormCadastroProdutoAcougue
               Top = 17
               Width = 64
               Height = 21
+              Color = 16249066
               DataField = 'PRODICOD'
               DataSource = DSMasterTemplate
+              ReadOnly = True
               TabOrder = 0
             end
             object DBEdit3: TDBEdit

@@ -1,6 +1,6 @@
 inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
-  Left = 157
-  Top = 54
+  Left = 154
+  Top = 51
   Caption = 'Itens da Nota Fiscal'
   ClientHeight = 580
   ClientWidth = 999
@@ -3638,5 +3638,25 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
     Macros = <>
     Left = 8
     Top = 288
+  end
+  object SQLProdutoImposto: TRxQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'SELECT * FROM PRODUTO_IMPOSTO'
+      'WHERE PRODICOD = :PRODICOD AND TIPO = :TIPO')
+    Macros = <>
+    Left = 40
+    Top = 442
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'PRODICOD'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'TIPO'
+        ParamType = ptInput
+      end>
   end
 end

@@ -1065,6 +1065,7 @@ type
     TblSaldoEmpresaQtd23: TFloatField;
     TblSaldoEmpresaQtd24: TFloatField;
     TblSaldoEmpresaQtd25: TFloatField;
+    ButtonImpostos: TRxSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure RxComboComissaoChange(Sender: TObject);
     procedure AcessaMarcaClick(Sender: TObject);
@@ -1227,7 +1228,7 @@ uses
   CadastroProdutoSerie, CadastroProdutoTabelaPreco, CadastroColecao,
   CadastroDecreto, TelaEntradaRapidaEstoque, TelaFotoExpandida, CadastroBarras,
   TelaSaidaRapidaEstoque, CadastroNCM, CadastroTabCest, CadastroProdutoAcougue,
-  uDlgBuscarProdutosBRT, CadastroProdutoSabores;
+  uDlgBuscarProdutosBRT, CadastroProdutoSabores, CadastroProdutoImposto;
 
 {$R *.DFM}
 
@@ -1813,6 +1814,12 @@ begin
 
   if (Sender as TRxSpeedButton).Name = 'ButtonMovimentoEstoque' then
     PagePrincipal.ActivePage := TabSheetMovimentoEstoque;
+
+  if (Sender as TRxSpeedButton).Name = 'ButtonImpostos' then
+  begin
+    DSMasterSys := DSTemplate;
+    CriaFormulario(TFormCadastroProdutoImposto, 'FormCadastroProdutoImposto', True, False, True, SQLTemplatePRODA60DESCR.AsString);
+  end;
 end;
 
 procedure TFormCadastroProduto.GeraodaGrade1Click(Sender: TObject);

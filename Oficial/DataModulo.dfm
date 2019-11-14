@@ -5,7 +5,6 @@ inherited DM: TDM
   Height = 600
   Width = 1200
   inherited DB: TDatabase
-    AliasName = 'Easy_Gestao'
     AfterConnect = DBAfterConnect
   end
   inherited Campos: TTableItems

@@ -9,6 +9,9 @@ uses
   Grids, DBGrids, AdvOfficeStatusBar, AdvOfficeStatusBarStylers, UnitLibrary;
 
 type
+  tEnumTipo = (tpVarejo, tpAtacado1, tpAtacado2, tpAtacado3);
+
+type
   TFormRelatorioClienteCadastrado = class(TFormRelatorioTEMPLATE)
     SQLCliente: TRxQuery;
     Report: TCrpe;
@@ -106,6 +109,8 @@ type
     TblTemporariaCLIEA10RG: TStringField;
     CheckSimples: TCheckBox;
     CheckInativos: TCheckBox;
+    Label9: TLabel;
+    ComboTipo: TComboBox;
     function  SQLDeListaRota(ListaRota:TListBox) : String ;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -163,6 +168,15 @@ begin
     SQLCliente.MacrobyName('MEstado').Value := 'CLIEA2UFRES = ''' + EditUF.Text + ''''
   else
     SQLCliente.MacrobyName('MEstado').Value := '0=0';
+
+  case tEnumTipo(ComboTipo.ItemIndex) of
+    tpVarejo   : SQLCliente.MacrobyName('MTipo').Value := 'CLIECTPPRCVENDA = ' + QuotedStr('V');
+    tpAtacado1 : SQLCliente.MacrobyName('MTipo').Value := 'CLIECTPPRCVENDA = ' + QuotedStr('A1');
+    tpAtacado2 : SQLCliente.MacrobyName('MTipo').Value := 'CLIECTPPRCVENDA = ' + QuotedStr('A2');
+    tpAtacado3 : SQLCliente.MacrobyName('MTipo').Value := 'CLIECTPPRCVENDA = ' + QuotedStr('A3');
+  else SQLCliente.MacrobyName('MTipo').Value := '0=0';
+  end;
+
   case RadioOrdem.ItemIndex of
     0 : SQLCliente.MacrobyName('MOrdem').Value := ' ORDER BY CLIEA60RAZAOSOC';
     1 : SQLCliente.MacrobyName('MOrdem').Value := ' ORDER BY CLIEA60CIDRES';

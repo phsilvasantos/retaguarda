@@ -552,9 +552,9 @@ begin
           SQLListaVLRVENDA2ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA2').AsString;
 
           if SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value > 1 then
-            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value
-          else
-            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value;
+            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / (SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value * SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value);
+//          else
+//            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value;
           //aqui
           SQLListaVLRMARGEMATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3PERCMGLVFIXA').AsString;
 

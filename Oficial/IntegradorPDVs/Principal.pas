@@ -298,7 +298,7 @@ begin
   except
     Application.Title := 'Falha ao Importar Usuarios!';
     lbStatus.Caption := Application.Title;
-    lbStatus.Update;
+    lbStatus.Update;                                     
     Application.ProcessMessages;
   end;
   {Fim usuario}
@@ -348,8 +348,49 @@ begin
           Application.ProcessMessages;
         end;
 
+        //importa preço cliente produto
+        Application.Title := 'Recebendo Cliente/Produto => ' + ZconsultaServidor.fieldbyname('CLIEA13ID').AsString;
+        lbStatus.Caption := Application.Title;
+        lbStatus.Update;
+
+            {acha o cliente atual no servidor e pega os dados dele}
+        ZConsultaTabelaServidor.close;
+        ZConsultaTabelaServidor.sql.text := 'select * from CLIENTEPRODUTOPRECO where CLIEA13ID = ' + QuotedStr(ZconsultaServidor.fieldbyname('CLIEA13ID').AsString) + ' AND PENDENTE = ' + QuotedStr('S');
+        ZConsultaTabelaServidor.open;
+        while not ZConsultaTabelaServidor.Eof do
+        begin
+          ZConsultaPDV.close;
+          ZConsultaPDV.SQL.clear;
+          ZConsultaPDV.SQL.Text := 'Select * from CLIENTEPRODUTOPRECO where CLIEA13ID = ' + QuotedStr(ZconsultaServidor.fieldbyname('CLIEA13ID').AsString) + ' AND PRODICOD = ' + ZConsultaTabelaServidor.FieldByName('PRODICOD').AsString;
+          ZConsultaPDV.Open;
+          if ZConsultaPDV.IsEmpty then
+            ZConsultaPDV.append
+          else
+            ZConsultaPDV.edit;
+            {alimenta os campos no Pdv}
+          for i := 0 to ZConsultaTabelaServidor.FieldCount - 1 do
+          begin
+            try ZConsultaPDV.FindField(ZConsultaTabelaServidor.Fields[i].FieldName).AsVariant := ZConsultaTabelaServidor.Fields[i].AsVariant; except Application.ProcessMessages; end;
+          end;
+          try
+            ZConsultaPDV.post;
+            Erro := False;
+          except
+            ZConsultaPDV.cancel;
+            Erro := True;
+            Application.ProcessMessages;
+          end;
+          ZConsultaTabelaServidor.Next;
+        end;
+
         if not erro then
         begin
+                {atualiza o pendente na tabela CLIENTEPRODUTOPRECO}
+          ZupdateServidor.Close;
+          ZupdateServidor.SQL.clear;
+          ZupdateServidor.SQL.Text := 'Update CLIENTEPRODUTOPRECO Set PENDENTE = ' + QuotedStr('N') + ' where CLIEA13ID = ' + QuotedStr(ZconsultaServidor.fieldbyname('CLIEA13ID').Value);
+          ZupdateServidor.ExecSQL;
+
                 {apaga no servidor se nao teve erro}
           zapagaServidor.close;
           zapagaServidor.sql.Clear;
@@ -3355,6 +3396,51 @@ begin
     Application.ProcessMessages;
   end;
   {Fim Cliente}
+
+  {Apaga no banco local clientes produto preço excluidos no Servidor!}
+  try
+    Application.Title := 'Verificando Exclusoes de Clientes produto preço';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+    ZconsultaServidor.Close;
+    ZconsultaServidor.sql.clear;
+    ZconsultaServidor.sql.Text := 'Select * from ClienteProdutoPrecoPDVs where TERMICOD=' + TerminalCodigoSTR + ' and EXCLUIR=''S'' ';
+    //ZconsultaServidor.RequestLive := False;
+    ZconsultaServidor.open;
+    if not ZconsultaServidor.IsEmpty then
+    begin
+      while not ZconsultaServidor.eof do
+      begin
+        Application.Title := 'Excluindo Cliente => ' + ZconsultaServidor.fieldbyname('CLIEA13ID').AsString;
+        lbStatus.Caption := Application.Title;
+        lbStatus.Update;
+
+            {apaga no banco local}
+        ZupdatePDV.close;
+        ZupdatePDV.sql.Clear;
+        ZupdatePDV.sql.Text := 'delete from clienteprodutopreco where cliea13id=' + QuotedStr(ZconsultaServidor.fieldbyname('cliea13id').AsString) + ' and PRODICOD = ' + QuotedStr(ZconsultaServidor.fieldbyname('PRODICOD').AsString);
+        ZupdatePDV.ExecSQL;
+
+        ZapagaServidor.close;
+        ZapagaServidor.sql.Clear;
+        ZapagaServidor.sql.Text := 'delete from clienteprodutoprecopdvs where termicod=' + TerminalCodigoSTR +
+          ' and cliea13id=' + QuotedStr(ZconsultaServidor.fieldbyname('cliea13id').AsString) +
+          ' and prodicod=' + QuotedStr(ZconsultaServidor.fieldbyname('prodicod').AsString) ;
+        ZapagaServidor.ExecSQL;
+
+        ZconsultaServidor.Next;
+      end;
+    end;
+    Application.Title := '';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+  except
+    Application.Title := 'Falha ao Excluir Clientes produto preço!';
+    lbStatus.Caption := Application.Title;
+    lbStatus.Update;
+    Application.ProcessMessages;
+  end;
+  {Fim Cliente produto preço}
 
   {Apaga no banco local produtos excluidos no Servidor!}
   try

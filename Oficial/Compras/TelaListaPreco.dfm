@@ -2216,8 +2216,10 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
     DatabaseName = 'DB'
     RequestLive = True
     SQL.Strings = (
-      'select * from Produto'
-      'where (%MFiltro)')
+      
+        'select PRODICOD, PRODA60REFER, MARCICOD, GRUPICOD, GRADICOD, GRT' +
+        'MICOD, CORICOD'
+      'from PRODUTO where (%MFiltro)')
     Macros = <
       item
         DataType = ftString

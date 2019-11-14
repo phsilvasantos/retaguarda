@@ -473,7 +473,8 @@ uses
   CadastroNCMUF in 'Cadastros\CadastroNCMUF.pas' {FormCadastroNCMUF},
   RelatorioRepresentanteNSerie in 'Relatorios\Administrativo\RelatorioRepresentanteNSerie.pas' {FormRelatorioRepresentanteNSerie},
   RelatorioNotaServicoEmitida in 'Relatorios\Financeiro\RelatorioNotaServicoEmitida.pas' {FormRelatorioNotaServicoEmitidas},
-  CadastroClienteProdutoPreco in 'Cadastros\CadastroClienteProdutoPreco.pas' {FormCadastroClienteProdutoPreco};
+  CadastroClienteProdutoPreco in 'Cadastros\CadastroClienteProdutoPreco.pas' {FormCadastroClienteProdutoPreco},
+  CadastroProdutoImposto in 'Cadastros\CadastroProdutoImposto.pas' {FormCadastroProdutoImposto};
 
 {$R *.res}
 

@@ -701,6 +701,13 @@ begin
         ShowMessage('Nota Cancelada! Não pode ser alterada!');
         Abort;
       End;
+  If Not CancelandoNota Then
+    If SQLTemplate.FindField('NOCPCSTATUS').asString='C' Then
+      Begin
+        ShowMessage('Nota Cancelada! Não pode ser alterada!');
+        Abort;
+      End;
+
   inherited;
   StatusAnterior := SQLTemplate.FindField('NOCPCSTATUS').Value;
   PedidoAnterior := SQLTemplate.FindField('PDCPA13ID').asString;
@@ -1146,7 +1153,7 @@ begin
                           SQLProduto.FindField('VALOR_ICMSST').asFloat := SQLNotaCompraItens.FindField('NOCIN3VLRSUBST').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
 
                         if (SQLNotaCompraItens.FindField('NOCIN3VLRDESC').asFloat > 0) then
-                          SQLProduto.FindField('VALOR_DESC_ENTRADA').asFloat := SQLNotaCompraItens.FindField('NOCIN3VLRDESC').asFloat / SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').AsFloat;
+                          SQLProduto.FindField('VALOR_DESC_ENTRADA').asFloat := SQLNotaCompraItens.FindField('NOCIN3VLRDESC').asFloat / (SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').AsFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
                       end;
 
                 if (MatrizFilial = 'M') then
