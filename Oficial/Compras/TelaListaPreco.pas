@@ -583,8 +583,8 @@ begin
 
           if SQLListaPERCFRETE.IsNull then SQLListaPERCFRETE.Value := 0;
 
-          if SQLPesquisa.FieldByName('NOCIN2PERCDESP').AsString <> '' then
-            SQLListaPERCOUTRAS.Value := SQLPesquisa.FieldByName('NOCIN2PERCDESP').Value
+          if SQLPesquisa.FieldByName('NOCIN2VLRDESPESAS').AsString <> '' then
+            SQLListaPERCOUTRAS.Value := (SQLPesquisa.FieldByName('NOCIN2VLRDESPESAS').Value/TotalItemNF) * 100
           else
             SQLListaPERCOUTRAS.Value     := 0;
 
