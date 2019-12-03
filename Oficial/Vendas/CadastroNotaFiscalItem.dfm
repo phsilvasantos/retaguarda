@@ -1,6 +1,6 @@
 inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
-  Left = 154
-  Top = 51
+  Left = 181
+  Top = 65
   Caption = 'Itens da Nota Fiscal'
   ClientHeight = 580
   ClientWidth = 999
@@ -616,7 +616,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                 Left = 1
                 Top = 120
                 Width = 647
-                Height = 142
+                Height = 146
                 Caption = 'Impostos'
                 Font.Charset = DEFAULT_CHARSET
                 Font.Color = clWindowText
@@ -639,7 +639,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label15: TLabel
-                  Left = 199
+                  Left = 189
                   Top = 16
                   Width = 59
                   Height = 13
@@ -652,7 +652,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label16: TLabel
-                  Left = 293
+                  Left = 278
                   Top = 16
                   Width = 61
                   Height = 13
@@ -665,7 +665,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label17: TLabel
-                  Left = 14
+                  Left = 10
                   Top = 61
                   Width = 55
                   Height = 13
@@ -678,7 +678,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label18: TLabel
-                  Left = 103
+                  Left = 195
                   Top = 61
                   Width = 69
                   Height = 13
@@ -691,7 +691,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label19: TLabel
-                  Left = 198
+                  Left = 279
                   Top = 61
                   Width = 71
                   Height = 13
@@ -704,7 +704,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label20: TLabel
-                  Left = 387
+                  Left = 368
                   Top = 16
                   Width = 33
                   Height = 13
@@ -717,7 +717,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label21: TLabel
-                  Left = 468
+                  Left = 458
                   Top = 16
                   Width = 49
                   Height = 13
@@ -730,7 +730,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label22: TLabel
-                  Left = 294
+                  Left = 369
                   Top = 61
                   Width = 50
                   Height = 13
@@ -743,7 +743,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label23: TLabel
-                  Left = 384
+                  Left = 458
                   Top = 61
                   Width = 66
                   Height = 13
@@ -769,7 +769,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label48: TLabel
-                  Left = 467
+                  Left = 548
                   Top = 61
                   Width = 48
                   Height = 13
@@ -782,7 +782,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label49: TLabel
-                  Left = 561
+                  Left = 548
                   Top = 16
                   Width = 72
                   Height = 13
@@ -795,8 +795,8 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label51: TLabel
-                  Left = 559
-                  Top = 61
+                  Left = 279
+                  Top = 101
                   Width = 72
                   Height = 13
                   Caption = 'Outras Desp.'
@@ -808,7 +808,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label58: TLabel
-                  Left = 105
+                  Left = 100
                   Top = 102
                   Width = 32
                   Height = 13
@@ -821,7 +821,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label59: TLabel
-                  Left = 199
+                  Left = 189
                   Top = 102
                   Width = 48
                   Height = 13
@@ -834,7 +834,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label34: TLabel
-                  Left = 14
+                  Left = 10
                   Top = 102
                   Width = 40
                   Height = 13
@@ -847,7 +847,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label60: TLabel
-                  Left = 382
+                  Left = 369
                   Top = 102
                   Width = 58
                   Height = 13
@@ -860,7 +860,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label61: TLabel
-                  Left = 468
+                  Left = 458
                   Top = 102
                   Width = 50
                   Height = 13
@@ -873,7 +873,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentFont = False
                 end
                 object Label62: TLabel
-                  Left = 557
+                  Left = 548
                   Top = 102
                   Width = 66
                   Height = 13
@@ -885,10 +885,23 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   Font.Style = [fsBold]
                   ParentFont = False
                 end
+                object Label63: TLabel
+                  Left = 100
+                  Top = 61
+                  Width = 88
+                  Height = 13
+                  Caption = '% Red. Base ST'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = 8404992
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
                 object DBEdit14: TEvDBNumEdit
-                  Left = 7
+                  Left = 10
                   Top = 30
-                  Width = 87
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2PERCICMS'
@@ -927,9 +940,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 0
                 end
                 object DBEdit15: TEvDBNumEdit
-                  Left = 194
+                  Left = 189
                   Top = 30
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2BASEICMS'
@@ -968,9 +981,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 2
                 end
                 object DBEdit16: TEvDBNumEdit
-                  Left = 287
+                  Left = 278
                   Top = 30
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2VLRICMS'
@@ -1009,9 +1022,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 3
                 end
                 object DBEdit17: TEvDBNumEdit
-                  Left = 7
+                  Left = 10
                   Top = 74
-                  Width = 87
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2PERCSUBS'
@@ -1050,9 +1063,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 7
                 end
                 object DBEdit18: TEvDBNumEdit
-                  Left = 97
+                  Left = 189
                   Top = 74
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2BASESUBS'
@@ -1092,9 +1105,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = DBEdit18Exit
                 end
                 object DBEdit19: TEvDBNumEdit
-                  Left = 193
+                  Left = 279
                   Top = 74
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2VLRSUBS'
@@ -1133,9 +1146,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 9
                 end
                 object DBEdit20: TEvDBNumEdit
-                  Left = 380
+                  Left = 368
                   Top = 30
-                  Width = 79
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2PERCIPI'
@@ -1174,9 +1187,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 4
                 end
                 object DBEdit21: TEvDBNumEdit
-                  Left = 462
+                  Left = 458
                   Top = 30
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2VLRIPI'
@@ -1215,9 +1228,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 5
                 end
                 object DBEdit22: TEvDBNumEdit
-                  Left = 286
+                  Left = 369
                   Top = 74
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2PERCISSQN'
@@ -1256,9 +1269,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 10
                 end
                 object DBEdit23: TEvDBNumEdit
-                  Left = 379
+                  Left = 458
                   Top = 74
-                  Width = 79
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2VLRISSQN'
@@ -1297,9 +1310,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 11
                 end
                 object EvDBNumEdit5: TEvDBNumEdit
-                  Left = 97
+                  Left = 101
                   Top = 30
-                  Width = 91
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2PERCREDUCAO'
@@ -1339,9 +1352,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 1
                 end
                 object EvDBNumEdit6: TEvDBNumEdit
-                  Left = 461
+                  Left = 548
                   Top = 74
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2VLRFRETE'
@@ -1380,9 +1393,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 12
                 end
                 object EvDBNumEdit8: TEvDBNumEdit
-                  Left = 557
+                  Left = 548
                   Top = 30
-                  Width = 85
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2SEGURO'
@@ -1421,9 +1434,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 6
                 end
                 object EvDBNumEdit9: TEvDBNumEdit
-                  Left = 555
-                  Top = 74
-                  Width = 85
+                  Left = 279
+                  Top = 114
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NFITN2OUTRASDESP'
@@ -1463,7 +1476,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = EvDBNumEdit9Exit
                 end
                 object EvDBNumEdit10: TEvDBNumEdit
-                  Left = 99
+                  Left = 100
                   Top = 115
                   Width = 88
                   Height = 21
@@ -1505,9 +1518,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = DBEdit18Exit
                 end
                 object EvDBNumEdit11: TEvDBNumEdit
-                  Left = 193
+                  Left = 189
                   Top = 115
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NOFIN3VLRPIS'
@@ -1547,9 +1560,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = DBEdit18Exit
                 end
                 object EvDBNumEdit13: TEvDBNumEdit
-                  Left = 463
+                  Left = 458
                   Top = 115
-                  Width = 85
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NOFIN3PERCCOFINS'
@@ -1589,9 +1602,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = DBEdit18Exit
                 end
                 object EvDBNumEdit14: TEvDBNumEdit
-                  Left = 551
+                  Left = 548
                   Top = 115
-                  Width = 90
+                  Width = 88
                   Height = 21
                   AutoHideCalculator = False
                   DataField = 'NOFIN3VLRCOFINS'
@@ -1631,7 +1644,7 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   OnExit = DBEdit18Exit
                 end
                 object DBEdit24: TDBEdit
-                  Left = 8
+                  Left = 10
                   Top = 115
                   Width = 88
                   Height = 21
@@ -1650,9 +1663,9 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   TabOrder = 18
                 end
                 object DBEdit40: TDBEdit
-                  Left = 378
+                  Left = 369
                   Top = 115
-                  Width = 82
+                  Width = 88
                   Height = 21
                   TabStop = False
                   BevelOuter = bvRaised
@@ -1667,6 +1680,48 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
                   ParentCtl3D = False
                   ParentFont = False
                   TabOrder = 19
+                end
+                object EvDBNumEdit4: TEvDBNumEdit
+                  Left = 100
+                  Top = 74
+                  Width = 88
+                  Height = 21
+                  AutoHideCalculator = False
+                  DataField = 'PERC_REDUCAO_BASE_CALCULO_ST'
+                  DataSource = DSTemplate
+                  Decimals = 3
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  Glyph.Data = {
+                    E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                    100003000000A402000000000000000000000000000000000000007C0000E003
+                    00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                    FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                    EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                    EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                    FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                    FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                    FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                    FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                    FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                    FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                    FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                    FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                    FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                    EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                    FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                    070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                    EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                    FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                    FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                    FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                    FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                    FF5EFF5EFF5EFF5EFF5E}
+                  ParentFont = False
+                  TabOrder = 20
                 end
               end
               object DBEdit27: TEvDBNumEdit
@@ -3268,6 +3323,10 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
       Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST_RET'
       DisplayFormat = ',0.00'
       EditFormat = ',0.00'
+    end
+    object SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField
+      FieldName = 'PERC_REDUCAO_BASE_CALCULO_ST'
+      Origin = 'DB.NOTAFISCALITEM.PERC_REDUCAO_BASE_CALCULO_ST'
     end
   end
   inherited AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler

@@ -290,6 +290,9 @@ type
     SQLTemplateVALOR_FCP_ST_RET: TFloatField;
     SQLComposicao: TRxQuery;
     SQLProdutoImposto: TRxQuery;
+    Label63: TLabel;
+    EvDBNumEdit4: TEvDBNumEdit;
+    SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -336,7 +339,7 @@ type
     TotalQuant, TotalPesoBruto, TotalPesoLiquido, TotalItem, TotalDesc, TotalBASCALCICMS, TotalVLRICMS, TotalBASCALCSUBS, TotalVLRSUBS, TotalBASCALCCIPI, TotalVLRIPI, TotalVLRFrete, TotalVLRSeguro, TotalVLROutrasDesp, TotalVLRSERVICO, TotalVLRPIS, TotalVLRCOFINS, TotalISSQN: Double;
     CodigoPedido, SitTrib: string;
     PosicaoItem, IcmsCod: Integer;
-    QtdePed, NovaQtdePed, Reducao, ReducaoBase: Double;
+    QtdePed, NovaQtdePed, Reducao, ReducaoBase, ReducaoBaseST: Double;
     TemProdutoSemSubsTrib, TemProdutoComSubsTrib: Boolean;
     DescontoMaximo: Real;
     RetornoCampoUsuario: string;
@@ -499,6 +502,9 @@ begin
       if SQLTemplateNFITN2PERCSUBS.asFloat > 0 then
       begin
         SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.00', (((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) + ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) * (xMVA / 100))));
+        if SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat > 0 then
+          SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2BASESUBS.AsFloat - ((SQLTemplateNFITN2BASESUBS.AsFloat * (SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat)) / 100))));
+
           // SQLTemplateNFITN2VLRSUBS.asFloat    := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2BASESUBS.value * (StrToFloat(Aliquotainterna)/100)) -
         SQLTemplateNFITN2VLRSUBS.asFloat := StrToFloat(FormatFloat('0.00', ((SQLTemplateNFITN2BASESUBS.value * SQLTemplateNFITN2PERCSUBS.value / 100)) - ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat) * (nResultICMS.nICMS / 100))));
 
@@ -609,9 +615,9 @@ begin
   inherited;
 
   if SQLTemplateNFITN3TOTVEND.IsNull then
-    SQLTemplateTotalItemCalc.asFloat := ((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat)
+    SQLTemplateTotalItemCalc.asFloat := Trunc(StrToFloat(FormatFloat('0.00',((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat))))
   else
-    SQLTemplateTotalItemCalc.asFloat := SQLTemplateNFITN3TOTVEND.value;
+    SQLTemplateTotalItemCalc.asFloat := Trunc(StrToFloat(FormatFloat('0.00', SQLTemplateNFITN3TOTVEND.value)));
 
   if DM.GerandoNotaFiscal then
     Exit;
@@ -686,6 +692,7 @@ begin
     IcmsCod := DM.SQLTemplate.FindField('ICMSICOD').AsInteger;
     SitTrib := DM.SQLTemplate.FindField('PRODISITTRIB').AsString;
     ReducaoBase := DM.SQLTemplate.FindField('PERC_REDUCAO_BASE_CALCULO').AsFloat;
+    ReducaoBaseST := DM.SQLTemplate.FindField('PERC_REDUCAO_BASE_CALCULO_ST').AsFloat;
 
     //verifica se tem imposto lançado na tabela produto imposto
     tipoCliente := Copy(SQLLocate('CLIENTE','CLIEA13ID','CLIECTPPRCVENDA',SQLTemplate.DataSource.DataSet.FindField('CLIEA13ID').asString),1,1);
@@ -699,6 +706,7 @@ begin
        SitTrib := SQLProdutoImposto.FindField('PRODISITTRIB').AsString;
        IcmsCod := SQLProdutoImposto.FindField('ICMSICOD').AsInteger;
        ReducaoBase := SQLProdutoImposto.FindField('PERC_REDUCAO_BASE_CALCULO').AsFloat;
+       ReducaoBaseST := SQLProdutoImposto.FindField('PERC_REDUCAO_BASE_CALCULO_ST').AsFloat;
     end;
 
       // Verifica CFOP Auxiliar
@@ -829,6 +837,9 @@ begin
         SQLTemplateNFITN2PERCREDUCAO.asFloat := ReducaoBase
       else
         SQLTemplateNFITN2PERCREDUCAO.asFloat := nResultICMS.nRED_ICMS;
+
+      if ReducaoBaseST > 0 then
+        SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.asFloat := ReducaoBaseST;
 
           // Efetua o Calculo dos Impostos
       if not ocupado then
