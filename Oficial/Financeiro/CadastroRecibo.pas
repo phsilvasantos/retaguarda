@@ -67,7 +67,7 @@ type
     TblRecibo: TTable;
     TblReciboRECIN2VLRBRUTO: TFloatField;
     TblReciboRECIN2VLRIRRF: TFloatField;
-    TblReciboRECIN2VLRLIQUIDO: TFloatField;
+    TblReciboRECIN2VLRLIQUIDO: TBCDField;
     TblReciboRECIDEMISSAO: TDateTimeField;
     TblReciboRECITOBS: TStringField;
     TblReciboFUNCA11CPF: TStringField;
@@ -136,6 +136,8 @@ type
     procedure BtnFornecedorDblClick(Sender: TObject);
     procedure BtnFornecedorClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure SQLTemplateRECIN2VLRBRUTOChange(Sender: TField);
+    procedure SQLTemplateRECIN2VLRIRRFChange(Sender: TField);
   private
     { Private declarations }
   public
@@ -248,10 +250,12 @@ begin
           TblReciboFUNCA11CPF.AsString          := SQLTemplateFORNA11CPF.AsString;
         end;
 
-        TblReciboRECIDEMISSAO.AsString          := FormatDateTime('dd/mm/yyyy',dm.DataBaseSistema);
+//        TblReciboRECIDEMISSAO.AsString          := FormatDateTime('dd/mm/yyyy',dm.DataBaseSistema);
+        TblReciboRECIDEMISSAO.AsString          := SQLTemplateRECIDEMISSAO.AsString;
         TblReciboRECIN2VLRBRUTO.AsFloat         := SQLTemplateRECIN2VLRBRUTO.AsFloat;
         TblReciboRECIN2VLRIRRF.AsFloat          := SQLTemplateRECIN2VLRIRRF.AsFloat;
         TblReciboRECIN2VLRLIQUIDO.AsFloat       := SQLTemplateRECIN2VLRLIQUIDO.AsFloat;
+
         ValorExtenso(VExt,SQLTemplateRECIN2VLRLIQUIDO.AsFloat, '', '', 02, 85, '*',3);
         TblReciboValorExtenso.AsString          := VExt[0];
         TblReciboRECITOBS.AsString              := SQLTemplateRECITOBS.AsString;
@@ -315,7 +319,7 @@ begin
       else
         Informa('Arquivo para impressão de recibos não encontrado!');
     if Report.ReportName <> '' then
-      begin
+     begin
         Report.WindowStyle.Title := 'Emissão de Recibo';
         Report.ReportTitle       := 'Emissão de Recibo';
         Report.Execute;
@@ -451,6 +455,20 @@ begin
     end
   else
     Informa('Pesquisa incorreta, verifique!');
+end;
+
+procedure TFormCadastroRecibo.SQLTemplateRECIN2VLRBRUTOChange(
+  Sender: TField);
+begin
+  inherited;
+  SQLTemplateRECIN2VLRLIQUIDO.AsFloat := SQLTemplateRECIN2VLRBRUTO.AsFloat + SQLTemplateRECIN2VLRIRRF.AsFloat;
+end;
+
+procedure TFormCadastroRecibo.SQLTemplateRECIN2VLRIRRFChange(
+  Sender: TField);
+begin
+  inherited;
+  SQLTemplateRECIN2VLRLIQUIDO.AsFloat := SQLTemplateRECIN2VLRBRUTO.AsFloat + SQLTemplateRECIN2VLRIRRF.AsFloat;
 end;
 
 end.
