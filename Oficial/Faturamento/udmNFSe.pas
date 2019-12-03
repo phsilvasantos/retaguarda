@@ -27,7 +27,7 @@ type
   private
     { Private declarations }
     fNumeroLote, fID_NOTA: Integer;
-    Isql_Tomador, isql_Emitente, isqlParametro, IsqlDadosNota: TQuery;
+    Isql_Tomador, isql_Emitente, isqlParametro, IsqlDadosNota, IsqlConfigNFSe: TQuery;
     NumNFSe:String;
     OffLine:Boolean;
     procedure ConfigurarComponente;
@@ -227,7 +227,7 @@ begin
   fNumeroLote := fID_NOTA;
   isql_Emitente := ExecSql(' SELECT EMPRA14CGC AS NDOC, EMPRA20IMUNIC AS IMUN, EMPRA60RAZAOSOC AS NOM, EMPRA60NOMEFANT AS FANT, '
    +' EMPRA60END AS ENDE, '''' AS LGR, EMPRIENDNRO AS NR, EMPRA60BAI AS BAI , EMPRA60CID AS CID, CNAEFISCAL, EMPRIMUNICODFED, '
-   +' EMPRA2UF AS EST, '''' AS CEND, EMPRA8CEP AS CEP, EMPRA60EMAIL AS EMAIL, EMPRA20FONE AS NFON1, '''' AS PFON1  '
+   +' EMPRA2UF AS EST, '''' AS CEND, EMPRA8CEP AS CEP, EMPRA60EMAIL AS EMAIL, EMPRA20FONE AS NFON1, '''' AS PFON1, EMPRA3CRT '
    +' FROM EMPRESA where EMPRICOD  = ' + QuotedStr(EmpresaPadrao));
 
   Isql_Tomador := ExecSql(' SELECT IIF(CLIEA14CGC <> '''', CLIEA14CGC, CLIEA11CPF) as NDOC, CLIEA60EMAIL, CLIEA60RAZAOSOC AS NOM, CLIEA60ENDRES AS ENDE, CLIEA60CIDRES AS CID, '
@@ -283,6 +283,10 @@ begin
       if not OK then
         NaturezaOperacao := no0;
 
+      IsqlConfigNFSe := ExecSql('select ID, EMPRICOD, SERIA5COD, LOCAL_TRIBUTACAO, REGIME_TRIBUTACAO from CONFIG_SERVICO where EMPRICOD = ' + QuotedStr(EmpresaPadrao));
+
+      RegimeEspecialTributacao := StrToRegimeEspecialTributacao(OK, IsqlConfigNFSe.FieldByName('REGIME_TRIBUTACAO').AsString);
+
       {if cdsCad_ServicoREGIMEESPECIALTRIBUTACAO.AsString <> '' then
         RegimeEspecialTributacao := StrToRegimeEspecialTributacao(OK, cdsCad_ServicoREGIMEESPECIALTRIBUTACAO.AsString)
       else
@@ -299,7 +303,10 @@ begin
         IncentivadorCultural := snNao;}
 
       IncentivadorCultural := snNao;
-      OptanteSimplesNacional := snNao;
+      if isql_Emitente.FieldByName('EMPRA3CRT').AsString = '1' then
+        OptanteSimplesNacional := snSim
+      else
+        OptanteSimplesNacional := snNao;
 
       if ACBrNFSe1.Configuracoes.WebServices.Ambiente = taProducao then
         Producao := snSim
@@ -647,7 +654,7 @@ begin
     try
       (ACBrNFSe1.Enviar(vNumLote, False));
 
-      if ACBrNFSe1.NotasFiscais.Items[0].NFSe.CodigoVerificacao <> '' then
+      if (ACBrNFSe1.NotasFiscais.Items[0].NFSe.CodigoVerificacao <> '') then
       begin
         ACBrNFSe1.NotasFiscais.GravarXML(Caminho);
         sqlNOTASERVICO_COMUNICACAO.Edit;
@@ -714,6 +721,11 @@ begin
       sqlNOTASERVICO_COMUNICACAONFSE_NUMERO.AsString := ACBrNFSe1.NotasFiscais.Items[0].NFSe.IdentificacaoRps.Numero;
       sqlNOTASERVICO_COMUNICACAOXML.LoadFromFile(Caminho);
       sqlNOTASERVICO_COMUNICACAO.Post;
+      
+      //Adicionei aqui
+      ExecSql(' update NOTASERVICO SET NUMERO_RPS = '+ACBrNFSe1.NotasFiscais.Items[0].NFSe.IdentificacaoRps.Numero
+        + ', CODIGO_VERIFICACAO = ''' + ACBrNFSe1.NotasFiscais.Items[0].NFSe.CodigoVerificacao + ''''
+        + ' WHERE ID = '+ inttostr(fID_NOTA),1);
     end;
     
     ImprimirNfse;
@@ -804,12 +816,12 @@ begin
 
   try
 
-    {if ACBrNFSe1.Configuracoes.Geral.Provedor in [proDBSeller, proBHISS] then
+    if ACBrNFSe1.Configuracoes.Geral.Provedor in [proBHISS] then
       ACBrNFSe1.NotasFiscais.Items[0].NFSe.Numero :=
         FormatDateTime('yyyy', ACBrNFSe1.NotasFiscais.Items[0].NFSe.DataEmissao) +
-        FormatFloat('00000000000', StrToIntDef(ACBrNFSe1.NotasFiscais.Items[0].NFSe.Numero, 0));}
-
-    ACBrNFSe1.NotasFiscais.Items[0].NFSe.Numero := NumNFSe;   
+        FormatFloat('00000000000', StrToIntDef(ACBrNFSe1.NotasFiscais.Items[0].NFSe.Numero, 0))
+    else
+      ACBrNFSe1.NotasFiscais.Items[0].NFSe.Numero := NumNFSe;
 
     try
       if ACBrNFSe1.CancelarNFSe(Codigo) then
@@ -931,17 +943,17 @@ begin
   if Para = '' then
     exit;
 
-  emailCopia := isqlParametro.fieldbyname('EMPRA60EMAILCOPIA').Value;
+  emailCopia := isqlParametro.fieldbyname('EMPRA60EMAILCOPIA').AsString;
 
   Titulo := 'Nota Serviço Eletronica Emitida!';
   Caminho := ExtractFilePath(Application.ExeName) + 'Xml-Nfs\Nfs.xml';
-  
-  if GetNotaEnviada then
+
+  if (GetNotaEnviada) then
   begin
     sqlNOTASERVICO_COMUNICACAOXML.SaveToFile(Caminho);
   end
   else begin
-    raise Exception.Create('Nota de Serviço não enviada!');
+    raise Exception.Create('Email da Nota de Serviço não enviado!');
   end;
 
   sXML := Caminho;
@@ -953,9 +965,9 @@ begin
 
   if FileExists(sXML) then
   begin
-    if (Trim(isqlParametro.fieldbyname('EMPRA50EMAILHOST').Value) = EmptyStr)
-      or (Trim(isqlParametro.fieldbyname('EMPRA75EMAILUSUARIO').Value) = EmptyStr)
-        or (Trim(isqlParametro.fieldbyname('EMPRA50EMAILSENHA').Value) = EmptyStr) then
+    if (Trim(isqlParametro.fieldbyname('EMPRA50EMAILHOST').AsString) = EmptyStr)
+      or (Trim(isqlParametro.fieldbyname('EMPRA75EMAILUSUARIO').AsString) = EmptyStr)
+        or (Trim(isqlParametro.fieldbyname('EMPRA50EMAILSENHA').AsString) = EmptyStr) then
     begin
         {Abortar envio de email}
       exit;

@@ -1,6 +1,6 @@
 inherited FormCadastroNotaServico: TFormCadastroNotaServico
-  Left = 59
-  Top = 12
+  Left = 52
+  Top = 21
   Caption = 'Nota Fiscal de Servi'#231'os(RPS/NFS-e)'
   ClientHeight = 646
   ClientWidth = 1253

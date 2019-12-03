@@ -679,6 +679,8 @@ procedure TFormCadastroNotaServico.btnTransmitirNFSeClick(Sender: TObject);
 begin
   inherited;
   TdmNFSe.Gerar(DSTemplate.DataSet.fieldbyname('ID').AsInteger);
+//  TdmNFSe.Gerar(DSTemplate.DataSet.fieldbyname('NUMERO_NOTA').AsInteger);
+
 end;
 
 procedure TFormCadastroNotaServico.AdvGlowButton1Click(Sender: TObject);
