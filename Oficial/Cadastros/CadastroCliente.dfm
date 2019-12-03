@@ -4877,6 +4877,19 @@ inherited FormCadastroCliente: TFormCadastroCliente
                   Font.Style = [fsBold]
                   ParentFont = False
                 end
+                object Label104: TLabel
+                  Left = 230
+                  Top = 12
+                  Width = 100
+                  Height = 13
+                  Caption = 'Cobrar a partir de'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = 8404992
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                end
                 object DBEdit10: TDBEdit
                   Left = 8
                   Top = 26
@@ -5036,6 +5049,22 @@ inherited FormCadastroCliente: TFormCadastroCliente
                   TabOrder = 6
                   DropDownDate = 43671.000000000000000000
                   NullText = '(none)'
+                end
+                object DBDateEdit10: TDBDateEdit
+                  Left = 230
+                  Top = 26
+                  Width = 110
+                  Height = 21
+                  DataField = 'COBRAR_A_PARTIR'
+                  DataSource = DSTemplate
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = []
+                  NumGlyphs = 2
+                  ParentFont = False
+                  TabOrder = 7
                 end
               end
               object GroupBox11: TGroupBox
@@ -8111,6 +8140,10 @@ inherited FormCadastroCliente: TFormCadastroCliente
     object SQLTemplateCLIENTE_DESDE: TDateTimeField
       FieldName = 'CLIENTE_DESDE'
       Origin = 'DB.CLIENTE.CLIENTE_DESDE'
+    end
+    object SQLTemplateCOBRAR_A_PARTIR: TDateTimeField
+      FieldName = 'COBRAR_A_PARTIR'
+      Origin = 'DB.CLIENTE.COBRAR_A_PARTIR'
     end
   end
   inherited SQLExcluiDetalhes: TRxQuery

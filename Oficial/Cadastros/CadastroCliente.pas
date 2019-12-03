@@ -989,6 +989,9 @@ type
     SQLTemplateCLIENTE_DESDE: TDateTimeField;
     JvDateTimePicker1: TJvDateTimePicker;
     btnProdutoClientePreco: TRxSpeedButton;
+    Label104: TLabel;
+    DBDateEdit10: TDBDateEdit;
+    SQLTemplateCOBRAR_A_PARTIR: TDateTimeField;
     procedure FormCreate(Sender: TObject);
     procedure AcessaVendedorClick(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
