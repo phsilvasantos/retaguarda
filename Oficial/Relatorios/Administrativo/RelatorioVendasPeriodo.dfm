@@ -596,15 +596,14 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
       '  CUPOM.CUPODCANC,'
       '  CUPOM.CUPODEMIS,'
       
-        '  MOVIMENTOCAIXA.MVCXN2VLRCRED + CUPOM.CUPON2DESC as CUPON2TOTIT' +
-        'ENS,'
+        '  MOVIMENTOCAIXA.MVCXN2VLRCRED + CUPOM.CUPON2DESC + CUPOM.CUPON3' +
+        'BONUSTROCA as CUPON2TOTITENS,'
       '  CUPOM.CUPON2ACRESC,'
       '  CUPOM.CUPON2DESC as CUPON2DESC,'
       '  CUPOM.CUPOA8PLACAVEIC,'
       '   MOVIMENTOCAIXA.MVCXN2VLRCRED +'
       '        CUPOM.CUPON2ACRESC'
-      '        %MtaxaCred'
-      '        CUPOM.CUPON3BONUSTROCA-'
+      '        %MtaxaCred '
       '        CUPOM.CUPON2TOTITENSRET as TOTAL,'
       '  CUPOM.CUPON3BONUSTROCA,'
       '  (select'
