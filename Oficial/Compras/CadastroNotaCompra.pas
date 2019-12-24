@@ -483,6 +483,11 @@ type
     cdsProdutosPRODICOD: TIntegerField;
     cdsProdutosQUANTIDADE: TFloatField;
     SQLParcelasDATA_PREVISTA: TDateTimeField;
+    SQLNotaCompraItensPERC_FCP_ST: TFloatField;
+    SQLNotaCompraItensVALOR_FCP_ST: TFloatField;
+    SQLNotaCompraItensPERC_FCP: TFloatField;
+    SQLNotaCompraItensVALOR_FCP: TFloatField;
+    SQLNotaCompraItensVALOR_ICMS_SUBSTITUTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -1138,12 +1143,21 @@ begin
                         // Dif.ICMS Percentual
                         if SQLNotaCompraItens.FindField('NOCIN2PERCDIFICM').asFloat > 0 then
                           SQLProduto.FindField('PRODN2PERCDIFICM').value := SQLNotaCompraItens.FindField('NOCIN2PERCDIFICM').asFloat;
+
                         // Perc.Pis
                         if SQLNotaCompraItens.FindField('NOCIN2PERCPIS').asFloat > 0 then
-                          SQLProduto.FindField('PRODN2ALIQPIS').value := SQLNotaCompraItens.FindField('NOCIN2PERCPIS').asFloat;
+                          if StrToFloatDef(SQLLocate('EMPRESA','EMPRICOD','PERC_PIS',EmpresaPadrao),0) > 0 then
+                            SQLProduto.FindField('PRODN2ALIQPIS').value := StrToFloatDef(SQLLocate('EMPRESA','EMPRICOD','PERC_PIS',EmpresaPadrao),0)
+                          else
+                            SQLProduto.FindField('PRODN2ALIQPIS').value := SQLNotaCompraItens.FindField('NOCIN2PERCPIS').asFloat;
+
                         // Perc.Cofins
                         if SQLNotaCompraItens.FindField('NOCIN2PERCCOFINS').asFloat > 0 then
-                          SQLProduto.FindField('PRODN2ALIQCOFINS').value := SQLNotaCompraItens.FindField('NOCIN2PERCCOFINS').asFloat;
+                          if StrToFloatDef(SQLLocate('EMPRESA','EMPRICOD','PERC_COFINS',EmpresaPadrao),0) > 0 then
+                            SQLProduto.FindField('PRODN2ALIQCOFINS').value := StrToFloatDef(SQLLocate('EMPRESA','EMPRICOD','PERC_COFINS',EmpresaPadrao),0)
+                          else
+                            SQLProduto.FindField('PRODN2ALIQCOFINS').value := SQLNotaCompraItens.FindField('NOCIN2PERCCOFINS').asFloat;
+
                         // Perc.IPI
                         if SQLNotaCompraItens.FindField('NOCIN3PERCIPI').asFloat > 0 then
                           SQLProduto.FindField('PRODN2PERCIPIENTRADA').value := SQLNotaCompraItens.FindField('NOCIN3PERCIPI').asFloat;
@@ -1159,11 +1173,6 @@ begin
                 if (MatrizFilial = 'M') then
                   if SQLLocate('OPERACAOESTOQUE','OPESICOD','CALCULAR_ST_RETIDO',IntToStr(OperacaoEstoque)) = 'S' then
                   begin
-                    if (SQLNotaCompraItensNOCIA3CSTICMS.AsString = '00') or (SQLNotaCompraItensNOCIA3CSTICMS.AsString = '70') or (SQLNotaCompraItensNOCIA3CSTICMS.AsString = '60') then
-                    begin
-                      SQLProduto.FindField('VALOR_ICM_ST_RET').asFloat := SQLNotaCompraItens.FindField('NOCIN3VLRSUBST').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
-                      SQLProduto.FindField('BASE_ICM_ST_RET').asFloat := SQLNotaCompraItens.FindField('NOCIN2VBCST').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
-                    end;
                     // Subst Trib Base valor Retido
                     if (SQLNotaCompraItens.FindField('NOCIN2VBCSTRET').asFloat > 0) then
                       SQLProduto.FindField('BASE_ICM_ST_RET').asFloat := SQLNotaCompraItens.FindField('NOCIN2VBCSTRET').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
@@ -1171,6 +1180,10 @@ begin
                     // Subst Trib valor Retido
                     if (SQLNotaCompraItens.FindField('NOCIN2VICMSSTRET').asFloat > 0) then
                       SQLProduto.FindField('VALOR_ICM_ST_RET').asFloat := SQLNotaCompraItens.FindField('NOCIN2VICMSSTRET').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
+
+                    // ICMS Substituto
+                    if (SQLNotaCompraItens.FindField('VALOR_ICMS_SUBSTITUTO').asFloat > 0) then
+                      SQLProduto.FindField('VALOR_ICMS_SUBSTITUTO').asFloat := SQLNotaCompraItens.FindField('VALOR_ICMS_SUBSTITUTO').asFloat / (SQLNotaCompraItens.FindField('NOCIN3CAPEMBAL').asFloat * SQLNotaCompraItens.FindField('NOCIN3QTDEMBAL').asFloat);
                   end;
 
 

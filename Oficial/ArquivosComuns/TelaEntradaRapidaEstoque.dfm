@@ -1,6 +1,6 @@
 object FormTelaEntradaRapidaEstoque: TFormTelaEntradaRapidaEstoque
-  Left = 545
-  Top = 171
+  Left = 364
+  Top = 157
   Width = 633
   Height = 437
   Caption = 'Entrada R'#225'pida no Estoque'

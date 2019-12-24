@@ -242,7 +242,7 @@ begin
       begin
          RxTable.Append;
          RxTableVENCI.AsDateTime:= edtemissao.date;
-         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',edtavista.value);
+         RxTableVALOR.Asstring  := FloatToStr(edtavista.value);
          RxTableDESCR.asstring  := NewDescr;
          RxTableEMI.asDateTime  := StrToDate(edtEmissao.Text);
          RxTable.Post;
@@ -258,7 +258,8 @@ begin
          else
             RxTableVENCI.AsDateTime:= NewDate;
 
-         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',(edtTotal.value - edtavista.value) / nParcelas);
+//         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',(edtTotal.value - edtavista.value) / nParcelas);
+         RxTableVALOR.Asstring  := FloatToStr((edtTotal.value - edtavista.value) / nParcelas);
          RxTableDESCR.asstring  := NewDescr;
          RxTableEMI.asDateTime  := StrToDate(edtEmissao.Text);
          RxTable.Post;
@@ -360,7 +361,8 @@ begin
    begin
       RxTable.Edit;
       RxTable.FieldByName('Venci').asdatetime :=  EncodeDate(vYear, vMonth, vDay);
-      RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00', ( RxTable.FieldByName('Valor').value + ((OldValue - Alt_Valor.Value) / i )));
+//      RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00', ( RxTable.FieldByName('Valor').value + ((OldValue - Alt_Valor.Value) / i )));
+      RxTableVALOR.Asstring  := RxTable.FieldByName('Valor').value + ((OldValue - Alt_Valor.Value) / i );
       RxTable.Post;
       NewDescr := VerificaDescr(newdescr);
       NewDate  := NewDate+30;
@@ -587,10 +589,10 @@ begin
   SQLConsulta.SQL.clear;
   SQLConsulta.SQL.Text  := 'Select TPDCICOD, PORTICOD, PLCTA15COD, CTRCN2VLR from cliente where CLIEA13ID='''+COMBOCLIENTE.Value+'''';
   SQLConsulta.Open;
-  ComboTipoDoc.KeyValue      := sqlconsulta.fieldbyname('TPDCICOD').AsVariant;
-  ComboPortador.KeyValue     := sqlconsulta.fieldbyname('PORTICOD').AsVariant;
-  ComboContaCredito.KeyValue := sqlconsulta.fieldbyname('PLCTA15COD').AsVariant;
-  edtTotal.Value             := sqlconsulta.fieldbyname('CTRCN2VLR').AsVariant;
+  ComboTipoDoc.KeyValue      := sqlconsulta.fieldbyname('TPDCICOD').AsInteger;
+  ComboPortador.KeyValue     := sqlconsulta.fieldbyname('PORTICOD').AsInteger;
+  ComboContaCredito.KeyValue := sqlconsulta.fieldbyname('PLCTA15COD').AsString;
+  edtTotal.Value             := sqlconsulta.fieldbyname('CTRCN2VLR').AsFloat;
 end;
 
 procedure TFormTelaAssistenteLancamentoContasReceber.ComboPortadorExit(
@@ -656,7 +658,8 @@ begin
       begin
          RxTable.Append;
          RxTableVENCI.AsDateTime:= edtemissao.date;
-         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',edtavista.value);
+//         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',edtavista.value);
+         RxTableVALOR.Asstring  := FloatToStr(edtavista.value);
          RxTableDESCR.asstring  := NewDescr;
          RxTableEMI.asDateTime  := StrToDate(edtEmissao.Text);
          RxTable.Post;
@@ -672,7 +675,8 @@ begin
          else
            RxTableVENCI.AsDateTime:= NewDate;
 
-         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',(edtTotal.value - edtavista.value));
+//         RxTableVALOR.Asstring  := FormatFloat('0.00;-0.00',(edtTotal.value - edtavista.value));
+         RxTableVALOR.Asstring  := FloatToStr(edtTotal.value - edtavista.value);
          RxTableDESCR.asstring  := NewDescr;
          RxTableEMI.asDateTime  := StrToDate(edtEmissao.Text);
          RxTableValor.value     := edttotal.value;

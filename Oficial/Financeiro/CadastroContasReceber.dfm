@@ -832,11 +832,13 @@ inherited FormCadastroContasReceber: TFormCadastroContasReceber
               Items.Strings = (
                 'Ativo'
                 'Cancelado'
+                'Encerrado'
                 'Negociado')
               TabOrder = 29
               Values.Strings = (
                 'A'
                 'C'
+                'E'
                 'N')
             end
             object DBEdit2: TDBEdit

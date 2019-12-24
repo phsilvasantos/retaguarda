@@ -2788,6 +2788,8 @@ inherited FormTelaAssistenteLancamentoContasReceber: TFormTelaAssistenteLancamen
     object RxTableVALOR: TFloatField
       DisplayWidth = 14
       FieldName = 'VALOR'
+      DisplayFormat = '#0.000'
+      EditFormat = '#0.000'
       currency = True
     end
   end

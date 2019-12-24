@@ -1066,6 +1066,9 @@ type
     TblSaldoEmpresaQtd24: TFloatField;
     TblSaldoEmpresaQtd25: TFloatField;
     ButtonImpostos: TRxSpeedButton;
+    Label58: TLabel;
+    EvDBNumEdit14: TEvDBNumEdit;
+    SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure RxComboComissaoChange(Sender: TObject);
     procedure AcessaMarcaClick(Sender: TObject);
@@ -3585,7 +3588,7 @@ begin
   FormTelaEntradaRapidaEstoque.EditUltCompra.Value := SQLTemplatePRODN3VLRCOMPRA.Value;
   FormTelaEntradaRapidaEstoque.EditCusto.Value := SQLTemplatePRODN3VLRCUSTO.Value;
   FormTelaEntradaRapidaEstoque.EditCustoMedio.Value := SQLTemplatePRODN3VLRCUSTOMED.Value;
-  FormTelaEntradaRapidaEstoque.EditIPI.Value := SQLTemplatePRODN3PERCIPI.Value;
+  FormTelaEntradaRapidaEstoque.EditIPI.Value := SQLTemplatePRODN2PERCIPIENTRADA.Value;
   FormTelaEntradaRapidaEstoque.EditFrete.Value := SQLTemplatePRODN2PERCFRETE.Value;
   FormTelaEntradaRapidaEstoque.EditDespesa.Value := SQLTemplatePRODN2PERCDESP.Value;
   FormTelaEntradaRapidaEstoque.editCST.Value := SQLTemplatePRODN2PERCSUBST.Value;
@@ -3623,7 +3626,7 @@ begin
     if FormTelaEntradaRapidaEstoque.EditCustoMedioCalculado.Value > 0 then
       SQLTemplatePRODN3VLRCUSTOMED.Value := FormTelaEntradaRapidaEstoque.EditCustoMedioCalculado.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoIPI.Value > 0 then
-      SQLTemplatePRODN3PERCIPI.Value := FormTelaEntradaRapidaEstoque.EditNovoIPI.Value;
+      SQLTemplatePRODN2PERCIPIENTRADA.Value := FormTelaEntradaRapidaEstoque.EditNovoIPI.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoFrete.Value > 0 then
       SQLTemplateVALOR_FRETE.Value := FormTelaEntradaRapidaEstoque.EditNovoFrete.Value;
     if FormTelaEntradaRapidaEstoque.EditNovoDespesa.Value > 0 then

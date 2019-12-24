@@ -396,7 +396,7 @@ inherited FormRelatorioContasaReceber: TFormRelatorioContasaReceber
       'where'
       '  (%MEmpresa) and'
       '  (CONTASRECEBER.CTRCN2VLR-CONTASRECEBER.CTRCN2TOTREC) > 0 and'
-      '  (CONTASRECEBER.CTRCCSTATUS = "A") and'
+      '  (CONTASRECEBER.CTRCCSTATUS IN ("A","N")) and'
       
         '  ((Not CONTASRECEBER.NOFIA13ID is NULL) OR (Not CONTASRECEBER.C' +
         'UPOA13ID is NULL)'

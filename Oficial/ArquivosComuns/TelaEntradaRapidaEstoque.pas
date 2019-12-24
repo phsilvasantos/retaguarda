@@ -127,12 +127,16 @@ begin
   DenominadorDifIcms := 0;
   if (EditNovoValorCompra.Value > 0) and (EditNovoIPI.Value > 0) then
     DenominadorIPI := EditNovoValorCompra.Value * (EditNovoIPI.Value/100);
+//  if (EditNovoValorCompra.Value > 0) and (EditNovoFrete.Value > 0) then
+//    DenominadorFrete := EditNovoValorCompra.Value * (EditNovoFrete.Value/100);
   if (EditNovoValorCompra.Value > 0) and (EditNovoFrete.Value > 0) then
-    DenominadorFrete := EditNovoValorCompra.Value * (EditNovoFrete.Value/100);
+    DenominadorFrete := DenominadorFrete + EditNovoFrete.Value;
   if (EditNovoValorCompra.Value > 0) and (EditNovoDespesa.Value > 0) then
     DenominadorDesp := EditNovoValorCompra.Value * (EditNovoDespesa.Value/100);
   if (EditNovoValorCompra.Value > 0) and (EditNovoCST.Value > 0) then
-    DenominadorCST := EditNovoValorCompra.Value * (EditNovoCST.Value/100);
+    DenominadorCST := DenominadorCST + EditNovoCST.Value;
+//  if (EditNovoValorCompra.Value > 0) and (EditNovoCST.Value > 0) then
+//    DenominadorCST := EditNovoValorCompra.Value * (EditNovoCST.Value/100);
   if (EditNovoValorCompra.Value > 0) and (editNovoDifIcms.Value > 0) then
     DenominadorDifIcms := EditNovoValorCompra.Value * (editNovoDifIcms.Value/100);
 

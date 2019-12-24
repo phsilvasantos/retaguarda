@@ -293,6 +293,7 @@ type
     Label63: TLabel;
     EvDBNumEdit4: TEvDBNumEdit;
     SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField;
+    SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure BtnProdutoClick(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
@@ -496,6 +497,7 @@ begin
         begin
           SQLTemplateBASE_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'BASE_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
           SQLTemplateVALOR_ST_RETIDO.AsFloat := (StrToFloat(SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICM_ST_RET', SQLTemplatePRODICOD.AsString)) * SQLTemplateNFITN3QUANT.asFloat);
+          SQLTemplateVALOR_ICMS_SUBSTITUTO.AsFloat := (StrToFloatDef(SQLLocate('PRODUTO', 'PRODICOD', 'VALOR_ICMS_SUBSTITUTO', SQLTemplatePRODICOD.AsString),0) * SQLTemplateNFITN3QUANT.asFloat);
         end;
       end;
 
@@ -615,10 +617,9 @@ begin
   inherited;
 
   if SQLTemplateNFITN3TOTVEND.IsNull then
-    SQLTemplateTotalItemCalc.asFloat := Trunc(StrToFloat(FormatFloat('0.00',((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat))))
+    SQLTemplateTotalItemCalc.asFloat := ((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat)
   else
-    SQLTemplateTotalItemCalc.asFloat := Trunc(StrToFloat(FormatFloat('0.00', SQLTemplateNFITN3TOTVEND.value)));
-
+    SQLTemplateTotalItemCalc.asFloat := SQLTemplateNFITN3TOTVEND.value;
   if DM.GerandoNotaFiscal then
     Exit;
   if DataSet.FieldByName('PRODICOD').AsVariant <> null then

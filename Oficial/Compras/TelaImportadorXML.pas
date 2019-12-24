@@ -386,6 +386,11 @@ type
     cdsItensvalor_fcp: TFloatField;
     cdsItensperc_fcp_st: TFloatField;
     cdsItensvalor_fcp_st: TFloatField;
+    Label10: TLabel;
+    CurrencyEdit1: TCurrencyEdit;
+    Label32: TLabel;
+    edtICMSSubstituto: TCurrencyEdit;
+    cdsItensvalor_icms_substituto: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -461,7 +466,7 @@ type
 
     //Flag Validação de XML
     AcaoValidar : Boolean;
-    ValorSTRetido, BaseSTRetido : Real;
+    ValorSTRetido, BaseSTRetido, ValorICMSSubstituto : Real;
     seqValidacao, pItems : Integer;
     {Acumuladores de Erros para ativar a ação gravar_nota_fiscal}
     acErro, acInconsistencia, acCritica: Integer;
@@ -589,6 +594,7 @@ begin
     end;
   ValorSTRetido := 0;
   BaseSTRetido  := 0;
+  ValorICMSSubstituto := 0;
   VisualizaArquivoXML(tvProcessar);
 end;
 
@@ -800,6 +806,17 @@ begin
 
         ValorSTRetido := ValorSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSSTRet;
         BaseSTRetido  := BaseSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vBCSTRet;
+        ValorICMSSubstituto := ValorICMSSubstituto + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSSubstituto;
+
+        if CSTICMSToStr(ACBrNFe.NotasFiscais.Items[0].Nfe.Det.Items[i].Imposto.ICMS.CST) = '10' then
+        begin
+          cdsItens.FieldByName('valor_icms_st_retido').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSST;
+          cdsItens.FieldByName('base_icms_st_retido').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vBCST;
+          cdsItens.FieldByName('valor_icms_substituto').AsFloat := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMS;
+          ValorSTRetido := ValorSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMSST;
+          BaseSTRetido  := BaseSTRetido + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vBCST;
+          ValorICMSSubstituto := ValorICMSSubstituto + ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Imposto.ICMS.vICMS;
+        end;
 
         {IPI}
         cdsItens.FieldByName('cst_ipi').AsString := getCSTConversao(tiIpi, CSTIPIToStr(ACBrNFe.NotasFiscais.Items[0].Nfe.Det.Items[i].Imposto.IPI.CST));
@@ -1071,13 +1088,13 @@ begin
   CodigoNF := edtCodigoNFVis.Text;
 
   {Operação de Estoque informada}
-  if (dblkcbbOpEstoque.KeyValue = -1) then
+  if (dblkcbbOpEstoque.KeyValue = -1) or (dblkcbbOpEstoque.Text = EmptyStr) then
   begin
     ExibeInconsistencia(tiInformacao,'Informe a Operação de Estoque!',EmptyStr);
   end;
 
   {Conta Despesa Informada}
-  if (dblkcbbContaDespesa.KeyValue = -1) then
+  if (dblkcbbContaDespesa.KeyValue = -1) or (dblkcbbContaDespesa.Text = EmptyStr) then
   begin
     ExibeInconsistencia(tiErro,'Informe a Conta Despesa para alimentar o Financeiro!',EmptyStr);
   end;
@@ -1121,6 +1138,9 @@ begin
     begin
       try
         cdsItens.DisableControls;
+        if cdsItens.IsEmpty then
+           ExibeInconsistencia(tiErro, 'Não existe nenhum item processado','');
+
         cdsItens.First;
 
         while not cdsItens.Eof do
@@ -1399,6 +1419,7 @@ begin
   fErroNCM := False;
   edtICMSRetido.Value := ValorSTRetido;
   edtBaseSTRetido.Value := BaseSTRetido;
+  edtICMSSubstituto.Value := ValorICMSSubstituto;
 
   lblAcao.caption := '';
   lblAcao.update;
@@ -1759,7 +1780,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, UNIDICOD,  ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO, ');
-                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL, VALOR_FCP, PERC_FCP, VALOR_FCP_ST, PERC_FCP_ST)  ');
+                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL, VALOR_FCP, PERC_FCP, VALOR_FCP_ST, PERC_FCP_ST, VALOR_ICMS_SUBSTITUTO)  ');
                 dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, :NOCIN3CAPEMBAL,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEMBAL, :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
@@ -1772,7 +1793,7 @@ begin
                 dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, :UNIDICOD,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO,');
-                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL, :VALOR_FCP, :PERC_FCP, :VALOR_FCP_ST, :PERC_FCP_ST)');
+                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL, :VALOR_FCP, :PERC_FCP, :VALOR_FCP_ST, :PERC_FCP_ST, :VALOR_ICMS_SUBSTITUTO)');
 
                 dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := RetornaCodigoCompra(iSequencialNf);
                 dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
@@ -1900,6 +1921,7 @@ begin
 
                  dm.SQLUpdate.ParamByName('VALOR_FCP_ST').AsFloat  := cdsItensvalor_fcp_st.AsFloat;
                  dm.SQLUpdate.ParamByName('PERC_FCP_ST').AsFloat  := cdsItensperc_fcp_st.AsFloat;
+                 dm.SQLUpdate.ParamByName('VALOR_ICMS_SUBSTITUTO').AsFloat  := cdsItensvalor_icms_substituto.AsFloat;
 
                 // Adilson, removi pq tem q buscar do nosso cad.produto dm.SQLUpdate.ParamByName('UNIDICOD').AsInteger := getUnidadeId(cdsItensunidade.AsString);
                 dm.SQLUpdate.ParamByName('UNIDICOD').AsString := dm.SQLLocate('PRODUTO','PRODICOD','UNIDICOD',cdsItens.FieldByName('codigo_gravar').AsString);
@@ -2165,7 +2187,7 @@ begin
       dm.SQLUpdate.ExecSQL;
 
       MessageDlg('Fornecedor Cadastrado com Sucesso!', mtInformation, [mbOK], 0);
-
+//      actSelecionarArquivoExecute(Self);
       ExecutaValidacoes;
     except
       MessageDlg('Erro ao cadastrar o fornecedor apartir do XML. ', mtError, [mbOk], 0);

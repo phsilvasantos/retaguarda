@@ -7567,6 +7567,19 @@ inherited FormCadastroProduto: TFormCadastroProduto
                     Font.Style = [fsBold]
                     ParentFont = False
                   end
+                  object Label58: TLabel
+                    Left = 247
+                    Top = 3
+                    Width = 109
+                    Height = 13
+                    Caption = 'Vlr ICMS Substituto'
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clBlack
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = [fsBold]
+                    ParentFont = False
+                  end
                   object EvDBNumEdit5: TEvDBNumEdit
                     Left = -1
                     Top = 18
@@ -7650,6 +7663,48 @@ inherited FormCadastroProduto: TFormCadastroProduto
                       FF5EFF5EFF5EFF5EFF5E}
                     ParentFont = False
                     TabOrder = 1
+                  end
+                  object EvDBNumEdit14: TEvDBNumEdit
+                    Left = 247
+                    Top = 18
+                    Width = 104
+                    Height = 21
+                    AutoHideCalculator = False
+                    DataField = 'VALOR_ICMS_SUBSTITUTO'
+                    DataSource = DSTemplate
+                    Decimals = 5
+                    Font.Charset = DEFAULT_CHARSET
+                    Font.Color = clWindowText
+                    Font.Height = -11
+                    Font.Name = 'Tahoma'
+                    Font.Style = []
+                    Glyph.Data = {
+                      E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                      100003000000A402000000000000000000000000000000000000007C0000E003
+                      00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                      FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                      EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                      EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                      FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                      FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                      FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                      FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                      FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                      FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                      FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                      FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                      FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                      EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                      FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                      070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                      EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                      FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                      FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                      FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                      FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                      FF5EFF5EFF5EFF5EFF5E}
+                    ParentFont = False
+                    TabOrder = 2
                   end
                 end
               end
@@ -11450,6 +11505,10 @@ inherited FormCadastroProduto: TFormCadastroProduto
       Origin = 'DB.PRODUTO.PERC_REDUCAO_BASE_CALCULO_ST'
       DisplayFormat = ',0.00'
       EditFormat = ',0.00'
+    end
+    object SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VALOR_ICMS_SUBSTITUTO'
+      Origin = 'DB.PRODUTO.VALOR_ICMS_SUBSTITUTO'
     end
   end
   inherited UpdateSQLTemplate: TUpdateSQL

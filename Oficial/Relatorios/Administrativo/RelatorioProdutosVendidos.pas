@@ -195,6 +195,7 @@ type
     SQLOperacaoOPESICOD: TIntegerField;
     SQLOperacaoOPESA60DESCR: TStringField;
     rdgTipoCliente: TRadioGroup;
+    TblTemporariaMarcaDescricao: TStringField;
     procedure ExecutarBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -467,6 +468,7 @@ begin
         TblTemporariaPRODA60DESCR.Value   := TblTemporariaPRODA60DESCR.Value+'/'+RetornaTamanhoProduto(TblTemporariaGRADICOD.AsString,TblTemporariaGRTMICOD.AsString);
       TblTemporariaVendedorNome.Value      := dm.SQLLocate('VENDEDOR','VENDICOD','VENDA60NOME',TblTemporariaVENDICOD.AsString);
       TblTemporariaGrupoDescricao.Value    := dm.SQLLocate('GRUPO','GRUPICOD','GRUPA60DESCR',TblTemporariaGRUPICOD.AsString);
+      TblTemporariaMarcaDescricao.Value    := DM.SQLLocate('MARCA','MARCICOD','MARCA60DESCR',TblTemporariaMARCICOD.AsString);
       TblTemporariaClienteNome.Value       := dm.SQLLocate('CLIENTE','CLIEA13ID','CLIEA60RAZAOSOC',''''+TblTemporariaCLIEA13ID.AsString+'''');
 
       TblTemporariaCPITN3QTDTROCA.value    := 0;
@@ -628,6 +630,11 @@ begin
           Report.ReportName        := DM.SQLConfigGeralCFGEA255PATHREPORT.Value + '\Produtos Vendidos Total Por Empresa.rpt' ;
           Report.ReportTitle       := 'Relatorio de Produtos Vendidos Totalizando por Empresa' ;
           Report.WindowStyle.Title := 'Relatorio de Produtos Vendidos Totalizando por Empresa' ;
+        end;
+    7 : begin
+          Report.ReportName        := DM.SQLConfigGeralCFGEA255PATHREPORT.Value + '\Produtos Vendidos Total Por Marca.rpt' ;
+          Report.ReportTitle       := 'Relatorio de Produtos Vendidos Totalizando por Marca' ;
+          Report.WindowStyle.Title := 'Relatorio de Produtos Vendidos Totalizando por Marca' ;
         end;
   end;
 

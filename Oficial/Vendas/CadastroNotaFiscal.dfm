@@ -16963,6 +16963,10 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
       FieldName = 'VALOR_FCP_ST_RET'
       Origin = 'DB.NOTAFISCALITEM.VALOR_FCP_ST_RET'
     end
+    object SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VALOR_ICMS_SUBSTITUTO'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_ICMS_SUBSTITUTO'
+    end
   end
   object SQLProduto: TRxQuery
     DatabaseName = 'DB'
@@ -17943,6 +17947,7 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
     Configuracoes.Geral.AtualizarXMLCancelado = True
     Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Geral.ForcarGerarTagRejeicao938 = fgtSempre
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.Arquivos.SepararPorMes = True
     Configuracoes.Arquivos.SalvarApenasNFeProcessadas = True

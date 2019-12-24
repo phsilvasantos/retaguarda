@@ -506,7 +506,7 @@ inherited FormRelatorioProdutosVendidos: TFormRelatorioProdutosVendidos
         Height = 40
         BiDiMode = bdLeftToRight
         Caption = 'Totalizar Por'
-        Columns = 7
+        Columns = 8
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -11
@@ -520,7 +520,8 @@ inherited FormRelatorioProdutosVendidos: TFormRelatorioProdutosVendidos
           'Vendedor '
           'Grupo'
           'Cliente'
-          'Empresa')
+          'Empresa'
+          'Marca')
         ParentBiDiMode = False
         ParentFont = False
         TabOrder = 10
@@ -848,6 +849,10 @@ inherited FormRelatorioProdutosVendidos: TFormRelatorioProdutosVendidos
     end
     object TblTemporariaIDVENDA: TStringField
       FieldName = 'IDVENDA'
+    end
+    object TblTemporariaMarcaDescricao: TStringField
+      FieldName = 'MarcaDescricao'
+      Size = 30
     end
   end
   inherited FormStorageTemplate: TFormStorage

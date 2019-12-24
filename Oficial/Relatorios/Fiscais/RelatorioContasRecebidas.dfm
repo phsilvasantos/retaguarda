@@ -676,7 +676,7 @@ inherited FormRelatorioContasRecebidas: TFormRelatorioContasRecebidas
         ' left join NUMERARIO NUM on NUM.NUMEICOD = CONTASRECEBER.NUMEICO' +
         'D'
       'where'
-      '  (CONTASRECEBER.CTRCCSTATUS = "A") and'
+      '  (CONTASRECEBER.CTRCCSTATUS IN ("A","R")) and'
       '  (%MEmpresa) and'
       '  (%MData) and'
       '  (%MDataVenc) and'

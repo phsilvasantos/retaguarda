@@ -9,10 +9,10 @@ inherited FormTelaImpressaoDuplicata: TFormTelaImpressaoDuplicata
   TextHeight = 13
   inherited ScrollBoxFundo: TScrollBox
     Width = 1366
-    Height = 706
+    Height = 705
     inherited PanelCentral: TPanel
       Width = 1362
-      Height = 622
+      Height = 621
       inherited PanelBarra: TPanel
         Width = 1362
         Height = 255
@@ -433,7 +433,7 @@ inherited FormTelaImpressaoDuplicata: TFormTelaImpressaoDuplicata
         Left = 0
         Top = 255
         Width = 1362
-        Height = 367
+        Height = 366
         Hint = 
           'Clique com o bot'#227'o direito do mouse para visualizar outras fun'#231#245 +
           'es...'
@@ -907,6 +907,7 @@ inherited FormTelaImpressaoDuplicata: TFormTelaImpressaoDuplicata
         DataType = ftFloat
         Name = 'MValor'
         ParamType = ptInput
+        Value = '0=0'
       end
       item
         DataType = ftString
@@ -5472,6 +5473,7 @@ inherited FormTelaImpressaoDuplicata: TFormTelaImpressaoDuplicata
       'OUVIDORIA BANRISUL - 0800 644 2200')
     Banco.LayoutVersaoArquivo = 0
     Banco.LayoutVersaoLote = 0
+    Banco.CasasDecimaisMoraJuros = 2
     Cedente.TipoInscricao = pJuridica
     Cedente.UF = 'RS'
     DirArqRemessa = 'c:\'

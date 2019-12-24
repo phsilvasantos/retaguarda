@@ -353,6 +353,9 @@ type
     SQLTemplateVALOR_FCP_ST: TFloatField;
     SQLTemplatePERC_FCP: TFloatField;
     SQLTemplateVALOR_FCP: TFloatField;
+    Label98: TLabel;
+    EvDBNumEdit18: TEvDBNumEdit;
+    SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateCalcFields(DataSet: TDataSet);
     procedure SQLTemplatePRODICODChange(Sender: TField);
@@ -955,9 +958,9 @@ begin
   if (Fornec_Opt_Simples='N') and (SQLTemplateCFOPA5CODAUX.AsString<>'1152') and ((SQLTemplateNOCIA3CSTICMS.AsInteger=0) and (SQLTemplateNOCIN2VBC.Value=0)) then
     xErros := xErros + #13+#10+'Para CST de ICMS com final 0 os valores de Base Calc. ICMS, %ICMS e R$ ICMS devem ser MAIOR QUE ZERO!';
 
-  if (Fornec_Opt_Simples='N') and  (SQLTemplateCFOPA5CODAUX.AsString<>'1152') and (SQLTemplateNOCIA3CSTICMS.AsInteger  in ([30, 40, 41, 50, 60])) then
-    IF SQLTemplateNOCIN2VBC.Value > 0 then
-      xErros := xErros + #13+#10+'Para CST de ICMS com final 30, 40, 41, 50 ou 60 os valores de Base Calc. ICMS, %Red. e R$ ICMS devem ser zero (0)!';
+//  if (Fornec_Opt_Simples='N') and  (SQLTemplateCFOPA5CODAUX.AsString<>'1152') and (SQLTemplateNOCIA3CSTICMS.AsInteger  in ([30, 40, 41, 50, 60])) then
+//    IF SQLTemplateNOCIN2VBC.Value > 0 then
+//      xErros := xErros + #13+#10+'Para CST de ICMS com final 30, 40, 41, 50 ou 60 os valores de Base Calc. ICMS, %Red. e R$ ICMS devem ser zero (0)!';
 
   If (SQLTemplateNOCIN3VLREMBAL.asFloat = 0) Then
       xErros := xErros + #13+#10+'O valor da Embalagem não pode ser zero!';

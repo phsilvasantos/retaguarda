@@ -1,10 +1,11 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 296
+  Left = 143
   Top = 39
   Height = 600
   Width = 1200
   inherited DB: TDatabase
+    Connected = False
     AfterConnect = DBAfterConnect
   end
   inherited Campos: TTableItems
@@ -2972,6 +2973,7 @@ inherited DM: TDM
     Configuracoes.Geral.ModeloDF = moNFCe
     Configuracoes.Geral.AtualizarXMLCancelado = True
     Configuracoes.Geral.VersaoQRCode = veqr000
+    Configuracoes.Geral.ForcarGerarTagRejeicao938 = fgtSempre
     Configuracoes.Arquivos.PathSalvar = 'c:\easy2solutions\nfce\'
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.Arquivos.SepararPorMes = True

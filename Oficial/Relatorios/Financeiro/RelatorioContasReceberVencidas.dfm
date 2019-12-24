@@ -1,6 +1,5 @@
 inherited FormRelatorioContasReceberVencidas: TFormRelatorioContasReceberVencidas
-  Left = 142
-  Top = 152
+  Top = 67
   Caption = 'Relat'#243'rio de Contas '#224' Receber Vencidas'
   ClientHeight = 523
   ClientWidth = 799
@@ -359,7 +358,7 @@ inherited FormRelatorioContasReceberVencidas: TFormRelatorioContasReceberVencida
         '  ((Not CONTASRECEBER.NOFIA13ID is NULL) OR (Not CONTASRECEBER.C' +
         'UPOA13ID is NULL)'
       '   OR (Not CONTASRECEBER.CTRCA13ID is Null)) and'
-      '  (CONTASRECEBER.CTRCCSTATUS = "A") and'
+      '  (CONTASRECEBER.CTRCCSTATUS IN ("A","R")) and'
       '  (CONTASRECEBER.CTRCN2VLR-CONTASRECEBER.CTRCN2TOTREC) > 0 and'
       '  (%MPortador)'
       'order by'

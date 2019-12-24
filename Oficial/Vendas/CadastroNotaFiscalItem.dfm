@@ -3328,6 +3328,10 @@ inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
       FieldName = 'PERC_REDUCAO_BASE_CALCULO_ST'
       Origin = 'DB.NOTAFISCALITEM.PERC_REDUCAO_BASE_CALCULO_ST'
     end
+    object SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VALOR_ICMS_SUBSTITUTO'
+      Origin = 'DB.NOTAFISCALITEM.VALOR_ICMS_SUBSTITUTO'
+    end
   end
   inherited AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler
     Left = 469

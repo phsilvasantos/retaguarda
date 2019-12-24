@@ -1,6 +1,6 @@
 inherited FormCadastroNotaCompra: TFormCadastroNotaCompra
-  Left = 228
-  Top = 63
+  Left = 338
+  Top = 58
   Caption = 'Nota de Entrada'
   ClientHeight = 579
   OldCreateOrder = True
@@ -2926,6 +2926,26 @@ inherited FormCadastroNotaCompra: TFormCadastroNotaCompra
       FieldName = 'NOCIN3PERCFRETE'
       Origin = 'DB.NOTACOMPRAITEM.NOCIN3PERCFRETE'
     end
+    object SQLNotaCompraItensPERC_FCP_ST: TFloatField
+      FieldName = 'PERC_FCP_ST'
+      Origin = 'DB.NOTACOMPRAITEM.PERC_FCP_ST'
+    end
+    object SQLNotaCompraItensVALOR_FCP_ST: TFloatField
+      FieldName = 'VALOR_FCP_ST'
+      Origin = 'DB.NOTACOMPRAITEM.VALOR_FCP_ST'
+    end
+    object SQLNotaCompraItensPERC_FCP: TFloatField
+      FieldName = 'PERC_FCP'
+      Origin = 'DB.NOTACOMPRAITEM.PERC_FCP'
+    end
+    object SQLNotaCompraItensVALOR_FCP: TFloatField
+      FieldName = 'VALOR_FCP'
+      Origin = 'DB.NOTACOMPRAITEM.VALOR_FCP'
+    end
+    object SQLNotaCompraItensVALOR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VALOR_ICMS_SUBSTITUTO'
+      Origin = 'DB.NOTACOMPRAITEM.VALOR_ICMS_SUBSTITUTO'
+    end
   end
   object SQLProduto: TRxQuery
     DatabaseName = 'DB'
@@ -2935,6 +2955,7 @@ inherited FormCadastroNotaCompra: TFormCadastroNotaCompra
       '  PRODUTO '
       'Where '
       '  PRODICOD = :PRODICOD')
+    UpdateMode = upWhereKeyOnly
     Macros = <>
     Left = 4
     Top = 386

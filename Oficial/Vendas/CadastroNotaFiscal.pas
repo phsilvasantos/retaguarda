@@ -1118,6 +1118,7 @@ type
     SQLNotaFiscalItemVALOR_FCP_ST_RET: TFloatField;
     SQLSerieEMPRICOD: TIntegerField;
     SQLSerieSERIA2TIPONOTA: TStringField;
+    SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO: TFloatField;
     function TabelaNFE_123(Produto, Situacao: string): string;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -6351,6 +6352,7 @@ begin
       Ide.tpNF := tnSaida
     else
       Ide.tpNF := tnEntrada;
+    Ide.verProc := 'Automafour';  
     // verifica a forma de pagamento
     SQLContasReceber.Open;
     SQLContasReceber.First;
@@ -6631,7 +6633,7 @@ begin
       dm.sqlconsulta.close;
       dm.sqlconsulta.sql.Clear;
       dm.sqlconsulta.sql.add('select PRODA60DESCR,PRODA60CODBAR,PRODA60REFER,PRODIORIGEM,');
-      dm.sqlconsulta.sql.add('PRODA1TIPO,PRODCSERVICO,PRODA1MODBC,PRODA1MODBCST,PRODA1MODBCST,PRODA2CSTCOFINS,PRODA2CSTPIS,PRODN2ALIQPIS,PRODA2CSTIPI,PRODN3PERCIPI,PRODN2ALIQCOFINS,TABCEST,BASE_ICM_ST_RET,VALOR_ICM_ST_RET from produto where prodicod=' + SQLNotaFiscalItemPRODICOD.AsString);
+      dm.sqlconsulta.sql.add('PRODA1TIPO,PRODCSERVICO,PRODA1MODBC,PRODA1MODBCST,PRODA1MODBCST,PRODA2CSTCOFINS,PRODA2CSTPIS,PRODN2ALIQPIS,PRODA2CSTIPI,PRODN3PERCIPI,PRODN2ALIQCOFINS,TABCEST,BASE_ICM_ST_RET,VALOR_ICM_ST_RET, VALOR_ICMS_SUBSTITUTO from produto where prodicod=' + SQLNotaFiscalItemPRODICOD.AsString);
       dm.sqlconsulta.open;
 
       if FileExists('VFNota.txt') then // exibe o valor final (total custo + subst. Trib.) ao lado do nome do produto.
@@ -6903,6 +6905,12 @@ begin
                         ICMS.pICMSEfet := vPercSTEfe;
                         ICMS.vBCEfet := (SQLNotaFiscalItemNFITN3QUANT.AsFloat * (Prod.vProd - Prod.vDesc)) * vPercSTEfe;
                       end;
+                      if dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat > 0 then
+                        ICMS.vICMSSubstituto := dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat * SQLNotaFiscalItemNFITN3QUANT.AsFloat
+                      else
+                      if SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat > 0 then
+                        ICMS.vICMSSubstituto := SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat;
+
                     end;
                   csosn900:
                     begin
@@ -6966,6 +6974,11 @@ begin
                       ICMS.pICMSEfet := vPercSTEfe;
                       ICMS.vBCEfet := (SQLNotaFiscalItemNFITN3QUANT.AsFloat * (Prod.vProd - Prod.vDesc)) * vPercSTEfe;
                     end;
+                    if dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat > 0 then
+                      ICMS.vICMSSubstituto := dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat * SQLNotaFiscalItemNFITN3QUANT.AsFloat
+                    else
+                    if SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat > 0 then
+                      ICMS.vICMSSubstituto := SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat;
                   end;
                 if SQLNotaFiscalItemNFITICST.asstring = '70' then
                   ICMS.CST := cst70;

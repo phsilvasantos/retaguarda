@@ -639,7 +639,7 @@ inherited FormRelatorioVendasPeriodo: TFormRelatorioVendasPeriodo
         '  left outer join MOVIMENTOCAIXA on CUPOM.CUPOA13ID = MOVIMENTOC' +
         'AIXA.MVCXA15DOCORIG and MOVIMENTOCAIXA.NUMEICOD is not null and ' +
         'MOVIMENTOCAIXA.EMPRICOD = CUPOM.EMPRICOD and MOVIMENTOCAIXA.TERM' +
-        'ICOD = CUPOM.TERMICOD'
+        'ICOD = CUPOM.TERMICOD AND MOVIMENTOCAIXA.MVCXN2VLRCRED > 0'
       'where'
       '  (%MStatus) and'
       '  CUPOM.CUPOCCONSIG <> '#39'S'#39' and'

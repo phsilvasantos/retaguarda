@@ -1505,9 +1505,9 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                     object Label92: TLabel
                       Left = 593
                       Top = 84
-                      Width = 91
+                      Width = 82
                       Height = 13
-                      Caption = 'Base Calc.St.Ret'
+                      Caption = 'Base St.Retido'
                       Font.Charset = DEFAULT_CHARSET
                       Font.Color = 8404992
                       Font.Height = -11
@@ -1521,6 +1521,19 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                       Width = 70
                       Height = 13
                       Caption = 'Vlr St.Retido'
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = 8404992
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                    end
+                    object Label98: TLabel
+                      Left = 492
+                      Top = 84
+                      Width = 91
+                      Height = 13
+                      Caption = 'ICMS Substituto'
                       Font.Charset = DEFAULT_CHARSET
                       Font.Color = 8404992
                       Font.Height = -11
@@ -2424,6 +2437,47 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
                         ParentFont = False
                         TabOrder = 3
                       end
+                    end
+                    object EvDBNumEdit18: TEvDBNumEdit
+                      Left = 492
+                      Top = 97
+                      Width = 97
+                      Height = 21
+                      AutoHideCalculator = False
+                      DataField = 'VALOR_ICMS_SUBSTITUTO'
+                      DataSource = DSTemplate
+                      Font.Charset = DEFAULT_CHARSET
+                      Font.Color = clWindowText
+                      Font.Height = -11
+                      Font.Name = 'Tahoma'
+                      Font.Style = []
+                      Glyph.Data = {
+                        E6020000424DE60200000000000042000000280000001A0000000D0000000100
+                        100003000000A402000000000000000000000000000000000000007C0000E003
+                        00001F000000FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF1CEF1C
+                        EF1CEF1CEF1CEF1CEF1CEF1CEF1CEF1CFF5EFF5EFF5EFF7FEF3DEF3DEF3DEF3D
+                        EF3DEF3DEF3DEF3DEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1CFF5EFF5EFF5EFF7F
+                        FF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2C
+                        FF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EEF3DFF5EFF5EFF5EFF02FF2CFF02FF7FFF02FF7FFF02FF7FFF2CEF1C
+                        FF5EFF5EFF5EFF7FFF5EEF3DFF7FEF3DFF7FEF3DFF7FFF5EEF3DFF5EFF5EFF5E
+                        FF02FF2CFF2CFF2CFF2CFF2CFF2CFF2CFF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5EFF5EFF5EFF02FF2C0700FF5EFF5EFF5E
+                        FF5EFF5EFF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DFF7FFF7FFF7FFF7FFF7FFF5E
+                        EF3DFF5EFF5EFF5EFF02FF2C0700FF7FFF7FFF7FFF7FFF5EFF2CEF1CFF5EFF5E
+                        FF5EFF7FFF5EEF3DFF5EFF5EFF5EFF5EFF7FFF5EEF3DFF5EFF5EFF5EFF02FF2C
+                        070007000700070007000700FF2CEF1CFF5EFF5EFF5EFF7FFF5EEF3DEF3DEF3D
+                        EF3DEF3DEF3DFF5EEF3DFF5EFF5EFF5EFF02FF2CFF2CFF2CFF2CFF2CFF2CFF2C
+                        FF2CEF1CFF5EFF5EFF5EFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EEF3DFF5E
+                        FF5EFF5EFF02FF02FF02FF02FF02FF02FF02FF02FF02EF1CFF5EFF5EFF5EFF7F
+                        FF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF7FFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5EFF5E
+                        FF5EFF5EFF5EFF5EFF5E}
+                      ParentFont = False
+                      TabOrder = 17
                     end
                   end
                   object GroupBox2: TGroupBox
@@ -5195,6 +5249,12 @@ inherited FormCadastroNotaCompraItem: TFormCadastroNotaCompraItem
     object SQLTemplateVALOR_FCP: TFloatField
       FieldName = 'VALOR_FCP'
       Origin = 'DB.NOTACOMPRAITEM.VALOR_FCP'
+      DisplayFormat = ',0.000'
+      EditFormat = ',0.000'
+    end
+    object SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField
+      FieldName = 'VALOR_ICMS_SUBSTITUTO'
+      Origin = 'DB.NOTACOMPRAITEM.VALOR_ICMS_SUBSTITUTO'
       DisplayFormat = ',0.000'
       EditFormat = ',0.000'
     end

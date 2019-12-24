@@ -1,6 +1,6 @@
 inherited FormCadastroCliente: TFormCadastroCliente
-  Left = 132
-  Top = 21
+  Left = 254
+  Top = 18
   Caption = 'Cadastro de Clientes'
   ClientHeight = 672
   ClientWidth = 1092
@@ -876,7 +876,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
             Top = 42
             Width = 960
             Height = 556
-            ActivePage = TabSheetAdicional2
+            ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Width = 952
@@ -7440,6 +7440,7 @@ inherited FormCadastroCliente: TFormCadastroCliente
     AfterEdit = SQLTemplateAfterEdit
     SQL.Strings = (
       'select * from CLIENTE where (%MFiltro)')
+    UpdateMode = upWhereKeyOnly
     object SQLTemplateCLIEA13ID: TStringField
       Tag = 2
       DisplayLabel = 'ID'

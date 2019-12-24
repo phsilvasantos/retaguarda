@@ -1,6 +1,6 @@
 inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
-  Left = 79
-  Top = 101
+  Left = 95
+  Top = 95
   Width = 1197
   Height = 572
   Caption = 'Baixar Documentos '#224' Receber'
@@ -1166,7 +1166,9 @@ inherited FormTelaBaixarDocumentosReceber: TFormTelaBaixarDocumentosReceber
       '  CONTASRECEBER CR, CLIENTE CL'
       'where'
       '  %MData   and'
-      '  ((CR.CTRCCSTATUS <> '#39'C'#39') or (CR.CTRCCSTATUS is null)) and'
+      
+        '  ((CR.CTRCCSTATUS IN ('#39'N'#39','#39'A'#39')) or (CR.CTRCCSTATUS is null)) an' +
+        'd'
       '  (CR.CTRCA5TIPOPADRAO not in ('#39'CHQ'#39','#39'CHQV'#39','#39'CHQP'#39')) and'
       
         '  (CR.CTRCN2TOTREC    < CR.CTRCN2VLR or CR.CTRCN2TOTREC is null)' +

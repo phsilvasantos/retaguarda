@@ -544,7 +544,7 @@ begin
     end;
 
   if SQLContaCorrenteVALOR_LIMITE_BOLETO.AsFloat > 0 then
-    SQLContasReceber.MacroByName('MValor').Value := ' CR.CTRCN2VLR > ' + TrocaVirgulaPorPonto(FormatFloat('0.00',SQLContaCorrenteVALOR_LIMITE_BOLETO.asFloat)) ;
+    SQLContasReceber.MacroByName('MValor').Value := ' CR.CTRCN2VLR > ' + TrocaVirgulaPorPonto(FormatFloat('0.00',SQLContaCorrenteVALOR_LIMITE_BOLETO.asFloat));
 
   if (ComboPortador.KeyValue <> null) and (ComboPortador.KeyValue > 0) then
     begin
