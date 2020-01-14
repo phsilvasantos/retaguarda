@@ -1,6 +1,6 @@
 inherited FormTelaImportadorXML: TFormTelaImportadorXML
-  Left = 16
-  Top = 10
+  Left = -6
+  Top = 82
   Width = 1382
   Height = 744
   Caption = 'Importador de XMLs'
@@ -3321,6 +3321,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     Top = 363
   end
   object SQLProdutoEditar: TRxQuery
+    Tag = 1
     DatabaseName = 'DB'
     RequestLive = True
     SQL.Strings = (
@@ -3556,5 +3557,98 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     DataSet = cdsPedidoCompra
     Left = 527
     Top = 249
+  end
+  object DSSQLProdutoEditar: TDataSource
+    DataSet = SQLProdutoEditar
+    Left = 919
+    Top = 233
+  end
+  object SQLProdutoPdvs: TRxQuery
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'Select * from PRODUTOPDVS'
+      'where (%MFiltro)')
+    Macros = <
+      item
+        DataType = ftString
+        Name = 'MFiltro'
+        ParamType = ptInput
+        Value = '0=0'
+      end>
+    Left = 1119
+    Top = 179
+  end
+  object SQLEmpresa: TRxQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'Select * From EMPRESA')
+    Macros = <>
+    Left = 1092
+    Top = 254
+    object SQLEmpresaEMPRICOD: TIntegerField
+      FieldName = 'EMPRICOD'
+      Origin = 'DB.EMPRESA.EMPRICOD'
+    end
+    object SQLEmpresaEMPRA60NOMEFANT: TStringField
+      FieldName = 'EMPRA60NOMEFANT'
+      Origin = 'DB.EMPRESA.EMPRA60NOMEFANT'
+      FixedChar = True
+      Size = 60
+    end
+  end
+  object SQLProdutoSaldoNovo: TRxQuery
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'Select * From PRODUTOSALDO '
+      'Where PRODICOD is NULL and EMPRICOD is NULL')
+    Macros = <>
+    Left = 1125
+    Top = 254
+    object SQLProdutoSaldoNovoEMPRICOD: TIntegerField
+      FieldName = 'EMPRICOD'
+      Origin = 'DB.PRODUTOSALDO.EMPRICOD'
+    end
+    object SQLProdutoSaldoNovoPRODICOD: TIntegerField
+      FieldName = 'PRODICOD'
+      Origin = 'DB.PRODUTOSALDO.PRODICOD'
+    end
+    object SQLProdutoSaldoNovoPSLDN3QTDE: TFloatField
+      FieldName = 'PSLDN3QTDE'
+      Origin = 'DB.PRODUTOSALDO.PSLDN3QTDE'
+    end
+    object SQLProdutoSaldoNovoPSLDN3QTDMIN: TFloatField
+      FieldName = 'PSLDN3QTDMIN'
+      Origin = 'DB.PRODUTOSALDO.PSLDN3QTDMIN'
+    end
+    object SQLProdutoSaldoNovoPSLDN3QTDMAX: TFloatField
+      FieldName = 'PSLDN3QTDMAX'
+      Origin = 'DB.PRODUTOSALDO.PSLDN3QTDMAX'
+    end
+    object SQLProdutoSaldoNovoPENDENTE: TStringField
+      FieldName = 'PENDENTE'
+      Origin = 'DB.PRODUTOSALDO.PENDENTE'
+      FixedChar = True
+      Size = 1
+    end
+    object SQLProdutoSaldoNovoREGISTRO: TDateTimeField
+      FieldName = 'REGISTRO'
+      Origin = 'DB.PRODUTOSALDO.REGISTRO'
+    end
+    object SQLProdutoSaldoNovoQTDE_CONSIGNADO: TFloatField
+      FieldName = 'QTDE_CONSIGNADO'
+      Origin = 'DB.PRODUTOSALDO.QTDE_CONSIGNADO'
+    end
+  end
+  object sqlProdutoFornecedor: TRxQuery
+    Tag = 1
+    DatabaseName = 'DB'
+    RequestLive = True
+    SQL.Strings = (
+      'Select * from ProdutoFornecedor where prodicod is null')
+    Macros = <>
+    Left = 1096
+    Top = 321
   end
 end
