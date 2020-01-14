@@ -474,7 +474,8 @@ uses
   RelatorioRepresentanteNSerie in 'Relatorios\Administrativo\RelatorioRepresentanteNSerie.pas' {FormRelatorioRepresentanteNSerie},
   RelatorioNotaServicoEmitida in 'Relatorios\Financeiro\RelatorioNotaServicoEmitida.pas' {FormRelatorioNotaServicoEmitidas},
   CadastroClienteProdutoPreco in 'Cadastros\CadastroClienteProdutoPreco.pas' {FormCadastroClienteProdutoPreco},
-  CadastroProdutoImposto in 'Cadastros\CadastroProdutoImposto.pas' {FormCadastroProdutoImposto};
+  CadastroProdutoImposto in 'Cadastros\CadastroProdutoImposto.pas' {FormCadastroProdutoImposto},
+  CadastroProdutoRapidoTodos in 'Cadastros\CadastroProdutoRapidoTodos.pas' {FormCadastroProdutoRapidoTodos};
 
 {$R *.res}
 

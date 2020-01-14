@@ -391,6 +391,8 @@ type
     Label32: TLabel;
     edtICMSSubstituto: TCurrencyEdit;
     cdsItensvalor_icms_substituto: TFloatField;
+    N4: TMenuItem;
+    Cadastrartodososprodutos1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -458,6 +460,7 @@ type
       ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
       AShift: TShiftState; var AHandled: Boolean);
     procedure cdsItensNewRecord(DataSet: TDataSet);
+    procedure Cadastrartodososprodutos1Click(Sender: TObject);
 
   private
     XMLOutraEmpresa: Boolean;
@@ -553,7 +556,7 @@ uses pcnNFe, DataModulo, ACBrNFeNotasFiscais, DateUtils, Math, UnitLibrary,
   CadastroProdutos, VinculoCfopOperacaoEstoque,
   DataModuloTemplate, CadastroNCM, TelaLancamentoGradeXML,
   CadastroProdutoRapido, ACBrDFeWebService, CadastroPedidoCompra,
-  uDlgComparaNotaPedido, TelaListaPreco;
+  uDlgComparaNotaPedido, TelaListaPreco, CadastroProdutoRapidoTodos;
 
 {$R *.dfm}
 
@@ -3568,6 +3571,125 @@ procedure TFormTelaImportadorXML.cdsItensNewRecord(DataSet: TDataSet);
 begin
   inherited;
   cdsItensListaPreco.AsBoolean := True;
+end;
+
+procedure TFormTelaImportadorXML.Cadastrartodososprodutos1Click(
+  Sender: TObject);
+begin
+  inherited;
+
+  // Cadastro Rapido do Produto
+//  Application.CreateForm(TFormCadastroProdutoRapidoTodos,FormCadastroProdutoRapidoTodos);
+//  FormCadastroProdutoRapido.CdFornec     := edtCodigoFornecedor.Text;
+//  FormCadastroProdutoRapido.CdReferencia := cdsItenscodigo.AsString;
+//
+//  if cdsItensean.Value <> '' then
+//    FormCadastroProdutoRapido.SQLTemplatePRODA60CODBAR.Value := cdsItensean.Value;
+//  if cdsItenseantrib.Value <> '' then
+//    FormCadastroProdutoRapido.SQLTemplatePRODA20BARRAUNIDADE.AsString := cdsItenseantrib.Value;
+//
+//  FormCadastroProdutoRapido.SQLTemplatePRODA60DESCR.AsString        := uppercase(cdsItens.FieldByName('descricao').AsString);
+//  FormCadastroProdutoRapido.SQLTemplatePRODA30ADESCRREDUZ.AsString  := uppercase(cdsItens.FieldByName('descricao').AsString);
+//  FormCadastroProdutoRapido.SQLTemplatePRODN3CAPACEMBAL.asFloat     := cdsItensquantidade_emb.Value;
+//  FormCadastroProdutoRapido.SQLTemplatePRODN2PERCIPIENTRADA.AsFloat := cdsItensaliquota_ipi.Value;
+//  FormCadastroProdutoRapido.SQLTemplatePRODIORIGEM.AsString         := cdsItensorigem_produto.Value;
+//  FormCadastroProdutoRapido.SQLTemplatePRODISITTRIB.AsString        := cdsItenscst_icms.Value;
+//  FormCadastroProdutoRapido.vCompraEmbalagem                        := cdsItensvalor_unitario.Value;
+//  FormCadastroProdutoRapido.vDescEmbalagem                          := cdsItensvalor_desconto.AsFloat / cdsItensquantidade.AsFloat;
+//  FormCadastroProdutoRapido.SQLTemplatePRODN3VLRCOMPRA.AsFloat      := (cdsItensvalor_unitario.Value/cdsItensquantidade_emb.Value)-(FormCadastroProdutoRapido.vDescEmbalagem/cdsItensquantidade_emb.Value);
+//
+//  //FormCadastroProdutoRapido.SQLTemplatePRODN2PERCSUBST.AsFloat      := cdsItensaliquota_icms_st.AsFloat;
+//  if (cdsItens.FieldByName('valor_icms_st').AsFloat > 0)and(cdsItens.FieldByName('quantidade').AsFloat > 0)  then
+//  begin
+//    FormCadastroProdutoRapido.SQLTemplatePRODN2PERCSUBST.AsFloat :=
+//     ((cdsItens.FieldByName('valor_icms_st').AsFloat / cdsItens.FieldByName('quantidade').AsFloat) / cdsItens.FieldByName('valor_unitario').AsFloat) * 100;
+//  end;
+//
+//  if (cdsItens.FieldByName('valor_desconto').AsFloat > 0)and(cdsItens.FieldByName('quantidade').AsFloat > 0) then
+//  begin
+//    FormCadastroProdutoRapido.SQLTemplatePRODN2PERCDESP.AsFloat :=
+//    ((cdsItens.FieldByName('valor_desconto').AsFloat / cdsItens.FieldByName('quantidade').AsFloat) / cdsItens.FieldByName('valor_unitario').AsFloat) * 100;
+//  end;
+//
+//  if (cdsItensvalor_icms_st.Value>0) and (cdsItenstotal_item.Value>0) then
+//    FormCadastroProdutoRapido.SQLTemplatePRODN2PERCSUBST.asFloat  := (cdsItensvalor_icms_st.Value/cdsItenstotal_item.Value) * 100
+//  else
+//    FormCadastroProdutoRapido.SQLTemplatePRODN2PERCSUBST.asFloat  := 0 ;
+//
+//  FormCadastroProdutoRapido.SQLTemplateTABCEST.Value                := cdsItenscest.Value;
+//
+//  {Procura NCM compativel em nossa tabela de NCMs}
+//  dm.SQLTemplate.Close;
+//  dm.SQLTemplate.sql.clear;
+//  dm.SQLTemplate.sql.Text := 'Select * From NCM Where NCMA30CODIGO = ''' + cdsItensncm.AsString +'''';
+//  dm.SQLTemplate.Open;
+//  if not dm.SQLTemplate.IsEmpty then
+//    begin
+//      {Carrega informações conforme o NCM}
+//      FormCadastroProdutoRapido.SQLTemplateNCMICOD.Value := dm.sqltemplate.fieldbyname('NCMICOD').AsInteger;
+//      CSTIcms  := dm.sqltemplate.fieldbyname('CSTICMS').AsString ;
+//      AliqIcms := dm.sqltemplate.fieldbyname('ALIQ_ICMS').AsString ;
+//
+//      if DM.SQLEmpresa.fieldbyname('EMPRA3CRT').value <> '3' then
+//        begin {Lucro Presumido}
+//          if CSTIcms <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODISITTRIB.AsString := CSTIcms ;
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA2CSTPIS.Value           := FormatFloat('##00',dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsInteger);
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA3CSTPISENTRADA.Value    := dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').Value;
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA2CSTCOFINS.Value        := FormatFloat('##00',dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsInteger);
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA3CSTCOFINSENTRADA.Value := dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').Value;
+//          if dm.sqltemplate.fieldbyname('ALIQ_PIS_PRESUMIDO').Value > 0 then
+//            FormCadastroProdutoRapido.SQLTemplatePRODN2ALIQPIS.Value    := dm.sqltemplate.fieldbyname('ALIQ_PIS_PRESUMIDO').Value;
+//          if dm.sqltemplate.fieldbyname('ALIQ_COFINS_PRESUMIDO').Value > 0 then
+//            FormCadastroProdutoRapido.SQLTemplatePRODN2ALIQCOFINS.Value := dm.sqltemplate.fieldbyname('ALIQ_COFINS_PRESUMIDO').Value;
+//          {Filtra a tabela de Icms}
+//          if (AliqIcms <> '') and (CSTIcms <> '') then
+//            begin
+//              dm.SQLTemplate.Close;
+//              dm.SQLTemplate.sql.clear;
+//              dm.SQLTemplate.sql.Text := 'select * from ICMS where ICMSN2ALIQUOTA = ' + AliqIcms + ' and ICMSICODSITTRIB = ' + CSTIcms ;
+//              dm.SQLTemplate.Open;
+//              if not dm.SQLTemplate.IsEmpty then
+//                FormCadastroProdutoRapido.SQLTemplateICMSICOD.Value := dm.sqltemplate.fieldbyname('ICMSICOD').Value ;
+//            end;
+//        end
+//      else
+//        begin {Lucro Real}
+//          if CSTIcms <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODISITTRIB.AsString := CSTIcms ;
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA2CSTPIS.Value           := FormatFloat('##00',dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsInteger);
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA3CSTPISENTRADA.Value    := dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').Value;
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA2CSTCOFINS.Value        := FormatFloat('##00',dm.sqltemplate.fieldbyname('CSTPIS_COFINS').AsInteger);
+//          if dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').AsString <> '' then
+//            FormCadastroProdutoRapido.SQLTemplatePRODA3CSTCOFINSENTRADA.Value := dm.sqltemplate.fieldbyname('CSTPIS_COFINS_ENT').Value;
+//          if dm.sqltemplate.fieldbyname('ALIQ_PIS_REAL').Value > 0 then
+//            FormCadastroProdutoRapido.SQLTemplatePRODN2ALIQPIS.Value          := dm.sqltemplate.fieldbyname('ALIQ_PIS_REAL').Value;
+//          if dm.sqltemplate.fieldbyname('ALIQ_COFINS_REAL').Value > 0 then
+//            FormCadastroProdutoRapido.SQLTemplatePRODN2ALIQCOFINS.Value       := dm.sqltemplate.fieldbyname('ALIQ_COFINS_REAL').Value;
+//          {Filtra a tabela de Icms}
+//          if (AliqIcms <> '') and (CSTIcms <> '') then
+//            begin
+//              dm.SQLTemplate.Close;
+//              dm.SQLTemplate.sql.clear;
+//              dm.SQLTemplate.sql.Text := 'select * from ICMS where ICMSN2ALIQUOTA = ' + AliqIcms + ' and ICMSICODSITTRIB = ' + CSTIcms ;
+//              dm.SQLTemplate.Open;
+//              if not dm.SQLTemplate.IsEmpty then
+//                FormCadastroProdutoRapido.SQLTemplateICMSICOD.Value := dm.sqltemplate.fieldbyname('ICMSICOD').Value ;
+//            end;
+//        end;
+//    end;
+//
+//  FormCadastroProdutoRapido.ShowModal;
+//  cdsItens.Edit;
+//  cdsItensquantidade_emb.AsFloat := FormCadastroProdutoRapido.sqltemplatePRODN3CAPACEMBAL.Value;
+//  cdsItens.post;
 end;
 
 end.

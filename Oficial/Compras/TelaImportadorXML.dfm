@@ -2961,6 +2961,13 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     object AdicionarConversoCFOP1: TMenuItem
       Action = actCfopConvert
     end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object Cadastrartodososprodutos1: TMenuItem
+      Caption = 'Cadastrar todos os produtos'
+      OnClick = Cadastrartodososprodutos1Click
+    end
   end
   object cdsContaPagar: TClientDataSet
     Aggregates = <>

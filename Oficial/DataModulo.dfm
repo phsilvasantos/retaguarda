@@ -1,19 +1,46 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 143
-  Top = 39
+  Left = 292
+  Top = 59
   Height = 600
   Width = 1200
   inherited DB: TDatabase
-    Connected = False
     AfterConnect = DBAfterConnect
+    Left = 29
+  end
+  inherited SQLTemplate: TRxQuery
+    Left = 29
   end
   inherited Campos: TTableItems
-    Left = 597
-    Top = 41
+    Left = 581
+    Top = 321
+  end
+  inherited UpdateSQLExclusao: TUpdateSQL
+    Left = 708
+    Top = 24
+  end
+  inherited SQLExclusao: TRxQuery
+    Left = 221
+    Top = 447
+  end
+  inherited DSExclusao: TDataSource
+    Left = 248
+    Top = 447
+  end
+  inherited SQLProdutoSaldoDia: TRxQuery
+    Left = 77
+    Top = 110
+  end
+  inherited SQLProdutoSaldoAux: TRxQuery
+    Left = 77
+    Top = 166
+  end
+  inherited UpdateSQLProdutoSaldo: TUpdateSQL
+    Left = 681
+    Top = 22
   end
   inherited SQLAcesso: TRxQuery
-    Left = 112
+    Left = 80
   end
   object SQLConfigGeral: TRxQuery
     DatabaseName = 'DB'
@@ -21,8 +48,8 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from CONFIGGERAL')
     Macros = <>
-    Left = 245
-    Top = 72
+    Left = 37
+    Top = 216
     object SQLConfigGeralCFGECATIVAEXPORT: TStringField
       FieldName = 'CFGECATIVAEXPORT'
       Origin = 'DB.CONFIGGERAL.CFGECATIVAEXPORT'
@@ -274,7 +301,7 @@ inherited DM: TDM
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from USUARIO')
-    Left = 296
+    Left = 496
     Top = 24
   end
   object SQLTerminalAtivo: TRxQuery
@@ -291,23 +318,23 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 436
-    Top = 8
+    Left = 124
+    Top = 216
   end
   object SQLConfigVenda: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from CONFIGVENDA')
     Macros = <>
-    Left = 440
-    Top = 56
+    Left = 264
+    Top = 16
   end
   object SQLEmpresa: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from EMPRESA')
     Macros = <>
-    Left = 165
+    Left = 125
     Top = 64
     object SQLEmpresaEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
@@ -535,23 +562,23 @@ inherited DM: TDM
   end
   object SqlConsulta: TQuery
     DatabaseName = 'DB'
-    Left = 352
-    Top = 152
+    Left = 560
+    Top = 24
   end
   object SQLConfigCompra: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from CONFIGCOMPRAS')
     Macros = <>
-    Left = 440
-    Top = 96
+    Left = 32
+    Top = 168
   end
   object SQLConfigInventario: TQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'SELECT * From CONFIGINVENTARIO')
-    Left = 432
-    Top = 184
+    Left = 624
+    Top = 24
     object SQLConfigInventarioOPESICODENTRADA: TIntegerField
       FieldName = 'OPESICODENTRADA'
       Origin = 'DB.CONFIGINVENTARIO.OPESICODENTRADA'
@@ -565,21 +592,21 @@ inherited DM: TDM
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from CONFIGCREDIARIO')
-    Left = 432
-    Top = 232
+    Left = 656
+    Top = 24
   end
   object zConsulta: TQuery
     DatabaseName = 'DB'
-    Left = 512
-    Top = 48
+    Left = 592
+    Top = 24
   end
   object SQLConfigConta: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from CONFIGCONTA')
     Macros = <>
-    Left = 440
-    Top = 144
+    Left = 312
+    Top = 16
   end
   object SQLPlanodeContas: TRxQuery
     DatabaseName = 'DB'
@@ -594,8 +621,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 284
-    Top = 140
+    Left = 124
+    Top = 164
     object SQLPlanodeContasPLCTA15COD: TStringField
       FieldName = 'PLCTA15COD'
       Origin = 'DB.PLANODECONTAS.PLCTA15COD'
@@ -656,8 +683,8 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from PRODUTO')
     Macros = <>
-    Left = 33
-    Top = 294
+    Left = 25
+    Top = 446
   end
   object SQLProdutoFilho: TRxQuery
     DatabaseName = 'DB'
@@ -666,8 +693,8 @@ inherited DM: TDM
       'select * from PRODUTO'
       'where PRODICODPAI = :PRODICODPAI')
     Macros = <>
-    Left = 153
-    Top = 294
+    Left = 121
+    Top = 110
     ParamData = <
       item
         DataType = ftInteger
@@ -683,8 +710,8 @@ inherited DM: TDM
       'where '
       '  EMPRICOD is null')
     Macros = <>
-    Left = 153
-    Top = 347
+    Left = 41
+    Top = 275
     object SQLProdutoSaldoEMPRICOD: TIntegerField
       FieldName = 'EMPRICOD'
       Origin = 'DB.PRODUTOSALDO.EMPRICOD'
@@ -708,13 +735,13 @@ inherited DM: TDM
   end
   object DSSQLProduto: TDataSource
     DataSet = SQLProduto
-    Left = 33
-    Top = 348
+    Left = 55
+    Top = 446
   end
   object SQLUpdate: TQuery
     DatabaseName = 'DB'
-    Left = 440
-    Top = 304
+    Left = 736
+    Top = 24
   end
   object Report: TCrpe
     About = 'Version and Credits...'
@@ -863,20 +890,20 @@ inherited DM: TDM
     GraphAxis.DivisionsY = 0
     GraphAxis.DivisionsY2 = 0
     GraphAxis.DivisionsZ = 0
-    Left = 697
-    Top = 97
+    Left = 873
+    Top = 345
   end
   object DSTblPedidoItens: TDataSource
     DataSet = TblPedidoItens
-    Left = 341
-    Top = 405
+    Left = 901
+    Top = 301
   end
   object PipePedVd: TppBDEPipeline
     DataSource = DSTblPedidoCab
     CloseDataSource = True
     UserName = 'PipePedVd'
-    Left = 370
-    Top = 360
+    Left = 930
+    Top = 248
     object PipePedVdppField1: TppField
       FieldAlias = 'PedICod'
       FieldName = 'PedICod'
@@ -1302,8 +1329,8 @@ inherited DM: TDM
     DataSource = DSTblPedidoItens
     CloseDataSource = True
     UserName = 'PipePedVdIt'
-    Left = 370
-    Top = 405
+    Left = 930
+    Top = 301
     object PipePedVdItppField1: TppField
       FieldAlias = 'PedICod'
       FieldName = 'PedICod'
@@ -1568,8 +1595,8 @@ inherited DM: TDM
   object TblPedidoCab: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'PedidoCab.DB'
-    Left = 312
-    Top = 360
+    Left = 872
+    Top = 248
     object TblPedidoCabPedICod: TStringField
       FieldName = 'PedICod'
       Size = 13
@@ -1729,8 +1756,8 @@ inherited DM: TDM
   object TblPedidoItens: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'PedidoItens.DB'
-    Left = 312
-    Top = 405
+    Left = 872
+    Top = 301
     object TblPedidoItensPedICod: TStringField
       FieldName = 'PedICod'
       Size = 13
@@ -1822,8 +1849,8 @@ inherited DM: TDM
   object TblPedidoFinan: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'PedidoFinan.DB'
-    Left = 441
-    Top = 405
+    Left = 873
+    Top = 197
     object TblPedidoFinanPedICod: TStringField
       FieldName = 'PedICod'
       Size = 13
@@ -1849,15 +1876,15 @@ inherited DM: TDM
   end
   object DSTblPedidoFinan: TDataSource
     DataSet = TblPedidoFinan
-    Left = 470
-    Top = 405
+    Left = 902
+    Top = 197
   end
   object PipePedFin: TppBDEPipeline
     DataSource = DSTblPedidoFinan
     CloseDataSource = True
     UserName = 'PipePedFin'
-    Left = 499
-    Top = 405
+    Left = 931
+    Top = 197
     object PipePedFinppField1: TppField
       FieldAlias = 'PedICod'
       FieldName = 'PedICod'
@@ -1942,8 +1969,8 @@ inherited DM: TDM
     OutlineSettings.Visible = False
     TextSearchSettings.DefaultString = '<FindText>'
     TextSearchSettings.Enabled = False
-    Left = 399
-    Top = 360
+    Left = 959
+    Top = 248
     Version = '10.06'
     mmColumnWidth = 0
     DataPipelineName = 'PipePedVdIt'
@@ -2938,16 +2965,16 @@ inherited DM: TDM
   end
   object DSTblPedidoCab: TDataSource
     DataSet = TblPedidoCab
-    Left = 341
-    Top = 360
+    Left = 901
+    Top = 248
   end
   object SQLProvedorCartao: TRxQuery
     DatabaseName = 'DB'
     SQL.Strings = (
       'SELECT * FROM PROVEDORCARTAO')
     Macros = <>
-    Left = 536
-    Top = 361
+    Left = 264
+    Top = 57
   end
   object ACBrPosPrinter: TACBrPosPrinter
     ConfigBarras.MostrarCodigo = False
@@ -2960,7 +2987,7 @@ inherited DM: TDM
     ConfigLogo.IgnorarLogo = True
     LinhasEntreCupons = 3
     ControlePorta = True
-    Left = 1014
+    Left = 878
     Top = 21
   end
   object ACBrNFe: TACBrNFe
@@ -2988,14 +3015,14 @@ inherited DM: TDM
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
     DANFE = ACBrNFeDANFeESCPOS1
-    Left = 969
+    Left = 833
     Top = 21
   end
   object TblTicketPreVendaCab: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'TicketPreVendaCab.DB'
-    Left = 568
-    Top = 133
+    Left = 536
+    Top = 141
     object TblTicketPreVendaCabTicketNumero: TStringField
       FieldName = 'TicketNumero'
       Size = 13
@@ -3179,8 +3206,8 @@ inherited DM: TDM
   object TblTicketPreVendaItem: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'TicketPreVendaItem.DB'
-    Left = 596
-    Top = 133
+    Left = 564
+    Top = 141
     object TblTicketPreVendaItemCodigo: TIntegerField
       FieldName = 'Codigo'
     end
@@ -3232,8 +3259,8 @@ inherited DM: TDM
   object TblTicketPreVendaFin: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'PedidoFinan.DB'
-    Left = 624
-    Top = 133
+    Left = 592
+    Top = 141
     object TblTicketPreVendaFinPedICod: TStringField
       FieldName = 'PedICod'
       Size = 13
@@ -3270,8 +3297,8 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from CONFIGFINANCEIRO')
     Macros = <>
-    Left = 30
-    Top = 404
+    Left = 86
+    Top = 332
   end
   object SQLPreVenda: TRxQuery
     DatabaseName = 'DB'
@@ -3334,8 +3361,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 556
-    Top = 188
+    Left = 268
+    Top = 156
     object SQLPreVendaTERMICOD: TIntegerField
       FieldName = 'TERMICOD'
       Origin = 'DB.PREVENDA.TERMICOD'
@@ -3521,8 +3548,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 586
-    Top = 188
+    Left = 314
+    Top = 156
     object SQLPreVendaItem1TERMICOD: TIntegerField
       FieldName = 'TERMICOD'
       Origin = 'DB.PREVENDAITEM.TERMICOD'
@@ -3615,8 +3642,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 624
-    Top = 188
+    Left = 352
+    Top = 156
     object SQLPreVendaNumerarioTERMICOD: TIntegerField
       FieldName = 'TERMICOD'
       Origin = 'DB.PREVENDANUMERARIO.TERMICOD'
@@ -3645,8 +3672,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 662
-    Top = 188
+    Left = 355
+    Top = 207
     object SQLPreVendaContasReceberPVCRICOD: TIntegerField
       FieldName = 'PVCRICOD'
       Origin = 'DB.PREVENDACONTASRECEBER.PVCRICOD'
@@ -3692,8 +3719,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 589
-    Top = 245
+    Left = 349
+    Top = 109
   end
   object SQLCupomIt: TRxQuery
     DatabaseName = 'DB'
@@ -3707,8 +3734,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 641
-    Top = 245
+    Left = 265
+    Top = 109
     object SQLCupomItCUPOA13ID: TStringField
       FieldName = 'CUPOA13ID'
       Origin = 'DB.CUPOMITEM.CUPOA13ID'
@@ -3777,8 +3804,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 544
-    Top = 249
+    Left = 312
+    Top = 109
     object SQLCupomItemCUPOA13ID: TStringField
       FieldName = 'CUPOA13ID'
       Origin = 'DB.CUPOMITEM.CUPOA13ID'
@@ -3931,8 +3958,8 @@ inherited DM: TDM
       'select * from PEDIDOVENDA'
       'where PDVDA13ID is null')
     Macros = <>
-    Left = 664
-    Top = 325
+    Left = 120
+    Top = 445
     object SQLPedidoVendaPDVDA13ID: TStringField
       Tag = 2
       FieldName = 'PDVDA13ID'
@@ -4078,8 +4105,8 @@ inherited DM: TDM
   end
   object DSSQLPedidoVenda: TDataSource
     DataSet = SQLPedidoVenda
-    Left = 701
-    Top = 325
+    Left = 150
+    Top = 445
   end
   object SQLPedidoVendaItem: TRxQuery
     DatabaseName = 'DB'
@@ -4088,8 +4115,8 @@ inherited DM: TDM
       'select * from PEDIDOVENDAITEM'
       'where PDVDA13ID is null')
     Macros = <>
-    Left = 670
-    Top = 376
+    Left = 350
+    Top = 16
     object SQLPedidoVendaItemPDVDA13ID: TStringField
       FieldName = 'PDVDA13ID'
       Origin = 'DB.PEDIDOVENDAITEM.PDVDA13ID'
@@ -4172,8 +4199,8 @@ inherited DM: TDM
   object TblCheques: TMemoryTable
     DatabaseName = 'Easy_Temp'
     TableName = 'TblCheques'
-    Left = 773
-    Top = 273
+    Left = 869
+    Top = 105
     object TblChequesDtDep: TDateTimeField
       FieldName = 'DtDep'
     end
@@ -4230,20 +4257,20 @@ inherited DM: TDM
   end
   object DSTblCheques: TDataSource
     DataSet = TblCheques
-    Left = 801
-    Top = 273
+    Left = 897
+    Top = 105
   end
   object SQLParcelas: TRxQuery
     DatabaseName = 'DB'
     Macros = <>
-    Left = 600
-    Top = 448
+    Left = 312
+    Top = 56
   end
   object SQLCliente: TRxQuery
     DatabaseName = 'DB'
     Macros = <>
-    Left = 628
-    Top = 448
+    Left = 348
+    Top = 56
   end
   object SQLPreVendaItem2: TRxQuery
     DatabaseName = 'DB'
@@ -4252,8 +4279,8 @@ inherited DM: TDM
       'select * from PREVENDAITEM'
       'where PRVDICOD is null')
     Macros = <>
-    Left = 828
-    Top = 120
+    Left = 354
+    Top = 264
     object SQLPreVendaItem2TERMICOD: TIntegerField
       FieldName = 'TERMICOD'
       Origin = 'DB.PREVENDAITEM.TERMICOD'
@@ -4348,8 +4375,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 832
-    Top = 197
+    Left = 272
+    Top = 317
     object SQLCupomNumerarioCUPOA13ID: TStringField
       FieldName = 'CUPOA13ID'
       Origin = 'DB.CUPOMNUMERARIO.CUPOA13ID'
@@ -4406,8 +4433,8 @@ inherited DM: TDM
   object MemCtRecParc: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'CtRecParc.DB'
-    Left = 152
-    Top = 420
+    Left = 872
+    Top = 140
     object MemCtRecParcCTRCDVENC: TDateTimeField
       DisplayLabel = 'Dt. Vcto.'
       FieldName = 'CTRCDVENC'
@@ -4507,8 +4534,8 @@ inherited DM: TDM
   end
   object DSMemCtRecParc: TDataSource
     DataSet = MemCtRecParc
-    Left = 153
-    Top = 416
+    Left = 897
+    Top = 140
   end
   object SQLContasReceber: TRxQuery
     DatabaseName = 'DB'
@@ -4523,8 +4550,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 352
-    Top = 17
+    Left = 80
+    Top = 217
     object SQLContasReceberCTRCA13ID: TStringField
       FieldName = 'CTRCA13ID'
       Origin = 'DB.CONTASRECEBER.CTRCA13ID'
@@ -4815,8 +4842,8 @@ inherited DM: TDM
     RequestLive = True
     SQL.Strings = (
       'SELECT * FROM CFGCALLCENTER')
-    Left = 352
-    Top = 80
+    Left = 528
+    Top = 24
     object SQLPopUPPOPTEMPO: TStringField
       FieldName = 'POPTEMPO'
       Origin = 'DB.CFGCALLCENTER.POPTEMPO'
@@ -4842,8 +4869,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 336
-    Top = 288
+    Left = 272
+    Top = 208
   end
   object SQLPreVDIt: TRxQuery
     DatabaseName = 'DB'
@@ -4857,8 +4884,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 364
-    Top = 288
+    Left = 316
+    Top = 208
   end
   object SQLECF: TRxQuery
     DatabaseName = 'DB'
@@ -4868,8 +4895,8 @@ inherited DM: TDM
       'from'
       'ecf ')
     Macros = <>
-    Left = 224
-    Top = 384
+    Left = 80
+    Top = 272
   end
   object SQLPedidoOrcamento: TRxQuery
     DatabaseName = 'DB'
@@ -4897,8 +4924,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 224
-    Top = 448
+    Left = 120
+    Top = 272
     object SQLPedidoOrcamentoPDVDA13ID: TStringField
       FieldName = 'PDVDA13ID'
       FixedChar = True
@@ -5080,8 +5107,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 265
-    Top = 448
+    Left = 41
+    Top = 328
     object SQLPedidoOrcamentoItemPDVDA13ID: TStringField
       FieldName = 'PDVDA13ID'
       Origin = 'DB.PEDIDOVENDAITEM.PDVDA13ID'
@@ -5152,14 +5179,14 @@ inherited DM: TDM
   object sqlImportarPrevenda: TRxQuery
     DatabaseName = 'DB'
     Macros = <>
-    Left = 293
-    Top = 500
+    Left = 45
+    Top = 388
   end
   object TblAutenticacao: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'Autenticacao.DB'
-    Left = 456
-    Top = 461
+    Left = 504
+    Top = 141
     object TblAutenticacaoEmpresaNome: TStringField
       FieldName = 'EmpresaNome'
       Size = 60
@@ -5193,14 +5220,14 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from TOTALIZADORCAIXA ')
     Macros = <>
-    Left = 736
-    Top = 16
+    Left = 272
+    Top = 264
   end
   object SQLTotalizar: TRxQuery
     DatabaseName = 'DB'
     Macros = <>
-    Left = 768
-    Top = 16
+    Left = 312
+    Top = 264
   end
   object SQLFechamentoCaixa: TRxQuery
     Tag = 3
@@ -5209,8 +5236,8 @@ inherited DM: TDM
     SQL.Strings = (
       'Select * from FECHAMENTOCAIXA where FECXDDATAMOV is null')
     Macros = <>
-    Left = 800
-    Top = 440
+    Left = 120
+    Top = 328
     object SQLFechamentoCaixaFECXA13ID: TStringField
       Tag = 2
       FieldName = 'FECXA13ID'
@@ -5281,8 +5308,8 @@ inherited DM: TDM
     SQL.Strings = (
       'Select * from NUMERARIO')
     Macros = <>
-    Left = 805
-    Top = 392
+    Left = 354
+    Top = 317
     object SQLNumerarioNUMEICOD: TIntegerField
       FieldName = 'NUMEICOD'
       Origin = 'DB.NUMERARIO.NUMEICOD'
@@ -5346,8 +5373,8 @@ inherited DM: TDM
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 920
-    Top = 124
+    Left = 313
+    Top = 317
     object SQLCupomCUPOA13ID: TStringField
       Tag = 2
       FieldName = 'CUPOA13ID'
@@ -5650,20 +5677,20 @@ inherited DM: TDM
     Params.Strings = (
       'USER NAME=sysdba')
     SessionName = 'Default'
-    Left = 653
-    Top = 134
+    Left = 621
+    Top = 142
   end
   object RestClient: TRestClient
     ConnectionType = hctIndy
     EnabledCompression = False
-    Left = 992
-    Top = 312
+    Left = 944
+    Top = 344
   end
   object cdsAPIAutorizacao: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 984
-    Top = 360
+    Left = 504
+    Top = 192
     object cdsAPIAutorizacaoDATA_AUTORIZACAO: TStringField
       FieldName = 'DATA_AUTORIZACAO'
       Size = 15
@@ -5680,8 +5707,8 @@ inherited DM: TDM
   object TblAPIAutorizacao: TTable
     DatabaseName = 'Easy_Temp'
     TableName = 'APIAutorizacao.DB'
-    Left = 1072
-    Top = 360
+    Left = 536
+    Top = 192
     object TblAPIAutorizacaoDATA_AUTORIZACAO: TDateField
       FieldName = 'DATA_AUTORIZACAO'
     end
@@ -5710,7 +5737,7 @@ inherited DM: TDM
     Configuracoes.WebServices.TimeOut = 20000
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
-    Left = 1093
+    Left = 957
     Top = 25
   end
   object SQLConfigServico: TRxQuery
@@ -5718,7 +5745,7 @@ inherited DM: TDM
     SQL.Strings = (
       'select * from CONFIG_SERVICO')
     Macros = <>
-    Left = 141
+    Left = 29
     Top = 112
     object SQLConfigServicoID: TIntegerField
       FieldName = 'ID'
@@ -5757,7 +5784,7 @@ inherited DM: TDM
     ACBrNFe = ACBrNFe
     TipoDANFE = tiSemGeracao
     PosPrinter = ACBrPosPrinter
-    Left = 1056
+    Left = 920
     Top = 24
   end
 end
