@@ -1407,6 +1407,8 @@ end;
 procedure TFormTelaImportadorXML.FormShow(Sender: TObject);
 begin
   inherited;
+  if not dm.SQLConfigCompra.Active then dm.SQLConfigCompra.Open;
+    pmGrid.Items.Find('Cadastrar todos os produtos').Visible := (dm.SQLConfigCompra.FieldByName('CADASTRAR_TODOS_PRODUTOS').AsString = 'S');
   DirectoryEditNFERecebidasChange(Self);
   tsXMLs.Show;
   FornecedorNaoCadastrado := False;
