@@ -1,8 +1,8 @@
 object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
-  Left = 352
-  Top = 266
-  Width = 617
-  Height = 280
+  Left = 338
+  Top = 168
+  Width = 585
+  Height = 318
   Caption = 'Cadastro R'#225'pido de Produtos'
   Color = 16249066
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
   PixelsPerInch = 96
   TextHeight = 13
   object Label9: TLabel
-    Left = 16
+    Left = 12
     Top = 133
     Width = 124
     Height = 13
@@ -97,10 +97,23 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
     ParentFont = False
     OnClick = lbGrupoAddClick
   end
+  object lbl2: TLabel
+    Left = 12
+    Top = 174
+    Width = 100
+    Height = 13
+    Caption = '% Margem Lucro '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object ScrollBoxTopo: TScrollBox
     Left = 0
     Top = 0
-    Width = 601
+    Width = 569
     Height = 80
     Align = alTop
     BevelInner = bvNone
@@ -112,7 +125,7 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
     object PanelCabecalho: TPanel
       Left = 0
       Top = 0
-      Width = 601
+      Width = 569
       Height = 80
       Align = alTop
       BevelOuter = bvNone
@@ -140,7 +153,7 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
       object PanelNavigator: TPanel
         Left = 0
         Top = 48
-        Width = 601
+        Width = 569
         Height = 32
         Align = alBottom
         BevelOuter = bvNone
@@ -149,7 +162,7 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
         object AdvPanelNavigator: TAdvOfficeStatusBar
           Left = 0
           Top = 0
-          Width = 601
+          Width = 569
           Height = 32
           AnchorHint = False
           Align = alClient
@@ -349,7 +362,6 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
     LookupSource = DSSQLIcms
     ParentFont = False
     TabOrder = 4
-    OnExit = ComboICMSExit
   end
   object ComboColecao: TRxDBLookupCombo
     Left = 12
@@ -376,6 +388,27 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
     LookupSource = DSSQLGrupo
     TabOrder = 2
     OnKeyDown = ComboGrupoKeyDown
+  end
+  object editFixaVarejo: TAdvEdit
+    Left = 12
+    Top = 189
+    Width = 101
+    Height = 21
+    EditAlign = eaRight
+    EditType = etFloat
+    Precision = 2
+    LabelFont.Charset = DEFAULT_CHARSET
+    LabelFont.Color = clWindowText
+    LabelFont.Height = -11
+    LabelFont.Name = 'MS Sans Serif'
+    LabelFont.Style = []
+    Lookup.Separator = ';'
+    Color = clWindow
+    Enabled = True
+    TabOrder = 6
+    Text = '0,00'
+    Visible = True
+    Version = '2.8.6.1'
   end
   object AdvOfficeStatusBarOfficeStyler1: TAdvOfficeStatusBarOfficeStyler
     BorderColor = 14986888
@@ -1098,8 +1131,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
   end
   object DSSQLUnidade: TDataSource
     DataSet = SQLUnidade
-    Left = 392
-    Top = 190
+    Left = 376
+    Top = 46
   end
   object SQLUnidade: TRxQuery
     DatabaseName = 'DB'
@@ -1107,8 +1140,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
       'SELECT UNIDICOD, UNIDA5DESCR, UNIDA15DESCR FROM UNIDADE'
       'ORDER BY UNIDA5DESCR')
     Macros = <>
-    Left = 360
-    Top = 190
+    Left = 344
+    Top = 46
     object SQLUnidadeUNIDICOD: TIntegerField
       FieldName = 'UNIDICOD'
       Origin = 'DB.UNIDADE.UNIDICOD'
@@ -1128,8 +1161,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
   end
   object DSSQLIcms: TDataSource
     DataSet = SQLIcms
-    Left = 487
-    Top = 190
+    Left = 447
+    Top = 86
   end
   object SQLIcms: TRxQuery
     DatabaseName = 'DB'
@@ -1137,8 +1170,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
       'SELECT ICMSICOD, ICMSA60DESCR, ICMSN2ALIQUOTA, '
       'ICMSICODSITTRIB  FROM ICMS')
     Macros = <>
-    Left = 459
-    Top = 190
+    Left = 419
+    Top = 86
     object SQLIcmsICMSICOD: TIntegerField
       FieldName = 'ICMSICOD'
       Origin = 'DB.ICMS.ICMSICOD'
@@ -1161,8 +1194,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
   object DSSQLGrupo: TDataSource
     AutoEdit = False
     DataSet = SQLGrupo
-    Left = 269
-    Top = 190
+    Left = 517
+    Top = 78
   end
   object SQLGrupo: TRxQuery
     DatabaseName = 'DB'
@@ -1171,8 +1204,8 @@ object FormCadastroProdutoRapidoTodos: TFormCadastroProdutoRapidoTodos
       'SELECT GRUPICOD, GRUPA60DESCR FROM GRUPO'
       'ORDER BY GRUPA60DESCR')
     Macros = <>
-    Left = 241
-    Top = 190
+    Left = 489
+    Top = 78
     object SQLGrupoGRUPICOD: TIntegerField
       FieldName = 'GRUPICOD'
       Origin = 'DB.GRUPO.GRUPICOD'

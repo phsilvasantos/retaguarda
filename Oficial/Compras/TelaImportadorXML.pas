@@ -476,6 +476,7 @@ type
       AShift: TShiftState; var AHandled: Boolean);
     procedure cdsItensNewRecord(DataSet: TDataSet);
     procedure Cadastrartodososprodutos1Click(Sender: TObject);
+    procedure CalcularCusto;
 
   private
     XMLOutraEmpresa: Boolean;
@@ -494,6 +495,7 @@ type
     CodigoColecao : Integer;
     CodigoUnidade : Integer;
     CodigoICMS : Integer;
+    PercMargem_Lucro : Double;
     function EnviaProdutoPDVs(Tipo: string): boolean;
 
     procedure EnviarEvento(pTipo: TpcnTpEvento);
@@ -3595,16 +3597,20 @@ begin
   cdsItensListaPreco.AsBoolean := True;
 end;
 
-procedure TFormTelaImportadorXML.Cadastrartodososprodutos1Click(
-  Sender: TObject);
+procedure TFormTelaImportadorXML.Cadastrartodososprodutos1Click(Sender: TObject);
+var
+  ValorCompra : Real;
 begin
   inherited;
   // Cadastro Rapido do Produto
   Application.CreateForm(TFormCadastroProdutoRapidoTodos,FormCadastroProdutoRapidoTodos);
   FormCadastroProdutoRapidoTodos.ShowModal;
+
   CodigoColecao := FormCadastroProdutoRapidoTodos.SQLColecaoCOLEICOD.AsInteger;
   CodigoICMS :=  FormCadastroProdutoRapidoTodos.SQLIcmsICMSICOD.AsInteger;
   CodigoUnidade := FormCadastroProdutoRapidoTodos.SQLUnidadeUNIDICOD.AsInteger;
+  PercMargem_Lucro := StrToFloatDef(FormCadastroProdutoRapidoTodos.editFixaVarejo.Text,0);
+
   SetProgresso('Aguarde... Cadastrando Produtos...');
   application.ProcessMessages;
 
@@ -3633,6 +3639,7 @@ procedure TFormTelaImportadorXML.CadastrarProdutos;
 var
   erro: boolean;
   xDescricao, CSTIcms, AliqIcms, Unidade : string;
+  vCompraEmbalagem, vDescEmbalagem: Double;
 begin
   erro := True;
   SQLProdutoEditar.Close;
@@ -3652,12 +3659,28 @@ begin
       SQLProdutoEditar.FieldByName('PRODN2PERCIPIENTRADA').AsFloat := cdsItensaliquota_ipi.Value;
       SQLProdutoEditar.FieldByName('PRODIORIGEM').AsString := cdsItensorigem_produto.Value;
       SQLProdutoEditar.FieldByName('PRODISITTRIB').AsString := cdsItenscst_icms.Value;
+      SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').AsFloat := PercMargem_Lucro;
 
+      vCompraEmbalagem := cdsItensvalor_unitario.Value;
+      vDescEmbalagem := cdsItensvalor_desconto.AsFloat / cdsItensquantidade.AsFloat;
+      SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat := (vCompraEmbalagem / SQLProdutoEditar.FieldByName('PRODN3CAPACEMBAL').Value) - (vDescEmbalagem / SQLProdutoEditar.FieldByName('PRODN3CAPACEMBAL').Value);
 
-//      FormCadastroProdutoRapido.vCompraEmbalagem := cdsItensvalor_unitario.Value;
-//      FormCadastroProdutoRapido.vDescEmbalagem := cdsItensvalor_desconto.AsFloat / cdsItensquantidade.AsFloat;
+      CalcularCusto;
 
-//      SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat := (cdsItensvalor_unitario.Value / cdsItensquantidade_emb.Value) - (FormCadastroProdutoRapido.vDescEmbalagem / cdsItensquantidade_emb.Value);
+      if Dm.SQLConfigGeralCFGECALCPRECOAUTOM.AsString = 'S' then
+      begin
+        if SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').AsFloat > 0 then
+          SQLProdutoEditar.FieldByName('PRODN3VLRVENDA').asFloat := SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').asFloat * (1 + (SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').asFloat / 100));
+
+        if (DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value = 'M') and (SQLProdutoEditar.FieldByName('PRODN3VLRCUSTOMEDIO').asFloat > 0) then
+        begin
+          SQLProdutoEditar.FieldByName('PRODN3PERCMARGLUCR').asFloat := ((SQLProdutoEditar.FieldByName('PRODN3VLRVENDA').asFloat / SQLProdutoEditar.FieldByName('PRODN3VLRCUSTOMEDIO').asFloat) - 1) * 100;
+        end;
+        if (DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value = 'U') and (SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').asFloat > 0) then
+        begin
+          SQLProdutoEditar.FieldByName('PRODN3PERCMARGLUCR').asFloat := ((SQLProdutoEditar.FieldByName('PRODN3VLRVENDA').asFloat / SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').asFloat) - 1) * 100;
+        end;
+      end;
 
         //SQLProdutoEditar.FieldByName('PRODN2PERCSUBST.AsFloat      := cdsItensaliquota_icms_st.AsFloat;
       if (cdsItens.FieldByName('valor_icms_st').AsFloat > 0) and (cdsItens.FieldByName('quantidade').AsFloat > 0) then
@@ -3912,6 +3935,56 @@ begin
   {fecha terminal}
   dm.sqlconsulta.Close;
 
+end;
+
+procedure TFormTelaImportadorXML.CalcularCusto;
+var
+ somanocusto, CustoIPI, CustoST, CustoFrete, CustoDespesas, CustoDifIcms, CustoEncargos: Extended;
+begin
+  if (DM.SQLConfigCompra.fieldbyname('CFCOCTOTPRCVENPROD').Value = 'U') then
+  begin
+    if Dm.SQLConfigGeral.fieldbyname('CFGECTIPOMARGLUCRO').AsString = 'L' then
+    begin
+      if Dm.SQLConfigVenda.FieldByName('CFVEN2PERCENCARG').AsFloat > 0 then
+        CustoEncargos := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (Dm.SQLConfigVenda.FieldByName('CFVEN2PERCENCARG').AsFloat / 100)
+      else
+        CustoEncargos := 0;
+
+      if SQLProdutoEditar.FieldByName('PRODN2PERCSUBST').asFloat > 0 then
+        CustoST := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (SQLProdutoEditar.FieldByName('PRODN2PERCSUBST').asFloat / 100)
+      else
+        CustoST := 0;
+
+      if SQLProdutoEditar.FieldByName('PRODN2PERCIPIENTRADA').asFloat > 0 then
+        CustoIPI := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (SQLProdutoEditar.FieldByName('PRODN2PERCIPIENTRADA').asFloat / 100)
+      else
+        CustoIPI := 0;
+
+      if SQLProdutoEditar.FieldByName('PRODN2PERCFRETE').asFloat > 0 then
+        CustoFrete := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (SQLProdutoEditar.FieldByName('PRODN2PERCFRETE').asFloat / 100)
+      else
+        CustoFrete := 0;
+
+      if SQLProdutoEditar.FieldByName('PRODN2PERCDESP').asFloat > 0 then
+        CustoDespesas := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (SQLProdutoEditar.FieldByName('PRODN2PERCDESP').asFloat / 100)
+      else
+        CustoDespesas := 0;
+
+      if SQLProdutoEditar.FieldByName('PRODN2PERCDIFICM').asFloat > 0 then
+        CustoDifIcms := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat * (SQLProdutoEditar.FieldByName('PRODN2PERCDIFICM').asFloat / 100)
+      else
+        CustoDifIcms := 0;
+
+      SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').asFloat := SQLProdutoEditar.FieldByName('PRODN3VLRCOMPRA').AsFloat + CustoST + CustoIPI + CustoFrete + CustoDespesas + CustoDifIcms + CustoEncargos;
+         {NAO Entra no calculo do Custo do Produto nem o PIS nem o Cofins}
+      if SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').AsFloat > 0 then
+        SQLProdutoEditar.FieldByName('PRODN3VLRVENDA').asFloat := SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').asFloat * (1 + (SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').asFloat / 100));
+    end
+    else
+    begin
+      SQLProdutoEditar.FieldByName('PRODN3VLRVENDA').asFloat := RoundTo(SQLProdutoEditar.FieldByName('PRODN3VLRCUSTO').AsFloat * (1 + (SQLProdutoEditar.FieldByName('PRODN3PERCMGLVFIXA').asFloat / 100)), -2);
+    end;
+  end;
 end;
 
 end.

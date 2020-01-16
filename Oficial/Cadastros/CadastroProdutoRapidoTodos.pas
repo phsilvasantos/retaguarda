@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, EDBNum, RxLookup, StdCtrls, Mask, DBCtrls, Buttons, Math,
   AdvOfficeStatusBar, ExtCtrls, AdvOfficeStatusBarStylers, DB, DBTables, RxQuery,
-  ZAbstractRODataset, ZAbstractDataset, ZDataset, Grids, DBGrids;
+  ZAbstractRODataset, ZAbstractDataset, ZDataset, Grids, DBGrids, AdvEdit;
 
 type
   TFormCadastroProdutoRapidoTodos = class(TForm)
@@ -173,6 +173,8 @@ type
     SQLColecaoREGISTRO: TDateTimeField;
     DSSQLColecao: TDataSource;
     sqlMax: TRxQuery;
+    lbl2: TLabel;
+    editFixaVarejo: TAdvEdit;
     procedure FormCreate(Sender: TObject);
     procedure LabelGravarClick(Sender: TObject);
     procedure BtnFecharTelaClick(Sender: TObject);
@@ -181,7 +183,6 @@ type
     procedure ComboGrupoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure lbMarcaAddClick(Sender: TObject);
     procedure lbGrupoAddClick(Sender: TObject);
-    procedure ComboICMSExit(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
@@ -300,12 +301,6 @@ end;
 procedure TFormCadastroProdutoRapidoTodos.lbGrupoAddClick(Sender: TObject);
 begin
   addGrupo;
-end;
-
-procedure TFormCadastroProdutoRapidoTodos.ComboICMSExit(Sender: TObject);
-begin
-  if not SQLIcmsICMSICODSITTRIB.IsNull then
-    SQLTemplatePRODISITTRIB.Value := SQLIcmsICMSICODSITTRIB.Value;
 end;
 
 procedure TFormCadastroProdutoRapidoTodos.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
