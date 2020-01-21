@@ -3657,6 +3657,7 @@ begin
         SQLProdutoEditar.FieldByName('PRODA20BARRAUNIDADE').AsString := cdsItenseantrib.Value;
       SQLProdutoEditar.FieldByName('PRODA60DESCR').AsString := uppercase(cdsItens.FieldByName('descricao').AsString);
       SQLProdutoEditar.FieldByName('PRODA30ADESCRREDUZ').AsString := uppercase(cdsItens.FieldByName('descricao').AsString);
+      SQLProdutoEditar.FieldByName('PRODA60REFER').AsString := uppercase(cdsItens.FieldByName('codigo').AsString);
       SQLProdutoEditar.FieldByName('PRODN3CAPACEMBAL').asFloat := cdsItensquantidade_emb.Value;
       SQLProdutoEditar.FieldByName('PRODN2PERCIPIENTRADA').AsFloat := cdsItensaliquota_ipi.Value;
       SQLProdutoEditar.FieldByName('PRODIORIGEM').AsString := cdsItensorigem_produto.Value;
