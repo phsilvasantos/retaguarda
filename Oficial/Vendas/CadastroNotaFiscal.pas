@@ -1262,6 +1262,8 @@ type
     function RetornaPis(Produto: string): string;
     function SN(sNum: string): string;
     procedure FazRateioFrete;
+    procedure Executa_SP_EXCLUI_MOVIMENTO_ESTOQUE(ID_Nota : String; ID_Produto : Integer; Quant : Double);
+
   public
     Arquivo: TextFile;
     GerandoNota, InserindoNota, InserindoCupomFiscal, PermiteExcluirSemPerguntar: Boolean;
@@ -2354,13 +2356,21 @@ begin
     MakeWindowMessage('Encerrando Nota Fiscal...');
     while not SQLNotaFiscalItens.Eof do
     begin
-      if not TestaNotaCompraMovimentoEstoque('', '', DataSet.FindField('NOFIA13ID').AsString, SQLNotaFiscalItens.FindField('PRODICOD').AsString, SQLNotaFiscalItens.FindField('NFITN3QUANT').AsFloat) then
+//      if not TestaNotaCompraMovimentoEstoque('',
+//                                             '',
+//                                             DataSet.FindField('NOFIA13ID').AsString,
+//                                             SQLNotaFiscalItens.FindField('PRODICOD').AsString,
+//                                             SQLNotaFiscalItens.FindField('NFITN3QUANT').AsFloat) then
         GravaMovimentoEstoque(DM.SQLProduto, DM.SQLProdutoFilho, DM.SQLProdutoSaldo, EmpresaCorrente, //Empresa
-          SQLNotaFiscalItens.FindField('PRODICOD').asInteger, //Produto
-          DataSet.FindField('OPESICOD').Value, //Operacao
-          SQLNotaFiscalItens.FindField('NFITN3QUANT').asFloat, //Quantidade
-          DataSet.FindField('EntradaSaidaLookUp').asString, //ENTRADA/SAIDA
-          FormatDateTime('mm/dd/yyyy', DataSet.FindField('NOFIDEMIS').AsDateTime), SQLNotaFiscalItens.FindField('NFITN2VLRUNIT').asString, 'NOTAFISCAL', DataSet.FindField('NOFIA13ID').AsString, SQLNotaFiscalItens.FindField('LOTEA30NRO').AsString);
+                              SQLNotaFiscalItens.FindField('PRODICOD').asInteger, //Produto
+                              DataSet.FindField('OPESICOD').Value, //Operacao
+                              SQLNotaFiscalItens.FindField('NFITN3QUANT').asFloat, //Quantidade
+                              DataSet.FindField('EntradaSaidaLookUp').asString, //ENTRADA/SAIDA
+                              FormatDateTime('mm/dd/yyyy', DataSet.FindField('NOFIDEMIS').AsDateTime),//DataMovimento
+                              SQLNotaFiscalItens.FindField('NFITN2VLRUNIT').asString,// Valor
+                              'NOTAFISCAL',//Tipo de movimento
+                              DataSet.FindField('NOFIA13ID').AsString, //Número do documento
+                              SQLNotaFiscalItens.FindField('LOTEA30NRO').AsString); //Lote
       SQLNotaFiscalItens.Next;
     end;
     SQLNotaFiscalItens.Close;
@@ -7345,6 +7355,16 @@ begin
   Dm.SQLTemplate.ExecSQL;
   SQLTemplate.Close;
   SQLTemplate.Open;
+
+  SQLNotaFiscalItens.SQL.Text := 'Select PRODICOD, NFITN3QUANT From NOTAFISCALITEM Where NOFIA13ID = ' + QuotedStr(SQLTemplateNOFIA13ID.AsString);
+  SQLNotaFiscalItens.Open;
+  SQLNotaFiscalItens.First;
+  while not SQLNotaFiscalItens.Eof do
+  begin
+    Executa_SP_EXCLUI_MOVIMENTO_ESTOQUE(SQLTemplateNOFIA13ID.AsString, SQLNotaFiscalItens.FindField('PRODICOD').asInteger, SQLNotaFiscalItens.FindField('NFITN3QUANT').asFloat);
+    SQLNotaFiscalItens.Next;
+  end;
+  SQLNotaFiscalItens.Close;
   Showmessage('Nota Fiscal Reaberta!');
 end;
 
@@ -7595,6 +7615,16 @@ begin
   btnEncerrar.Enabled := SQLTemplate.FindField('NOFICSTATUS').Value <> 'E';
   btnTransmitirNfe2.Enabled := (SQLTemplate.FindField('NOFICSTATUS').Value = 'E')  and (SQLTemplate.FindField('NOFIA5CODRETORNO').Value <> '100');
   btnEncerrar2.Enabled := SQLTemplate.FindField('NOFICSTATUS').Value <> 'E';
+
+end;
+
+procedure TFormCadastroNotaFiscal.Executa_SP_EXCLUI_MOVIMENTO_ESTOQUE(ID_Nota : String; ID_Produto : Integer; Quant : Double);
+begin
+  try
+    ExecSql('Execute procedure SP_EXCLUI_MOVIMENTO_ESTOQUE(' + QuotedStr(ID_Nota) + ', ' + IntToStr(ID_Produto) + ', ' + QuotedStr(EmpresaPadrao) + ', ' + ConvFloatToStr(Quant) + ')',1);
+  except
+
+  end;
 
 end;
 

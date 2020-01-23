@@ -13255,7 +13255,7 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
       Caption = '-'
     end
     object ReabrirNFeEncerradaNaoMovimentaEstoque1: TMenuItem
-      Caption = 'Reabrir Nota Encerrada - (N'#227'o Moviment Estoque)'
+      Caption = 'Reabrir Nota Encerrada'
       OnClick = ReabrirNFeEncerradaNaoMovimentaEstoque1Click
     end
     object FecharNotaAbertaNoMovimentaEstoque1: TMenuItem
