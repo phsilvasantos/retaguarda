@@ -3640,7 +3640,7 @@ end;
 procedure TFormTelaImportadorXML.CadastrarProdutos;
 var
   erro: boolean;
-  xDescricao, CSTIcms, AliqIcms, Unidade : string;
+  xDescricao, CSTIcms, AliqIcms, Unidade, vReferencia : string;
   vCompraEmbalagem, vDescEmbalagem: Double;
 begin
   erro := True;
@@ -3657,7 +3657,14 @@ begin
         SQLProdutoEditar.FieldByName('PRODA20BARRAUNIDADE').AsString := cdsItenseantrib.Value;
       SQLProdutoEditar.FieldByName('PRODA60DESCR').AsString := uppercase(cdsItens.FieldByName('descricao').AsString);
       SQLProdutoEditar.FieldByName('PRODA30ADESCRREDUZ').AsString := uppercase(cdsItens.FieldByName('descricao').AsString);
-      SQLProdutoEditar.FieldByName('PRODA60REFER').AsString := uppercase(cdsItens.FieldByName('codigo').AsString);
+
+      vReferencia := uppercase(cdsItens.FieldByName('codigo').AsString);
+      vReferencia := Copy (vReferencia, 1, Pos ('-', vReferencia) - 1);
+      if vReferencia = EmptyStr then
+       vReferencia := uppercase(cdsItens.FieldByName('codigo').AsString);
+
+      SQLProdutoEditar.FieldByName('PRODA60REFER').AsString := Trim(vReferencia);
+
       SQLProdutoEditar.FieldByName('PRODN3CAPACEMBAL').asFloat := cdsItensquantidade_emb.Value;
       SQLProdutoEditar.FieldByName('PRODN2PERCIPIENTRADA').AsFloat := cdsItensaliquota_ipi.Value;
       SQLProdutoEditar.FieldByName('PRODIORIGEM').AsString := cdsItensorigem_produto.Value;
