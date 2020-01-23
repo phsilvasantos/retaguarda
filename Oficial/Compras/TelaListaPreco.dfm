@@ -1,6 +1,6 @@
 inherited FormTelaListaPreco: TFormTelaListaPreco
-  Left = -8
-  Top = -8
+  Left = -1
+  Top = 162
   Width = 1382
   Height = 744
   Caption = 'Manuten'#231#227'o da Lista de Pre'#231'os - Notas Compras em Aberto'
@@ -1515,12 +1515,13 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
     PanelAppearanceDark.TextColor = clBlack
     PanelAppearanceDark.TextColorHot = clBlack
     PanelAppearanceDark.TextColorDown = clBlack
+    Top = 261
   end
   object dsLista: TDataSource
     DataSet = SQLLista
     OnDataChange = dsListaDataChange
-    Left = 441
-    Top = 5
+    Left = 449
+    Top = 269
   end
   object SQLLista: TRxQuery
     DatabaseName = 'DB'
@@ -1548,8 +1549,8 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
         ParamType = ptInput
         Value = '0=0'
       end>
-    Left = 472
-    Top = 5
+    Left = 488
+    Top = 269
     object SQLListaLSPCICOD: TIntegerField
       FieldName = 'LSPCICOD'
       Origin = 'DB.LISTAPRECO.LSPCICOD'
@@ -2016,8 +2017,8 @@ inherited FormTelaListaPreco: TFormTelaListaPreco
     end
   end
   object PopupMenuImpressao: TPopupMenu
-    Left = 308
-    Top = 4
+    Left = 356
+    Top = 252
     object EtiquetasGondolas: TMenuItem
       Caption = '&Etiquetas de Gondolas'
       OnClick = EtiquetasGondolasClick

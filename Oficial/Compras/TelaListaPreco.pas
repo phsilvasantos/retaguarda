@@ -388,6 +388,7 @@ begin
         dm.SQLTemplate.sql.Add(', PRODN2PERCDESP  = '+ ConvFloatToStr(SQLListaPERCOUTRAS.Value));
         dm.SQLTemplate.sql.Add(', PRODN2PERCDIFICM  = '+ ConvFloatToStr(SQLListaPERCDIFICMS.Value));
         dm.SQLTemplate.sql.Add(', VALOR_FRETE  = '+ ConvFloatToStr(SQLListaVLR_FRETE.Value));
+        dm.SQLTemplate.sql.Add(', VALOR_DESC_ENTRADA  = '+ ConvFloatToStr(SQLListaVLR_DESCONTO.Value));
         vValorICMSST := 0;
 
         if SQLListaPERCICMSST.Value > 0 then
@@ -552,9 +553,9 @@ begin
           SQLListaVLRVENDA2ATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3VLRVENDA2').AsString;
 
           if SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value > 1 then
-            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / (SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value * SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value);
-//          else
-//            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value;
+            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / (SQLPesquisa.FieldByName('NOCIN3CAPEMBAL').Value * SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value)
+          else
+            SQLListaVLR_DESCONTO.AsString     := SQLPesquisa.FieldByName('NOCIN3VLRDESC').AsString / SQLPesquisa.FieldByName('NOCIN3QTDEMBAL').Value;
           //aqui
           SQLListaVLRMARGEMATUAL.AsString   := SQLPesquisa.FieldByName('PRODN3PERCMGLVFIXA').AsString;
 
