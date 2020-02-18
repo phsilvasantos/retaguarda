@@ -6882,9 +6882,8 @@ begin
                     begin
                       ICMS.modBCST := dbisMargemValorAgregado;
                       ICMS.pMVAST := pMVA; // Adilson, verificar melhor
-                      ICMS.pRedBCST := 00.00;
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
-                      ICMS.pICMSST := 00.00;
+                      ICMS.pICMSST := SQLNotaFiscalItemNFITN2PERCSUBS.AsFloat;
                       ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.value;
                       ICMS.pRedBCST := SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST.AsFloat;
                       ICMS.pCredSN := 0.0; // Colocar o percentual do Crédito
@@ -6894,9 +6893,8 @@ begin
                     begin
                       ICMS.modBCST := dbisMargemValorAgregado;
                       ICMS.pMVAST := pMVA; // Adilson, verificar melhor
-                      ICMS.pRedBCST := 00.00;
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
-                      ICMS.pICMSST := 00.00;
+                      ICMS.pICMSST := SQLNotaFiscalItemNFITN2PERCSUBS.AsFloat;
                       ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.value;
                       ICMS.pRedBCST := SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST.AsFloat;
                     end;

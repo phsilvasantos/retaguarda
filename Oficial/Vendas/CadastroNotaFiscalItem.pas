@@ -373,7 +373,7 @@ uses
 
 procedure TFormCadastroNotaFiscalItem.CalculaImpostos;
 var
-  Substituicao, xMVA: Double;
+  Substituicao, xMVA, xRedBaseST : Double;
   UFEmit, UFDest, Origem, FisJur, Situacao, AliquotaInterna, FinalidadeNFE : string;
 begin
 
@@ -488,7 +488,6 @@ begin
       except
         Showmessage('Erro: Tabela de NCM sem MVA ou Nulo!');
       end;
-
 
       if (Situacao = '60') or (Situacao = '500') then
       begin
@@ -703,6 +702,9 @@ begin
     SitTrib := DM.SQLTemplate.FindField('PRODISITTRIB').AsString;
     ReducaoBase := DM.SQLTemplate.FindField('PERC_REDUCAO_BASE_CALCULO').AsFloat;
     ReducaoBaseST := DM.SQLTemplate.FindField('PERC_REDUCAO_BASE_CALCULO_ST').AsFloat;
+
+    if ReducaoBaseST = 0 then
+      ReducaoBaseST := StrToFloatDef(SQLLocate('NCM','NCMICOD','ALIQ_RED_BASE_ST',SQLLocate('PRODUTO','PRODICOD','NCMICOD',SQLTemplatePRODICOD.AsString)),0);
 
     //verifica se tem imposto lançado na tabela produto imposto
     tipoCliente := Copy(SQLLocate('CLIENTE','CLIEA13ID','CLIECTPPRCVENDA',SQLTemplate.DataSource.DataSet.FindField('CLIEA13ID').asString),1,1);
