@@ -209,9 +209,9 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
             inherited TabSheetDadosPrincipais: TTabSheet
               object GroupBox1: TGroupBox
                 Left = 0
-                Top = 332
+                Top = 348
                 Width = 1113
-                Height = 93
+                Height = 71
                 Align = alTop
                 Caption = 'Descri'#231#227'o dos Servi'#231'os Prestados'
                 TabOrder = 0
@@ -219,7 +219,7 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
                   Left = 2
                   Top = 15
                   Width = 1109
-                  Height = 76
+                  Height = 54
                   Align = alClient
                   DataField = 'DESCRICAO_SERVICO'
                   DataSource = DSTemplate
@@ -230,7 +230,7 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
                 Left = 0
                 Top = 0
                 Width = 1113
-                Height = 213
+                Height = 233
                 Align = alTop
                 Caption = 'Dados da NFSe / Tomador de Servi'#231'o'
                 TabOrder = 1
@@ -758,7 +758,7 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
                   Left = 7
                   Top = 179
                   Width = 810
-                  Height = 23
+                  Height = 46
                   DataField = 'OBS'
                   DataSource = DSTemplate
                   TabOrder = 15
@@ -8442,9 +8442,9 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
               end
               object GroupBox3: TGroupBox
                 Left = 0
-                Top = 425
+                Top = 419
                 Width = 1113
-                Height = 73
+                Height = 74
                 Align = alTop
                 Caption = 'Totais'
                 TabOrder = 2
@@ -8616,9 +8616,9 @@ inherited FormCadastroNotaServico: TFormCadastroNotaServico
               end
               object GroupBox4: TGroupBox
                 Left = 0
-                Top = 213
+                Top = 233
                 Width = 1113
-                Height = 119
+                Height = 115
                 Align = alTop
                 Caption = 'Valores / Impostos'
                 Font.Charset = DEFAULT_CHARSET

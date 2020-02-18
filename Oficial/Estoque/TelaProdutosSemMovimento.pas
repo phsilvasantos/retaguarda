@@ -97,6 +97,7 @@ begin
   SQLProdutos.Close ;
   SQLProdutos.MacroByName('MAtivo').Value   := '0=0';
   SQLProdutos.MacroByName('MEmpresa').Value := 'produtosaldo.EMPRICOD = ' + dm.SQLEmpresaEMPRICOD.AsString ;
+  SQLProdutos.MacroByName('MData').Value    := 'produtosaldo.Registro <= "' + FormatDateTime('mm/dd/yyyy', Data2.Date) + '"';
 
   if CKAtivos.Checked then
     SQLProdutos.MacroByName('MAtivo').Value := 'produto.PRODCATIVO = ''S''';

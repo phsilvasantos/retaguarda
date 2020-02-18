@@ -13260,6 +13260,7 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
     end
     object FecharNotaAbertaNoMovimentaEstoque1: TMenuItem
       Caption = 'Fechar Nota Aberta - (N'#227'o Movimenta Estoque)'
+      Visible = False
       OnClick = FecharNotaAbertaNoMovimentaEstoque1Click
     end
     object EncerrarNotasemSequencia1: TMenuItem
@@ -16966,6 +16967,10 @@ inherited FormCadastroNotaFiscal: TFormCadastroNotaFiscal
     object SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO: TFloatField
       FieldName = 'VALOR_ICMS_SUBSTITUTO'
       Origin = 'DB.NOTAFISCALITEM.VALOR_ICMS_SUBSTITUTO'
+    end
+    object SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST: TFloatField
+      FieldName = 'PERC_REDUCAO_BASE_CALCULO_ST'
+      Origin = 'DB.NOTAFISCALITEM.PERC_REDUCAO_BASE_CALCULO_ST'
     end
   end
   object SQLProduto: TRxQuery

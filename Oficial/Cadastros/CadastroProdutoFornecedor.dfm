@@ -1,6 +1,6 @@
 inherited FormCadastroProdutoFornecedor: TFormCadastroProdutoFornecedor
-  Left = 421
-  Top = 125
+  Left = 202
+  Top = 87
   Caption = 'Fornecedores por Produto'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -12,6 +12,7 @@ inherited FormCadastroProdutoFornecedor: TFormCadastroProdutoFornecedor
           inherited PagePrincipal: TPageControl
             Top = 41
             Height = 408
+            ActivePage = TabSheetDadosPrincipais
             inherited TabSheetConsulta: TTabSheet
               inherited DBGridLista: TDBGrid
                 Height = 335

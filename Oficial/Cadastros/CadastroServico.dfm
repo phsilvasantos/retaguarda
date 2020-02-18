@@ -1,6 +1,6 @@
 inherited FormCadastroServico: TFormCadastroServico
-  Left = 285
-  Top = 86
+  Left = 231
+  Top = 89
   Caption = 'Cadastro Servico'
   OldCreateOrder = True
   PixelsPerInch = 96
@@ -54,6 +54,13 @@ inherited FormCadastroServico: TFormCadastroServico
                 Height = 13
                 Caption = 'Descri'#231#227'o Servi'#231'o'
               end
+              object Label4: TLabel
+                Left = 16
+                Top = 198
+                Width = 60
+                Height = 13
+                Caption = 'Obs Padr'#227'o:'
+              end
               object DBEdit1: TDBEdit
                 Left = 16
                 Top = 24
@@ -81,6 +88,15 @@ inherited FormCadastroServico: TFormCadastroServico
                 DataSource = DSTemplate
                 TabOrder = 2
               end
+              object DBMemo2: TDBMemo
+                Left = 16
+                Top = 214
+                Width = 657
+                Height = 89
+                DataField = 'OBSERVACAO_PADRAO'
+                DataSource = DSTemplate
+                TabOrder = 3
+              end
             end
           end
         end
@@ -106,6 +122,11 @@ inherited FormCadastroServico: TFormCadastroServico
     object SQLTemplateDESCRICAO_SERVICO: TBlobField
       FieldName = 'DESCRICAO_SERVICO'
       Origin = 'DB.SERVICO.DESCRICAO_SERVICO'
+      Size = 1
+    end
+    object SQLTemplateOBSERVACAO_PADRAO: TBlobField
+      FieldName = 'OBSERVACAO_PADRAO'
+      Origin = 'DB.SERVICO.OBSERVACAO_PADRAO'
       Size = 1
     end
   end

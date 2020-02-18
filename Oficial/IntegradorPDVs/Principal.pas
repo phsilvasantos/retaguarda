@@ -90,7 +90,7 @@ begin
   ZdbServidor.Database := IniFile.ReadString('SERVIDOR', 'Database', '');
   TempoCiclo := Inifile.ReadInteger('CICLO','TempoCiclo',0);
   IniFile.Free;
-  // FormPrincipal.Hide;
+  // FormPrincipal.Hide;                                                   -
   if TempoCiclo = 0 then
     TempoCiclo := 10000;
   Timer.Interval := TempoCiclo;
@@ -763,11 +763,31 @@ begin
   {Fim Barras}
 
   {Inicio Produto Desconto}
-  {Abre Produto_DescontosPDV no servidor para achar os registros que serao importados!}
+  {Exclui registros apagados do servidor!}
   try
     ZconsultaServidor.Close;
     ZconsultaServidor.sql.clear;
-    ZconsultaServidor.sql.Text := 'Select * from PRODUTO_DESCONTOSPDV where TERMICOD=' + TerminalCodigoSTR + ' order by prodicod asc';
+    ZconsultaServidor.sql.Text := 'Select * from PRODUTO_DESCONTOSPDV where TERMICOD=' + TerminalCodigoSTR + ' AND EXCLUIR = ' + QuotedStr('S')  + ' order by prodicod asc';
+    //ZconsultaServidor.RequestLive := false;
+    ZconsultaServidor.open;
+    while not ZconsultaServidor.eof do
+    begin
+      Application.Title := 'Excluindo Produto/Desconto => ' + ZconsultaServidor.fieldbyname('PRODICOD').AsString;
+      lbStatus.Caption := Application.Title;
+      lbStatus.Update;
+
+      ZapagaPDV.close;
+      ZapagaPDV.sql.Clear;
+      ZapagaPDV.sql.Text := 'delete from PRODUTO_DESCONTOS where COD_PRODUTODESCONTOS=' + ZconsultaServidor.fieldbyname('COD_PRODUTODESCONTOS').AsString;
+      ZapagaPDV.ExecSQL;
+      ZconsultaServidor.Next;
+    end;
+
+  {Inicio Produto Desconto}
+  {Abre Produto_DescontosPDV no servidor para achar os registros que serao importados!}
+    ZconsultaServidor.Close;
+    ZconsultaServidor.sql.clear;
+    ZconsultaServidor.sql.Text := 'Select * from PRODUTO_DESCONTOSPDV where TERMICOD=' + TerminalCodigoSTR + ' AND EXCLUIR = ' + QuotedStr('N')  + ' order by prodicod asc';
     //ZconsultaServidor.RequestLive := false;
     ZconsultaServidor.open;
     while not ZconsultaServidor.eof do

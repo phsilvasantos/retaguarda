@@ -1119,6 +1119,7 @@ type
     SQLSerieEMPRICOD: TIntegerField;
     SQLSerieSERIA2TIPONOTA: TStringField;
     SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO: TFloatField;
+    SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST: TFloatField;
     function TabelaNFE_123(Produto, Situacao: string): string;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateNewRecord(DataSet: TDataSet);
@@ -6680,7 +6681,7 @@ begin
         Exit;
       end;
         // Testa se Empresa for do Simples 1 ou 2 e se SitTrib for menor que 3 digitos, tem erro de cadastro produto.
-      if (iCRT <> 3) and (length(SitTrib) < 3) then
+      if (iCRT = 1) and (length(SitTrib) < 3) then
       begin
         ShowMessage('Erro: Situação Tributária do Produto = ' + SQLNotaFiscalItemPRODICOD.AsString + ' não confere com o Regime do Emitente informado no Cadastro de Empresas!');
         Exit;
@@ -6885,6 +6886,7 @@ begin
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
                       ICMS.pICMSST := 00.00;
                       ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.value;
+                      ICMS.pRedBCST := SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST.AsFloat;
                       ICMS.pCredSN := 0.0; // Colocar o percentual do Crédito
                       ICMS.vCredICMSSN := 0.0; // Colocar o valor do Crédito
                     end;
@@ -6896,6 +6898,7 @@ begin
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
                       ICMS.pICMSST := 00.00;
                       ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.value;
+                      ICMS.pRedBCST := SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST.AsFloat;
                     end;
                   csosn500:
                     begin
@@ -6931,7 +6934,7 @@ begin
                       ICMS.vICMS := SQLNotaFiscalItemNFITN2VLRICMS.value;
                       ICMS.modBCST := dbisMargemValorAgregado;
                       ICMS.pMVAST := 0; // Adilson nao achei na tabela migrate 123
-                      ICMS.pRedBCST := 00.00;
+                      ICMS.pRedBCST := SQLNotaFiscalItemPERC_REDUCAO_BASE_CALCULO_ST.AsFloat;
                       ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.value;
                       ICMS.pICMSST := SQLNotaFiscalItemNFITN2PERCSUBS.Value;
                       ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.value;
@@ -6943,7 +6946,210 @@ begin
 
             2:
               begin
-                      //        (...)
+                if SQLNotaFiscalItemNFITICST.asstring = '0' then
+                  ICMS.CST := cst00;
+                if SQLNotaFiscalItemNFITICST.asstring = '10' then
+                  ICMS.CST := cst10;
+                if SQLNotaFiscalItemNFITICST.asstring = '20' then
+                  ICMS.CST := cst20;
+                if SQLNotaFiscalItemNFITICST.asstring = '30' then
+                  ICMS.CST := cst30;
+                if SQLNotaFiscalItemNFITICST.asstring = '40' then
+                  ICMS.CST := cst40;
+                if SQLNotaFiscalItemNFITICST.asstring = '41' then
+                  ICMS.CST := cst41;
+                if SQLNotaFiscalItemNFITICST.asstring = '50' then
+                  ICMS.CST := cst50;
+                if SQLNotaFiscalItemNFITICST.asstring = '51' then
+                  ICMS.CST := cst51;
+                if SQLNotaFiscalItemNFITICST.asstring = '60' then
+                  begin
+                    ICMS.CST := cst60;
+                    if dm.sqlConsulta.fieldbyname('VALOR_ICM_ST_RET').AsFloat > 0 then
+                    begin
+                      ICMS.vBCSTRet := dm.sqlConsulta.fieldbyname('BASE_ICM_ST_RET').AsFloat * SQLNotaFiscalItemNFITN3QUANT.AsFloat;
+                      ICMS.vICMSSTRet := dm.sqlConsulta.fieldbyname('VALOR_ICM_ST_RET').AsFloat * SQLNotaFiscalItemNFITN3QUANT.AsFloat;
+                    end
+                    else
+                    begin
+                      ICMS.vBCSTRet :=  SQLNotaFiscalItemBASE_ST_RETIDO.Value;
+                      ICMS.vICMSSTRet := SQLNotaFiscalItemVALOR_ST_RETIDO.Value;
+                    end;
+                    if vPercSTEfe > 0 then
+                    begin
+                      ICMS.vICMSEfet := (SQLNotaFiscalItemNFITN3QUANT.AsFloat * (Prod.vProd - Prod.vDesc));
+                      ICMS.pICMSEfet := vPercSTEfe;
+                      ICMS.vBCEfet := (SQLNotaFiscalItemNFITN3QUANT.AsFloat * (Prod.vProd - Prod.vDesc)) * vPercSTEfe;
+                    end;
+                    if dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat > 0 then
+                      ICMS.vICMSSubstituto := dm.sqlConsulta.fieldbyname('VALOR_ICMS_SUBSTITUTO').AsFloat * SQLNotaFiscalItemNFITN3QUANT.AsFloat
+                    else
+                    if SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat > 0 then
+                      ICMS.vICMSSubstituto := SQLNotaFiscalItemVALOR_ICMS_SUBSTITUTO.AsFloat;
+                  end;
+                if SQLNotaFiscalItemNFITICST.asstring = '70' then
+                  ICMS.CST := cst70;
+                if SQLNotaFiscalItemNFITICST.asstring = '80' then
+                  ICMS.CST := cst80;
+                if SQLNotaFiscalItemNFITICST.asstring = '81' then
+                  ICMS.CST := cst81;
+                if SQLNotaFiscalItemNFITICST.asstring = '90' then
+                  ICMS.CST := cst90;
+
+                      // Origem Mercadoria
+//                ICMS.orig := oeNacional;
+
+                      // Base Calculo
+                if modBC = '0' then
+                  ICMS.modBC := dbiMargemValorAgregado
+                else if modBC = '1' then
+                  ICMS.modBC := dbiPauta
+                else if modBC = '2' then
+                  ICMS.modBC := dbiPrecoTabelado
+                else if modBC = '3' then
+                  ICMS.modBC := dbiValorOperacao;
+
+                //Fundo de combate a pobreza - FCP
+                if (Dest.indIEDest = inContribuinte) and (Ide.idDest = doInterestadual) then
+                begin
+                  if SQLNotaFiscalItemBASE_FCP_ST.AsFloat > 0 then
+                  begin
+                    ICMS.vBCFCPST := SQLNotaFiscalItemBASE_FCP_ST.AsFloat;
+                    ICMS.vFCPST := SQLNotaFiscalItemVALOR_FCP_ST.AsFloat;
+                    ICMS.pFCPST := SQLNotaFiscalItemPERC_FCP_ST.AsFloat;
+                  end;
+
+                  if SQLNotaFiscalItemVALOR_FCP.AsFloat > 0 then
+                  begin
+                    if ICMS.CST = cst00 then
+                    else
+                      ICMS.vBCFCP := SQLNotaFiscalItemBASE_FCP.AsFloat;
+                    ICMS.vFCP := SQLNotaFiscalItemVALOR_FCP.AsFloat;
+                    ICMS.pFCP := SQLNotaFiscalItemPERC_FCP.AsFloat;
+                  end;
+                end;
+
+                ICMS.vBC := SQLNotaFiscalItemNFITN2BASEICMS.Value;
+                ICMS.pICMS := SQLNotaFiscalItemNFITN2PERCICMS.Value;
+                ICMS.vICMS := SQLNotaFiscalItemNFITN2VLRICMS.Value;
+
+                ICMS.vBCST := SQLNotaFiscalItemNFITN2BASESUBS.Value;
+                ICMS.pICMSST := SQLNotaFiscalItemNFITN2PERCSUBS.Value;
+                ICMS.vICMSST := SQLNotaFiscalItemNFITN2VLRSUBS.Value;
+
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '01' then
+                begin
+                  COFINS.CST := cof01;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '02' then
+                begin
+                  COFINS.CST := cof02;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '03' then
+                begin
+                  COFINS.CST := cof03;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '04' then
+                begin
+                  COFINS.CST := cof04;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '05' then
+                begin
+                  COFINS.CST := cof05;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '06' then
+                begin
+                  COFINS.CST := cof06;
+                  COFINS.vBC := Prod.vProd - Prod.vDesc;
+                  COFINS.pCOFINS := SQLNotaFiscalItemNOFIN3PERCCOFINS.value;
+                  COFINS.vCOFINS := SQLNotaFiscalItemNOFIN3VLRCOFINS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '07' then
+                  COFINS.CST := cof07;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '08' then
+                  COFINS.CST := cof08;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '09' then
+                  COFINS.CST := cof09;
+                if SQLNotaFiscalItemNOFIA2CSTCOFINS.Value = '49' then
+                  COFINS.CST := cof49;
+
+                { Alimenta Pis
+                01 - Operação Tributável com Aliquota Básica (base de cálculo = valor da operação alíquota normal (cumulativo/não cumulativo));
+                02 - Operação Tributável com Alíquota Diferenciada (base de cálculo = valor da operação (alíquota diferenciada));
+                03 - Operação Tributável com Alíquota por Unidade de Medida de Produto (base de cálculo = quantidade vendida x alíquota por unidade de produto);
+                04 - Operação Tributável(tributação monofásica (alíquota zero));
+                05 - Operação Tributável por Substituição Tributária;
+                06 - Operação Tributável (alíquota zero);
+                07 - Operação Isenta da Contribuição;
+                08 - Operação Sem Incidência da Contribuição;
+                09 - Operação com Suspensão da Contribuição;
+                49 - Outras Operações de Saída; }
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '01' then
+                begin
+                  PIS.CST := pis01;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '02' then
+                begin
+                  PIS.CST := pis02;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '03' then
+                begin
+                  PIS.CST := pis03;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '04' then
+                begin
+                  PIS.CST := pis04;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '05' then
+                begin
+                  PIS.CST := pis05;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '06' then
+                begin
+                  PIS.CST := pis06;
+                  PIS.vBC := Prod.vProd - Prod.vDesc;
+                  PIS.pPIS := SQLNotaFiscalItemNOFIN3PERCPIS.value;
+                  PIS.vPIS := SQLNotaFiscalItemNOFIN3VLRPIS.Value;
+                end;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '07' then
+                  PIS.CST := pis07;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '08' then
+                  PIS.CST := pis08;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '09' then
+                  PIS.CST := pis09;
+                if SQLNotaFiscalItemNOFIA2CSTPIS.Value = '49' then
+                  PIS.CST := pis49;
+
               end;
 
             3:

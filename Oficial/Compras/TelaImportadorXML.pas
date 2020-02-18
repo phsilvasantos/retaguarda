@@ -408,6 +408,8 @@ type
     SQLProdutoSaldoNovoREGISTRO: TDateTimeField;
     SQLProdutoSaldoNovoQTDE_CONSIGNADO: TFloatField;
     sqlProdutoFornecedor: TRxQuery;
+    pnlBotton: TPanel;
+    Gauge1: TGauge;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -3027,54 +3029,67 @@ var
  CNPJ, Impresso, sChave, sEmissao, sCNPJ, sNome, sNumero, sSerie, sStat, sMotivo, sTemMais, sIEst, sNSU, sTipoNFe, MaxNSUAmbienteNacional, sTipo: String;
  Valor: Double;
  i, iLote : integer;
+ vTotal : Integer;
 begin
   inherited;
   Inicia_NFe;
-  //ACBrNFe.SSL.SSLType := LT_TLSv1;
-//  ACBrNFe.Configuracoes.Geral.SSLXmlSignLib := xsLibXml2;
-//  ACBrNFe.Configuracoes.Geral.SSLHttpLib := httpWinHttp;
-//  ACBrNFe.Configuracoes.Geral.SSLCryptLib := cryWinCrypt;
 
 //  sNSU := IntToStr(SQLMax('EMPRESA','NSUCONSULTA','EMPRICOD='+EmpresaPadrao));
   sNSU := dm.SQLLocate('EMPRESA','EMPRICOD','NSUCONSULTA',EmpresaPadrao);
   lblUltimoNSU.Caption := sNSU;
   lblUltimoNSU.Refresh;
-//  Gauge1.MinValue := StrToInt(sNSU);
+  Gauge1.MinValue := 0;
+  Gauge1.MaxValue := 0;
   iLote := 0;
+  vTotal := 0;
   repeat
     inc(iLote);
-//    try
       ExibeInconsistencia(tiInformacao, 'Iniciando leitura e verificação do Lote Nr.'+intToStr(iLote), EmptyStr);
-      ACBrNFe.DistribuicaoDFe( dm.SQLEmpresaEMPRIUFCODFED.Value,
-                              dm.SQLEmpresaEMPRA14CGC.Value,
-                                sNSU, '' );
-      sStat   := IntToStr(ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.cStat);
-      sMotivo := ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo;
-  //    Gauge1.MaxValue := StrToInt(ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.maxNSU);
-      lblUltimoNSUSefaz.Caption := ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.maxNSU;
-      lblUltimoNSUSefaz.Refresh;
+      Sleep(5000);
+    try
+      ACBrNFe.DistribuicaoDFe( dm.SQLEmpresaEMPRIUFCODFED.Value, dm.SQLEmpresaEMPRA14CGC.Value, sNSU, '');
+    except on e : exception do
+      begin
+        ShowMessage('Erro: ' + e.Message);
+        ShowMessage('Consulta no Sefaz sem Resultado, tente novamente mais tarde! ');
+        SQLNFSEFAZ.Close;
+        SQLNFSEFAZ.MacroByName('MFiltro').Value := '0=0';
+        SQLNFSEFAZ.Open;
+        Gauge1.Progress := 0;
+        Gauge1.Update;
+        Exit;
+      end;
+    end;
+
+    sStat   := IntToStr(ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.cStat);
+    sMotivo := ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.xMotivo;
+    lblUltimoNSUSefaz.Caption := RemoverZeros(ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.maxNSU);
+    lblUltimoNSUSefaz.Refresh;
+    if (Gauge1.MaxValue = 0) and (ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.maxNSU <> EmptyStr) then
+    begin
+      vTotal := StrToIntDef(RemoverZeros(ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.maxNSU),0);
+      vTotal := vTotal - StrToIntDef(sNSU,0);
+      Gauge1.MaxValue :=  vTotal;
+    end;
 
       {137=Nao achou notas para o cnpj}
       {138=Achou notas para o cnpj}
-      if ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.cStat = 137 then
-        begin
-          sTemMais := 'N';
-          ExibeInconsistencia(tiErro, 'Nenhum Documento Localizado para o Lote Nr.'+intToStr(iLote), 'Verifique!');
-        end
+      if ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.cStat = 138 then
+        sTemMais := 'S'
       else
-        sTemMais := 'S';
+      begin
+        sTemMais := 'N';
+        ExibeInconsistencia(tiErro, 'Nenhum Documento Localizado para o Lote Nr.'+intToStr(iLote), 'Verifique!');
+      end;
 
       {Gravar na Empresa o ultimo nsu retornado pelo acbr para usar na prox consulta}
       dm.SQLUpdate.Close;
       dm.SQLUpdate.sql.text := 'update EMPRESA set NSUCONSULTA='+ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.ultNSU+
                                  ' where EMPRICOD='+EmpresaPadrao;
       dm.SQLUpdate.ExecSQL;
-
-//    except on e : exception do
-//      ShowMessage('Erro: ' + e.Message);
-//        ShowMessage('Consulta no Sefaz sem Resultado, tente novamente mais tarde! ');
-//    end;
-
+      sNSU := dm.SQLLocate('EMPRESA','EMPRICOD','NSUCONSULTA',EmpresaPadrao);
+      lblUltimoNSU.Caption := sNSU;
+      lblUltimoNSU.Refresh;
 
     {Achou notas para o cnpj nesse lote}
     if ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.cStat = 138 then
@@ -3083,6 +3098,8 @@ begin
 
         for i := 0 to ACBrNFe.WebServices.DistribuicaoDFe.retDistDFeInt.docZip.Count -1 do
           begin
+            Gauge1.AddProgress(1);
+            Gauge1.Update;
             sSerie   := '';
             sNumero  := '';
             sCNPJ    := '';
@@ -3123,38 +3140,40 @@ begin
                   snDenegado:   Impresso := 'D';
                   snCancelado:  Impresso := 'C';
                 end;
-              end;
 
-            // Registra no Banco de Dados as Notas Retornadas pela Consulta
-            SQLNFSEFAZ.Close;
-            SQLNFSEFAZ.MacroByName('MFiltro').Value := 'CHAVE = ''' + sChave + '''';
-            SQLNFSEFAZ.Open;
-            if SQLNFSEFAZ.IsEmpty then
-              begin
-                SQLNFSEFAZ.append;
-                SQLNFSEFAZCHAVE.Value          := sChave;
-                SQLNFSEFAZSERIE.AsString       := sSerie;
-                SQLNFSEFAZNUMERO.AsString      := sNumero;
-                SQLNFSEFAZDTEMISSAO.Value      := StrToDate(sEmissao);
-                SQLNFSEFAZDTEVENTO.Value       := now;
-                SQLNFSEFAZEMIT_CNPJ.Value      := sCNPJ;
-                SQLNFSEFAZEMIT_IE.Value        := sIEst;
-                SQLNFSEFAZEMIT_RAZAO.Value     := sNome;
-                SQLNFSEFAZENTRADA_SAIDA.Value  := sTipoNFe; {E=ENTRADA S=SAIDA}
-                SQLNFSEFAZSIT_NFE.Value        := Impresso; {A=AUTORIZADO D=DENEGADO C=CANCELADO}
-                SQLNFSEFAZPROT_EVENTO.Value    := sTipo; {schresNFe Resumo de Nota, schprocNFe Nota Completa, schresEvento Resumo de Evento e schprocEventoNFe Evento Completo}
-                SQLNFSEFAZVALORTOTAL.Value     := Valor;
-                SQLNFSEFAZNSUCONSULTA.AsString := sNSU;
-                SQLNFSEFAZ.Post;
+                // Registra no Banco de Dados as Notas Retornadas pela Consulta
+                SQLNFSEFAZ.Close;
+                SQLNFSEFAZ.MacroByName('MFiltro').Value := 'CHAVE = ''' + sChave + '''';
+                SQLNFSEFAZ.Open;
+                if SQLNFSEFAZ.IsEmpty then
+                  begin
+                    SQLNFSEFAZ.append;
+                    SQLNFSEFAZCHAVE.Value          := sChave;
+                    SQLNFSEFAZSERIE.AsString       := sSerie;
+                    SQLNFSEFAZNUMERO.AsString      := sNumero;
+                    SQLNFSEFAZDTEMISSAO.Value      := StrToDate(sEmissao);
+                    SQLNFSEFAZDTEVENTO.Value       := now;
+                    SQLNFSEFAZEMIT_CNPJ.Value      := sCNPJ;
+                    SQLNFSEFAZEMIT_IE.Value        := sIEst;
+                    SQLNFSEFAZEMIT_RAZAO.Value     := sNome;
+                    SQLNFSEFAZENTRADA_SAIDA.Value  := sTipoNFe; {E=ENTRADA S=SAIDA}
+                    SQLNFSEFAZSIT_NFE.Value        := Impresso; {A=AUTORIZADO D=DENEGADO C=CANCELADO}
+                    SQLNFSEFAZPROT_EVENTO.Value    := sTipo; {schresNFe Resumo de Nota, schprocNFe Nota Completa, schresEvento Resumo de Evento e schprocEventoNFe Evento Completo}
+                    SQLNFSEFAZVALORTOTAL.Value     := Valor;
+                    SQLNFSEFAZNSUCONSULTA.AsString := sNSU;
+                    SQLNFSEFAZ.Post;
+                  end;
               end;
           end; // Fim do For
       end;
   until
-    (sTemMais = 'S');
+    (sTemMais = 'N');
 
   SQLNFSEFAZ.Close;
   SQLNFSEFAZ.MacroByName('MFiltro').Value := '0=0';
   SQLNFSEFAZ.Open;
+  Gauge1.Progress := 0;
+  Gauge1.Update;
 end;
 
 procedure TFormTelaImportadorXML.Inicia_NFe();

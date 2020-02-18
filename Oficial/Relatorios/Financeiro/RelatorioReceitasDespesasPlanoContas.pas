@@ -416,12 +416,18 @@ begin
     3 : begin
           SQLReceitas.MacroByName('MDataRecebido').asString    := 'CONTASRECEBER.CTRCDVENC >= "' + FormatDateTime('mm/dd/yyyy',De.Date)+
                                                                   '" AND CONTASRECEBER.CTRCDVENC <= "'+FormatDateTime('mm/dd/yyyy',Ate.Date)+'"';
+          SQLReceitas.MacroByName('MValor').asString           := 'CONTASRECEBER.CTRCN2VLR > CONTASRECEBER.CTRCN2TOTREC';
+
           SQLReceitas.MacroByName('Campo').asString            := 'CONTASRECEBER.CTRCN2VLR';
           SQLDespesas.MacroByName('MDataPago').asString        := 'CONTASPAGAR.CTPGDVENC >= "' + FormatDateTime('mm/dd/yyyy',De.Date)+
                                                                   '" AND CONTASPAGAR.CTPGDVENC <= "'+FormatDateTime('mm/dd/yyyy',Ate.Date)+'"';
+          SQLDespesas.MacroByName('MValor').AsString           := 'CONTASPAGAR.CTPGN3VLR > CONTASPAGAR.CTPGN2TOTPAG';
           SQLDespesas.MacroByName('Campo').asString            := 'CONTASPAGAR.CTPGN3VLR';
+
           SQLContasReceber.MacroByName('MDataRecebido').AsString := 'CONTASRECEBER.CTRCDVENC >= "' + FormatDateTime('mm/dd/yyyy',De.Date)+
                                                                   '" AND CONTASRECEBER.CTRCDVENC <= "'+ FormatDateTime('mm/dd/yyyy',Ate.Date)+'"';
+
+
           SQLCupomNumerario.MacroByName('MDataVenda').AsString := 'CUPOM.CUPODEMIS >= "' + FormatDateTime('mm/dd/yyyy',De.Date)+
                                                                   '" AND CUPOM.CUPODEMIS <= "'+ FormatDateTime('mm/dd/yyyy',Ate.Date)+'"' +
                                                                   ' AND CONTASRECEBER.CTRCN2VLR > CONTASRECEBER.CTRCN2TOTREC';

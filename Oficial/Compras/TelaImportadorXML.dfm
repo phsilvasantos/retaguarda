@@ -1,6 +1,6 @@
 inherited FormTelaImportadorXML: TFormTelaImportadorXML
-  Left = -6
-  Top = 82
+  Left = -10
+  Top = 7
   Width = 1382
   Height = 744
   Caption = 'Importador de XMLs'
@@ -33,7 +33,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
           Top = 1
           Width = 1359
           Height = 470
-          ActivePage = tsItens
+          ActivePage = TabConsultaSefaz
           Align = alClient
           TabOrder = 0
           object tsXMLs: TTabSheet
@@ -2216,7 +2216,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
               Left = 0
               Top = 64
               Width = 1351
-              Height = 379
+              Height = 355
               Align = alClient
               BorderStyle = bsNone
               Color = clWhite
@@ -2387,6 +2387,22 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
                 ParentFont = False
                 TabOrder = 0
                 OnKeyDown = edtChaveProcuraKeyDown
+              end
+            end
+            object pnlBotton: TPanel
+              Left = 0
+              Top = 419
+              Width = 1351
+              Height = 23
+              Align = alBottom
+              TabOrder = 3
+              object Gauge1: TGauge
+                Left = 1
+                Top = 1
+                Width = 1349
+                Height = 21
+                Align = alClient
+                Progress = 0
               end
             end
           end

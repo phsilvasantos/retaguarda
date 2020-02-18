@@ -336,9 +336,9 @@ inherited FormTelaProdutosSemMov: TFormTelaProdutosSemMov
         '  PRODUTOSALDO INNER JOIN PRODUTO ON PRODUTO.PRODICOD = PRODUTOS' +
         'ALDO.PRODICOD AND %MEmpresa'
       'where'
-      '  (produtosaldo.PSLDN3QTDE <=0) and (%MAtivo)'
+      '  (produtosaldo.PSLDN3QTDE <=0) and (%MAtivo) and (%MData)'
       'order by'
-      '  PRODA60DESCR asc')
+      '  produto.PRODICOD asc')
     Macros = <
       item
         DataType = ftString
@@ -349,6 +349,12 @@ inherited FormTelaProdutosSemMov: TFormTelaProdutosSemMov
       item
         DataType = ftString
         Name = 'MAtivo'
+        ParamType = ptInput
+        Value = '0=0'
+      end
+      item
+        DataType = ftString
+        Name = 'MData'
         ParamType = ptInput
         Value = '0=0'
       end>

@@ -1,6 +1,6 @@
 inherited FormRelatorioReceitasDespesasPlanoContas: TFormRelatorioReceitasDespesasPlanoContas
-  Left = 198
-  Top = 80
+  Left = 214
+  Top = 123
   Caption = 'Relat'#243'rio de Receitas x Despesas por Plano de Contas'
   ClientHeight = 454
   ClientWidth = 776
@@ -428,7 +428,8 @@ inherited FormRelatorioReceitasDespesasPlanoContas: TFormRelatorioReceitasDespes
       'where'
       '(CONTASRECEBER.CTRCCSTATUS = "A") and'
       '(%MDataRecebido) and'
-      '(%MEmpresaRecebido)'
+      '(%MEmpresaRecebido) and'
+      '(%MValor)'
       'group by'
       '    PLANODECONTAS.PLCTA15COD,'
       '    PLANODECONTAS.PLCTA15CODPAI,'
@@ -452,6 +453,12 @@ inherited FormRelatorioReceitasDespesasPlanoContas: TFormRelatorioReceitasDespes
       item
         DataType = ftString
         Name = 'MEmpresaRecebido'
+        ParamType = ptInput
+        Value = '0=0'
+      end
+      item
+        DataType = ftString
+        Name = 'MValor'
         ParamType = ptInput
         Value = '0=0'
       end>
@@ -828,7 +835,8 @@ inherited FormRelatorioReceitasDespesasPlanoContas: TFormRelatorioReceitasDespes
         'DECONTAS.PLCTA15COD'
       'where'
       '  (%MDataPago) and'
-      '  (%MEmpresaPago)'
+      '  (%MEmpresaPago) and'
+      '  (%MValor)'
       'group by'
       '  PLANODECONTAS.PLCTA15COD,'
       '  PLANODECONTAS.PLCTA15CODPAI,'
@@ -853,6 +861,12 @@ inherited FormRelatorioReceitasDespesasPlanoContas: TFormRelatorioReceitasDespes
       item
         DataType = ftString
         Name = 'MEmpresaPago'
+        ParamType = ptInput
+        Value = '0=0'
+      end
+      item
+        DataType = ftString
+        Name = 'MValor'
         ParamType = ptInput
         Value = '0=0'
       end>

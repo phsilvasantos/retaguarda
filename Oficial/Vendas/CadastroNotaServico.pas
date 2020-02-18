@@ -991,6 +991,9 @@ procedure TFormCadastroNotaServico.SQLTemplateID_SERVICOChange(
   Sender: TField);
 begin
   inherited;
+  if SQLTemplateID_SERVICO.AsInteger > 0 then
+    SQLTemplateOBS.AsString := Trim(SQLLocate('SERVICO','ID_SERVICO','OBSERVACAO_PADRAO', SQLTemplateID_SERVICO.AsString));
+  
   prc_Montar_Discriminacao;
 end;
 

@@ -31,6 +31,7 @@ type
     procedure AcessaFornecedorClick(Sender: TObject);
     procedure DBEdit1KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure SQLTemplateBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -42,7 +43,7 @@ var
 
 implementation
 
-uses CadastroFornecedor, DataModulo;
+uses CadastroFornecedor, DataModulo, UnitLibrary;
 
 {$R *.DFM}
 
@@ -74,6 +75,24 @@ begin
   inherited;
   if Key = VK_F2 then
     AcessaFornecedor.Click;
+end;
+
+procedure TFormCadastroProdutoFornecedor.SQLTemplateBeforePost(
+  DataSet: TDataSet);
+begin
+  inherited;
+  if SQLTemplateFORNICOD.AsInteger <= 0 then
+  begin
+    Informa('Fornecedor não informado!');
+    DBEdit1.SetFocus;
+    Abort;
+  end;
+  if SQLTemplatePRFOA30REFERENCIA.AsString = EmptyStr then
+  begin
+    Informa('Código no Fornecedor não informado!');
+    DBEdit2.SetFocus;
+    Abort;
+  end;
 end;
 
 end.

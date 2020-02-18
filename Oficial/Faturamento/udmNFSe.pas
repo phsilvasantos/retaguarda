@@ -303,10 +303,10 @@ begin
         IncentivadorCultural := snNao;}
 
       IncentivadorCultural := snNao;
-      if isql_Emitente.FieldByName('EMPRA3CRT').AsString = '1' then
-        OptanteSimplesNacional := snSim
+      if isql_Emitente.FieldByName('EMPRA3CRT').AsString = '3' then
+        OptanteSimplesNacional := snNao
       else
-        OptanteSimplesNacional := snNao;
+        OptanteSimplesNacional := snSim;
 
       if ACBrNFSe1.Configuracoes.WebServices.Ambiente = taProducao then
         Producao := snSim

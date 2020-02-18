@@ -19,6 +19,9 @@ type
     DBEdit2: TDBEdit;
     Label3: TLabel;
     DBMemo1: TDBMemo;
+    Label4: TLabel;
+    DBMemo2: TDBMemo;
+    SQLTemplateOBSERVACAO_PADRAO: TBlobField;
     procedure FormCreate(Sender: TObject);
     procedure SQLTemplateBeforePost(DataSet: TDataSet);
   private

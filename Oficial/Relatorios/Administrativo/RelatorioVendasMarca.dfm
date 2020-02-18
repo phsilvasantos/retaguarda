@@ -28,7 +28,9 @@ inherited FormRelatorioVendasMarca: TFormRelatorioVendasMarca
       '  PRODUTO.MARCICOD,'
       '  MARCA.MARCA60DESCR,'
       '  sum(CUPOMITEM.CPITN3QTD) AS QTDETOTAL,'
-      '  sum(CUPOMITEM.CPITN3VLRUNIT * CUPOMITEM.CPITN3QTD) AS TOTAL'
+      
+        '  sum((CUPOMITEM.CPITN3VLRUNIT * CUPOMITEM.CPITN3QTD) - CUPOMITE' +
+        'M.CPITN2DESC) AS TOTAL'
       'from'
       
         '  (CUPOMITEM inner join CUPOM CUPOM on CUPOM.CUPOA13ID = CUPOMIT' +
@@ -39,7 +41,7 @@ inherited FormRelatorioVendasMarca: TFormRelatorioVendasMarca
       '   inner join MARCA MARCA on MARCA.MARCICOD = PRODUTO.MARCICOD'
       'where'
       
-        '  (CUPOM.CUPOCSTATUS = ''A'') and (CUPOMITEM.CPITCSTATUS <> ''C'' ) ' +
+        '  (CUPOM.CUPOCSTATUS = '#39'A'#39') and (CUPOMITEM.CPITCSTATUS <> '#39'C'#39' ) ' +
         'and'
       '  (%MEmpresa) and'
       '  (%MData)'
@@ -54,8 +56,8 @@ inherited FormRelatorioVendasMarca: TFormRelatorioVendasMarca
       '  MARCA.MARCA60DESCR,'
       '  sum(NOTAFISCALITEM.NFITN3QUANT) AS QTDETOTAL,'
       
-        '  sum(NOTAFISCALITEM.NFITN2VLRUNIT * NOTAFISCALITEM.NFITN3QUANT)' +
-        ' AS TOTAL'
+        '  sum((NOTAFISCALITEM.NFITN2VLRUNIT * NOTAFISCALITEM.NFITN3QUANT' +
+        ') - NOTAFISCALITEM.NFITN2VLRDESC) AS TOTAL'
       'from'
       
         '  (NOTAFISCALITEM inner join NOTAFISCAL NOTAFISCAL on NOTAFISCAL' +
@@ -70,8 +72,8 @@ inherited FormRelatorioVendasMarca: TFormRelatorioVendasMarca
         '   left outer join OPERACAOESTOQUE on NOTAFISCAL.OPESICOD = OPER' +
         'ACAOESTOQUE.OPESICOD'
       'where'
-      '  NOTAFISCAL.NOFICSTATUS = ''E'' and'
-      '  OPERACAOESTOQUE.OPESCGERAFINANCEIRO = ''S'' and'
+      '  NOTAFISCAL.NOFICSTATUS = '#39'E'#39' and'
+      '  OPERACAOESTOQUE.OPESCGERAFINANCEIRO = '#39'S'#39' and'
       '  (%MEmpresaNF) and'
       '  (%MDataNF)'
       'group by'

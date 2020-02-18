@@ -4903,6 +4903,7 @@ procedure TFormCadastroProduto.sqlProduto_DescontosBeforeDelete(DataSet: TDataSe
 begin
   inherited;
   PrincipalEmEdicao;
+  EnviaProdutoDescontoPDVs('S');
 end;
 
 procedure TFormCadastroProduto.MnuBuscarProdutosBrasilTributrioClick(Sender: TObject);
@@ -5019,7 +5020,8 @@ begin
           SQLProduto_DescontoPDV.close;
           SQLProduto_DescontoPDV.MacroByName('MFiltro').Value := 'PRODICOD='+SQLTemplatePRODICOD.AsString+
                                                         ' and TERMICOD='+dm.sqlconsulta.fieldbyname('TERMICOD').AsString+
-                                                        ' and COD_PRODUTODESCONTOS='''+inttostr(sqlProduto_DescontosCOD_PRODUTODESCONTOS.Value)+'''' ;
+                                                        ' and COD_PRODUTODESCONTOS='''+inttostr(sqlProduto_DescontosCOD_PRODUTODESCONTOS.Value)+''''+
+                                                        ' and EXCLUIR = ' + QuotedStr(Tipo);
           SQLProduto_DescontoPDV.Open;
           if SQLProduto_DescontoPDV.IsEmpty then
             SQLProduto_DescontoPDV.append

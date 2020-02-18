@@ -503,12 +503,21 @@ begin
 
       if SQLTemplateNFITN2PERCSUBS.asFloat > 0 then
       begin
-        SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.00', (((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) + ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat + SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) * (xMVA / 100))));
-        if SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat > 0 then
-          SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2BASESUBS.AsFloat - ((SQLTemplateNFITN2BASESUBS.AsFloat * (SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat)) / 100))));
+        SQLTemplateNFITN2BASESUBS.asFloat :=
+                 StrToFloat(FormatFloat('0.00', (((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) -
+                                                   SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat +
+                                                   SQLTemplateNFITN2VLRIPI.AsFloat + SQLTemplateNFITN2OUTRASDESP.AsFloat) +
+                                                  (1+(xMVA / 100))));
 
-          // SQLTemplateNFITN2VLRSUBS.asFloat    := StrToFloat(FormatFloat('0.00',(SQLTemplateNFITN2BASESUBS.value * (StrToFloat(Aliquotainterna)/100)) -
-        SQLTemplateNFITN2VLRSUBS.asFloat := StrToFloat(FormatFloat('0.00', ((SQLTemplateNFITN2BASESUBS.value * SQLTemplateNFITN2PERCSUBS.value / 100)) - ((((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat) + SQLTemplateNFITN2VLRFRETE.AsFloat) * (nResultICMS.nICMS / 100))));
+        if SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat > 0 then
+        begin
+          SQLTemplateNFITN2BASESUBS.asFloat := StrToFloat(FormatFloat('0.000',(SQLTemplateNFITN2BASESUBS.AsFloat *
+                                                         (SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST.AsFloat / 100))));
+
+        end;
+        SQLTemplateNFITN2VLRSUBS.asFloat :=
+            StrToFloat(FormatFloat('0.000', (SQLTemplateNFITN2BASESUBS.value * (SQLTemplateNFITN2PERCSUBS.value / 100)) -
+                                             SQLTemplateNFITN2VLRICMS.AsFloat));
 
          //Calcula o FCP ST
         if nResultICMS.nPERC_FCP > 0 then

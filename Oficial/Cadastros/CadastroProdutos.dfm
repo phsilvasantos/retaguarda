@@ -1,6 +1,6 @@
 inherited FormCadastroProduto: TFormCadastroProduto
-  Left = 93
-  Top = 7
+  Left = 313
+  Top = 10
   Caption = 'Cadastro de Produtos'
   ClientHeight = 682
   ClientWidth = 1159
@@ -2326,7 +2326,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
                 Top = 296
                 Width = 754
                 Height = 168
-                ActivePage = TabSheet3
+                ActivePage = TabSheetDescontos
                 TabOrder = 15
                 object TabSheet1: TTabSheet
                   Caption = 'Tributa'#231#227'o ICMS'
@@ -11456,7 +11456,7 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object SQLTemplatePERC_REDUCAO_BASE_CALCULO: TFloatField
       FieldName = 'PERC_REDUCAO_BASE_CALCULO'
       Origin = 'DB.PRODUTO.PERC_REDUCAO_BASE_CALCULO'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##0.000'
     end
     object SQLTemplateCOMISSAO_REPRESENTANTE: TStringField
       FieldName = 'COMISSAO_REPRESENTANTE'
@@ -11503,8 +11503,8 @@ inherited FormCadastroProduto: TFormCadastroProduto
     object SQLTemplatePERC_REDUCAO_BASE_CALCULO_ST: TFloatField
       FieldName = 'PERC_REDUCAO_BASE_CALCULO_ST'
       Origin = 'DB.PRODUTO.PERC_REDUCAO_BASE_CALCULO_ST'
-      DisplayFormat = ',0.00'
-      EditFormat = ',0.00'
+      DisplayFormat = ',0.000'
+      EditFormat = ',0.000'
     end
     object SQLTemplateVALOR_ICMS_SUBSTITUTO: TFloatField
       FieldName = 'VALOR_ICMS_SUBSTITUTO'

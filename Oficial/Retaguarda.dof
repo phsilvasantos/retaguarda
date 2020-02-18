@@ -90,7 +90,7 @@ MaxStackSize=1048576
 ImageBase=4194304
 ExeDescription=
 [Directories]
-OutputDir=D:\Easy2Solutions\Gestao
+OutputDir=C:\Easy2Solutions\Gestao
 UnitOutputDir=D:\Easy2Solutions\Gestao\DCU
 PackageDLLOutputDir=
 PackageDCPOutputDir=
@@ -150,8 +150,9 @@ Count=2
 Item0=D:\Easy2Solutions\Gestao\DCU
 Item1=D:\EasySolutions\DCU
 [HistoryLists\hlOutputDirectorry]
-Count=4
-Item0=D:\Easy2Solutions\Gestao
-Item1=D:\EasySolutions\Gestao
-Item2=D:\Easy2Solutions
-Item3=C:\Easy2Solutions
+Count=5
+Item0=C:\Easy2Solutions\Gestao
+Item1=D:\Easy2Solutions\Gestao
+Item2=D:\EasySolutions\Gestao
+Item3=D:\Easy2Solutions
+Item4=C:\Easy2Solutions
