@@ -33,7 +33,7 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
           Top = 1
           Width = 1359
           Height = 470
-          ActivePage = TabConsultaSefaz
+          ActivePage = tsItens
           Align = alClient
           TabOrder = 0
           object tsXMLs: TTabSheet
@@ -1449,6 +1449,10 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
                 end
                 object cxGrid1DBTableViewItensmargem: TcxGridDBColumn
                   DataBinding.FieldName = 'margem'
+                end
+                object cxGrid1DBTableViewItensargem2: TcxGridDBColumn
+                  Caption = 'Margem Atacado'
+                  DataBinding.FieldName = 'margem2'
                 end
               end
               object cxGrid1Level1: TcxGridLevel
@@ -2931,6 +2935,10 @@ inherited FormTelaImportadorXML: TFormTelaImportadorXML
     end
     object cdsItensvalor_icms_substituto: TFloatField
       FieldName = 'valor_icms_substituto'
+    end
+    object cdsItensmargem2: TFloatField
+      FieldName = 'margem2'
+      DisplayFormat = ',0.00'
     end
   end
   object dsItens: TDataSource

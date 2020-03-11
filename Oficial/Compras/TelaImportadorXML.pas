@@ -410,6 +410,8 @@ type
     sqlProdutoFornecedor: TRxQuery;
     pnlBotton: TPanel;
     Gauge1: TGauge;
+    cdsItensmargem2: TFloatField;
+    cxGrid1DBTableViewItensargem2: TcxGridDBColumn;
     procedure FormCreate(Sender: TObject);
     procedure actSelecionarArquivoExecute(Sender: TObject);
     procedure seNParcelasChange(Sender: TObject);
@@ -721,6 +723,7 @@ begin
         begin
           cdsItens.FieldByName('valor_venda').AsFloat := StrToFloatDef(SQLLocate('PRODUTO','PRODICOD','PRODN3VLRVENDA',cdsItens.FieldByName('codigo_gravar').AsString),0);
           cdsItens.FieldByName('margem').AsFloat := StrToFloatDef(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLVFIXA',cdsItens.FieldByName('codigo_gravar').AsString),0);
+          cdsItens.FieldByName('margem2').AsFloat := StrToFloatDef(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLAFIXA',cdsItens.FieldByName('codigo_gravar').AsString),0);
         end;
 
         cdsItens.FieldByName('descricao').AsString := ACBrNFe.NotasFiscais.Items[0].NFe.Det.Items[i].Prod.xProd;
@@ -1811,7 +1814,8 @@ begin
                 dm.SQLUpdate.SQL.Add('                            NOCN4UNDIPI, NOCIN2VBCIPI, NOCIN2PERCISS, NOCIN2BASEISS, NOCIN2VLRISS, NOCA3CSTPIS, ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN2VLRPIS, NOCIN2BASEPIS, NOCIN2PERCPIS, NOCN4PISREAL, NOCN4PISQTD, UNIDICOD,  ');
                 dm.SQLUpdate.SQL.Add('                            NOCIN3VLREMBAL, NOCIN3VLRUNIT, NOCIN3PERCFRETE, NOCIN3QTDBONIF, NOCIN2MGVENDA, NOCIN2VLRVENDA,IMPORTA_LISTA_PRECO, ');
-                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL, VALOR_FCP, PERC_FCP, VALOR_FCP_ST, PERC_FCP_ST, VALOR_ICMS_SUBSTITUTO)  ');
+                dm.SQLUpdate.SQL.Add('                            VALOR_ICMS_CREDITO, CFOPORIGINAL, VALOR_FCP, PERC_FCP, VALOR_FCP_ST, PERC_FCP_ST, VALOR_ICMS_SUBSTITUTO, NOCIN2MGVENDA2, ');
+                dm.SQLUpdate.SQL.Add('                            NOCIN2VLRVENDA2)  ');
                 dm.SQLUpdate.SQL.Add('                    VALUES (:NOCPA13ID, :NOCIIITEM, :PRODICOD, :NOCIN3CAPEMBAL,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3QTDEMBAL, :NOCIN3QTDEPED, :NOCIN3TOTPED, :NOCIN3VLRDESC, :NOCIN3PERCDESC, ');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLRICMS, :NOCIN3PERCICMS, :NOCIN3VLRSUBST, :NOCIN3VLRIPI, :NOCIN3PERCIPI, ');
@@ -1824,7 +1828,8 @@ begin
                 dm.SQLUpdate.SQL.Add('                            :NOCN4UNDIPI, :NOCIN2VBCIPI, :NOCIN2PERCISS, :NOCIN2BASEISS, :NOCIN2VLRISS, :NOCA3CSTPIS,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRPIS, :NOCIN2BASEPIS, :NOCIN2PERCPIS, :NOCN4PISREAL, :NOCN4PISQTD, :UNIDICOD,');
                 dm.SQLUpdate.SQL.Add('                            :NOCIN3VLREMBAL, :NOCIN3VLRUNIT, :NOCIN3PERCFRETE, :NOCIN3QTDBONIF, :NOCIN2MGVENDA, :NOCIN2VLRVENDA,:IMPORTA_LISTA_PRECO,');
-                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL, :VALOR_FCP, :PERC_FCP, :VALOR_FCP_ST, :PERC_FCP_ST, :VALOR_ICMS_SUBSTITUTO)');
+                dm.SQLUpdate.SQL.Add('                            :VALOR_ICMS_CREDITO, :CFOPORIGINAL, :VALOR_FCP, :PERC_FCP, :VALOR_FCP_ST, :PERC_FCP_ST, :VALOR_ICMS_SUBSTITUTO, :NOCIN2MGVENDA2, ');
+                dm.SQLUpdate.SQL.Add('                            :NOCIN2VLRVENDA2) ');
 
                 dm.SQLUpdate.ParamByName('NOCPA13ID').AsString     := RetornaCodigoCompra(iSequencialNf);
                 dm.SQLUpdate.ParamByName('NOCIIITEM').AsInteger    := dm.SeqItemCompra;
@@ -1937,6 +1942,18 @@ begin
                 except
                   dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat   := 0.00;
                   dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA').AsFloat  := 0.00;
+                end;
+
+                try
+                  dm.SQLUpdate.ParamByName('NOCIN2MGVENDA2').AsFloat   := StrToFloatDef(dm.SQLLocate('PRODUTO','PRODICOD','PRODN3PERCMGLAFIXA',cdsItens.FieldByName('codigo_gravar').AsString),0);
+                  if dm.SQLUpdate.ParamByName('NOCIN2MGVENDA2').AsFloat > 0 then
+//                    dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA').AsFloat   := dm.SQLUpdate.ParamByName('NOCIN3VLRUNIT').AsFloat + (dm.SQLUpdate.ParamByName('NOCIN3VLRUNIT').AsFloat * (dm.SQLUpdate.ParamByName('NOCIN2MGVENDA').AsFloat / 100))
+                    dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA2').AsFloat   := dm.SQLUpdate.ParamByName('NOCIN3VLRCUSTOMED').AsFloat + (dm.SQLUpdate.ParamByName('NOCIN3VLRCUSTOMED').AsFloat * (dm.SQLUpdate.ParamByName('NOCIN2MGVENDA2').AsFloat / 100))
+                  else
+                    dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA2').AsFloat   := 0.00;
+                except
+                  dm.SQLUpdate.ParamByName('NOCIN2MGVENDA2').AsFloat   := 0.00;
+                  dm.SQLUpdate.ParamByName('NOCIN2VLRVENDA2').AsFloat  := 0.00;
                 end;
 
                 dm.SQLUpdate.ParamByName('PENDENTE').AsString  := 'S';
@@ -2483,7 +2500,8 @@ procedure TFormTelaImportadorXML.SetCNPJDestinatarioNFe(
   const Value: String);
 begin
   FCNPJDestinatarioNFe := Value;
-  if (dm.sqlempresaEMPRA3CRT.Value = '3') then
+  if not DelphiAberto then
+//  if (dm.sqlempresaEMPRA3CRT.Value = '3') then
     if FCNPJDestinatarioNFe <> getCNPJEmpresaAtual(edtCNPJDestinatario.Text) then
       begin
         ExibeInconsistencia(tiErro, 'O XML informado não é com destino a empresa atual. Processo Cancelado.', '');
