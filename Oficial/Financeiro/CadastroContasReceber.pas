@@ -947,6 +947,8 @@ var
 
 begin
   try
+    if not dm.SQLConfigFinanceiro.Active then
+      DM.SQLConfigFinanceiro.Open;
     Result := False;
      //Verifica e Estorna Recebimentos feitos com BANCO;
     SQLCount.Close;
