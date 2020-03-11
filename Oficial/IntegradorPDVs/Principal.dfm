@@ -1,6 +1,6 @@
 object FormPrincipal: TFormPrincipal
-  Left = 419
-  Top = 164
+  Left = 416
+  Top = 205
   Width = 575
   Height = 235
   Caption = 'IntegradorPDVs'
@@ -37434,11 +37434,11 @@ object FormPrincipal: TFormPrincipal
   end
   object ZdbServidor: TZConnection
     ControlsCodePage = cGET_ACP
-    AutoEncodeStrings = False
+    HostName = '127.0.0.1'
     Port = 0
     User = 'sysdba'
     Password = 'masterkey'
-    Protocol = 'firebird-1.5'
+    Protocol = 'firebird-2.5'
     Left = 31
     Top = 35
   end
@@ -37462,12 +37462,11 @@ object FormPrincipal: TFormPrincipal
   end
   object ZdbPDV: TZConnection
     ControlsCodePage = cGET_ACP
-    AutoEncodeStrings = False
     HostName = '127.0.0.1'
     Port = 0
     User = 'SYSDBA'
     Password = 'masterkey'
-    Protocol = 'firebird-1.5'
+    Protocol = 'firebird-2.5'
     Left = 65535
     Top = 33
   end
@@ -37530,5 +37529,113 @@ object FormPrincipal: TFormPrincipal
     Params = <>
     Left = 483
     Top = 66
+  end
+  object ZSPSERVIDOR: TZStoredProc
+    Connection = ZdbServidor
+    Params = <
+      item
+        DataType = ftInteger
+        Name = 'ID_EMPRESA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_PRODUTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDateTime
+        Name = 'DATA_MOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_OPERACAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFloat
+        Name = 'QTDE_ENTRADA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFloat
+        Name = 'QTDE_SAIDA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ID_CUPOM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ESTOQUE_OK'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PENDENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDateTime
+        Name = 'DATA_REGISTRO'
+        ParamType = ptInput
+      end>
+    StoredProcName = 'SP_GRAVA_MOVIMENTO_ESTOQUE'
+    Left = 200
+    Top = 96
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'ID_EMPRESA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_PRODUTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDateTime
+        Name = 'DATA_MOVIMENTO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftInteger
+        Name = 'ID_OPERACAO'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFloat
+        Name = 'QTDE_ENTRADA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftFloat
+        Name = 'QTDE_SAIDA'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ID_CUPOM'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'ESTOQUE_OK'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftString
+        Name = 'PENDENTE'
+        ParamType = ptInput
+      end
+      item
+        DataType = ftDateTime
+        Name = 'DATA_REGISTRO'
+        ParamType = ptInput
+      end>
   end
 end

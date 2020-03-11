@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, RXShell, ACBrBase, ACBrFala, dxGDIPlusClasses, ExtCtrls, Menus,
   DB, ZAbstractRODataset, ZAbstractDataset, ZDataset, ZConnection, IniFiles,
-  TFlatPanelUnit, StdCtrls, ZAbstractConnection, jpeg;
+  TFlatPanelUnit, StdCtrls, ZAbstractConnection, jpeg, ZStoredProcedure;
 
 type
   TFormPrincipal = class(TForm)
@@ -47,6 +47,7 @@ type
     zAtualizaContaCorrente: TZQuery;
     zOperacaoBanco: TZQuery;
     zConfigFinanceiro: TZQuery;
+    ZSPSERVIDOR: TZStoredProc;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure TimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -1452,50 +1453,77 @@ begin
           end;
 
                 //PEGAR PROXIMO CODIGO MOVIMENTO DE ESTOQUE
-          ZconsultaServidor.Close;
-          ZconsultaServidor.sql.text := 'select Max(MVESICOD)+1 as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +
-            xData + '''';
-          ZconsultaServidor.Open;
-          if (ZconsultaServidor.FieldByName('CONTADOR').AsFloat <= 0) or not (ZconsultaServidor.FieldByName('CONTADOR').IsNull) then
-            xProxCod := intToStr(ZconsultaServidor.FieldByName('CONTADOR').AsInteger + 1)
-          else
-            xProxCod := '1';
 
-          ZInsereEstoqueServidor.close;
-          ZInsereEstoqueServidor.sql.Clear;
-          ZInsereEstoqueServidor.SQL.Add('Insert Into MOVIMENTOESTOQUE');
-          ZInsereEstoqueServidor.SQL.Add('(EMPRICOD, ');
-          ZInsereEstoqueServidor.SQL.Add('MVESDMOV, ');
-          ZInsereEstoqueServidor.SQL.Add('MVESICOD, ');
-          ZInsereEstoqueServidor.SQL.Add('PRODICOD, ');
-          ZInsereEstoqueServidor.SQL.Add('OPESICOD, ');
+          ZSPSERVIDOR.ParamByName('ID_EMPRESA').AsInteger := StrToInt(xEmpresa);
+          ZSPSERVIDOR.ParamByName('ID_PRODUTO').AsInteger := StrToInt(xProduto);
+          ZSPSERVIDOR.ParamByName('DATA_MOVIMENTO').AsDate := StrToDate(FormatDateTime('mm/dd/yyyy', ZConsultaPDV.fieldbyname('registro').Value));
+
+          ZSPSERVIDOR.ParamByName('ID_OPERACAO').AsInteger := 14;
           if QtdeTroca > 0 then
-            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDENTRADA, ')
+          begin
+            ZSPSERVIDOR.ParamByName('QTDE_ENTRADA').AsFloat := StrToFloatDef(TrocaVirgulaPorPonto(FloatToStr(QtdeTroca)),0); //QUANT TROCA
+            ZSPSERVIDOR.ParamByName('QTDE_SAIDA').AsFloat := 0;
+          end
           else
-          if xCancelado <> 'C' then
-            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDSAIDA, ')
-          else
-            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDENTRADA, ');
-          ZInsereEstoqueServidor.SQL.Add('CUPOA13ID, ');
-          ZInsereEstoqueServidor.SQL.Add('MVESCESTOQUEOK, ');
-          ZInsereEstoqueServidor.SQL.Add('PENDENTE, ');
-          ZInsereEstoqueServidor.SQL.Add('REGISTRO) ');
-          ZInsereEstoqueServidor.SQL.Add('values(');
-          ZInsereEstoqueServidor.SQL.Add(xEmpresa + ', '); //EMPRICOD
-          ZInsereEstoqueServidor.SQL.Add('''' + xData + ''', '); //MVESDMOV
-          ZInsereEstoqueServidor.SQL.Add(xProxCod + ', '); //MVESICOD
-          ZInsereEstoqueServidor.SQL.Add(xProduto + ', '); //PRODICOD
-          ZInsereEstoqueServidor.SQL.Add('''14'', '); //OPESICOD 14= venda cupom
-          if QtdeTroca > 0 then
-            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(FloatToStr(QtdeTroca)) + ', ') //QUANT TROCA
-          else
-            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(ZinsereServidor.FieldByName('CPITN3QTD').AsString) + ', '); //QUANT VENDA
-          ZInsereEstoqueServidor.SQL.Add('''' + ZinsereServidor.FieldByName('CUPOA13ID').AsString + ''', '); //CUPOA13ID
-          ZInsereEstoqueServidor.SQL.Add('''N'', '); //MVESCESTOQUEOK
-          ZInsereEstoqueServidor.SQL.Add('''S'', '); //PENDENTE
-          ZInsereEstoqueServidor.SQL.Add('''' + FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value) + ''')'); //REGISTRO
+          begin
+            ZSPSERVIDOR.ParamByName('QTDE_ENTRADA').AsFloat := 0; //QUANT TROCA
+            ZSPSERVIDOR.ParamByName('QTDE_SAIDA').AsFloat := StrToFloatDef(TrocaVirgulaPorPonto(ZinsereServidor.FieldByName('CPITN3QTD').AsString),0);
+          end;
+          ZSPSERVIDOR.ParamByName('ID_CUPOM').AsString := ZinsereServidor.FieldByName('CUPOA13ID').AsString;
+          ZSPSERVIDOR.ParamByName('ESTOQUE_OK').AsString := 'N';
+          ZSPSERVIDOR.ParamByName('PENDENTE').AsString := 'S';
+          ZSPSERVIDOR.ParamByName('DATA_REGISTRO').AsDateTime := StrToDateTime(FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value));
+          ZSPSERVIDOR.ExecSQL;
+
+
+
+
+//          ZconsultaServidor.Close;
+//          ZconsultaServidor.sql.text := 'select Max(MVESICOD) as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +
+//            xData + '''';
+//          ZconsultaServidor.Open;
+//          if (ZconsultaServidor.FieldByName('CONTADOR').AsFloat <= 0) or not (ZconsultaServidor.FieldByName('CONTADOR').IsNull) then
+//            xProxCod := intToStr(ZconsultaServidor.FieldByName('CONTADOR').AsInteger + 1)
+//          else
+//            xProxCod := '1';
+//
+//          ZInsereEstoqueServidor.close;
+//          ZInsereEstoqueServidor.sql.Clear;
+//          ZInsereEstoqueServidor.SQL.Add('Insert Into MOVIMENTOESTOQUE');
+//          ZInsereEstoqueServidor.SQL.Add('(EMPRICOD, ');
+//          ZInsereEstoqueServidor.SQL.Add('MVESDMOV, ');
+//          ZInsereEstoqueServidor.SQL.Add('MVESICOD, ');
+//          ZInsereEstoqueServidor.SQL.Add('PRODICOD, ');
+//          ZInsereEstoqueServidor.SQL.Add('OPESICOD, ');
+//          if QtdeTroca > 0 then
+//            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDENTRADA, ')
+//          else
+//          if xCancelado <> 'C' then
+//            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDSAIDA, ')
+//          else
+//            ZInsereEstoqueServidor.SQL.Add('MVESN3QTDENTRADA, ');
+//          ZInsereEstoqueServidor.SQL.Add('CUPOA13ID, ');
+//          ZInsereEstoqueServidor.SQL.Add('MVESCESTOQUEOK, ');
+//          ZInsereEstoqueServidor.SQL.Add('PENDENTE, ');
+//          ZInsereEstoqueServidor.SQL.Add('REGISTRO) ');
+//          ZInsereEstoqueServidor.SQL.Add('values(');
+//
+//          ZInsereEstoqueServidor.SQL.Add(xEmpresa + ', '); //EMPRICOD
+//          ZInsereEstoqueServidor.SQL.Add('''' + xData + ''', '); //MVESDMOV
+//          ZInsereEstoqueServidor.SQL.Add(xProxCod + ', '); //MVESICOD
+//          ZInsereEstoqueServidor.SQL.Add(xProduto + ', '); //PRODICOD
+//          ZInsereEstoqueServidor.SQL.Add('''14'', '); //OPESICOD 14= venda cupom
+//          if QtdeTroca > 0 then
+//            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(FloatToStr(QtdeTroca)) + ', ') //QUANT TROCA
+//          else
+//            ZInsereEstoqueServidor.SQL.Add(TrocaVirgulaPorPonto(ZinsereServidor.FieldByName('CPITN3QTD').AsString) + ', '); //QUANT VENDA
+//          ZInsereEstoqueServidor.SQL.Add('''' + ZinsereServidor.FieldByName('CUPOA13ID').AsString + ''', '); //CUPOA13ID
+//          ZInsereEstoqueServidor.SQL.Add('''N'', '); //MVESCESTOQUEOK
+//          ZInsereEstoqueServidor.SQL.Add('''S'', '); //PENDENTE
+//          ZInsereEstoqueServidor.SQL.Add('''' + FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value) + ''')'); //REGISTRO
           try
-            ZInsereEstoqueServidor.ExecSQL;
+//            ZInsereEstoqueServidor.ExecSQL;
+
             Application.ProcessMessages;
           except
             Application.ProcessMessages;
