@@ -1590,7 +1590,6 @@ begin
   // ARRENDONDAR VALOR DE VENDA DO PRODUTO
   if (Dm.SQLConfigVenda.FieldByName('CFVECFARREDVLRVEND').AsString = 'S') and (Dm.SQLConfigVenda.FieldByName('CFVEINROCASASDEC').AsInteger > 1) then
     SQLTemplate.FieldByName('PRODN3VLRVENDA').AsFloat := RoundTo(ArredondaValor1(SQLTemplate.FieldByName('PRODN3VLRVENDA').AsFloat, Dm.SQLConfigVenda.FieldByName('CFVEINROCASASDEC').AsInteger), -DoNumeroCasasDec);
-  ;
 
   if (DsTemplate.DataSet.State = DsInsert) then
   begin
@@ -1997,12 +1996,14 @@ begin
         dm.SQLTemplate.sql.Add(', PRODN3PERCMARGLUC2 = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3PERCMARGLUC2').Value));
       if (SQLTemplate.FindField('PRODN3VLRVENDA2').Value > 0) and (not FileExists('NaoAlteraPrecoVendaNaGrade.txt')) then
         dm.SQLTemplate.sql.Add(', PRODN3VLRVENDA2 = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3VLRVENDA2').Value));
-
-      if ValorCompra > 0 then
-        dm.SQLTemplate.sql.Add(', PRODN3VLRCOMPRA = ' + ConvFloatToStr(ValorCompra));
-      if ValorCusto > 0 then
-        dm.SQLTemplate.sql.Add(', PRODN3VLRCUSTO  = ' + ConvFloatToStr(ValorCusto));
-
+      if SQLTemplate.FindField('PRODN3VLRCOMPRA').Value <> ValorCompra then
+        dm.SQLTemplate.sql.Add(', PRODN3VLRCOMPRA = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3VLRCOMPRA').Value));
+      if SQLTemplate.FindField('PRODN3VLRCUSTO').Value <> ValorCusto then
+        dm.SQLTemplate.sql.Add(', PRODN3VLRCUSTO  = ' + ConvFloatToStr(SQLTemplate.FindField('PRODN3VLRCUSTO').Value));
+//      if ValorCompra > 0 then
+//        dm.SQLTemplate.sql.Add(', PRODN3VLRCOMPRA = ' + ConvFloatToStr(ValorCompra));
+//      if ValorCusto > 0 then
+//        dm.SQLTemplate.sql.Add(', PRODN3VLRCUSTO  = ' + ConvFloatToStr(ValorCusto));
       if SQLTemplate.FindField('PRODIORIGEM').AsString <> '' then
         dm.SQLTemplate.sql.Add(', PRODIORIGEM = ' + SQLTemplate.FindField('PRODIORIGEM').AsString);
       if SQLTemplate.FindField('ICMSICOD').AsString <> '' then
@@ -3460,6 +3461,21 @@ begin
 
       try
         SQLTemplate.FindField('PRODN3VLRVENDA').asFloat := SQLTemplate.FindField('PRODN3VLRCUSTO').asFloat * (1 + (SQLTemplate.FindField('PRODN3PERCMGLVFIXA').asFloat / 100));
+      except
+      end;
+
+      try
+        SQLTemplate.FindField('PRODN3VLRVENDA2').asFloat := SQLTemplate.FindField('PRODN3VLRCUSTO').asFloat * (1 + (SQLTemplate.FindField('PRODN3PERCMGLAFIXA').asFloat / 100));
+      except
+      end;
+
+      try
+        SQLTemplate.FindField('PRODN2VLRVENDA2835D').asFloat := SQLTemplate.FindField('PRODN3VLRCUSTO').asFloat * (1 + (SQLTemplate.FindField('PRODN2MGVENDA2835D').asFloat / 100));
+      except
+      end;
+
+      try
+        SQLTemplate.FindField('PRODN2VLRVENDA283542D').asFloat := SQLTemplate.FindField('PRODN3VLRCUSTO').asFloat * (1 + (SQLTemplate.FindField('PRODN2MGVENDA283542D').asFloat / 100));
       except
       end;
 
