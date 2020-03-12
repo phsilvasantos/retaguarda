@@ -1475,19 +1475,16 @@ begin
 
           gravou := False;
           repeat
-            begin
               try
                 ZdbServidor.StartTransaction;
                 ZSPSERVIDOR.ExecSQL;
                 gravou := True;
               except
                 ZdbServidor.Rollback;
-                Application.ProcessMessages;
+//                Application.ProcessMessages;
               end;
                 ZdbServidor.Commit;
-            end;
-
-          until not gravou;
+          until gravou;
 
 //          ZconsultaServidor.Close;
 //          ZconsultaServidor.sql.text := 'select Max(MVESICOD) as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +
