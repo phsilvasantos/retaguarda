@@ -1474,18 +1474,20 @@ begin
           ZSPSERVIDOR.ParamByName('DATA_REGISTRO').AsDateTime := StrToDateTime(FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value));
 
           gravou := False;
-          repeat
+          try
+            repeat
               try
                 ZdbServidor.StartTransaction;
                 ZSPSERVIDOR.ExecSQL;
                 gravou := True;
               except
                 ZdbServidor.Rollback;
-//                Application.ProcessMessages;
+  //                Application.ProcessMessages;
               end;
-                ZdbServidor.Commit;
-          until gravou;
-
+            until gravou;
+          finally
+            ZdbServidor.Commit;
+          end;
 //          ZconsultaServidor.Close;
 //          ZconsultaServidor.sql.text := 'select Max(MVESICOD) as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +
 //            xData + '''';
