@@ -1451,7 +1451,6 @@ begin
           except
             Application.ProcessMessages;
           end;
-
                 //PEGAR PROXIMO CODIGO MOVIMENTO DE ESTOQUE
 
           ZSPSERVIDOR.ParamByName('ID_EMPRESA').AsInteger := StrToInt(xEmpresa);
@@ -1473,10 +1472,14 @@ begin
           ZSPSERVIDOR.ParamByName('ESTOQUE_OK').AsString := 'N';
           ZSPSERVIDOR.ParamByName('PENDENTE').AsString := 'S';
           ZSPSERVIDOR.ParamByName('DATA_REGISTRO').AsDateTime := StrToDateTime(FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value));
-          ZSPSERVIDOR.ExecSQL;
-
-
-
+          try
+            ZdbServidor.StartTransaction;
+            ZSPSERVIDOR.ExecSQL;
+          except
+            ZdbServidor.Rollback;
+            Application.ProcessMessages;
+          end;
+            ZdbServidor.Commit;
 
 //          ZconsultaServidor.Close;
 //          ZconsultaServidor.sql.text := 'select Max(MVESICOD) as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +

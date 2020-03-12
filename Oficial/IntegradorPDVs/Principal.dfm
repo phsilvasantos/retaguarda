@@ -37434,6 +37434,7 @@ object FormPrincipal: TFormPrincipal
   end
   object ZdbServidor: TZConnection
     ControlsCodePage = cGET_ACP
+    AutoEncodeStrings = False
     HostName = '127.0.0.1'
     Port = 0
     User = 'sysdba'
@@ -37462,6 +37463,7 @@ object FormPrincipal: TFormPrincipal
   end
   object ZdbPDV: TZConnection
     ControlsCodePage = cGET_ACP
+    AutoEncodeStrings = False
     HostName = '127.0.0.1'
     Port = 0
     User = 'SYSDBA'
