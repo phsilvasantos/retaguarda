@@ -1244,7 +1244,7 @@ begin
 end;
 
 function TFormPrincipal.ExportaMovimentosPDV: boolean;
-var erro: boolean;
+var erro, gravou: boolean;
 var i, ContaCorrente: integer;
 var xEmpresa, xProduto, xProxCod, xData, xTotalDia, xCancelado: string;
 var ValorMov, QtdeTroca : Double;
@@ -1472,14 +1472,22 @@ begin
           ZSPSERVIDOR.ParamByName('ESTOQUE_OK').AsString := 'N';
           ZSPSERVIDOR.ParamByName('PENDENTE').AsString := 'S';
           ZSPSERVIDOR.ParamByName('DATA_REGISTRO').AsDateTime := StrToDateTime(FormatDateTime('mm/dd/yyyy hh:mm:ss', ZinsereServidor.FieldByName('REGISTRO').value));
-          try
-            ZdbServidor.StartTransaction;
-            ZSPSERVIDOR.ExecSQL;
-          except
-            ZdbServidor.Rollback;
-            Application.ProcessMessages;
-          end;
-            ZdbServidor.Commit;
+
+          gravou := False;
+          repeat
+            begin
+              try
+                ZdbServidor.StartTransaction;
+                ZSPSERVIDOR.ExecSQL;
+                gravou := True;
+              except
+                ZdbServidor.Rollback;
+                Application.ProcessMessages;
+              end;
+                ZdbServidor.Commit;
+            end;
+
+          until not gravou;
 
 //          ZconsultaServidor.Close;
 //          ZconsultaServidor.sql.text := 'select Max(MVESICOD) as CONTADOR from MOVIMENTOESTOQUE where EMPRICOD = ' + xEmpresa + ' and MVESDMOV = ''' +
