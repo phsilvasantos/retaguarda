@@ -1,4 +1,6 @@
 inherited FormTelaProdutosSemMov: TFormTelaProdutosSemMov
+  Left = 240
+  Top = 140
   Width = 797
   Height = 462
   Caption = 'Produtos Sem Movimenta'#231#227'o de Estoque a X dias...'

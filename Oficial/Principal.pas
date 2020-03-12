@@ -273,6 +273,7 @@ type
     Emitidas4: TMenuItem;
     pnlValidadeCertificado: TPanel;
     lblValidadeCertificado: TLabel;
+    ComparaMovimentoxSaldo1: TMenuItem;
     procedure FATUMnCadastroClientesCadastroClick(Sender: TObject);
     procedure FATUMnCadastroClientesTipodeClienteClick(Sender: TObject);
     procedure FATUMnCadastroBancosClick(Sender: TObject);
@@ -538,6 +539,7 @@ type
     procedure Vasilhame1Click(Sender: TObject);
     procedure RepresentanteNSrie1Click(Sender: TObject);
     procedure Emitidas4Click(Sender: TObject);
+    procedure ComparaMovimentoxSaldo1Click(Sender: TObject);
   private
     procedure ApagarOrcamentos;
     procedure ApagarPreVendas;
@@ -630,7 +632,7 @@ uses
   CadastroSabores, CadastroTributacaoNFSE, CadastroNotaServico,
   CadastroServico, RelatorioComissaoRepresentanteDetalhado, TelaConsultaMovNumeroSerie, CadastroTipoFornecedor,
   TelaResumoFinanceiro, CadastroObsProdutoRest, CadastroMotoboy, RelatorioMotoboy, RelatorioRepresentanteNSerie, RelatorioNotaServicoEmitida,
-  DateUtils;
+  DateUtils, TelaComparaMovimentoSaldo;
 
 
 
@@ -3326,6 +3328,16 @@ begin
   except
     pnlValidadeCertificado.Visible := False;
   end;
+
+end;
+
+procedure TFormPrincipal.ComparaMovimentoxSaldo1Click(Sender: TObject);
+begin
+  inherited;
+  if DM.Acesso((Sender as TMenuItem).Name) > 0 then
+    CriaFormulario(TFormTelaGeralComparaMovimentoSaldo, 'FormTelaGeralComparaMovimentoSaldo', False, False, False, '')
+  else
+    SoundPlay('Acesso Negado.wav', Sender);
 
 end;
 

@@ -1,7 +1,7 @@
 inherited FormPrincipal: TFormPrincipal
   Tag = 4
-  Left = 22
-  Top = 8
+  Left = -4
+  Top = 0
   Width = 1382
   Height = 804
   Caption = 'Advanced Control'
@@ -11722,6 +11722,10 @@ inherited FormPrincipal: TFormPrincipal
       object MnFormTelaConsultaSaldoPorEmpresa: TMenuItem
         Caption = 'Consulta Saldo por Empresa'
         OnClick = MnFormTelaConsultaSaldoPorEmpresaClick
+      end
+      object ComparaMovimentoxSaldo1: TMenuItem
+        Caption = 'Compara Movimento x Saldo'
+        OnClick = ComparaMovimentoxSaldo1Click
       end
     end
     object Utilitrios1: TMenuItem [3]
