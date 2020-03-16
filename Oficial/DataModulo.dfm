@@ -1,11 +1,10 @@
 inherited DM: TDM
   OldCreateOrder = True
-  Left = 292
+  Left = 173
   Top = 59
   Height = 600
   Width = 1200
   inherited DB: TDatabase
-    Connected = False
     AfterConnect = DBAfterConnect
     Left = 29
   end
@@ -5787,5 +5786,21 @@ inherited DM: TDM
     PosPrinter = ACBrPosPrinter
     Left = 920
     Top = 24
+  end
+  object SQLIcmsUF: TRxQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'Select * From ICMSUF'
+      'Where '
+      '  ICMUA2UF =:ICMUA2UF')
+    Macros = <>
+    Left = 272
+    Top = 378
+    ParamData = <
+      item
+        DataType = ftString
+        Name = 'ICMUA2UF'
+        ParamType = ptUnknown
+      end>
   end
 end
