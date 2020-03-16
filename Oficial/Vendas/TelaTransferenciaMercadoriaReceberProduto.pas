@@ -50,8 +50,16 @@ uses TelaTransferenciaMercadoria, Types, VarSYS, UnitLibrary, DataModulo,
 
 procedure TFormTelaTransferenciaMercadoriaReceberProduto.btOkClick(
   Sender: TObject);
-Var Item : Integer;
+var
+  Item : Integer;
+  Importado : Boolean;
 begin
+   Importado := SqlLocate('TRANSFERENCIA','TRFEA13ID','TRFECRECEBIDO',dsSQLItens.DataSet.FieldByName('TRFEA13ID').AsString) = 'S';
+   if Importado then
+   begin
+     MessageDlg('Transferência já recebida em outro processo', mtError, [mbOK],0);
+     Exit;
+   end;
    if dsSQLItens.DataSet.State in dsEditModes then
       dsSQLItens.DataSet.Post;
 
