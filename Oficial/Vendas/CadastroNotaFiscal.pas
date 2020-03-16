@@ -1264,6 +1264,7 @@ type
     function SN(sNum: string): string;
     procedure FazRateioFrete;
     procedure Executa_SP_EXCLUI_MOVIMENTO_ESTOQUE(ID_Nota : String; ID_Produto : Integer; Quant : Double);
+    function Busca_CFOP(Operacao: Integer; Origem: Integer; CST: Integer): string;
 
   public
     Arquivo: TextFile;
@@ -1534,6 +1535,8 @@ var
         SQLNotaFiscalItem.FieldByName('OBS').AsString := SQLComposicaoPedido.FieldByName('PVCOA254OBS').AsString;
         PesoLiquido := PesoLiquido + SQLNotaFiscalItem.FieldByName('PesoLiquidoLookup').AsFloat;
         PesoBruto := PesoBruto + SQLNotaFiscalItem.FieldByName('PesoBrutoLookup').AsFloat;
+        SQLNotaFiscalItem.FieldByName('CFOPA5CODAUX').Value := Busca_CFOP(SQLTemplateOPESICOD.AsInteger, DM.SQLTemplate.FindField('PRODIORIGEM').AsInteger, DM.SQLTemplate.FindField('PRODISITTRIB').AsInteger);
+
         SQLNotaFiscalItem.Post;
 
         if DM.SQLConfigVenda.FieldByName('CFVEINROITENSNF').Value > 0 then
@@ -1692,6 +1695,8 @@ var
         SQLNotaFiscalItem.FieldByName('OBS').AsString := SQLPedidoVendaItem.FieldByName('PDVDA255OBS1').AsString;
         PesoLiquido := PesoLiquido + SQLNotaFiscalItem.FieldByName('PesoLiquidoLookup').AsFloat;
         PesoBruto := PesoBruto + SQLNotaFiscalItem.FieldByName('PesoBrutoLookup').AsFloat;
+        SQLNotaFiscalItem.FieldByName('CFOPA5CODAUX').Value := Busca_CFOP(SQLTemplateOPESICOD.AsInteger, DM.SQLTemplate.FindField('PRODIORIGEM').AsInteger, DM.SQLTemplate.FindField('PRODISITTRIB').AsInteger);
+
         SQLNotaFiscalItem.Post;
 
         if DM.SQLConfigVenda.FieldByName('CFVEINROITENSNF').Value > 0 then
@@ -7832,5 +7837,23 @@ begin
 
 end;
 
-end.
+function TFormCadastroNotaFiscal.Busca_CFOP(Operacao, Origem,
+  CST: Integer): string;
+begin
+  DM.SQLICMSUF.Close;
+  DM.SQLICMSUF.SQL.Text := 'Select * From OPERACAOESTOQUECFOP Where OPESICOD = :xOp and CSTICMS = :xCst and ORIGEMMERC = :xOrigem';
+  DM.SQLIcmsUF.ParamByName('xOp').AsInteger := Operacao;
+  DM.SQLIcmsUF.ParamByName('xCst').AsInteger := CST;
+  DM.SQLIcmsUF.ParamByName('xOrigem').AsInteger := Origem;
+  DM.SQLIcmsUF.Open;
+
+  if SQLTemplateEmpresaUFLookUp.AsString <> SQLTemplateCliFornEmpEstadoLookUp.AsString then
+    Result := DM.SQLIcmsUF.Fieldbyname('CFOPVENDAFORAUF').AsString
+  else
+    Result := DM.SQLIcmsUF.Fieldbyname('CFOPVENDANOUF').AsString;
+
+  DM.SQLICMSUf.Close;
+end;
+
+end.                                \
 
