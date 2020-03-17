@@ -1214,6 +1214,7 @@ type
     procedure GeraHistoricoProduto;
     procedure PrincipalEmEdicao;
     procedure BuscarPercentualImposto;
+    procedure CarregaSaldo;
   public
     { Public declarations }
   end;
@@ -1720,6 +1721,7 @@ end;
 procedure TFormCadastroProduto.Button1Click(Sender: TObject);
 begin
   inherited;
+  CarregaSaldo;
   if (Sender as TRxSpeedButton).Name = 'Button3' then
     PagePrincipal.ActivePage := TabSheetDadosAdicionais;
 
@@ -1731,6 +1733,8 @@ begin
 
   if (Sender as TRxSpeedButton).Name = 'ButtonSaldo' then
   begin
+//    SQLProdutoSaldo.Close;
+//    SQLProdutoSaldo.Open;
     if SQLTemplate.FieldByName('GRADICOD').AsVariant <> Null then
     begin
       MontaGradeEstoque;
@@ -1745,9 +1749,9 @@ begin
       DBGridGradeSaldo.Visible := False;
     end;
     PagePrincipal.ActivePage := TabSheetSaldos;
-  end
-  else if SQLProdutoSaldo.Active then
-    SQLProdutoSaldo.Close;
+  end;
+//  else if SQLProdutoSaldo.Active then
+//    SQLProdutoSaldo.Close;
 
   if (Sender as TRxSpeedButton).Name = 'ButtonReajustes' then
   begin
@@ -2857,8 +2861,8 @@ end;
 procedure TFormCadastroProduto.TabSheetSaldosExit(Sender: TObject);
 begin
   inherited;
-  SQLProdutoSaldo.Close;
-  TblSaldoEmpresa.Close;
+//  SQLProdutoSaldo.Close;
+//  TblSaldoEmpresa.Close;
 end;
 
 procedure TFormCadastroProduto.SQLTemplateAfterScroll(DataSet: TDataSet);
@@ -5084,6 +5088,12 @@ begin
     if SQLTemplatePRODN3PERCIPI.AsFloat > 0 then
       Aliquota_IPI := SQLTemplatePRODN3PERCIPI.AsFloat;
     AliquotaTotal := Aliquota_Pis + Aliquota_Cof + Aliquota_ICMS + Aliquota_IPI;
+end;
+
+procedure TFormCadastroProduto.CarregaSaldo;
+begin
+  SQLProdutoSaldo.Close;
+  SQLProdutoSaldo.Open;
 end;
 
 end.
