@@ -1202,8 +1202,7 @@ begin
     ExisteComposicao := True;
 
   ObservacaoNota := '';
-  DataSet.FieldByName('NFITA254OBS').AsString := '';
-  DataSet.FieldByName('OBS').AsString := '';
+  DataSet.FieldByName('OBS').AsString := DataSet.FieldByName('NFITA254OBS').AsString;
   if ExisteComposicao then
   begin
     SQLComposicao.First;
@@ -1219,8 +1218,11 @@ begin
   else
   begin
     LancaNumeroSerie(SQLTemplatePRODICOD.AsString,SQLTemplateNFITN3QUANT.AsInteger, False);
-    DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
-    DataSet.FieldByName('OBS').AsString := ObservacaoNota;
+    if ObservacaoNota <> EmptyStr then
+    begin
+      DataSet.FieldByName('NFITA254OBS').AsString := ObservacaoNota;
+      DataSet.FieldByName('OBS').AsString := ObservacaoNota;
+    end;
   end;
 end;
 
