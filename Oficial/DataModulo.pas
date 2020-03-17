@@ -812,6 +812,7 @@ type
     SQLEmpresaCFGECBLOQ: TStringField;
     SQLConfigGeralIP_LINK_WEB: TStringField;
     SQLConfigGeralLINK_WEB: TStringField;
+    SQLIcmsUF: TRxQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DBAfterConnect(Sender: TObject);
   private
@@ -1043,6 +1044,7 @@ begin
   //xhttp:= 'http://localhost:51308/api/cad_pessoa/documento/83125841020';
 
   try
+    vSEM_INTERNET := VerConexaoInterNet;
     try
       RestClient.Resource(xhttp).Accept(RestUtils.MediaType_Json).GetAsDataSet(cdsAPIAutorizacao);
     except

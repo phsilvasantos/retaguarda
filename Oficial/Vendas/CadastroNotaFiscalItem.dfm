@@ -1,6 +1,6 @@
 inherited FormCadastroNotaFiscalItem: TFormCadastroNotaFiscalItem
-  Left = 181
-  Top = 65
+  Left = 307
+  Top = 38
   Caption = 'Itens da Nota Fiscal'
   ClientHeight = 580
   ClientWidth = 999

@@ -250,6 +250,7 @@ function AbreFechaDataset(ADataSet: TDataSet; AAbrir: Boolean = True; AAtualizar
 procedure addLog(Erro: string; Arquivo: string = '');
 procedure GravaSaldoConsignacao(Empresa, CodProdutoCons, SomaSubtrai : string; Qtde : Real);
 function RetornaMesExtenso(Mes:Integer):String;
+function  VerConexaoInterNet : Boolean;
 
 procedure GravaMovimentoEstoqueSimples(SqlProd,
   SQLProdFilho,
@@ -5532,5 +5533,19 @@ begin
     12 : Result := 'DEZEMBRO';
   end;
 end;
+function VerConexaoInterNet : Boolean;
+const
+  INTERNET_CONNECTION_MODEM =1;     // Conectado via modem
+  INTERNET_CONNECTION_LAN =2;       // Conectado via rede
+  INTERNET_CONNECTION_PROXY =4;     // Conectado via proxie
+  INTERNET_CONNECTION_MODEM_BUSY=8; // Modem ocupado com um trabalho não internet
+var
+  dwConnectionTypes : DWORD;
+
+begin
+  dwConnectionTypes := INTERNET_CONNECTION_MODEM + INTERNET_CONNECTION_LAN + INTERNET_CONNECTION_PROXY ;
+  Result := InternetGetConnectedState(@dwConnectionTypes,0);
+end;
+
 end.
 

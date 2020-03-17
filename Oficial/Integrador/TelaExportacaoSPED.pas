@@ -3472,7 +3472,7 @@ Begin
       zPesquisa.Close;
       zPesquisa.SQL.Text := 'Select N.* from CUPOM N ' +
                             'Where (N.CUPODEMIS>='''+FormatDateTime('mm/dd/yyyy',De.date)+''') and (N.CUPODEMIS<='''+FormatDateTime('mm/dd/yyyy',ate.Date)+''') AND '+
-                            'N.EMPRICOD='+ComboEmpresa.Value+' AND (N.CUPOCSTATUS = ''A'' or N.CUPOCSTATUS = ''C'') AND N.CHAVEACESSO is not null AND N.STNFE is not null' ;
+                            'N.EMPRICOD='+ComboEmpresa.Value+' AND (N.CUPOCSTATUS = ''A'' or N.CUPOCSTATUS = ''C'') AND N.CHAVEACESSO is not null AND COALESCE(N.STNFE,' + QuotedStr('') + ') <> ' + QuotedStr('');
       zPesquisa.Open;
 
       //Progress.Max := zPesquisa.RecordCount;
@@ -3644,7 +3644,7 @@ Begin
                         'LEFT JOIN FORNECEDOR F ON F.FORNICOD = N.FORNICOD ' +
                         'LEFT JOIN EMPRESA E ON E.EMPRICOD = N.EMPRICOD '+
                         'Where (N.NOFIDEMIS>='''+FormatDateTime('mm/dd/yyyy',De.date)+''') and (N.NOFIDEMIS <= '''+FormatDateTime('mm/dd/yyyy',ate.Date)+''') AND '+
-                        'N.EMPRICOD='+ComboEmpresa.Value+' AND N.NOFICSTATUS <> ''A'' ' ;
+                        'N.EMPRICOD='+ComboEmpresa.Value+' AND N.NOFICSTATUS <> ''A'' and COALESCE(N.NOFIA5CODRETORNO, ' + QuotedStr('') + ') <> ' + QuotedStr('');
   zPesquisa.Open;
 
   //Progress.Max := zPesquisa.RecordCount;

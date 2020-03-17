@@ -1444,7 +1444,7 @@ begin
           xData := FormatDateTime('mm/dd/yyyy', ZConsultaPDV.fieldbyname('registro').Value);
                 {tenta criar o registro zerado na tabela produtosaldo, caso nao tenha ainda para aquela empresa}
           ZInsereEstoqueServidor.close;
-          ZInsereEstoqueServidor.sql.Text := 'Uptade or Insert Into PRODUTOSALDO (EMPRICOD,PRODICOD,PSLDN3QTDE,PSLDN3QTDMIN,PSLDN3QTDMAX) values (' + xEmpresa + ',' + xProduto + ',0,0,0)';
+          ZInsereEstoqueServidor.sql.Text := 'Insert Into PRODUTOSALDO (EMPRICOD,PRODICOD,PSLDN3QTDE,PSLDN3QTDMIN,PSLDN3QTDMAX) values (' + xEmpresa + ',' + xProduto + ',0,0,0)';
           try
             ZInsereEstoqueServidor.ExecSQL;
             Application.ProcessMessages;
