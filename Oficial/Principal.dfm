@@ -11558,6 +11558,10 @@ inherited FormPrincipal: TFormPrincipal
           Caption = 'Tipo Fornecedor'
           OnClick = MnFormCadastroTipoFornecedorClick
         end
+        object CdBenefFiscal1: TMenuItem
+          Caption = 'C'#243'd. Benef. Fiscal'
+          OnClick = CdBenefFiscal1Click
+        end
       end
       object arefas1: TMenuItem
         Caption = 'Tarefas'
