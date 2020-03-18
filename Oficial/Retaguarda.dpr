@@ -476,7 +476,8 @@ uses
   CadastroClienteProdutoPreco in 'Cadastros\CadastroClienteProdutoPreco.pas' {FormCadastroClienteProdutoPreco},
   CadastroProdutoImposto in 'Cadastros\CadastroProdutoImposto.pas' {FormCadastroProdutoImposto},
   CadastroProdutoRapidoTodos in 'Cadastros\CadastroProdutoRapidoTodos.pas' {FormCadastroProdutoRapidoTodos},
-  TelaComparaMovimentoSaldo in 'Estoque\TelaComparaMovimentoSaldo.pas' {FormTelaGeralComparaMovimentoSaldo};
+  TelaComparaMovimentoSaldo in 'Estoque\TelaComparaMovimentoSaldo.pas' {FormTelaGeralComparaMovimentoSaldo},
+  TelaGeralCBenef in 'TelaGeralCBenef.pas' {FormTelaGeralCBenef};
 
 {$R *.res}
 
