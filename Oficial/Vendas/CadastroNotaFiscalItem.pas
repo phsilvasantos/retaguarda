@@ -1479,6 +1479,8 @@ begin
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2BASCALCSUBS').asFloat := SQLTotal.FindField('NOFIN2BASCALCSUBS').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRSUBS').asFloat := SQLTotal.FindField('NOFIN2VLRSUBS').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRFRETE').asFloat := SQLTotal.FindField('NOFIN2VLRFRETE').asFloat;
+  if SQLTemplate.DataSource.DataSet.State in [DsBrowse] then
+    SQLTemplate.DataSource.DataSet.Edit;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLROUTRASDESP').asFloat := SQLTotal.FindField('NOFIN2VLROUTRASDESP').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN3VLRPIS').asFloat := SQLTotal.FindField('NOFIN3VLRPIS').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN3VLRCOFINS').asFloat := SQLTotal.FindField('NOFIN3VLRCOFINS').asFloat;
