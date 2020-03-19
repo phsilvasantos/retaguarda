@@ -1136,7 +1136,7 @@ begin
     NovoTotalQuant := SQLTemplateNFITN3QUANT.AsFloat;
     NovoTotalPesoBruto := SQLTemplatePesoBrutoLookUp.asFloat * SQLTemplateNFITN3QUANT.asFloat;
     NovoTotalPesoLiquido := SQLTemplatePesoLiquidoLookUp.asFloat * SQLTemplateNFITN3QUANT.asFloat;
-    NovoTotalItem := ((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat);
+    NovoTotalItem := RoundTo(((SQLTemplateNFITN2VLRUNIT.asFloat * SQLTemplateNFITN3QUANT.asFloat) - SQLTemplateNFITN2VLRDESC.AsFloat),-2);
     NovoTotalBASCALCICMS := SQLTemplateNFITN2BASEICMS.asFloat;
     NovoTotalVLRICMS := SQLTemplateNFITN2VLRICMS.asFloat;
     NovoTotalBASCALCSUBS := SQLTemplateNFITN2BASESUBS.asFloat;
@@ -1246,7 +1246,7 @@ begin
   sqlTotal.Macrobyname('ID').Value := 'NOFIA13ID = ''' + SQLTemplate.DataSource.DataSet.FindField('NOFIA13ID').AsString + '''';
   sqlTotal.Open;
 
-  SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRPRODUTO').asFloat := SQLTotal.FindField('NOFIN2VLRPRODUTO').asFloat;
+  SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRPRODUTO').asFloat := RoundTo(SQLTotal.FindField('NOFIN2VLRPRODUTO').asFloat,-2);
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRDESC').asFloat := SQLTotal.FindField('NOFIN2VLRDESC').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2VLRIPI').asFloat := SQLTotal.FindField('NOFIN2VLRIPI').asFloat;
   SQLTemplate.DataSource.DataSet.FindField('NOFIN2BASCALCICMS').asFloat := SQLTotal.FindField('NOFIN2BASCALCICMS').asFloat;

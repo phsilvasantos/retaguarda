@@ -6735,9 +6735,10 @@ begin
         Prod.uCom := Unidade;
         prod.uTrib := Unidade;
 
-        xProdTotal := FormatFloat('##0.00', Prod.vUnTrib * Prod.qTrib);
 
-        Prod.vProd := strtoFloat(xProdTotal);
+        //xProdTotal := FormatFloat('##0.00', Prod.vUnTrib * Prod.qTrib);
+        Prod.vProd := RoundTo(Prod.vUnTrib * Prod.qTrib,-2);
+        //Prod.vProd := strtoFloat(xProdTotal);
         prod.vDesc := SQLNotaFiscalItemNFITN2VLRDESC.AsFloat;
         Prod.vFrete := SQLNotaFiscalItemNFITN2VLRFRETE.AsFloat;
         Prod.vSeg := SQLNotaFiscalItemNFITN2SEGURO.AsFloat;
